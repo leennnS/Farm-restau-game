@@ -1,0 +1,754 @@
+fileFormatVersion: 2
+guid: 2d12f948d233c1547982f1757f12caa1
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 571605238189375361
+    second: Hands Up Walk_0
+  - first:
+      213: 7327779206315895129
+    second: Hands Up Walk_1
+  - first:
+      213: -3813532118833736033
+    second: Hands Up Walk_2
+  - first:
+      213: 4990151318264614389
+    second: Hands Up Walk_3
+  - first:
+      213: -3287736891235364025
+    second: Hands Up Walk_4
+  - first:
+      213: -5648911398770550299
+    second: Hands Up Walk_5
+  - first:
+      213: 1345324510744237528
+    second: Hands Up Walk_6
+  - first:
+      213: 8946981045389385977
+    second: Hands Up Walk_7
+  - first:
+      213: -8643258773962715068
+    second: Hands Up Walk_8
+  - first:
+      213: 1583824725913083549
+    second: Hands Up Walk_9
+  - first:
+      213: -7811787781006983288
+    second: Hands Up Walk_10
+  - first:
+      213: 3422362187425921837
+    second: Hands Up Walk_11
+  - first:
+      213: -5097048951026731854
+    second: Hands Up Walk_12
+  - first:
+      213: -7298223158720533069
+    second: Hands Up Walk_13
+  - first:
+      213: -4750128327278569779
+    second: Hands Up Walk_14
+  - first:
+      213: 8043838457816363488
+    second: Hands Up Walk_15
+  - first:
+      213: -8117765672387909152
+    second: Hands Up Walk_16
+  - first:
+      213: 7377787938085814612
+    second: Hands Up Walk_17
+  - first:
+      213: -8848209592700882366
+    second: Hands Up Walk_18
+  - first:
+      213: -5188918041999920017
+    second: Hands Up Walk_19
+  - first:
+      213: -2328288757657283042
+    second: Hands Up Walk_20
+  - first:
+      213: 3171189462843284048
+    second: Hands Up Walk_21
+  - first:
+      213: 4787043003770421093
+    second: Hands Up Walk_22
+  - first:
+      213: 5237111297947417040
+    second: Hands Up Walk_23
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Hands Up Walk_0
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 239
+        width: 20
+        height: 77
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 18fb7068fefbee700800000000000000
+      internalID: 571605238189375361
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hands Up Walk_1
+      rect:
+        serializedVersion: 2
+        x: 106
+        y: 239
+        width: 20
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 959e3f82d5081b560800000000000000
+      internalID: 7327779206315895129
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hands Up Walk_2
+      rect:
+        serializedVersion: 2
+        x: 186
+        y: 239
+        width: 20
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f965f5d2ebc931bc0800000000000000
+      internalID: -3813532118833736033
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hands Up Walk_3
+      rect:
+        serializedVersion: 2
+        x: 266
+        y: 239
+        width: 20
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5fd0c9c5f24904540800000000000000
+      internalID: 4990151318264614389
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hands Up Walk_4
+      rect:
+        serializedVersion: 2
+        x: 346
+        y: 239
+        width: 20
+        height: 77
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 74318f277bc9f52d0800000000000000
+      internalID: -3287736891235364025
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hands Up Walk_5
+      rect:
+        serializedVersion: 2
+        x: 426
+        y: 239
+        width: 20
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5e950a413090b91b0800000000000000
+      internalID: -5648911398770550299
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hands Up Walk_6
+      rect:
+        serializedVersion: 2
+        x: 506
+        y: 239
+        width: 20
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8d55982c38d8ba210800000000000000
+      internalID: 1345324510744237528
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hands Up Walk_7
+      rect:
+        serializedVersion: 2
+        x: 586
+        y: 239
+        width: 20
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9f0669e8bdf0a2c70800000000000000
+      internalID: 8946981045389385977
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hands Up Walk_8
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 127
+        width: 19
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4409c2460f9fc0880800000000000000
+      internalID: -8643258773962715068
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hands Up Walk_9
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 127
+        width: 29
+        height: 77
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d9e978e5230eaf510800000000000000
+      internalID: 1583824725913083549
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hands Up Walk_10
+      rect:
+        serializedVersion: 2
+        x: 177
+        y: 127
+        width: 40
+        height: 78
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 88f775cd664f69390800000000000000
+      internalID: -7811787781006983288
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hands Up Walk_11
+      rect:
+        serializedVersion: 2
+        x: 253
+        y: 127
+        width: 35
+        height: 77
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d2b304ae64cae7f20800000000000000
+      internalID: 3422362187425921837
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hands Up Walk_12
+      rect:
+        serializedVersion: 2
+        x: 345
+        y: 127
+        width: 19
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2b4364ffbf4a349b0800000000000000
+      internalID: -5097048951026731854
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hands Up Walk_13
+      rect:
+        serializedVersion: 2
+        x: 419
+        y: 127
+        width: 32
+        height: 77
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3bdeeec64b087ba90800000000000000
+      internalID: -7298223158720533069
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hands Up Walk_14
+      rect:
+        serializedVersion: 2
+        x: 497
+        y: 127
+        width: 40
+        height: 78
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dc65a0f1477241eb0800000000000000
+      internalID: -4750128327278569779
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hands Up Walk_15
+      rect:
+        serializedVersion: 2
+        x: 573
+        y: 127
+        width: 36
+        height: 77
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0e135c4957471af60800000000000000
+      internalID: 8043838457816363488
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hands Up Walk_16
+      rect:
+        serializedVersion: 2
+        x: 25
+        y: 15
+        width: 21
+        height: 77
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0e965777127e75f80800000000000000
+      internalID: -8117765672387909152
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hands Up Walk_17
+      rect:
+        serializedVersion: 2
+        x: 105
+        y: 15
+        width: 21
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 45144cd5a0b236660800000000000000
+      internalID: 7377787938085814612
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hands Up Walk_18
+      rect:
+        serializedVersion: 2
+        x: 185
+        y: 15
+        width: 21
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2423cd85148d43580800000000000000
+      internalID: -8848209592700882366
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hands Up Walk_19
+      rect:
+        serializedVersion: 2
+        x: 265
+        y: 15
+        width: 21
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f64baf968824df7b0800000000000000
+      internalID: -5188918041999920017
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hands Up Walk_20
+      rect:
+        serializedVersion: 2
+        x: 345
+        y: 15
+        width: 21
+        height: 77
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e165d41f5b140bfd0800000000000000
+      internalID: -2328288757657283042
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hands Up Walk_21
+      rect:
+        serializedVersion: 2
+        x: 425
+        y: 15
+        width: 21
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 05a5c38c304520c20800000000000000
+      internalID: 3171189462843284048
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hands Up Walk_22
+      rect:
+        serializedVersion: 2
+        x: 505
+        y: 15
+        width: 21
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 56f3144cf3efe6240800000000000000
+      internalID: 4787043003770421093
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hands Up Walk_23
+      rect:
+        serializedVersion: 2
+        x: 585
+        y: 15
+        width: 21
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0d937536af4fda840800000000000000
+      internalID: 5237111297947417040
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Hands Up Walk_0: 571605238189375361
+      Hands Up Walk_1: 7327779206315895129
+      Hands Up Walk_10: -7811787781006983288
+      Hands Up Walk_11: 3422362187425921837
+      Hands Up Walk_12: -5097048951026731854
+      Hands Up Walk_13: -7298223158720533069
+      Hands Up Walk_14: -4750128327278569779
+      Hands Up Walk_15: 8043838457816363488
+      Hands Up Walk_16: -8117765672387909152
+      Hands Up Walk_17: 7377787938085814612
+      Hands Up Walk_18: -8848209592700882366
+      Hands Up Walk_19: -5188918041999920017
+      Hands Up Walk_2: -3813532118833736033
+      Hands Up Walk_20: -2328288757657283042
+      Hands Up Walk_21: 3171189462843284048
+      Hands Up Walk_22: 4787043003770421093
+      Hands Up Walk_23: 5237111297947417040
+      Hands Up Walk_3: 4990151318264614389
+      Hands Up Walk_4: -3287736891235364025
+      Hands Up Walk_5: -5648911398770550299
+      Hands Up Walk_6: 1345324510744237528
+      Hands Up Walk_7: 8946981045389385977
+      Hands Up Walk_8: -8643258773962715068
+      Hands Up Walk_9: 1583824725913083549
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -158,13 +158,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: free_0
+      name: restau
       rect:
         serializedVersion: 2
-        x: 64
-        y: 83
-        width: 45
-        height: 27
+        x: 0
+        y: 32
+        width: 64
+        height: 79
       alignment: 9
       pivot: {x: 0.8770264, y: -0.81901973}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -2527,7 +2527,6 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":16.0,"y":16.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      free_0: -337351728639113470
       free_1: -4965553739594148211
       free_10: 6896417841489334675
       free_100: 773920169
@@ -2634,6 +2633,7 @@ TextureImporter:
       free_97: -196590309
       free_98: -260693170
       free_99: 1363755923
+      restau: -337351728639113470
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
