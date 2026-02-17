@@ -9,6 +9,12 @@ EditorBuildSettings:
     path: Assets/Scenes/Main/SampleScene.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
   - enabled: 1
+    path: Assets/Scenes/Main/HouseInteriorLITEDEMO.unity
+    guid: be03f8acd74eb3544bd8c88741a68627
+  - enabled: 1
+    path: Assets/Scenes/Main/RestaurantScene.unity
+    guid: 478c8c9a288e83048be559ad85cea005
+  - enabled: 1
     path: Assets/Scenes/Main/FarmScene.unity
     guid: 44133925b7911504faf9e0ad0fd51a01
   m_configObjects:

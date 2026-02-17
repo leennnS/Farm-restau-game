@@ -11,6 +11,7 @@ namespace Cainos.LucidEditor.Experimental
     {
         private List<TreeMenuItem> baseElements = new List<TreeMenuItem>();
         private SimpleTreeView simpleTreeView;
+        [Obsolete]
         private TreeViewState state;
 
         private int currentId = 0;
@@ -87,18 +88,21 @@ namespace Cainos.LucidEditor.Experimental
             return item;
         }
 
+        [Obsolete]
         public void Show(Rect position)
         {
             if (simpleTreeView == null) Setup();
             simpleTreeView.OnGUI(position);
         }
 
+        [Obsolete]
         public void ShowLayout(params GUILayoutOption[] options)
         {
             if (simpleTreeView == null) Setup();
             simpleTreeView.OnGUI(EditorGUILayout.GetControlRect(false, simpleTreeView.totalHeight, options));
         }
 
+        [Obsolete]
         public void Setup()
         {
             state = new TreeViewState();
@@ -136,7 +140,7 @@ namespace Cainos.LucidEditor.Experimental
         private TreeMenuItem FindItem(int id)
         {
             TreeMenuItem item = null;
-            foreach(TreeMenuItem child in baseElements)
+            foreach (TreeMenuItem child in baseElements)
             {
                 item = FindItem(child, id);
                 if (item != null) return item;

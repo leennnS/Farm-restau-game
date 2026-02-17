@@ -1,3 +1,4 @@
+#pragma warning disable 0618
 using System;
 using System.Collections.Generic;
 using UnityEditor.IMGUI.Controls;
@@ -111,3 +112,4 @@ namespace Cainos.LucidEditor.Experimental
         }
     }
 }
+#pragma warning restore 0618
