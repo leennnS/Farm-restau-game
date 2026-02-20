@@ -1,0 +1,86 @@
+using UnityEngine;
+using UnityEngine.UIElements;
+
+[RequireComponent(typeof(UIDocument))]
+public class HotBarController : MonoBehaviour
+{
+    private const int HotbarSize = 12;
+
+    private UIDocument _doc;
+    private VisualElement _root;          // rootVisualElement
+    private VisualElement _hotbarRoot;    // optional: "hotbarRoot" in your UXML
+    private VisualElement[] _slots;
+
+    private void Awake()
+    {
+        _doc = GetComponent<UIDocument>();
+        _root = _doc.rootVisualElement;
+
+        // If you named the top element "hotbarRoot" (you did), use it for show/hide
+        _hotbarRoot = _root.Q<VisualElement>("hotbarRoot") ?? _root;
+
+        CacheSlots();
+        ClearAll();
+    }
+
+    private void CacheSlots()
+    {
+        _slots = new VisualElement[HotbarSize];
+
+        for (int i = 0; i < HotbarSize; i++)
+        {
+            string name = $"hotbarSlot{(i + 1):00}";
+            _slots[i] = _root.Q<VisualElement>(name);
+
+            if (_slots[i] == null)
+                Debug.LogWarning($"[HotBarHUD] Missing slot in HUD UXML: {name}");
+        }
+    }
+
+    public void SetVisible(bool visible)
+    {
+        if (_hotbarRoot == null) return;
+        _hotbarRoot.style.display = visible ? DisplayStyle.Flex : DisplayStyle.None;
+    }
+
+    public void SetSlot(int index, Sprite icon, int amount)
+    {
+        if (_slots == null || index < 0 || index >= HotbarSize) return;
+
+        var slot = _slots[index];
+        if (slot == null) return;
+
+        if (icon == null || amount <= 0)
+        {
+            slot.style.backgroundImage = StyleKeyword.None;
+            SetCount(slot, "");
+            return;
+        }
+
+        slot.style.backgroundImage = new StyleBackground(icon);
+        SetCount(slot, amount > 1 ? amount.ToString() : "");
+    }
+
+    public void ClearAll()
+    {
+        for (int i = 0; i < HotbarSize; i++)
+            SetSlot(i, null, 0);
+    }
+
+    private void SetCount(VisualElement slot, string text)
+    {
+        var label = slot.Q<Label>("countLabel");
+        if (label == null)
+        {
+            label = new Label { name = "countLabel" };
+            label.style.position = Position.Absolute;
+            label.style.right = 2;
+            label.style.bottom = 0;
+            label.style.fontSize = 11;
+            label.style.unityFontStyleAndWeight = FontStyle.Bold;
+            label.style.color = new Color(0.23f, 0.16f, 0.09f);
+            slot.Add(label);
+        }
+        label.text = text;
+    }
+}

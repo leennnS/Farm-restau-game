@@ -6,9 +6,10 @@
                 <ui:Button name="closeButton" text="X" style="width: 26px; height: 26px;"/>
             </ui:VisualElement>
             <ui:VisualElement name="inventoryTabs" style="flex-direction: row; margin-bottom: 8px; gap: 6px;">
-                <ui:Button name="tabToolsButton" tooltip="Tools" style="width: 36px; height: 36px; background-color: rgb(214, 168, 107); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(122, 78, 42); border-right-color: rgb(122, 78, 42); border-top-color: rgb(183, 126, 62); border-bottom-color: rgb(92, 58, 27); background-size: contain; background-position: center; background-repeat: no-repeat; background-image: url(&quot;project://database/Assets/Art/Models/Farm/InventoryIcons/chef.png?fileID=2800000&amp;guid=4e9ff1eb3a15b1c4a9250d071b56d496&amp;type=3#chef&quot;);"/>
-                <ui:Button name="tabCropsButton" tooltip="Crops" style="width: 36px; height: 36px; background-color: rgb(214, 168, 107); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(122, 78, 42); border-right-color: rgb(122, 78, 42); border-top-color: rgb(183, 126, 62); border-bottom-color: rgb(92, 58, 27); background-size: contain; background-position: center; background-repeat: no-repeat; background-image: url(&quot;project://database/Assets/Art/treasure-map.png?fileID=2800000&amp;guid=8c51cb2da6ed9e34bb4064cded81d6ca&amp;type=3#treasure-map&quot;);"/>
-                <ui:Button name="tabCraftingButton" tooltip="Cooking" style="width: 36px; height: 36px; background-color: rgb(214, 168, 107); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(122, 78, 42); border-right-color: rgb(122, 78, 42); border-top-color: rgb(183, 126, 62); border-bottom-color: rgb(92, 58, 27); background-size: contain; background-position: center; background-repeat: no-repeat; background-image: url(&quot;project://database/Assets/Art/cogwheel.png?fileID=2800000&amp;guid=56a62a677ee29354c8af0689dfd1e769&amp;type=3#cogwheel&quot;);"/>
+                <ui:Button name="tabToolsButton" tooltip="Inventory" style="width: 36px; height: 36px; background-color: rgb(214, 168, 107); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(122, 78, 42); border-right-color: rgb(122, 78, 42); border-top-color: rgb(183, 126, 62); border-bottom-color: rgb(92, 58, 27); background-size: contain; background-position: center; background-repeat: no-repeat; background-image: url(&quot;project://database/Assets/Art/Models/Farm/InventoryIcons/sprout.png?fileID=2800000&amp;guid=fcf461b16c4d1854a90e415ee4a4dd7a&amp;type=3#sprout&quot;);"/>
+                <ui:Button name="tabMapButton" tooltip="Map" style="width: 36px; height: 36px; background-color: rgb(214, 168, 107); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(122, 78, 42); border-right-color: rgb(122, 78, 42); border-top-color: rgb(183, 126, 62); border-bottom-color: rgb(92, 58, 27); background-size: contain; background-position: center; background-repeat: no-repeat; background-image: url(&quot;project://database/Assets/Art/treasure-map.png?fileID=2800000&amp;guid=8c51cb2da6ed9e34bb4064cded81d6ca&amp;type=3#treasure-map&quot;);"/>
+                <ui:Button name="tabCraftingButton" tooltip="Crafting" style="width: 36px; height: 36px; background-color: rgb(214, 168, 107); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(122, 78, 42); border-right-color: rgb(122, 78, 42); border-top-color: rgb(183, 126, 62); border-bottom-color: rgb(92, 58, 27); background-size: contain; background-position: center; background-repeat: no-repeat; background-image: url(&quot;project://database/Assets/Art/Models/Farm/InventoryIcons/chef.png?fileID=2800000&amp;guid=4e9ff1eb3a15b1c4a9250d071b56d496&amp;type=3#chef&quot;);"/>
+                <ui:Button name="tabSettingsButton" tooltip="Settings" style="width: 36px; height: 36px; background-color: rgb(214, 168, 107); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(122, 78, 42); border-right-color: rgb(122, 78, 42); border-top-color: rgb(183, 126, 62); border-bottom-color: rgb(92, 58, 27); background-size: contain; background-position: center; background-repeat: no-repeat; background-image: url(&quot;project://database/Assets/Art/cogwheel.png?fileID=2800000&amp;guid=56a62a677ee29354c8af0689dfd1e769&amp;type=3#cogwheel&quot;);"/>
             </ui:VisualElement>
             <ui:VisualElement name="inventoryPages" style="flex-direction: column; flex-grow: 1;">
                 <ui:VisualElement name="toolsPage" style="flex-direction: column;">
@@ -81,11 +82,41 @@
                         <ui:VisualElement name="itemSlot36" style="width: 36px; height: 36px; background-color: rgb(247, 234, 210); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);"/>
                     </ui:VisualElement>
                 </ui:VisualElement>
-                <ui:VisualElement name="cropsPage" style="flex-direction: column; display: none;">
-                    <ui:Label text="Crops Page" style="font-size: 14px; color: rgb(58, 42, 24); unity-font-style: bold;"/>
+                <ui:VisualElement name="mapPage" style="flex-direction: column; display: none; justify-content: center; align-items: center; padding: 10px;">
+                    <ui:Label text="Game Map" style="font-size: 16px; color: rgb(58, 42, 24); unity-font-style: bold; margin-bottom: 10px;"/>
+                    <ui:VisualElement name="mapContainer" style="width: 470px; height: 340px; background-color: rgb(100, 100, 100); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(70, 70, 70); border-right-color: rgb(70, 70, 70); border-top-color: rgb(150, 150, 150); border-bottom-color: rgb(50, 50, 50);"/>
                 </ui:VisualElement>
-                <ui:VisualElement name="craftingPage" style="flex-direction: column; display: none;">
-                    <ui:Label text="Cooking Page" style="font-size: 14px; color: rgb(58, 42, 24); unity-font-style: bold;"/>
+                <ui:VisualElement name="craftingPage" style="flex-direction: column; display: none; gap: 6px; padding: 6px;">
+                    <ui:Label text="Recipes" style="font-size: 14px; color: rgb(58, 42, 24); unity-font-style: bold;"/>
+                    <ui:ScrollView name="recipeList" style="flex-grow: 1; border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; border-left-color: rgb(122, 78, 42); border-right-color: rgb(122, 78, 42); border-top-color: rgb(122, 78, 42); border-bottom-color: rgb(122, 78, 42);"/>
+                    <ui:VisualElement name="craftingFooter" style="flex-direction: row; gap: 10px; align-items: center; padding: 4px;">
+                        <ui:Label text="Inventory:" style="font-size: 11px; color: rgb(58, 42, 24);"/>
+                        <ui:ScrollView name="craftingInventory" style="flex-direction: row; flex-grow: 1; gap: 4px; height: 50px;"/>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="settingsPage" style="flex-direction: column; display: none; gap: 12px; padding: 10px;">
+                    <ui:Label text="Settings" style="font-size: 16px; color: rgb(58, 42, 24); unity-font-style: bold;"/>
+                    <ui:VisualElement style="flex-direction: column; gap: 8px;">
+                        <ui:VisualElement style="flex-direction: row; align-items: center; gap: 8px;">
+                            <ui:Label text="Master Volume:" style="flex-grow: 1; color: rgb(58, 42, 24);"/>
+                            <ui:Slider name="masterVolumeSlider" low-value="0" high-value="100" value="80" style="width: 150px;"/>
+                            <ui:Label name="masterVolumeLabel" text="80" style="width: 30px; color: rgb(58, 42, 24);"/>
+                        </ui:VisualElement>
+                        <ui:VisualElement style="flex-direction: row; align-items: center; gap: 8px;">
+                            <ui:Label text="Music Volume:" style="flex-grow: 1; color: rgb(58, 42, 24);"/>
+                            <ui:Slider name="musicVolumeSlider" low-value="0" high-value="100" value="70" style="width: 150px;"/>
+                            <ui:Label name="musicVolumeLabel" text="70" style="width: 30px; color: rgb(58, 42, 24);"/>
+                        </ui:VisualElement>
+                        <ui:VisualElement style="flex-direction: row; align-items: center; gap: 8px;">
+                            <ui:Label text="SFX Volume:" style="flex-grow: 1; color: rgb(58, 42, 24);"/>
+                            <ui:Slider name="sfxVolumeSlider" low-value="0" high-value="100" value="80" style="width: 150px;"/>
+                            <ui:Label name="sfxVolumeLabel" text="80" style="width: 30px; color: rgb(58, 42, 24);"/>
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement style="flex-direction: row; gap: 6px; margin-top: 10px;">
+                        <ui:Button name="exitButton" text="Exit to Menu" style="flex-grow: 1; padding: 6px;"/>
+                        <ui:Button name="quitButton" text="Quit Game" style="flex-grow: 1; padding: 6px;"/>
+                    </ui:VisualElement>
                 </ui:VisualElement>
             </ui:VisualElement>
             <ui:VisualElement name="inventoryFooter" style="flex-direction: row; justify-content: space-between; align-items: flex-start; margin-top: 4px; height: 0;">

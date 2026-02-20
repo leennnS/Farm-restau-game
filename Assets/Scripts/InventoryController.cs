@@ -5,6 +5,8 @@ using UnityEngine.UIElements;
 [RequireComponent(typeof(UIDocument))]
 public class InventoryController : MonoBehaviour
 {
+    private const int HotbarSize = 12;
+
     [Header("Input")]
     [SerializeField] private KeyCode toggleKey = KeyCode.I;
 
@@ -18,6 +20,12 @@ public class InventoryController : MonoBehaviour
     [Header("Inventory")]
     [SerializeField] private int inventorySize = 36;
 
+    [Header("Crafting")]
+    [SerializeField] private RecipeDefinition[] recipes;
+
+    [Header("Map")]
+    [SerializeField] private Texture2D gameMapImage;
+
     [Header("Quick Test (optional)")]
     [SerializeField] private ItemDefinition testItem;
     [SerializeField] private KeyCode testAddKey = KeyCode.K;
@@ -27,33 +35,40 @@ public class InventoryController : MonoBehaviour
     private VisualElement _root;
     private bool _isOpen;
 
-    // Hotbar HUD reference
+    // Hotbar HUD reference (supports either controller script)
     private HotBarHUDController _hotbarHUD;
+    private HotBarController _hotbarController;
 
     // Cached UI references
     private Button _closeButton;
 
     private Button _tabToolsButton;
-    private Button _tabCropsButton;
+    private Button _tabMapButton;
     private Button _tabCraftingButton;
+    private Button _tabSettingsButton;
 
     private VisualElement _toolsPage;
-    private VisualElement _cropsPage;
+    private VisualElement _mapPage;
     private VisualElement _craftingPage;
+    private VisualElement _settingsPage;
+
+    // Settings controls
+    private Slider _masterVolumeSlider;
+    private Slider _musicVolumeSlider;
+    private Slider _sfxVolumeSlider;
+    private Label _masterVolumeLabel;
+    private Label _musicVolumeLabel;
+    private Label _sfxVolumeLabel;
+    private Button _exitButton;
+    private Button _quitButton;
 
     // ---------- NEW: slot UI refs ----------
     private VisualElement[] _itemSlots; // itemSlot01..itemSlot36
     private VisualElement[] _hotbarSlots; // hotbarSlot01..hotbarSlot12
-
-    [Serializable]
-    private struct ItemStack
-    {
-        public ItemDefinition item;
-        public int amount;
-    }
+    private VisualElement _trashSlot;
 
     private ItemStack[] _slotsData;
-    private ItemStack[] _hotbarData; // NEW: separate hotbar data
+    private ItemStack[] _hotbarData;
 
     // ------- Drag and Drop State -------
     private int _draggedSlotIndex = -1;
@@ -67,14 +82,14 @@ public class InventoryController : MonoBehaviour
         _root = _uiDocument.rootVisualElement;
 
         // Find the HotBar HUD controller
-        _hotbarHUD = FindFirstObjectByType<HotBarHUDController>();
+        TryResolveHotbarHUD();
 
         CacheUI();
         CacheInventorySlots();     // NEW
         BindUI();
 
         _slotsData = new ItemStack[inventorySize]; // NEW
-        _hotbarData = new ItemStack[12]; // NEW: hotbar data array
+        _hotbarData = new ItemStack[HotbarSize];
         RefreshAllSlots();                         // NEW
 
         // Apply initial state
@@ -82,6 +97,9 @@ public class InventoryController : MonoBehaviour
 
         // Optional: start on Tools tab if open
         ShowTools();
+
+        // Ensure outside HUD mirrors first 12 inventory slots from startup.
+        SyncExternalHotbarAll();
     }
 
     private void Update()
@@ -92,6 +110,9 @@ public class InventoryController : MonoBehaviour
         // quick test: press K to add testItem
         if (testItem != null && Input.GetKeyDown(testAddKey))
             TryAdd(testItem, testAddAmount);
+
+        // Keep external HUD mirrored to inventory slots 1..12.
+        SyncExternalHotbarAll();
     }
 
     public void Toggle() => SetOpen(!_isOpen);
@@ -102,9 +123,13 @@ public class InventoryController : MonoBehaviour
     {
         _isOpen = open;
 
+        TryResolveHotbarHUD();
+
         // Hide hotbar when inventory opens, show when it closes
-        if (_hotbarHUD != null)
-            _hotbarHUD.SetVisible(!open);
+        SetExternalHotbarVisible(!open);
+
+        // Refresh mirrored content when visibility changes.
+        SyncExternalHotbarAll();
 
         if (_root != null)
             _root.style.display = open ? DisplayStyle.Flex : DisplayStyle.None;
@@ -121,20 +146,32 @@ public class InventoryController : MonoBehaviour
 
         // Tabs
         _tabToolsButton = _root.Q<Button>("tabToolsButton");
-        _tabCropsButton = _root.Q<Button>("tabCropsButton");
+        _tabMapButton = _root.Q<Button>("tabMapButton");
         _tabCraftingButton = _root.Q<Button>("tabCraftingButton");
+        _tabSettingsButton = _root.Q<Button>("tabSettingsButton");
 
         // Pages
         _toolsPage = _root.Q<VisualElement>("toolsPage");
-        _cropsPage = _root.Q<VisualElement>("cropsPage");
+        _mapPage = _root.Q<VisualElement>("mapPage");
         _craftingPage = _root.Q<VisualElement>("craftingPage");
+        _settingsPage = _root.Q<VisualElement>("settingsPage");
+
+        // Settings controls
+        _masterVolumeSlider = _root.Q<Slider>("masterVolumeSlider");
+        _musicVolumeSlider = _root.Q<Slider>("musicVolumeSlider");
+        _sfxVolumeSlider = _root.Q<Slider>("sfxVolumeSlider");
+        _masterVolumeLabel = _root.Q<Label>("masterVolumeLabel");
+        _musicVolumeLabel = _root.Q<Label>("musicVolumeLabel");
+        _sfxVolumeLabel = _root.Q<Label>("sfxVolumeLabel");
+        _exitButton = _root.Q<Button>("exitButton");
+        _quitButton = _root.Q<Button>("quitButton");
     }
 
     // NEW: cache inventory slots itemSlot01..itemSlot36 AND hotbarSlot01..hotbarSlot12
     private void CacheInventorySlots()
     {
         _itemSlots = new VisualElement[inventorySize];
-        _hotbarSlots = new VisualElement[12];
+        _hotbarSlots = new VisualElement[HotbarSize];
 
         // Cache inventory grid slots
         for (int i = 0; i < inventorySize; i++)
@@ -159,7 +196,7 @@ public class InventoryController : MonoBehaviour
         }
 
         // Cache hotbar slots separately
-        for (int i = 0; i < 12; i++)
+        for (int i = 0; i < HotbarSize; i++)
         {
             string name = $"hotbarSlot{(i + 1):00}";
             _hotbarSlots[i] = _root.Q<VisualElement>(name);
@@ -179,6 +216,18 @@ public class InventoryController : MonoBehaviour
                 Debug.LogWarning($"Missing slot in UXML: {name}");
             }
         }
+
+        // Cache trash slot and register mouseup handler
+        _trashSlot = _root.Q<VisualElement>("trashSlot");
+        if (_trashSlot != null)
+        {
+            _trashSlot.pickingMode = PickingMode.Position;
+            _trashSlot.RegisterCallback<MouseUpEvent>(evt => OnTrashSlotMouseUp(evt));
+        }
+        else
+        {
+            Debug.LogWarning("Missing slot in UXML: trashSlot");
+        }
     }
 
     private void BindUI()
@@ -191,11 +240,30 @@ public class InventoryController : MonoBehaviour
         if (_tabToolsButton != null)
             _tabToolsButton.clicked += ShowTools;
 
-        if (_tabCropsButton != null)
-            _tabCropsButton.clicked += ShowCrops;
+        if (_tabMapButton != null)
+            _tabMapButton.clicked += ShowMap;
 
         if (_tabCraftingButton != null)
             _tabCraftingButton.clicked += ShowCrafting;
+
+        if (_tabSettingsButton != null)
+            _tabSettingsButton.clicked += ShowSettings;
+
+        // Settings controls
+        if (_masterVolumeSlider != null)
+            _masterVolumeSlider.RegisterValueChangedCallback(evt => OnMasterVolumeChanged(evt.newValue));
+
+        if (_musicVolumeSlider != null)
+            _musicVolumeSlider.RegisterValueChangedCallback(evt => OnMusicVolumeChanged(evt.newValue));
+
+        if (_sfxVolumeSlider != null)
+            _sfxVolumeSlider.RegisterValueChangedCallback(evt => OnSFXVolumeChanged(evt.newValue));
+
+        if (_exitButton != null)
+            _exitButton.clicked += ExitToMenu;
+
+        if (_quitButton != null)
+            _quitButton.clicked += QuitGame;
 
         // OPTIONAL: slot click debugging
         if (debugSlotClicks)
@@ -203,17 +271,64 @@ public class InventoryController : MonoBehaviour
             HookSlotClicks("itemSlot", inventorySize);
             MakeClickable(_root.Q<VisualElement>("trashSlot"), "trashSlot");
         }
+
+        // Populate crafting recipes
+        PopulateCraftingRecipes();
+
+        // Populate map display
+        PopulateMapDisplay();
     }
 
-    private void ShowTools() => ShowPage(_toolsPage, _cropsPage, _craftingPage);
-    private void ShowCrops() => ShowPage(_cropsPage, _toolsPage, _craftingPage);
-    private void ShowCrafting() => ShowPage(_craftingPage, _toolsPage, _cropsPage);
+    private void ShowTools() => ShowPage(_toolsPage, _mapPage, _craftingPage, _settingsPage);
+    private void ShowMap() => ShowPage(_mapPage, _toolsPage, _craftingPage, _settingsPage);
+    private void ShowCrafting() => ShowPage(_craftingPage, _toolsPage, _mapPage, _settingsPage);
+    private void ShowSettings() => ShowPage(_settingsPage, _toolsPage, _mapPage, _craftingPage);
 
-    private void ShowPage(VisualElement show, VisualElement hide1, VisualElement hide2)
+    private void ShowPage(VisualElement show, VisualElement hide1, VisualElement hide2, VisualElement hide3)
     {
         if (show != null) show.style.display = DisplayStyle.Flex;
         if (hide1 != null) hide1.style.display = DisplayStyle.None;
         if (hide2 != null) hide2.style.display = DisplayStyle.None;
+        if (hide3 != null) hide3.style.display = DisplayStyle.None;
+    }
+
+    // Settings callbacks
+    private void OnMasterVolumeChanged(float value)
+    {
+        if (_masterVolumeLabel != null)
+            _masterVolumeLabel.text = ((int)value).ToString();
+        // TODO: Apply master volume to AudioListener
+    }
+
+    private void OnMusicVolumeChanged(float value)
+    {
+        if (_musicVolumeLabel != null)
+            _musicVolumeLabel.text = ((int)value).ToString();
+        // TODO: Apply music volume to music source
+    }
+
+    private void OnSFXVolumeChanged(float value)
+    {
+        if (_sfxVolumeLabel != null)
+            _sfxVolumeLabel.text = ((int)value).ToString();
+        // TODO: Apply SFX volume to SFX source
+    }
+
+    private void ExitToMenu()
+    {
+        Debug.Log("Exiting to menu...");
+        // TODO: Load main menu scene
+        // SceneManager.LoadScene("MainMenu");
+    }
+
+    private void QuitGame()
+    {
+        Debug.Log("Quitting game...");
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
     }
 
     // ----------------------------
@@ -264,6 +379,8 @@ public class InventoryController : MonoBehaviour
 
         for (int i = 0; i < _hotbarData.Length; i++)
             RefreshHotbarSlot(i);
+
+        SyncExternalHotbarAll();
     }
 
     private void RefreshInventorySlot(int index)
@@ -293,6 +410,7 @@ public class InventoryController : MonoBehaviour
     private void RefreshHotbarSlot(int index)
     {
         if (_hotbarSlots == null || index < 0 || index >= _hotbarSlots.Length) return;
+        if (_hotbarData == null || index >= _hotbarData.Length) return;
 
         var slotVE = _hotbarSlots[index];
         if (slotVE == null) return;
@@ -317,6 +435,65 @@ public class InventoryController : MonoBehaviour
     private void RefreshSlot(int index)
     {
         RefreshInventorySlot(index);
+    }
+
+    private void SyncExternalHotbarAll()
+    {
+        TryResolveHotbarHUD();
+        if (!HasExternalHotbar() || _hotbarData == null) return;
+
+        for (int i = 0; i < HotbarSize; i++)
+            SyncExternalHotbarSlot(i);
+    }
+
+    private void TryResolveHotbarHUD()
+    {
+        if (_hotbarHUD == null)
+            _hotbarHUD = FindFirstObjectByType<HotBarHUDController>();
+
+        if (_hotbarController == null)
+            _hotbarController = FindFirstObjectByType<HotBarController>();
+    }
+
+    private bool HasExternalHotbar()
+    {
+        return _hotbarHUD != null || _hotbarController != null;
+    }
+
+    private void SetExternalHotbarVisible(bool visible)
+    {
+        if (_hotbarHUD != null)
+            _hotbarHUD.SetVisible(visible);
+
+        if (_hotbarController != null)
+            _hotbarController.SetVisible(visible);
+    }
+
+    private void SetExternalHotbarSlot(int index, Sprite icon, int amount)
+    {
+        if (_hotbarHUD != null)
+            _hotbarHUD.SetSlot(index, icon, amount);
+
+        if (_hotbarController != null)
+            _hotbarController.SetSlot(index, icon, amount);
+    }
+
+    private void SyncExternalHotbarSlot(int index)
+    {
+        if (!HasExternalHotbar()) return;
+        if (index < 0 || index >= HotbarSize) return;
+
+        if (_hotbarData == null || index >= _hotbarData.Length)
+        {
+            SetExternalHotbarSlot(index, null, 0);
+            return;
+        }
+
+        var stack = _hotbarData[index];
+        var icon = stack.item != null ? stack.item.icon : null;
+        var amount = stack.item != null ? stack.amount : 0;
+
+        SetExternalHotbarSlot(index, icon, amount);
     }
 
     private void SetSlotCount(VisualElement slotVE, string text)
@@ -419,6 +596,9 @@ public class InventoryController : MonoBehaviour
 
     private void OnHotbarSlotMouseDown(int slotIndex, MouseDownEvent evt)
     {
+        if (_hotbarData == null || slotIndex < 0 || slotIndex >= _hotbarData.Length)
+            return;
+
         if (_hotbarData[slotIndex].item == null || _hotbarData[slotIndex].amount <= 0)
             return;
 
@@ -461,7 +641,42 @@ public class InventoryController : MonoBehaviour
         else
         {
             // From inventory to hotbar
-            SwapInventoryAndHotbar(_draggedSlotIndex, targetSlotIndex, true);
+            CopyInventoryToHotbar(_draggedSlotIndex, targetSlotIndex);
+        }
+
+        ResetDragState();
+        evt.StopPropagation();
+    }
+
+    private void OnTrashSlotMouseUp(MouseUpEvent evt)
+    {
+        if (!_isDragging || _draggedSlotIndex < 0)
+        {
+            ResetDragState();
+            return;
+        }
+
+        // Restore opacity
+        if (_draggedSlotElement != null)
+            _draggedSlotElement.style.opacity = 1f;
+
+        // Delete the dragged item
+        if (_isDraggingFromHotbar)
+        {
+            // Clear the hotbar slot
+            _hotbarData[_draggedSlotIndex] = new ItemStack { item = null, amount = 0 };
+            RefreshHotbarSlot(_draggedSlotIndex);
+            SyncExternalHotbarSlot(_draggedSlotIndex);
+            if (debugSlotClicks)
+                Debug.Log($"Deleted item from hotbar slot {_draggedSlotIndex}");
+        }
+        else
+        {
+            // Clear the inventory slot
+            _slotsData[_draggedSlotIndex] = new ItemStack { item = null, amount = 0 };
+            RefreshInventorySlot(_draggedSlotIndex);
+            if (debugSlotClicks)
+                Debug.Log($"Deleted item from inventory slot {_draggedSlotIndex}");
         }
 
         ResetDragState();
@@ -477,8 +692,8 @@ public class InventoryController : MonoBehaviour
         _slotsData[source] = _slotsData[target];
         _slotsData[target] = temp;
 
-        RefreshInventorySlot(source);
-        RefreshInventorySlot(target);
+        RefreshSlot(source);
+        RefreshSlot(target);
     }
 
     private void SwapHotbarSlots(int source, int target)
@@ -492,6 +707,8 @@ public class InventoryController : MonoBehaviour
 
         RefreshHotbarSlot(source);
         RefreshHotbarSlot(target);
+        SyncExternalHotbarSlot(source);
+        SyncExternalHotbarSlot(target);
     }
 
     private void SwapInventoryAndHotbar(int slotIndex, int otherIndex, bool draggedFromInventory)
@@ -506,6 +723,7 @@ public class InventoryController : MonoBehaviour
 
             RefreshInventorySlot(slotIndex);
             RefreshHotbarSlot(otherIndex);
+            SyncExternalHotbarSlot(otherIndex);
         }
         else
         {
@@ -515,10 +733,32 @@ public class InventoryController : MonoBehaviour
 
             RefreshHotbarSlot(slotIndex);
             RefreshInventorySlot(otherIndex);
+            SyncExternalHotbarSlot(slotIndex);
         }
 
         if (debugSlotClicks)
             Debug.Log($"Swapped inventory and hotbar");
+    }
+
+    private void CopyInventoryToHotbar(int inventoryIndex, int hotbarIndex)
+    {
+        if (inventoryIndex < 0 || inventoryIndex >= _slotsData.Length) return;
+        if (hotbarIndex < 0 || hotbarIndex >= _hotbarData.Length) return;
+
+        var source = _slotsData[inventoryIndex];
+        if (source.item == null || source.amount <= 0) return;
+
+        _hotbarData[hotbarIndex] = new ItemStack
+        {
+            item = source.item,
+            amount = source.amount
+        };
+
+        RefreshHotbarSlot(hotbarIndex);
+        SyncExternalHotbarSlot(hotbarIndex);
+
+        if (debugSlotClicks)
+            Debug.Log($"Copied inventory slot {inventoryIndex} to hotbar slot {hotbarIndex}");
     }
 
     private void ResetDragState()
@@ -549,7 +789,165 @@ public class InventoryController : MonoBehaviour
         if (_closeButton != null) _closeButton.clicked -= Close;
 
         if (_tabToolsButton != null) _tabToolsButton.clicked -= ShowTools;
-        if (_tabCropsButton != null) _tabCropsButton.clicked -= ShowCrops;
+        if (_tabMapButton != null) _tabMapButton.clicked -= ShowMap;
         if (_tabCraftingButton != null) _tabCraftingButton.clicked -= ShowCrafting;
+        if (_tabSettingsButton != null) _tabSettingsButton.clicked -= ShowSettings;
+
+        if (_masterVolumeSlider != null)
+            _masterVolumeSlider.UnregisterValueChangedCallback(evt => OnMasterVolumeChanged(evt.newValue));
+        if (_musicVolumeSlider != null)
+            _musicVolumeSlider.UnregisterValueChangedCallback(evt => OnMusicVolumeChanged(evt.newValue));
+        if (_sfxVolumeSlider != null)
+            _sfxVolumeSlider.UnregisterValueChangedCallback(evt => OnSFXVolumeChanged(evt.newValue));
+
+        if (_exitButton != null)
+            _exitButton.clicked -= ExitToMenu;
+        if (_quitButton != null)
+            _quitButton.clicked -= QuitGame;
+    }
+
+    // ==================== CRAFTING SYSTEM ====================
+
+    private void PopulateCraftingRecipes()
+    {
+        if (_craftingPage == null || recipes == null || recipes.Length == 0)
+            return;
+
+        ScrollView recipeList = _craftingPage.Q<ScrollView>("recipeList");
+        if (recipeList == null)
+            return;
+
+        recipeList.Clear();
+
+        foreach (var recipe in recipes)
+        {
+            if (recipe == null)
+                continue;
+
+            // Create recipe item
+            VisualElement recipeItem = new VisualElement();
+            recipeItem.style.flexDirection = FlexDirection.Row;
+            recipeItem.style.marginLeft = 6;
+            recipeItem.style.marginRight = 6;
+            recipeItem.style.marginTop = 6;
+            recipeItem.style.marginBottom = 6;
+            recipeItem.style.borderBottomWidth = 1;
+            recipeItem.style.borderBottomColor = new Color(0.5f, 0.5f, 0.5f, 1);
+
+            // Recipe icon and name
+            VisualElement recipeContent = new VisualElement();
+            recipeContent.style.flexGrow = 1;
+            recipeContent.style.flexDirection = FlexDirection.Column;
+
+            Label recipeName = new Label(recipe.recipeName);
+            recipeName.style.fontSize = 12;
+            recipeName.style.unityFontStyleAndWeight = FontStyle.Bold;
+            recipeName.style.marginBottom = 4;
+            recipeContent.Add(recipeName);
+
+            // Ingredients list
+            VisualElement ingredientsList = new VisualElement();
+            ingredientsList.style.flexDirection = FlexDirection.Row;
+            ingredientsList.style.flexWrap = Wrap.Wrap;
+
+            if (recipe.ingredients != null)
+            {
+                foreach (var ingredient in recipe.ingredients)
+                {
+                    if (ingredient.item == null)
+                        continue;
+
+                    VisualElement ingredientItem = new VisualElement();
+                    ingredientItem.style.width = 32;
+                    ingredientItem.style.height = 32;
+                    ingredientItem.style.backgroundColor = new Color(0.2f, 0.2f, 0.2f, 1);
+                    ingredientItem.style.marginRight = 4;
+                    ingredientItem.style.marginBottom = 4;
+
+                    if (ingredient.item.icon != null)
+                        ingredientItem.style.backgroundImage = ingredient.item.icon.texture;
+
+                    Label ingredientAmount = new Label(ingredient.amount.ToString());
+                    ingredientAmount.style.position = Position.Absolute;
+                    ingredientAmount.style.right = 2;
+                    ingredientAmount.style.bottom = 2;
+                    ingredientAmount.style.fontSize = 10;
+                    ingredientAmount.style.color = Color.white;
+                    ingredientItem.Add(ingredientAmount);
+
+                    ingredientsList.Add(ingredientItem);
+                }
+            }
+
+            recipeContent.Add(ingredientsList);
+
+            // Result
+            Label result = new Label($"→ {recipe.resultAmount}x {recipe.result.name}");
+            result.style.fontSize = 11;
+            result.style.marginBottom = 4;
+            recipeContent.Add(result);
+
+            // Craft button
+            Button craftBtn = new Button(() => AttemptCraft(recipe));
+            craftBtn.text = "Craft";
+            craftBtn.style.width = 70;
+            craftBtn.style.height = 32;
+            craftBtn.style.marginLeft = 8;
+
+            recipeItem.Add(recipeContent);
+            recipeItem.Add(craftBtn);
+
+            recipeList.Add(recipeItem);
+        }
+    }
+
+    private void AttemptCraft(RecipeDefinition recipe)
+    {
+        if (recipe == null || !recipe.CanCraft(_slotsData))
+        {
+            Debug.Log("Cannot craft recipe: missing ingredients");
+            return;
+        }
+
+        recipe.Craft(ref _slotsData);
+
+        // Refresh all inventory slots
+        for (int i = 0; i < _itemSlots.Length; i++)
+            RefreshInventorySlot(i);
+
+        Debug.Log($"Crafted {recipe.recipeName}!");
+    }
+
+    // ==================== MAP DISPLAY ====================
+
+    private void PopulateMapDisplay()
+    {
+        if (_mapPage == null)
+            return;
+
+        VisualElement mapContainer = _mapPage.Q<VisualElement>("mapContainer");
+        if (mapContainer == null)
+            return;
+
+        mapContainer.Clear();
+
+        if (gameMapImage != null)
+        {
+            // Create an image element to display the map
+            VisualElement mapImage = new VisualElement();
+            mapImage.style.width = new Length(100, LengthUnit.Percent);
+            mapImage.style.height = new Length(100, LengthUnit.Percent);
+            mapImage.style.backgroundImage = gameMapImage;
+            mapContainer.Add(mapImage);
+        }
+        else
+        {
+            Label placeholder = new Label("Map image not assigned\nAssign a map texture in the inspector");
+            placeholder.style.unityTextAlign = TextAnchor.MiddleCenter;
+            placeholder.style.color = new Color(0.7f, 0.7f, 0.7f, 1);
+            mapContainer.Add(placeholder);
+        }
     }
 }
+
+
