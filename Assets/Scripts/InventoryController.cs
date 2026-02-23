@@ -573,7 +573,7 @@ public class InventoryController : MonoBehaviour
         if (_draggedSlotElement != null)
             _draggedSlotElement.style.opacity = 1f;
 
-        // Swap within inventory or swap with hotbar
+        // Swap within inventory or move from hotbar to inventory
         if (!_isDraggingFromHotbar)
         {
             // Both in inventory
@@ -586,8 +586,8 @@ public class InventoryController : MonoBehaviour
         }
         else
         {
-            // From hotbar to inventory
-            SwapInventoryAndHotbar(_draggedSlotIndex, targetSlotIndex, false);
+            // From hotbar to inventory - MOVE operation (not swap)
+            MoveHotbarToInventory(_draggedSlotIndex, targetSlotIndex);
         }
 
         ResetDragState();
@@ -673,8 +673,24 @@ public class InventoryController : MonoBehaviour
         else
         {
             // Clear the inventory slot
+            var deletedItem = _slotsData[_draggedSlotIndex].item;
             _slotsData[_draggedSlotIndex] = new ItemStack { item = null, amount = 0 };
             RefreshInventorySlot(_draggedSlotIndex);
+
+            // Also remove from hotbar if it exists there
+            if (deletedItem != null)
+            {
+                for (int i = 0; i < _hotbarData.Length; i++)
+                {
+                    if (_hotbarData[i].item == deletedItem)
+                    {
+                        _hotbarData[i] = new ItemStack { item = null, amount = 0 };
+                        RefreshHotbarSlot(i);
+                        SyncExternalHotbarSlot(i);
+                    }
+                }
+            }
+
             if (debugSlotClicks)
                 Debug.Log($"Deleted item from inventory slot {_draggedSlotIndex}");
         }
@@ -748,17 +764,81 @@ public class InventoryController : MonoBehaviour
         var source = _slotsData[inventoryIndex];
         if (source.item == null || source.amount <= 0) return;
 
+        // Check if this item already exists in the hotbar
+        for (int i = 0; i < _hotbarData.Length; i++)
+        {
+            if (_hotbarData[i].item == source.item)
+            {
+                if (debugSlotClicks)
+                    Debug.Log($"Item already exists in hotbar at slot {i}. Cannot add duplicates.");
+                return; // Item already in hotbar, don't add again
+            }
+        }
+
+        // Only add if target slot is empty
+        if (_hotbarData[hotbarIndex].item != null)
+        {
+            if (debugSlotClicks)
+                Debug.Log($"Hotbar slot {hotbarIndex} is not empty. Swap functionality would apply here.");
+            return; // Target slot is occupied, don't overwrite
+        }
+
         _hotbarData[hotbarIndex] = new ItemStack
         {
             item = source.item,
-            amount = source.amount
+            amount = source.amount // Transfer full stack amount
         };
 
         RefreshHotbarSlot(hotbarIndex);
         SyncExternalHotbarSlot(hotbarIndex);
 
         if (debugSlotClicks)
-            Debug.Log($"Copied inventory slot {inventoryIndex} to hotbar slot {hotbarIndex}");
+            Debug.Log($"Copied inventory slot {inventoryIndex} to hotbar slot {hotbarIndex} ({source.amount} items)");
+    }
+
+    private void MoveHotbarToInventory(int hotbarIndex, int inventoryIndex)
+    {
+        if (hotbarIndex < 0 || hotbarIndex >= _hotbarData.Length) return;
+        if (inventoryIndex < 0 || inventoryIndex >= _slotsData.Length) return;
+
+        var source = _hotbarData[hotbarIndex];
+        if (source.item == null || source.amount <= 0) return;
+
+        // Check if this item already exists in inventory
+        for (int i = 0; i < _slotsData.Length; i++)
+        {
+            if (_slotsData[i].item == source.item)
+            {
+                if (debugSlotClicks)
+                    Debug.Log($"Item already exists in inventory at slot {i}. Cannot add duplicates.");
+                return; // Item already in inventory, don't add again
+            }
+        }
+
+        // Only add if target slot is empty
+        if (_slotsData[inventoryIndex].item != null)
+        {
+            if (debugSlotClicks)
+                Debug.Log($"Inventory slot {inventoryIndex} is not empty.");
+            return; // Target slot is occupied, don't overwrite
+        }
+
+        // Move the item from hotbar to inventory
+        _slotsData[inventoryIndex] = new ItemStack
+        {
+            item = source.item,
+            amount = source.amount
+        };
+
+        // Clear the hotbar slot
+        _hotbarData[hotbarIndex] = new ItemStack { item = null, amount = 0 };
+
+        RefreshInventorySlot(inventoryIndex);
+        RefreshHotbarSlot(hotbarIndex);
+        SyncExternalHotbarSlot(hotbarIndex);
+
+        if (debugSlotClicks)
+            Debug.Log($"Moved hotbar slot {hotbarIndex} to inventory slot {inventoryIndex}");
     }
 
     private void ResetDragState()
@@ -947,6 +1027,84 @@ public class InventoryController : MonoBehaviour
             placeholder.style.color = new Color(0.7f, 0.7f, 0.7f, 1);
             mapContainer.Add(placeholder);
         }
+    }
+
+    // ==================== FARMING SYSTEM INTEGRATION ====================
+
+    /// <summary>
+    /// Count total amount of an item in inventory (for farming system)
+    /// </summary>
+    public int CountItemInInventory(ItemDefinition item)
+    {
+        if (item == null || _slotsData == null) return 0;
+
+        int total = 0;
+        foreach (var slot in _slotsData)
+        {
+            if (slot.item == item)
+                total += slot.amount;
+        }
+        return total;
+    }
+
+    /// <summary>
+    /// Remove an item from inventory (for farming system - consume seeds)
+    /// </summary>
+    public bool TryRemoveItem(ItemDefinition item, int amount)
+    {
+        if (item == null || amount <= 0 || _slotsData == null)
+            return false;
+
+        int toRemove = amount;
+
+        // Remove from slots in order
+        for (int i = 0; i < _slotsData.Length && toRemove > 0; i++)
+        {
+            if (_slotsData[i].item == item && _slotsData[i].amount > 0)
+            {
+                int removed = Mathf.Min(toRemove, _slotsData[i].amount);
+                _slotsData[i].amount -= removed;
+                toRemove -= removed;
+
+                if (_slotsData[i].amount <= 0)
+                    _slotsData[i] = new ItemStack { item = null, amount = 0 };
+
+                RefreshInventorySlot(i);
+            }
+        }
+
+        // Check if item still exists in inventory
+        int itemCountLeft = CountItemInInventory(item);
+
+        // If item is completely gone from inventory, remove from hotbar too
+        if (itemCountLeft <= 0)
+        {
+            for (int i = 0; i < _hotbarData.Length; i++)
+            {
+                if (_hotbarData[i].item == item)
+                {
+                    _hotbarData[i] = new ItemStack { item = null, amount = 0 };
+                    RefreshHotbarSlot(i);
+                    SyncExternalHotbarSlot(i);
+                }
+            }
+        }
+
+        // Sync hotbar display
+        SyncExternalHotbarAll();
+
+        return toRemove == 0;
+    }
+
+    /// <summary>
+    /// Get the item at a specific hotbar slot (for farming system)
+    /// </summary>
+    public ItemDefinition GetHotbarItem(int slotIndex)
+    {
+        if (_hotbarData == null || slotIndex < 0 || slotIndex >= _hotbarData.Length)
+            return null;
+
+        return _hotbarData[slotIndex].item;
     }
 }
 

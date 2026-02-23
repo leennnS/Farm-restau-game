@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using System;
 
 public class DayNightCycleNice2D : MonoBehaviour
 {
@@ -25,6 +26,11 @@ public class DayNightCycleNice2D : MonoBehaviour
     [SerializeField] private AnimationCurve overlayAlpha;
 
     public float TimeNormalized { get; private set; } // 0..1
+
+    // Day advancement event
+    public static event Action OnDayAdvanced;
+    private int currentDay = 0;
+    private float lastTimeNormalized = 0f;
 
     private void Awake()
     {
@@ -102,8 +108,17 @@ public class DayNightCycleNice2D : MonoBehaviour
     {
         if (dayLengthSeconds <= 0f) return;
 
+        lastTimeNormalized = TimeNormalized;
         TimeNormalized += Time.deltaTime / dayLengthSeconds;
-        if (TimeNormalized >= 1f) TimeNormalized -= 1f;
+
+        // Check if we've crossed into a new day (time wrapped from < 1 to >= 1)
+        if (TimeNormalized >= 1f)
+        {
+            TimeNormalized -= 1f;
+            currentDay++;
+            OnDayAdvanced?.Invoke();
+            Debug.Log($"[DayNightCycleNice2D] Day {currentDay} started!");
+        }
 
         Apply();
     }

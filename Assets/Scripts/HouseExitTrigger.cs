@@ -127,6 +127,9 @@ public class HouseExitTrigger : MonoBehaviour
         if (player == null)
             yield break;
 
+        // Reset player scale before loading farm scene
+        player.transform.localScale = new Vector3(1f, 1f, 1f);
+
         // Load target scene
         SceneManager.LoadScene(targetSceneName);
     }
