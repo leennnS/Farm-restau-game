@@ -17,6 +17,7 @@ public class PickupComponent : MonoBehaviour
     public int count = 1;
 
     private InventoryController inv;
+    private PickupToastUIToolkit pickupToast;
     private SpriteRenderer sr;
 
     private void Awake()
@@ -30,6 +31,9 @@ public class PickupComponent : MonoBehaviour
         // Find inventory controller in scene
         inv = FindFirstObjectByType<InventoryController>();
 
+        // Find pickup toast UI for notifications
+        pickupToast = FindFirstObjectByType<PickupToastUIToolkit>();
+
         // Show sprite in world (optional)
         if (sr != null && item != null && item.icon != null)
             sr.sprite = item.icon;
@@ -42,6 +46,11 @@ public class PickupComponent : MonoBehaviour
 
         if (sr != null && item != null && item.icon != null)
             sr.sprite = item.icon;
+    }
+
+    public void SetTimeToLive(float newTTL)
+    {
+        ttl = newTTL;
     }
 
     private void Update()
@@ -71,7 +80,13 @@ public class PickupComponent : MonoBehaviour
             bool added = inv.TryAdd(item, count);
 
             if (added)
+            {
+                // Show pickup notification
+                if (pickupToast != null && item != null)
+                    pickupToast.Show($"+{count} {item.displayName}");
+
                 Destroy(gameObject);
+            }
             else
                 Debug.Log("Inventory full (could not add).");
         }
