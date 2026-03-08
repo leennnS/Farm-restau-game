@@ -86,14 +86,58 @@
                     <ui:Label text="Game Map" style="font-size: 16px; color: rgb(58, 42, 24); unity-font-style: bold; margin-bottom: 10px;"/>
                     <ui:VisualElement name="mapContainer" style="width: 470px; height: 340px; background-color: rgb(100, 100, 100); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(70, 70, 70); border-right-color: rgb(70, 70, 70); border-top-color: rgb(150, 150, 150); border-bottom-color: rgb(50, 50, 50);"/>
                 </ui:VisualElement>
-                <ui:VisualElement name="craftingPage" style="flex-direction: column; display: none; gap: 6px; padding: 6px;">
-                    <ui:Label text="Recipes" style="font-size: 14px; color: rgb(58, 42, 24); unity-font-style: bold;"/>
-                    <ui:ScrollView name="recipeList" style="flex-grow: 1; border-left-width: 1px; border-right-width: 1px; border-top-width: 1px; border-bottom-width: 1px; border-left-color: rgb(122, 78, 42); border-right-color: rgb(122, 78, 42); border-top-color: rgb(122, 78, 42); border-bottom-color: rgb(122, 78, 42);"/>
-                    <ui:VisualElement name="craftingFooter" style="flex-direction: row; gap: 10px; align-items: center; padding: 4px;">
-                        <ui:Label text="Inventory:" style="font-size: 11px; color: rgb(58, 42, 24);"/>
-                        <ui:ScrollView name="craftingInventory" style="flex-direction: row; flex-grow: 1; gap: 4px; height: 50px;"/>
-                    </ui:VisualElement>
-                </ui:VisualElement>
+               <ui:VisualElement name="craftingPage" style="flex-direction: column; display: none; flex-grow: 1; padding: 8px; gap: 8px;">
+
+    <ui:Label text="Cooking" style="font-size: 16px; color: rgb(58, 42, 24); unity-font-style: bold;" />
+
+    <ui:VisualElement name="cookingCategoryTabs" style="flex-direction: row; gap: 6px; margin-bottom: 4px;">
+        <ui:Button name="tabBreakfastButton" text="Bakery / Breakfast" style="height: 28px;" />
+        <ui:Button name="tabMainDishButton" text="Main Dishes" style="height: 28px;" />
+        <ui:Button name="tabDrinksButton" text="Soups / Drinks" style="height: 28px;" />
+    </ui:VisualElement>
+
+    <!-- BROWSER VIEW -->
+    <ui:VisualElement name="recipeBrowserView" style="flex-direction: column; flex-grow: 1; gap: 6px;">
+
+        <ui:VisualElement name="recipeGrid" style="flex-direction: row; flex-wrap: wrap; gap: 10px; align-content: flex-start; height: 210px;">
+            <!-- Filled from C# -->
+        </ui:VisualElement>
+
+        <ui:VisualElement name="recipeTooltip" style="display: none; min-height: 70px; padding: 8px; background-color: rgb(247, 234, 210); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);">
+            <ui:Label name="recipeTooltipName" text="Dish Name" style="font-size: 13px; unity-font-style: bold; color: rgb(58, 42, 24);" />
+            <ui:Label name="recipeTooltipIngredients" text="Ingredients..." style="font-size: 11px; color: rgb(58, 42, 24);" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+
+    <!-- DETAIL VIEW -->
+    <ui:VisualElement name="recipeDetailView" style="display: none; flex-direction: column; flex-grow: 1; gap: 8px;">
+
+        <ui:VisualElement style="flex-direction: row; justify-content: space-between; align-items: center;">
+            <ui:Label text="Recipe Details" style="font-size: 14px; unity-font-style: bold; color: rgb(58, 42, 24);" />
+            <ui:Button name="backToRecipesButton" text="Back" style="width: 70px; height: 28px;" />
+        </ui:VisualElement>
+
+        <ui:VisualElement style="flex-direction: row; gap: 14px; min-height: 130px;">
+
+            <ui:VisualElement style="flex-direction: column; gap: 6px; width: 120px;">
+                <ui:Label name="selectedRecipeName" text="Dish Name" style="font-size: 13px; unity-font-style: bold; color: rgb(58, 42, 24);" />
+                <ui:VisualElement name="selectedRecipeIcon" style="width: 100px; height: 100px; background-color: rgb(247, 234, 210); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);" />
+            </ui:VisualElement>
+
+            <ui:VisualElement style="flex-direction: column; gap: 6px; flex-grow: 1;">
+                <ui:Label text="Required Ingredients" style="font-size: 12px; unity-font-style: bold; color: rgb(58, 42, 24);" />
+                <ui:VisualElement name="requiredIngredientSlots" style="flex-direction: row; gap: 8px; flex-wrap: wrap; min-height: 50px;" />
+                <ui:Button name="cookRecipeButton" text="Cook" style="width: 90px; height: 30px; margin-top: 4px;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <ui:Label text="Inventory" style="font-size: 12px; unity-font-style: bold; color: rgb(58, 42, 24);" />
+        <ui:VisualElement name="craftingInventoryGrid" style="flex-direction: row; flex-wrap: wrap; gap: 6px; min-height: 84px;">
+            <!-- Filled from C# -->
+        </ui:VisualElement>
+
+    </ui:VisualElement>
+</ui:VisualElement>
                 <ui:VisualElement name="settingsPage" style="flex-direction: column; display: none; gap: 12px; padding: 10px;">
                     <ui:Label text="Settings" style="font-size: 16px; color: rgb(58, 42, 24); unity-font-style: bold;"/>
                     <ui:VisualElement style="flex-direction: column; gap: 8px;">

@@ -1,8 +1,16 @@
 using System;
 using UnityEngine;
 using UnityEngine.UIElements;
+public enum RecipeCategory
+{
+    BreakfastBakery,
+    MainDish,
+    SoupsDrinks
+}
 
 [RequireComponent(typeof(UIDocument))]
+
+
 public class InventoryController : MonoBehaviour
 {
     private const int HotbarSize = 12;
@@ -31,6 +39,14 @@ public class InventoryController : MonoBehaviour
     [SerializeField] private KeyCode testAddKey = KeyCode.K;
     [SerializeField] private int testAddAmount = 1;
 
+    private ItemStack[] _cookingRecipeSlotData;
+    private VisualElement[] _cookingIngredientSlotElements;
+
+    private int _draggedCookingInventoryIndex = -1;
+    private bool _isDraggingFromCookingInventory = false;
+
+    private VisualElement _inventoryFooter;
+    private VisualElement _playerCard;
     private UIDocument _uiDocument;
     private VisualElement _root;
     private bool _isOpen;
@@ -51,6 +67,28 @@ public class InventoryController : MonoBehaviour
     private VisualElement _mapPage;
     private VisualElement _craftingPage;
     private VisualElement _settingsPage;
+
+    // Cooking tab refs
+    private Button _tabBreakfastButton;
+    private Button _tabMainDishButton;
+    private Button _tabDrinksButton;
+    private Button _backToRecipesButton;
+    private Button _cookRecipeButton;
+
+    private VisualElement _recipeBrowserView;
+    private VisualElement _recipeDetailView;
+    private VisualElement _recipeGrid;
+    private VisualElement _recipeTooltip;
+    private Label _recipeTooltipName;
+    private Label _recipeTooltipIngredients;
+
+    private Label _selectedRecipeName;
+    private VisualElement _selectedRecipeIcon;
+    private VisualElement _requiredIngredientSlots;
+    private VisualElement _craftingInventoryGrid;
+
+    private RecipeDefinition _selectedRecipe;
+    private RecipeCategory _currentRecipeCategory = RecipeCategory.BreakfastBakery;
 
     // Settings controls
     private Slider _masterVolumeSlider;
@@ -165,6 +203,27 @@ public class InventoryController : MonoBehaviour
         _sfxVolumeLabel = _root.Q<Label>("sfxVolumeLabel");
         _exitButton = _root.Q<Button>("exitButton");
         _quitButton = _root.Q<Button>("quitButton");
+        // Cooking tab
+        _tabBreakfastButton = _root.Q<Button>("tabBreakfastButton");
+        _tabMainDishButton = _root.Q<Button>("tabMainDishButton");
+        _tabDrinksButton = _root.Q<Button>("tabDrinksButton");
+        _backToRecipesButton = _root.Q<Button>("backToRecipesButton");
+        _cookRecipeButton = _root.Q<Button>("cookRecipeButton");
+
+        _recipeBrowserView = _root.Q<VisualElement>("recipeBrowserView");
+        _recipeDetailView = _root.Q<VisualElement>("recipeDetailView");
+        _recipeGrid = _root.Q<VisualElement>("recipeGrid");
+        _recipeTooltip = _root.Q<VisualElement>("recipeTooltip");
+        _recipeTooltipName = _root.Q<Label>("recipeTooltipName");
+        _recipeTooltipIngredients = _root.Q<Label>("recipeTooltipIngredients");
+
+        _selectedRecipeName = _root.Q<Label>("selectedRecipeName");
+        _selectedRecipeIcon = _root.Q<VisualElement>("selectedRecipeIcon");
+        _requiredIngredientSlots = _root.Q<VisualElement>("requiredIngredientSlots");
+        _craftingInventoryGrid = _root.Q<VisualElement>("craftingInventoryGrid");
+
+        _inventoryFooter = _root.Q<VisualElement>("inventoryFooter");
+        _playerCard = _root.Q<VisualElement>("playerCard");
     }
 
     // NEW: cache inventory slots itemSlot01..itemSlot36 AND hotbarSlot01..hotbarSlot12
@@ -277,12 +336,44 @@ public class InventoryController : MonoBehaviour
 
         // Populate map display
         PopulateMapDisplay();
+        if (_tabBreakfastButton != null)
+            _tabBreakfastButton.clicked += () => ShowRecipeCategory(RecipeCategory.BreakfastBakery);
+
+        if (_tabMainDishButton != null)
+            _tabMainDishButton.clicked += () => ShowRecipeCategory(RecipeCategory.MainDish);
+
+        if (_tabDrinksButton != null)
+            _tabDrinksButton.clicked += () => ShowRecipeCategory(RecipeCategory.SoupsDrinks);
+
+        if (_backToRecipesButton != null)
+            _backToRecipesButton.clicked += ShowRecipeBrowser;
+
+        if (_cookRecipeButton != null)
+            _cookRecipeButton.clicked += CookSelectedRecipe;
     }
 
-    private void ShowTools() => ShowPage(_toolsPage, _mapPage, _craftingPage, _settingsPage);
-    private void ShowMap() => ShowPage(_mapPage, _toolsPage, _craftingPage, _settingsPage);
-    private void ShowCrafting() => ShowPage(_craftingPage, _toolsPage, _mapPage, _settingsPage);
-    private void ShowSettings() => ShowPage(_settingsPage, _toolsPage, _mapPage, _craftingPage);
+    private void ShowTools()
+    {
+        ShowPage(_toolsPage, _mapPage, _craftingPage, _settingsPage);
+        SetFooterVisible(true);
+    }
+
+    private void ShowMap()
+    {
+        ShowPage(_mapPage, _toolsPage, _craftingPage, _settingsPage);
+        SetFooterVisible(true);
+    }
+    private void ShowCrafting()
+    {
+        ShowPage(_craftingPage, _toolsPage, _mapPage, _settingsPage);
+        SetFooterVisible(false);
+        ShowRecipeCategory(_currentRecipeCategory);
+    }
+    private void ShowSettings()
+    {
+        ShowPage(_settingsPage, _toolsPage, _mapPage, _craftingPage);
+        SetFooterVisible(true);
+    }
 
     private void ShowPage(VisualElement show, VisualElement hide1, VisualElement hide2, VisualElement hide3)
     {
@@ -887,7 +978,527 @@ public class InventoryController : MonoBehaviour
     }
 
     // ==================== CRAFTING SYSTEM ====================
+    private void ShowRecipeCategory(RecipeCategory category)
+    {
+        _currentRecipeCategory = category;
+        ShowRecipeBrowser();
+        PopulateRecipeGrid();
+    }
 
+    private void ShowRecipeBrowser()
+    {
+        ReturnPlacedCookingIngredientsToInventory();
+        _selectedRecipe = null;
+
+        if (_recipeBrowserView != null)
+            _recipeBrowserView.style.display = DisplayStyle.Flex;
+
+        if (_recipeDetailView != null)
+            _recipeDetailView.style.display = DisplayStyle.None;
+    }
+    private void PopulateRecipeGrid()
+    {
+        if (_recipeGrid == null)
+        {
+            Debug.Log("recipeGrid is NULL");
+            return;
+        }
+
+        _recipeGrid.Clear();
+
+        if (recipes == null || recipes.Length == 0)
+        {
+            Debug.Log("No recipes assigned.");
+            return;
+        }
+
+        foreach (var recipe in recipes)
+        {
+            if (recipe == null)
+                continue;
+
+            int ingredientCount = recipe.ingredients != null ? recipe.ingredients.Length : 0;
+            if (ingredientCount <= 0)
+                continue;
+
+            VisualElement dishBox = new VisualElement();
+            dishBox.style.width = 70;
+            dishBox.style.height = 70;
+            dishBox.style.backgroundColor = new Color(0.96f, 0.91f, 0.82f, 1f);
+            dishBox.style.marginRight = 8;
+            dishBox.style.marginBottom = 8;
+            dishBox.style.position = Position.Relative;
+            dishBox.style.borderLeftWidth = 2;
+            dishBox.style.borderRightWidth = 2;
+            dishBox.style.borderTopWidth = 2;
+            dishBox.style.borderBottomWidth = 2;
+            dishBox.style.borderLeftColor = new Color(0.78f, 0.65f, 0.48f, 1f);
+            dishBox.style.borderRightColor = new Color(0.78f, 0.65f, 0.48f, 1f);
+            dishBox.style.borderTopColor = new Color(0.90f, 0.81f, 0.63f, 1f);
+            dishBox.style.borderBottomColor = new Color(0.61f, 0.42f, 0.23f, 1f);
+
+            if (recipe.result != null && recipe.result.icon != null)
+                dishBox.style.backgroundImage = new StyleBackground(recipe.result.icon);
+
+            Label nameLabel = new Label(recipe.recipeName);
+            nameLabel.style.fontSize = 9;
+            nameLabel.style.color = new Color(0.23f, 0.16f, 0.09f, 1f);
+            nameLabel.style.backgroundColor = new Color(1f, 1f, 1f, 0.55f);
+            nameLabel.style.position = Position.Absolute;
+            nameLabel.style.left = 0;
+            nameLabel.style.right = 0;
+            nameLabel.style.bottom = 0;
+            dishBox.Add(nameLabel);
+
+            dishBox.RegisterCallback<ClickEvent>(_ =>
+            {
+                ShowRecipeDetail(recipe);
+            });
+
+            _recipeGrid.Add(dishBox);
+        }
+    }
+
+    private void ShowRecipeDetail(RecipeDefinition recipe)
+    {
+        if (recipe == null)
+            return;
+
+        _selectedRecipe = recipe;
+
+        if (_recipeBrowserView != null)
+            _recipeBrowserView.style.display = DisplayStyle.None;
+
+        if (_recipeDetailView != null)
+            _recipeDetailView.style.display = DisplayStyle.Flex;
+
+        if (_selectedRecipeName != null)
+            _selectedRecipeName.text = recipe.recipeName;
+
+        if (_selectedRecipeIcon != null)
+        {
+            if (recipe.recipeIcon != null)
+                _selectedRecipeIcon.style.backgroundImage = new StyleBackground(recipe.recipeIcon);
+            else if (recipe.result != null && recipe.result.icon != null)
+                _selectedRecipeIcon.style.backgroundImage = new StyleBackground(recipe.result.icon);
+            else
+                _selectedRecipeIcon.style.backgroundImage = StyleKeyword.None;
+        }
+
+        int ingredientCount = recipe.ingredients != null ? recipe.ingredients.Length : 0;
+
+        _cookingRecipeSlotData = new ItemStack[ingredientCount];
+        _cookingIngredientSlotElements = new VisualElement[ingredientCount];
+
+        if (_requiredIngredientSlots != null)
+        {
+            _requiredIngredientSlots.Clear();
+
+            for (int i = 0; i < ingredientCount; i++)
+            {
+                int slotIndex = i;
+
+                VisualElement slot = new VisualElement();
+                slot.style.width = 48;
+                slot.style.height = 48;
+                slot.style.position = Position.Relative;
+
+                slot.RegisterCallback<MouseUpEvent>(evt => OnCookingIngredientSlotMouseUp(slotIndex, evt));
+
+                _cookingIngredientSlotElements[i] = slot;
+                _cookingRecipeSlotData[i] = new ItemStack
+                {
+                    item = recipe.ingredients[i].item,
+                    amount = 0
+                };
+
+                _requiredIngredientSlots.Add(slot);
+                RefreshCookingIngredientSlotVisual(i);
+            }
+        }
+
+        PopulateCraftingInventoryFromRealData();
+    }
+
+    private void ShowFakeRecipeDetail(string dishName)
+    {
+        if (_recipeBrowserView != null)
+            _recipeBrowserView.style.display = DisplayStyle.None;
+
+        if (_recipeDetailView != null)
+            _recipeDetailView.style.display = DisplayStyle.Flex;
+
+        if (_selectedRecipeName != null)
+            _selectedRecipeName.text = dishName;
+
+        if (_selectedRecipeIcon != null)
+            _selectedRecipeIcon.style.backgroundImage = StyleKeyword.None;
+
+        _cookingRecipeSlotData = new ItemStack[4];
+        _cookingIngredientSlotElements = new VisualElement[4];
+
+        if (_requiredIngredientSlots != null)
+        {
+            _requiredIngredientSlots.Clear();
+
+            for (int i = 0; i < 4; i++)
+            {
+                int slotIndex = i;
+
+                VisualElement slot = new VisualElement();
+                slot.style.width = 40;
+                slot.style.height = 40;
+                slot.style.backgroundColor = new Color(0.95f, 0.88f, 0.72f, 1f);
+                slot.style.borderLeftWidth = 2;
+                slot.style.borderRightWidth = 2;
+                slot.style.borderTopWidth = 2;
+                slot.style.borderBottomWidth = 2;
+                slot.style.borderLeftColor = new Color(0.78f, 0.65f, 0.48f, 1f);
+                slot.style.borderRightColor = new Color(0.78f, 0.65f, 0.48f, 1f);
+                slot.style.borderTopColor = new Color(0.90f, 0.81f, 0.63f, 1f);
+                slot.style.borderBottomColor = new Color(0.61f, 0.42f, 0.23f, 1f);
+                slot.style.position = Position.Relative;
+
+                slot.RegisterCallback<MouseUpEvent>(evt => OnCookingIngredientSlotMouseUp(slotIndex, evt));
+
+                _cookingIngredientSlotElements[i] = slot;
+                _requiredIngredientSlots.Add(slot);
+            }
+        }
+
+        PopulateCraftingInventoryFromRealData();
+    }
+
+    private void PopulateCraftingInventoryFromRealData()
+    {
+        if (_craftingInventoryGrid == null || _slotsData == null)
+            return;
+
+        _craftingInventoryGrid.Clear();
+
+        for (int i = 0; i < _slotsData.Length; i++)
+        {
+            int inventoryIndex = i;
+
+            VisualElement slot = new VisualElement();
+            slot.style.width = 36;
+            slot.style.height = 36;
+            slot.style.backgroundColor = new Color(0.96f, 0.91f, 0.82f, 1f);
+            slot.style.borderLeftWidth = 2;
+            slot.style.borderRightWidth = 2;
+            slot.style.borderTopWidth = 2;
+            slot.style.borderBottomWidth = 2;
+            slot.style.borderLeftColor = new Color(0.78f, 0.65f, 0.48f, 1f);
+            slot.style.borderRightColor = new Color(0.78f, 0.65f, 0.48f, 1f);
+            slot.style.borderTopColor = new Color(0.90f, 0.81f, 0.63f, 1f);
+            slot.style.borderBottomColor = new Color(0.61f, 0.42f, 0.23f, 1f);
+            slot.style.marginRight = 6;
+            slot.style.marginBottom = 6;
+            slot.style.position = Position.Relative;
+            slot.pickingMode = PickingMode.Position;
+
+            var stack = _slotsData[i];
+
+            if (stack.item != null && stack.amount > 0)
+            {
+                if (stack.item.icon != null)
+                    slot.style.backgroundImage = new StyleBackground(stack.item.icon);
+
+                Label countLabel = new Label(stack.amount > 1 ? stack.amount.ToString() : "");
+                countLabel.style.position = Position.Absolute;
+                countLabel.style.right = 2;
+                countLabel.style.bottom = 0;
+                countLabel.style.fontSize = 10;
+                countLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
+                countLabel.style.color = new Color(0.23f, 0.16f, 0.09f);
+                slot.Add(countLabel);
+
+                slot.RegisterCallback<MouseDownEvent>(evt => OnCookingInventorySlotMouseDown(inventoryIndex, slot, evt));
+            }
+
+            _craftingInventoryGrid.Add(slot);
+        }
+    }
+
+    private void OnCookingInventorySlotMouseDown(int inventoryIndex, VisualElement slotElement, MouseDownEvent evt)
+    {
+        if (_slotsData == null || inventoryIndex < 0 || inventoryIndex >= _slotsData.Length)
+            return;
+
+        if (_slotsData[inventoryIndex].item == null || _slotsData[inventoryIndex].amount <= 0)
+            return;
+
+        _draggedCookingInventoryIndex = inventoryIndex;
+        _isDraggingFromCookingInventory = true;
+
+        if (slotElement != null)
+            slotElement.style.opacity = 0.5f;
+
+        evt.StopPropagation();
+    }
+
+    private void OnCookingIngredientSlotMouseUp(int ingredientSlotIndex, MouseUpEvent evt)
+    {
+        if (!_isDraggingFromCookingInventory || _draggedCookingInventoryIndex < 0)
+            return;
+
+        if (_slotsData == null || _cookingRecipeSlotData == null || _selectedRecipe == null)
+            return;
+
+        if (_selectedRecipe.ingredients == null)
+            return;
+
+        if (ingredientSlotIndex < 0 || ingredientSlotIndex >= _selectedRecipe.ingredients.Length)
+            return;
+
+        var draggedStack = _slotsData[_draggedCookingInventoryIndex];
+        if (draggedStack.item == null || draggedStack.amount <= 0)
+        {
+            ResetCookingDragState();
+            return;
+        }
+
+        var requiredIngredient = _selectedRecipe.ingredients[ingredientSlotIndex];
+        var placedStack = _cookingRecipeSlotData[ingredientSlotIndex];
+
+        // Wrong item
+        if (requiredIngredient.item == null || draggedStack.item != requiredIngredient.item)
+        {
+            Debug.Log("Wrong ingredient for this slot.");
+            ResetCookingDragState();
+            evt.StopPropagation();
+            return;
+        }
+
+        // Already full
+        if (placedStack.amount >= requiredIngredient.amount)
+        {
+            Debug.Log("This ingredient slot is already full.");
+            ResetCookingDragState();
+            evt.StopPropagation();
+            return;
+        }
+
+        // Remove 1 from inventory
+        _slotsData[_draggedCookingInventoryIndex].amount -= 1;
+        if (_slotsData[_draggedCookingInventoryIndex].amount <= 0)
+            _slotsData[_draggedCookingInventoryIndex] = new ItemStack { item = null, amount = 0 };
+
+        // Add 1 to recipe slot
+        _cookingRecipeSlotData[ingredientSlotIndex].item = requiredIngredient.item;
+        _cookingRecipeSlotData[ingredientSlotIndex].amount += 1;
+
+        RefreshInventorySlot(_draggedCookingInventoryIndex);
+        PopulateCraftingInventoryFromRealData();
+        RefreshCookingIngredientSlotVisual(ingredientSlotIndex);
+
+        ResetCookingDragState();
+        evt.StopPropagation();
+    }
+    private void RefreshCookingIngredientSlotVisual(int index)
+    {
+        if (_selectedRecipe == null || _selectedRecipe.ingredients == null)
+            return;
+
+        if (_cookingIngredientSlotElements == null || _cookingRecipeSlotData == null)
+            return;
+
+        if (index < 0 || index >= _selectedRecipe.ingredients.Length)
+            return;
+
+        var slot = _cookingIngredientSlotElements[index];
+        if (slot == null)
+            return;
+
+        var required = _selectedRecipe.ingredients[index];
+        var placed = _cookingRecipeSlotData[index];
+
+        slot.Clear();
+        slot.style.backgroundImage = StyleKeyword.None;
+        slot.style.position = Position.Relative;
+
+        bool isFilled = placed.amount >= required.amount;
+
+        // muted when not full, normal when full
+        slot.style.backgroundColor = isFilled
+            ? new Color(0.95f, 0.88f, 0.72f, 1f)
+            : new Color(0.72f, 0.72f, 0.72f, 0.85f);
+
+        slot.style.borderLeftWidth = 2;
+        slot.style.borderRightWidth = 2;
+        slot.style.borderTopWidth = 2;
+        slot.style.borderBottomWidth = 2;
+        slot.style.borderLeftColor = new Color(0.78f, 0.65f, 0.48f, 1f);
+        slot.style.borderRightColor = new Color(0.78f, 0.65f, 0.48f, 1f);
+        slot.style.borderTopColor = new Color(0.90f, 0.81f, 0.63f, 1f);
+        slot.style.borderBottomColor = new Color(0.61f, 0.42f, 0.23f, 1f);
+
+        if (required.item != null && required.item.icon != null)
+            slot.style.backgroundImage = new StyleBackground(required.item.icon);
+
+        Label countLabel = new Label($"{placed.amount}/{required.amount}");
+        countLabel.style.position = Position.Absolute;
+        countLabel.style.right = 2;
+        countLabel.style.bottom = 0;
+        countLabel.style.fontSize = 10;
+        countLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
+        countLabel.style.color = new Color(0.23f, 0.16f, 0.09f);
+        slot.Add(countLabel);
+    }
+
+    private void RefreshCookingIngredientSlotAsFilled(int index)
+    {
+        if (_cookingIngredientSlotElements == null || _cookingRecipeSlotData == null || _selectedRecipe == null)
+            return;
+
+        if (index < 0 || index >= _cookingIngredientSlotElements.Length)
+            return;
+
+        var slot = _cookingIngredientSlotElements[index];
+        if (slot == null)
+            return;
+
+        slot.Clear();
+        slot.style.backgroundImage = StyleKeyword.None;
+        slot.style.backgroundColor = new Color(0.78f, 0.92f, 0.72f, 1f);
+
+        var stack = _cookingRecipeSlotData[index];
+        var required = _selectedRecipe.ingredients[index];
+
+        if (stack.item != null && stack.item.icon != null)
+            slot.style.backgroundImage = new StyleBackground(stack.item.icon);
+
+        Label amountLabel = new Label(required.amount.ToString());
+        amountLabel.style.position = Position.Absolute;
+        amountLabel.style.right = 2;
+        amountLabel.style.bottom = 0;
+        amountLabel.style.fontSize = 10;
+        amountLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
+        amountLabel.style.color = new Color(0.23f, 0.16f, 0.09f);
+        slot.Add(amountLabel);
+    }
+    private void RefreshCookingIngredientSlot(int index)
+    {
+        if (_cookingIngredientSlotElements == null || _cookingRecipeSlotData == null)
+            return;
+
+        if (index < 0 || index >= _cookingIngredientSlotElements.Length)
+            return;
+
+        VisualElement slot = _cookingIngredientSlotElements[index];
+        if (slot == null)
+            return;
+
+        slot.Clear();
+        slot.style.backgroundImage = StyleKeyword.None;
+
+        var stack = _cookingRecipeSlotData[index];
+
+        if (stack.item == null || stack.amount <= 0)
+            return;
+
+        if (stack.item.icon != null)
+            slot.style.backgroundImage = new StyleBackground(stack.item.icon);
+
+        Label countLabel = new Label(stack.amount.ToString());
+        countLabel.style.position = Position.Absolute;
+        countLabel.style.right = 2;
+        countLabel.style.bottom = 0;
+        countLabel.style.fontSize = 10;
+        countLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
+        countLabel.style.color = new Color(0.23f, 0.16f, 0.09f);
+        slot.Add(countLabel);
+    }
+    private void ResetCookingDragState()
+    {
+        _draggedCookingInventoryIndex = -1;
+        _isDraggingFromCookingInventory = false;
+
+        PopulateCraftingInventoryFromRealData();
+    }
+    private void PopulateFakeCraftingInventory()
+    {
+        if (_craftingInventoryGrid == null)
+            return;
+
+        _craftingInventoryGrid.Clear();
+
+        for (int i = 0; i < 18; i++)
+        {
+            VisualElement slot = new VisualElement();
+            slot.style.width = 36;
+            slot.style.height = 36;
+            slot.style.backgroundColor = new Color(0.96f, 0.91f, 0.82f, 1f);
+            slot.style.borderLeftWidth = 2;
+            slot.style.borderRightWidth = 2;
+            slot.style.borderTopWidth = 2;
+            slot.style.borderBottomWidth = 2;
+            slot.style.borderLeftColor = new Color(0.78f, 0.65f, 0.48f, 1f);
+            slot.style.borderRightColor = new Color(0.78f, 0.65f, 0.48f, 1f);
+            slot.style.borderTopColor = new Color(0.90f, 0.81f, 0.63f, 1f);
+            slot.style.borderBottomColor = new Color(0.61f, 0.42f, 0.23f, 1f);
+            slot.style.marginRight = 6;
+            slot.style.marginBottom = 6;
+
+            _craftingInventoryGrid.Add(slot);
+        }
+    }
+
+    private void CookSelectedRecipe()
+    {
+        if (_selectedRecipe == null || _selectedRecipe.ingredients == null || _cookingRecipeSlotData == null)
+            return;
+
+        // Check all required slots are filled
+        for (int i = 0; i < _selectedRecipe.ingredients.Length; i++)
+        {
+            if (_cookingRecipeSlotData[i].amount < _selectedRecipe.ingredients[i].amount)
+            {
+                Debug.Log("Not all ingredients are placed.");
+                return;
+            }
+        }
+
+        // Add result directly
+        if (_selectedRecipe.result != null)
+            TryAdd(_selectedRecipe.result, _selectedRecipe.resultAmount);
+
+        // Refresh main inventory UI
+        RefreshAllSlots();
+        PopulateCraftingInventoryFromRealData();
+
+        // Reset recipe slots after cooking
+        for (int i = 0; i < _cookingRecipeSlotData.Length; i++)
+        {
+            _cookingRecipeSlotData[i].amount = 0;
+            RefreshCookingIngredientSlotVisual(i);
+        }
+
+        Debug.Log($"Cooked {_selectedRecipe.recipeName}!");
+    }
+
+    private void ReturnPlacedCookingIngredientsToInventory()
+    {
+        if (_selectedRecipe == null || _cookingRecipeSlotData == null)
+            return;
+
+        for (int i = 0; i < _cookingRecipeSlotData.Length; i++)
+        {
+            var placed = _cookingRecipeSlotData[i];
+
+            if (placed.item != null && placed.amount > 0)
+            {
+                TryAdd(placed.item, placed.amount);
+                _cookingRecipeSlotData[i] = new ItemStack { item = placed.item, amount = 0 };
+
+                if (_cookingIngredientSlotElements != null && i < _cookingIngredientSlotElements.Length)
+                    RefreshCookingIngredientSlotVisual(i);
+            }
+        }
+
+        PopulateCraftingInventoryFromRealData();
+        RefreshAllSlots();
+    }
     private void PopulateCraftingRecipes()
     {
         if (_craftingPage == null || recipes == null || recipes.Length == 0)
@@ -980,6 +1591,7 @@ public class InventoryController : MonoBehaviour
             recipeList.Add(recipeItem);
         }
     }
+
 
     private void AttemptCraft(RecipeDefinition recipe)
     {
@@ -1096,6 +1708,14 @@ public class InventoryController : MonoBehaviour
         return toRemove == 0;
     }
 
+    private void SetFooterVisible(bool visible)
+    {
+        if (_playerCard != null)
+            _playerCard.style.display = visible ? DisplayStyle.Flex : DisplayStyle.None;
+
+        if (_trashSlot != null)
+            _trashSlot.style.display = visible ? DisplayStyle.Flex : DisplayStyle.None;
+    }
     /// <summary>
     /// Get the item at a specific hotbar slot (for farming system)
     /// </summary>

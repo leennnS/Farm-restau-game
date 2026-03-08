@@ -1,0 +1,37 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns:ui="UnityEngine.UIElements"
+         xmlns:uie="UnityEditor.UIElements"
+         noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd"
+         editor-extension-mode="False">
+
+    <Style src="project://database/Assets/UI/UXML/CowMilkingUI.uss?fileID=7433441132597879392&amp;guid=2fe25d1bd2f667f4b9719847c603b925&amp;type=3#CowMilkingUI"/>
+
+    <ui:VisualElement name="Root" class="root">
+        <ui:VisualElement name="MilkingPanel" class="panel">
+
+            <ui:Label name="TitleLabel" text="Milking Time" class="title"/>
+            <ui:Label name="InstructionLabel" text="Hit the moving marker while it is inside the green zone." class="subtitle"/>
+
+            <ui:VisualElement name="SceneFrame" class="sceneFrame">
+                <ui:VisualElement name="CowImage" class="cowImage"/>
+                <ui:VisualElement name="PlayerImage" class="playerImage"/>
+            </ui:VisualElement>
+
+            <ui:Label text="Milk Collected" class="sectionLabel"/>
+            <ui:VisualElement class="progressTrack">
+                <ui:VisualElement name="TotalFill" class="progressFill"/>
+            </ui:VisualElement>
+
+            <ui:Label text="Timing" class="sectionLabel"/>
+            <ui:VisualElement name="TimingTrack" class="timingTrack">
+                <ui:VisualElement name="SuccessZone" class="successZone"/>
+                <ui:VisualElement name="Marker" class="marker"/>
+            </ui:VisualElement>
+
+            <ui:Label name="NextKeyLabel" text="Next key: A" class="nextKey"/>
+            <ui:Label name="StatusLabel" text="Start gently..." class="status"/>
+            <ui:Button name="CancelButton" text="Cancel" class="cancelButton"/>
+
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

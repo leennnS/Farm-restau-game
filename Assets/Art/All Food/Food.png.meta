@@ -1,25 +1,22 @@
 fileFormatVersion: 2
-guid: fc121aee0ba448e49a1d416f389f74ad
+guid: d4cf88200baca584781ec03e6a238114
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4723107735738678597
-    second: Idle_0
+      213: 5362735838549604449
+    second: Food_0
   - first:
-      213: -7385789195546760866
-    second: Idle_1
+      213: 8285215595028396028
+    second: Food_1
   - first:
-      213: 3234629978573100161
-    second: Idle_2
+      213: 9047690492799414569
+    second: Food_2
   - first:
-      213: 6373048116405451881
-    second: Idle_3
+      213: -5395172569414051600
+    second: Food_3
   - first:
-      213: 7264182050183361747
-    second: Idle_4
-  - first:
-      213: -2834552850196481573
-    second: Idle_5
+      213: -125841259962605178
+    second: Food_4
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -52,7 +49,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -66,7 +63,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 16
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -90,7 +87,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -128,133 +125,111 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Idle_0
+      name: Food_0
       rect:
         serializedVersion: 2
-        x: 23
-        y: 239
-        width: 26
-        height: 74
+        x: 0
+        y: 0
+        width: 65
+        height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 54d7a982679db8140800000000000000
-      internalID: 4723107735738678597
+      spriteID: 168710905d34c6a40800000000000000
+      internalID: 5362735838549604449
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Idle_1
+      name: Food_1
       rect:
         serializedVersion: 2
-        x: 103
-        y: 239
-        width: 26
-        height: 73
+        x: 64
+        y: 1
+        width: 17
+        height: 15
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e596485bbd7608990800000000000000
-      internalID: -7385789195546760866
+      spriteID: cf7b13dcfaffaf270800000000000000
+      internalID: 8285215595028396028
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Idle_2
+      name: Food_2
       rect:
         serializedVersion: 2
-        x: 28
-        y: 127
-        width: 18
-        height: 73
+        x: 80
+        y: 0
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 184dda4e3d6b3ec20800000000000000
-      internalID: 3234629978573100161
+      spriteID: 921fcf4019adf8d70800000000000000
+      internalID: 9047690492799414569
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Idle_3
+      name: Food_3
       rect:
         serializedVersion: 2
-        x: 108
-        y: 127
-        width: 18
-        height: 72
+        x: 96
+        y: 0
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 96cb1dafe7d917850800000000000000
-      internalID: 6373048116405451881
+      spriteID: 0f8d42a022f7025b0800000000000000
+      internalID: -5395172569414051600
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MainCharacterIdleUp
+      name: Food_4
       rect:
         serializedVersion: 2
-        x: 22
-        y: 15
-        width: 26
-        height: 74
+        x: 112
+        y: 0
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 3d4b2fc561f8fc460800000000000000
-      internalID: 7264182050183361747
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Idle_5
-      rect:
-        serializedVersion: 2
-        x: 102
-        y: 15
-        width: 26
-        height: 73
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: bd9b7fa6335a9a8d0800000000000000
-      internalID: -2834552850196481573
+      spriteID: 68167d17a0ce04ef0800000000000000
+      internalID: -125841259962605178
       vertices: []
       indices: 
       edges: []
@@ -263,7 +238,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: fcdfac4e613b2d94783eadc7e76701a4
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -273,12 +248,11 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Idle_0: 4723107735738678597
-      Idle_1: -7385789195546760866
-      Idle_2: 3234629978573100161
-      Idle_3: 6373048116405451881
-      Idle_5: -2834552850196481573
-      MainCharacterIdleUp: 7264182050183361747
+      Food_0: 5362735838549604449
+      Food_1: 8285215595028396028
+      Food_2: 9047690492799414569
+      Food_3: -5395172569414051600
+      Food_4: -125841259962605178
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

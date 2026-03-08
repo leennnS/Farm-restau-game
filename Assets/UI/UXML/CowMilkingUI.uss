@@ -1,0 +1,158 @@
+.root {
+    flex-grow: 1;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.panel {
+    width: 900px;
+    min-height: 700px;
+    padding-top: 34px;
+    padding-bottom: 34px;
+    padding-left: 42px;
+    padding-right: 42px;
+    background-color: rgba(30, 22, 18, 0.97);
+    border-top-left-radius: 26px;
+    border-top-right-radius: 26px;
+    border-bottom-left-radius: 26px;
+    border-bottom-right-radius: 26px;
+    border-left-width: 3px;
+    border-right-width: 3px;
+    border-top-width: 3px;
+    border-bottom-width: 3px;
+    border-left-color: rgb(120, 88, 52);
+    border-right-color: rgb(120, 88, 52);
+    border-top-color: rgb(120, 88, 52);
+    border-bottom-color: rgb(120, 88, 52);
+}
+
+.title {
+    font-size: 42px;
+    -unity-font-style: bold;
+    color: rgb(255, 235, 205);
+    -unity-text-align: middle-center;
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    font-size: 18px;
+    color: rgb(215, 215, 215);
+    -unity-text-align: middle-center;
+    margin-bottom: 22px;
+}
+
+.sceneFrame {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    margin-bottom: 26px;
+    background-color: rgba(85, 85, 85, 0.18);
+    border-top-left-radius: 22px;
+    border-top-right-radius: 22px;
+    border-bottom-left-radius: 22px;
+    border-bottom-right-radius: 22px;
+    overflow: hidden;
+}
+
+.cowImage {
+    position: absolute;
+    width: 400px;
+    height: 220px;
+    left: 180px;
+    top: 0px;
+    background-color: rgba(0, 0, 0, 0);
+    background-repeat: no-repeat;
+    background-position: center;
+    -unity-background-scale-mode: scale-to-fit;
+}
+
+.playerImage {
+    position: absolute;
+    width: 120px;
+    height: 190px;
+    left: 380px;
+    top: 95px;
+    background-color: rgba(0, 0, 0, 0);
+    background-repeat: no-repeat;
+    background-position: center;
+    -unity-background-scale-mode: scale-to-fit;
+}
+
+.sectionLabel {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: rgb(240, 220, 180);
+    font-size: 22px;
+}
+
+.progressTrack {
+    width: 100%;
+    height: 34px;
+    background-color: rgb(60, 50, 44);
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    overflow: hidden;
+    margin-bottom: 22px;
+}
+
+.progressFill {
+    width: 0%;
+    height: 100%;
+    background-color: rgb(234, 245, 186);
+}
+
+.timingTrack {
+    position: relative;
+    width: 100%;
+    height: 46px;
+    background-color: rgb(44, 44, 44);
+    border-top-left-radius: 18px;
+    border-top-right-radius: 18px;
+    border-bottom-left-radius: 18px;
+    border-bottom-right-radius: 18px;
+    margin-bottom: 18px;
+}
+
+.successZone {
+    position: absolute;
+    left: 35%;
+    width: 25%;
+    height: 100%;
+    background-color: rgba(90, 180, 90, 0.82);
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+}
+
+.marker {
+    position: absolute;
+    left: 0%;
+    width: 12px;
+    height: 100%;
+    background-color: rgb(255, 245, 245);
+}
+
+.nextKey {
+    font-size: 28px;
+    -unity-font-style: bold;
+    color: rgb(255, 230, 150);
+    -unity-text-align: middle-center;
+    margin-top: 10px;
+}
+
+.status {
+    font-size: 20px;
+    color: rgb(240, 240, 240);
+    -unity-text-align: middle-center;
+    margin-top: 10px;
+    margin-bottom: 22px;
+}
+
+.cancelButton {
+    height: 56px;
+    font-size: 20px;
+}

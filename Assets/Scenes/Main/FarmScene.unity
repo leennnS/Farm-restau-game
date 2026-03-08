@@ -210,7 +210,7 @@ Transform:
   m_GameObject: {fileID: 4154641}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -16.9, y: 4.4, z: 0}
+  m_LocalPosition: {x: -30.2, y: 5.2, z: 0}
   m_LocalScale: {x: 1.35, y: 0.9, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -16283,6 +16283,18 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 1000
       objectReference: {fileID: 0}
+    - target: {fileID: 6928472981452490667, guid: 52e15eebfc680004d9e481bfcc9397a4, type: 3}
+      propertyPath: pickupToast
+      value: 
+      objectReference: {fileID: 1731260854}
+    - target: {fileID: 6928472981452490667, guid: 52e15eebfc680004d9e481bfcc9397a4, type: 3}
+      propertyPath: playerInventory
+      value: 
+      objectReference: {fileID: 1634073454}
+    - target: {fileID: 6928472981452490667, guid: 52e15eebfc680004d9e481bfcc9397a4, type: 3}
+      propertyPath: playerTransform
+      value: 
+      objectReference: {fileID: 4154643}
     - target: {fileID: 7059891544759769066, guid: 52e15eebfc680004d9e481bfcc9397a4, type: 3}
       propertyPath: m_LocalPosition.x
       value: -56.91
@@ -16323,18 +16335,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 9151078182445451097, guid: 52e15eebfc680004d9e481bfcc9397a4, type: 3}
-      propertyPath: pickupToast
-      value: 
-      objectReference: {fileID: 1731260854}
-    - target: {fileID: 9151078182445451097, guid: 52e15eebfc680004d9e481bfcc9397a4, type: 3}
-      propertyPath: playerInventory
-      value: 
-      objectReference: {fileID: 1634073454}
-    - target: {fileID: 9151078182445451097, guid: 52e15eebfc680004d9e481bfcc9397a4, type: 3}
-      propertyPath: playerTransform
-      value: 
-      objectReference: {fileID: 4154643}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -25553,7 +25553,7 @@ Transform:
   m_GameObject: {fileID: 1149005621}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -16.9, y: 4.4, z: -10}
+  m_LocalPosition: {x: -30.2, y: 5.2, z: -10}
   m_LocalScale: {x: 2.1402, y: 2.1402, z: 11.399674}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -26715,8 +26715,8 @@ Transform:
   m_GameObject: {fileID: 1219834442}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -9.6, y: 68.3, z: 0}
-  m_LocalScale: {x: 500, y: 500, z: 1}
+  m_LocalPosition: {x: -15.7, y: 64.7, z: 0}
+  m_LocalScale: {x: 707.7, y: 740.35004, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1766185831}
@@ -29218,18 +29218,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 9151078182445451097, guid: 52e15eebfc680004d9e481bfcc9397a4, type: 3}
-      propertyPath: pickupToast
-      value: 
-      objectReference: {fileID: 1731260854}
-    - target: {fileID: 9151078182445451097, guid: 52e15eebfc680004d9e481bfcc9397a4, type: 3}
-      propertyPath: playerInventory
-      value: 
-      objectReference: {fileID: 1634073454}
-    - target: {fileID: 9151078182445451097, guid: 52e15eebfc680004d9e481bfcc9397a4, type: 3}
-      propertyPath: playerTransform
-      value: 
-      objectReference: {fileID: 4154643}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -204926,7 +204914,8 @@ MonoBehaviour:
   startOpen: 0
   debugSlotClicks: 0
   inventorySize: 36
-  recipes: []
+  recipes:
+  - {fileID: 11400000, guid: b3d05b968eecfc34f8b4e58b4acf909e, type: 2}
   gameMapImage: {fileID: 0}
   testItem: {fileID: 11400000, guid: 590c1cdd907e9e342bb2118c2c3f4dd1, type: 2}
   testAddKey: 107
@@ -209285,7 +209274,7 @@ Transform:
   m_GameObject: {fileID: 1846392987}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -16.9, y: 4.4, z: -10}
+  m_LocalPosition: {x: -30.2, y: 5.2, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -210502,6 +210491,91 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1.359375, y: 0.85312504}
   m_EdgeRadius: 0
+--- !u!1 &1916672997
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1916673000}
+  - component: {fileID: 1916672999}
+  - component: {fileID: 1916672998}
+  m_Layer: 0
+  m_Name: CowMilkingUI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1916672998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1916672997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.dll::UnityEngine.UIElements.UIDocument
+  m_PanelSettings: {fileID: 11400000, guid: 98e1a6ba035ee1c48843aa8c1f152c82, type: 2}
+  m_ParentUI: {fileID: 0}
+  sourceAsset: {fileID: 9197481963319205126, guid: 1b65461cb3e240e43a4d062952e3d801, type: 3}
+  m_SortingOrder: 1
+  m_Position: 0
+  m_WorldSpaceSizeMode: 1
+  m_WorldSpaceWidth: 1920
+  m_WorldSpaceHeight: 1080
+  m_PivotReferenceSize: 0
+  m_Pivot: 0
+  m_WorldSpaceCollider: {fileID: 0}
+--- !u!114 &1916672999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1916672997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 667015550d8f19e4c84e6fd26aa54c0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CowMilkingMinigameUI
+  uiDocument: {fileID: 1916672998}
+  playerAnimationFrames:
+  - {fileID: -6116101843277776715, guid: e16d31298357e3f449f4f40c2cd2d6ea, type: 3}
+  - {fileID: -3917287780635691979, guid: e16d31298357e3f449f4f40c2cd2d6ea, type: 3}
+  - {fileID: 8250816539223912935, guid: e16d31298357e3f449f4f40c2cd2d6ea, type: 3}
+  - {fileID: 7487591851602072927, guid: e16d31298357e3f449f4f40c2cd2d6ea, type: 3}
+  playerAnimationSpeed: 0.18
+  markerSpeed: 0.8
+  startingZoneWidth: 0.28
+  minimumZoneWidth: 0.12
+  perfectMultiplier: 0.35
+  goodMultiplier: 0.5
+  goodReward: 0.12
+  perfectReward: 0.18
+  missPenalty: 0.08
+  speedIncreasePerHit: 0.05
+  scriptsToDisableWhileOpen: []
+--- !u!4 &1916673000
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1916672997}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -18.97595, y: 6.05452, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1930019748
 GameObject:
   m_ObjectHideFlags: 0
@@ -214501,18 +214575,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 9151078182445451097, guid: 52e15eebfc680004d9e481bfcc9397a4, type: 3}
-      propertyPath: pickupToast
-      value: 
-      objectReference: {fileID: 1731260854}
-    - target: {fileID: 9151078182445451097, guid: 52e15eebfc680004d9e481bfcc9397a4, type: 3}
-      propertyPath: playerInventory
-      value: 
-      objectReference: {fileID: 1634073454}
-    - target: {fileID: 9151078182445451097, guid: 52e15eebfc680004d9e481bfcc9397a4, type: 3}
-      propertyPath: playerTransform
-      value: 
-      objectReference: {fileID: 4154643}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -214856,3 +214918,4 @@ SceneRoots:
   - {fileID: 2004007703}
   - {fileID: 1766185831}
   - {fileID: 1426052969}
+  - {fileID: 1916673000}
