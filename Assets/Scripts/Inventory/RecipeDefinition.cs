@@ -8,6 +8,13 @@ public struct ItemStack
     public int amount;
 }
 
+public enum RecipeCategory
+{
+    BreakfastBakery,
+    MainDish,
+    SoupsDrinks
+}
+
 /// <summary>
 /// Defines a crafting recipe with ingredients and result
 /// </summary>
@@ -21,6 +28,7 @@ public class RecipeDefinition : ScriptableObject
         [Min(1)] public int amount;
     }
 
+    public RecipeCategory category;
     public string recipeName;
     public ItemDefinition result;
     [Min(1)] public int resultAmount = 1;

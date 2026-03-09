@@ -90,10 +90,10 @@
 
     <ui:Label text="Cooking" style="font-size: 16px; color: rgb(58, 42, 24); unity-font-style: bold;" />
 
-    <ui:VisualElement name="cookingCategoryTabs" style="flex-direction: row; gap: 6px; margin-bottom: 4px;">
-        <ui:Button name="tabBreakfastButton" text="Bakery / Breakfast" style="height: 28px;" />
-        <ui:Button name="tabMainDishButton" text="Main Dishes" style="height: 28px;" />
-        <ui:Button name="tabDrinksButton" text="Soups / Drinks" style="height: 28px;" />
+   <ui:VisualElement name="cookingCategoryTabs" style="flex-direction: row; gap: 4px; margin-bottom: 4px; align-items: center;">
+      <ui:Button name="tabBreakfastButton" text="Breakfast" style="height: 22px; min-width: 78px; padding-left: 6px; padding-right: 6px; font-size: 10px; background-color: rgb(239, 221, 188); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);" />
+<ui:Button name="tabMainDishButton" text="Mains" style="height: 22px; min-width: 64px; padding-left: 6px; padding-right: 6px; font-size: 10px; background-color: rgb(239, 221, 188); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);" />
+<ui:Button name="tabDrinksButton" text="Drinks" style="height: 22px; min-width: 64px; padding-left: 6px; padding-right: 6px; font-size: 10px; background-color: rgb(239, 221, 188); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);" />
     </ui:VisualElement>
 
     <!-- BROWSER VIEW -->

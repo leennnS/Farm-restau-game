@@ -3519,7 +3519,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: animal-products_118
+      name: Chicken Thigh
       rect:
         serializedVersion: 2
         x: 37
@@ -6898,6 +6898,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
+      Chicken Thigh: 6749228223500090080
       Omlet: 4354855023668169331
       animal-products_0: -9065656386477125227
       animal-products_1: 2378450021636071196
@@ -6921,7 +6922,6 @@ TextureImporter:
       animal-products_115: 7806630739548310372
       animal-products_116: 8507443736588388700
       animal-products_117: 1584508087690597958
-      animal-products_118: 6749228223500090080
       animal-products_119: 3402392147754654064
       animal-products_12: -4116992567804954895
       animal-products_120: -8373410023710439380

@@ -1,12 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.UIElements;
-public enum RecipeCategory
-{
-    BreakfastBakery,
-    MainDish,
-    SoupsDrinks
-}
+
 
 [RequireComponent(typeof(UIDocument))]
 
@@ -981,6 +976,7 @@ public class InventoryController : MonoBehaviour
     private void ShowRecipeCategory(RecipeCategory category)
     {
         _currentRecipeCategory = category;
+        Debug.Log($"Switching to recipe category: {category}");
         ShowRecipeBrowser();
         PopulateRecipeGrid();
     }
@@ -1012,14 +1008,33 @@ public class InventoryController : MonoBehaviour
             return;
         }
 
+        int recipeCount = 0;
+        int matchingCategoryCount = 0;
+        int withIngredientsCount = 0;
+
         foreach (var recipe in recipes)
         {
             if (recipe == null)
                 continue;
 
+            recipeCount++;
+            Debug.Log($"Recipe: {recipe.recipeName}, Category: {recipe.category}, Current: {_currentRecipeCategory}");
+
+            // Only show recipes in the current category
+            if (recipe.category != _currentRecipeCategory)
+                continue;
+
+            matchingCategoryCount++;
+            Debug.Log($"  → Matched category for: {recipe.recipeName}");
+
             int ingredientCount = recipe.ingredients != null ? recipe.ingredients.Length : 0;
             if (ingredientCount <= 0)
+            {
+                Debug.Log($"  → Skipped {recipe.recipeName}: no ingredients ({ingredientCount})");
                 continue;
+            }
+
+            withIngredientsCount++;
 
             VisualElement dishBox = new VisualElement();
             dishBox.style.width = 70;
@@ -1057,6 +1072,8 @@ public class InventoryController : MonoBehaviour
 
             _recipeGrid.Add(dishBox);
         }
+
+        Debug.Log($"Recipe Grid Summary: Total recipes: {recipeCount}, Matching category: {matchingCategoryCount}, With ingredients: {withIngredientsCount}");
     }
 
     private void ShowRecipeDetail(RecipeDefinition recipe)
@@ -1449,9 +1466,15 @@ public class InventoryController : MonoBehaviour
         if (_selectedRecipe == null || _selectedRecipe.ingredients == null || _cookingRecipeSlotData == null)
             return;
 
-        // Check all required slots are filled
+        // Make sure all slots are filled correctly
         for (int i = 0; i < _selectedRecipe.ingredients.Length; i++)
         {
+            if (_cookingRecipeSlotData[i].item != _selectedRecipe.ingredients[i].item)
+            {
+                Debug.Log("Wrong ingredient in slot.");
+                return;
+            }
+
             if (_cookingRecipeSlotData[i].amount < _selectedRecipe.ingredients[i].amount)
             {
                 Debug.Log("Not all ingredients are placed.");
@@ -1459,27 +1482,26 @@ public class InventoryController : MonoBehaviour
             }
         }
 
-        // Add result directly
+        // Add cooked result only
         if (_selectedRecipe.result != null)
             TryAdd(_selectedRecipe.result, _selectedRecipe.resultAmount);
 
-        // Refresh main inventory UI
-        RefreshAllSlots();
-        PopulateCraftingInventoryFromRealData();
-
-        // Reset recipe slots after cooking
+        // Fully clear cooking slots so nothing can be returned later
         for (int i = 0; i < _cookingRecipeSlotData.Length; i++)
         {
-            _cookingRecipeSlotData[i].amount = 0;
+            _cookingRecipeSlotData[i] = new ItemStack { item = null, amount = 0 };
             RefreshCookingIngredientSlotVisual(i);
         }
+
+        PopulateCraftingInventoryFromRealData();
+        RefreshAllSlots();
 
         Debug.Log($"Cooked {_selectedRecipe.recipeName}!");
     }
 
     private void ReturnPlacedCookingIngredientsToInventory()
     {
-        if (_selectedRecipe == null || _cookingRecipeSlotData == null)
+        if (_cookingRecipeSlotData == null)
             return;
 
         for (int i = 0; i < _cookingRecipeSlotData.Length; i++)
@@ -1487,13 +1509,12 @@ public class InventoryController : MonoBehaviour
             var placed = _cookingRecipeSlotData[i];
 
             if (placed.item != null && placed.amount > 0)
-            {
                 TryAdd(placed.item, placed.amount);
-                _cookingRecipeSlotData[i] = new ItemStack { item = placed.item, amount = 0 };
 
-                if (_cookingIngredientSlotElements != null && i < _cookingIngredientSlotElements.Length)
-                    RefreshCookingIngredientSlotVisual(i);
-            }
+            _cookingRecipeSlotData[i] = new ItemStack { item = null, amount = 0 };
+
+            if (_cookingIngredientSlotElements != null && i < _cookingIngredientSlotElements.Length)
+                RefreshCookingIngredientSlotVisual(i);
         }
 
         PopulateCraftingInventoryFromRealData();

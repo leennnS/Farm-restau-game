@@ -10,15 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c8c83571b017d0e4fbe853a4bc8c0955, type: 3}
-  m_Name: Test_omlet
+  m_Name: maintest
   m_EditorClassIdentifier: Assembly-CSharp::RecipeDefinition
-  category: 0
-  recipeName: Omlet
-  result: {fileID: 11400000, guid: e635a26461f694e48b2ae525ed2dbdd8, type: 2}
+  category: 2
+  recipeName: Chicken Stew
+  result: {fileID: 11400000, guid: 14cc068fdabc6614b863ffca0e4325f0, type: 2}
   resultAmount: 1
-  recipeIcon: {fileID: 4354855023668169331, guid: 30d15c509908d9c4b9d787ed04c335c1, type: 3}
+  recipeIcon: {fileID: 5362735838549604449, guid: d4cf88200baca584781ec03e6a238114, type: 3}
   ingredients:
-  - item: {fileID: 11400000, guid: b195f71b30c9b3b4e9b5efd4ee78a405, type: 2}
-    amount: 2
-  - item: {fileID: 11400000, guid: 02d2e448d97d74a4f8f98671d42aafe1, type: 2}
+  - item: {fileID: 11400000, guid: 65ee0be473cd218439617b7b80b5d67f, type: 2}
     amount: 1
