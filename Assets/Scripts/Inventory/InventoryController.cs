@@ -69,6 +69,11 @@ public class InventoryController : MonoBehaviour
     private Button _tabDrinksButton;
     private Button _backToRecipesButton;
     private Button _cookRecipeButton;
+    private VisualElement _cookingLoadingContainer;
+    private VisualElement _cookingLoadingBarFill;
+    private Label _cookingLoadingLabel;
+    private Label _cookingProgressText;
+    private bool _isCooking;
 
     private VisualElement _recipeBrowserView;
     private VisualElement _recipeDetailView;
@@ -113,6 +118,11 @@ public class InventoryController : MonoBehaviour
     {
         _uiDocument = GetComponent<UIDocument>();
         _root = _uiDocument.rootVisualElement;
+        var cookingStyleSheet = Resources.Load<StyleSheet>("CookingStyles");
+        if (cookingStyleSheet != null && !_root.styleSheets.Contains(cookingStyleSheet))
+            _root.styleSheets.Add(cookingStyleSheet);
+        else if (cookingStyleSheet == null)
+            Debug.LogWarning("CookingStyles.uss not found in a Resources folder.");
 
         // Find the HotBar HUD controller
         TryResolveHotbarHUD();
@@ -219,6 +229,10 @@ public class InventoryController : MonoBehaviour
 
         _inventoryFooter = _root.Q<VisualElement>("inventoryFooter");
         _playerCard = _root.Q<VisualElement>("playerCard");
+        _cookingLoadingContainer = _root.Q<VisualElement>("cookingLoadingContainer");
+        _cookingLoadingBarFill = _root.Q<VisualElement>("cookingLoadingBarFill");
+        _cookingLoadingLabel = _root.Q<Label>("cookingLoadingLabel");
+        _cookingProgressText = _root.Q<Label>("cookingProgressText");
     }
 
     // NEW: cache inventory slots itemSlot01..itemSlot36 AND hotbarSlot01..hotbarSlot12
@@ -991,6 +1005,16 @@ public class InventoryController : MonoBehaviour
 
         if (_recipeDetailView != null)
             _recipeDetailView.style.display = DisplayStyle.None;
+        if (_cookingLoadingContainer != null)
+            _cookingLoadingContainer.style.display = DisplayStyle.None;
+
+        if (_cookRecipeButton != null)
+            _cookRecipeButton.SetEnabled(true);
+
+        if (_backToRecipesButton != null)
+            _backToRecipesButton.SetEnabled(true);
+
+        _isCooking = false;
     }
     private void PopulateRecipeGrid()
     {
@@ -1463,10 +1487,12 @@ public class InventoryController : MonoBehaviour
 
     private void CookSelectedRecipe()
     {
+        if (_isCooking)
+            return;
+
         if (_selectedRecipe == null || _selectedRecipe.ingredients == null || _cookingRecipeSlotData == null)
             return;
 
-        // Make sure all slots are filled correctly
         for (int i = 0; i < _selectedRecipe.ingredients.Length; i++)
         {
             if (_cookingRecipeSlotData[i].item != _selectedRecipe.ingredients[i].item)
@@ -1482,11 +1508,61 @@ public class InventoryController : MonoBehaviour
             }
         }
 
-        // Add cooked result only
+        StartCoroutine(AnimateCookingProcess());
+    }
+    private System.Collections.IEnumerator AnimateCookingProcess()
+    {
+        _isCooking = true;
+
+        if (_cookRecipeButton != null)
+            _cookRecipeButton.SetEnabled(false);
+
+        if (_backToRecipesButton != null)
+            _backToRecipesButton.SetEnabled(false);
+
+        if (_cookingLoadingContainer != null)
+            _cookingLoadingContainer.style.display = DisplayStyle.Flex;
+
+        if (_cookingLoadingLabel != null)
+            _cookingLoadingLabel.text = "Preparing meal...";
+
+        if (_cookingLoadingBarFill != null)
+            _cookingLoadingBarFill.style.width = new Length(0, LengthUnit.Percent);
+
+        if (_cookingProgressText != null)
+            _cookingProgressText.text = "0%";
+
+        float duration = 1.8f;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / duration);
+            int percent = Mathf.RoundToInt(t * 100f);
+
+            if (_cookingLoadingBarFill != null)
+                _cookingLoadingBarFill.style.width = new Length(percent, LengthUnit.Percent);
+
+            if (_cookingProgressText != null)
+                _cookingProgressText.text = percent + "%";
+
+            if (_cookingLoadingLabel != null)
+            {
+                if (t < 0.33f)
+                    _cookingLoadingLabel.text = "Preparing meal...";
+                else if (t < 0.66f)
+                    _cookingLoadingLabel.text = "Cooking...";
+                else
+                    _cookingLoadingLabel.text = "Plating...";
+            }
+
+            yield return null;
+        }
+
         if (_selectedRecipe.result != null)
             TryAdd(_selectedRecipe.result, _selectedRecipe.resultAmount);
 
-        // Fully clear cooking slots so nothing can be returned later
         for (int i = 0; i < _cookingRecipeSlotData.Length; i++)
         {
             _cookingRecipeSlotData[i] = new ItemStack { item = null, amount = 0 };
@@ -1496,9 +1572,27 @@ public class InventoryController : MonoBehaviour
         PopulateCraftingInventoryFromRealData();
         RefreshAllSlots();
 
+        if (_cookingLoadingLabel != null)
+            _cookingLoadingLabel.text = "Done!";
+
+        if (_cookingProgressText != null)
+            _cookingProgressText.text = "100%";
+
+        yield return new WaitForSeconds(0.35f);
+
+        if (_cookingLoadingContainer != null)
+            _cookingLoadingContainer.style.display = DisplayStyle.None;
+
+        if (_cookRecipeButton != null)
+            _cookRecipeButton.SetEnabled(true);
+
+        if (_backToRecipesButton != null)
+            _backToRecipesButton.SetEnabled(true);
+
+        _isCooking = false;
+
         Debug.Log($"Cooked {_selectedRecipe.recipeName}!");
     }
-
     private void ReturnPlacedCookingIngredientsToInventory()
     {
         if (_cookingRecipeSlotData == null)

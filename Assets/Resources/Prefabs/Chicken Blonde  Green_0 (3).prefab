@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2231459486497329809
+--- !u!1 &2765144306591335768
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,42 +8,42 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7059891544759769066}
-  - component: {fileID: 6701522976434588495}
-  - component: {fileID: 4609780351194916124}
-  - component: {fileID: 2047000096526454159}
-  - component: {fileID: 538125726382502187}
-  - component: {fileID: 6928472981452490667}
+  - component: {fileID: 2224646387522006935}
+  - component: {fileID: 1710696506503623170}
+  - component: {fileID: 6258776241548400847}
+  - component: {fileID: 3821316095834933375}
+  - component: {fileID: 4176957809750351086}
+  - component: {fileID: 7937564576486658932}
   m_Layer: 0
-  m_Name: Female Cow Brown_0
+  m_Name: Chicken Blonde  Green_0 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7059891544759769066
+--- !u!4 &2224646387522006935
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2231459486497329809}
+  m_GameObject: {fileID: 2765144306591335768}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -58.1, y: -2.7, z: 0}
-  m_LocalScale: {x: 2.5, y: 2.5, z: 1}
+  m_LocalPosition: {x: -64.6, y: -6.1, z: 0}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &6701522976434588495
+--- !u!212 &1710696506503623170
 SpriteRenderer:
   serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2231459486497329809}
+  m_GameObject: {fileID: 2765144306591335768}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -85,23 +85,23 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 100
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 5552232653154027118, guid: 94408a91a2b70194181b7c0d89d03f0c, type: 3}
+  m_Sprite: {fileID: -2825447124637630265, guid: 13b02d07d66e47444a35a9b0f15b8989, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.5, y: 1.3125}
+  m_Size: {x: 0.5, y: 0.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!58 &4609780351194916124
+--- !u!58 &6258776241548400847
 CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2231459486497329809}
+  m_GameObject: {fileID: 2765144306591335768}
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
@@ -129,19 +129,41 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.02, y: 0.01}
-  m_Radius: 0.3
---- !u!95 &2047000096526454159
+  m_Offset: {x: 0, y: -0.049999997}
+  m_Radius: 0.2
+--- !u!114 &3821316095834933375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2765144306591335768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a104494bd1e156448654341b2873bc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ChickenController
+  eggItem: {fileID: 11400000, guid: b195f71b30c9b3b4e9b5efd4ee78a405, type: 2}
+  eggCount: 1
+  eggLayingTime: 8
+  eggLayingTimeWindow: 1
+  eggPrefabPath: {fileID: 8576229089719577476, guid: fc39156bfc86bb74b8a4898a8893156c, type: 3}
+  dayNightCycle: {fileID: 3073219839254011450, guid: 1d06918efec09214a96a9760ecbb29d6, type: 3}
+  extraSideSpacing: 0.2
+  verticalOffset: -0.1
+  spawnRandomRadius: 0.05
+  eggTimeToLive: 120
+--- !u!95 &4176957809750351086
 Animator:
   serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2231459486497329809}
+  m_GameObject: {fileID: 2765144306591335768}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 4ff0757359fe37d47ac2408f1c5032bf, type: 2}
+  m_Controller: {fileID: 9100000, guid: 52ae0c98dec039a4fb4db77dc84a511c, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -153,48 +175,25 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &538125726382502187
+--- !u!114 &7937564576486658932
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2231459486497329809}
+  m_GameObject: {fileID: 2765144306591335768}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f56c23af7504e4c489a9670c2a90fc14, type: 3}
+  m_Script: {fileID: 11500000, guid: 7b232f91d526f2a4da32f5f48c478354, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CowWander
-  minMoveSpeed: 0.2
-  maxMoveSpeed: 0.35
+  m_EditorClassIdentifier: Assembly-CSharp::AnimalWander
+  minMoveSpeed: 0.8
+  maxMoveSpeed: 1.5
   stoppingDistance: 0.05
-  minTargetDistance: 1.2
-  minWalkTime: 1.5
+  minWalkTime: 1
   maxWalkTime: 3
-  minIdleTime: 5
-  maxIdleTime: 9
+  minIdleTime: 1
+  maxIdleTime: 2.5
   areaCenter: {fileID: 0}
   areaSize: {x: 20, y: 15}
-  animator: {fileID: 2047000096526454159}
---- !u!114 &6928472981452490667
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2231459486497329809}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12a09398ef036154eb55c2bc1a61b0c9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CowInteraction
-  interactionDistance: 2
-  interactionKey: 101
-  milkCooldown: 10
-  milkItemDefinition: {fileID: 11400000, guid: 02d2e448d97d74a4f8f98671d42aafe1, type: 2}
-  milkQuantity: 1
-  playerTransform: {fileID: 0}
-  playerInventory: {fileID: 0}
-  pickupToast: {fileID: 0}
-  cowPortraitSprite: {fileID: 5552232653154027118, guid: 94408a91a2b70194181b7c0d89d03f0c, type: 3}
-  milkFlyEffectResourcesPath: Prefabs/Items/MilkFlyEffect
+  animator: {fileID: 4176957809750351086}
