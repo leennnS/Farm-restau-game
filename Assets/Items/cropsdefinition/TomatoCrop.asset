@@ -21,8 +21,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3a37b67d1eb16cd43ad6e0f21fd4866a, type: 2}
   - {fileID: 11400000, guid: 25a1f51e97897cb4fa90b2a765377446, type: 2}
   daysPerStage: 01000000010000000100000001000000
+  deadPlantSprite: {fileID: -1759049860909440148, guid: c4557cba60ffb6d43835613eb998dcc8, type: 3}
   seedItem: {fileID: 11400000, guid: 1fe4385980a5bd1429b19a686572f2f9, type: 2}
   harvestItem: {fileID: 11400000, guid: 7272295af404e0143a748b7df4e0cefa, type: 2}
   harvestAmount: 1
-  requiresWatering: 0
+  harvestPrefab: {fileID: 1711588723623028544, guid: 8654be24a249f544d973a8d5961d778d, type: 3}
+  requiresWatering: 1
+  daysWithoutWaterUntilDeath: 3
   reveritToSoilAfterHarvest: 1

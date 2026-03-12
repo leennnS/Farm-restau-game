@@ -1,26 +1,33 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using System.Collections.Generic;
 
 public class FarmingInputHandler : MonoBehaviour
 {
     [SerializeField] private FarmingManager farmingManager;
     [SerializeField] private InventoryController inventoryController;
     [SerializeField] private Camera mainCamera;
+    [SerializeField] private PickupToastUIToolkit pickupToast;
 
     [Header("Tool keywords (lowercase)")]
     [SerializeField] private string hoeKeyword = "hoe";
     [SerializeField] private string wateringCanKeyword = "watering_can";
     [SerializeField] private string handKeyword = "hand";
 
+    [Header("Watering Can")]
+    [SerializeField] private int wateringCanCapacity = 10;
+
     private int selectedHotbarSlot = 0;
+    private Dictionary<ItemDefinition, int> wateringCanDurability = new Dictionary<ItemDefinition, int>();
 
     private enum FarmingAction { None, Hoe, Plant, Water, Harvest }
 
     private void Awake()
     {
-        if (farmingManager == null) farmingManager = FindObjectOfType<FarmingManager>();
-        if (inventoryController == null) inventoryController = FindObjectOfType<InventoryController>();
+        if (farmingManager == null) farmingManager = FindFirstObjectByType<FarmingManager>();
+        if (inventoryController == null) inventoryController = FindFirstObjectByType<InventoryController>();
         if (mainCamera == null) mainCamera = Camera.main;
+        if (pickupToast == null) pickupToast = FindFirstObjectByType<PickupToastUIToolkit>();
 
         farmingManager?.Initialize();
     }
@@ -71,7 +78,7 @@ public class FarmingInputHandler : MonoBehaviour
                 break;
 
             case FarmingAction.Water:
-                farmingManager.TryWaterAtWorldPosition(world);
+                TryWaterWithCan(world, selectedItem);
                 break;
 
             case FarmingAction.Harvest:
@@ -102,6 +109,47 @@ public class FarmingInputHandler : MonoBehaviour
         return FarmingAction.None;
     }
 
+    private void TryWaterWithCan(Vector3 world, ItemDefinition wateringCanItem)
+    {
+        if (wateringCanItem == null) return;
+
+        // Get or initialize durability for this can
+        if (!wateringCanDurability.ContainsKey(wateringCanItem))
+            wateringCanDurability[wateringCanItem] = wateringCanCapacity;
+
+        int currentDurability = wateringCanDurability[wateringCanItem];
+
+        // Check if can is empty
+        if (currentDurability <= 0)
+        {
+            if (pickupToast != null)
+                pickupToast.Show("Watering can is empty! Refill it.");
+            return;
+        }
+
+        // Perform watering
+        if (farmingManager.TryWaterAtWorldPosition(world))
+        {
+            // Decrease durability
+            wateringCanDurability[wateringCanItem]--;
+
+            // Update visual state in hotbar
+            UpdateWateringCanVisualState(wateringCanItem);
+
+            // Show message if can is becoming empty
+            if (wateringCanDurability[wateringCanItem] <= 0)
+            {
+                if (pickupToast != null)
+                    pickupToast.Show("Watering can empty! Needs refill.");
+            }
+            else if (wateringCanDurability[wateringCanItem] <= 3)
+            {
+                if (pickupToast != null)
+                    pickupToast.Show($"Water: {wateringCanDurability[wateringCanItem]}/{wateringCanCapacity}");
+            }
+        }
+    }
+
     private void TryPlant(Vector3 world, ItemDefinition seedItem)
     {
         if (seedItem == null) return;
@@ -110,5 +158,61 @@ public class FarmingInputHandler : MonoBehaviour
         if (cropDef == null) return;
 
         farmingManager.TryPlantAtWorldPosition(world, cropDef);
+    }
+
+    // Public method to refill watering can from pond or other refill point
+    public bool TryRefillWateringCan()
+    {
+        // Get currently equipped item from selected hotbar slot
+        ItemDefinition selectedItem = inventoryController.GetHotbarItem(selectedHotbarSlot);
+
+        // Check if it's a watering can
+        string itemName = (selectedItem != null && selectedItem.displayName != null && selectedItem.displayName.Length > 0)
+            ? selectedItem.displayName.ToLower()
+            : (selectedItem != null ? selectedItem.name.ToLower() : "");
+
+        if (!itemName.Contains(wateringCanKeyword))
+        {
+            if (pickupToast != null)
+                pickupToast.Show("No watering can equipped!");
+            return false;
+        }
+
+        // Refill the watering can
+        wateringCanDurability[selectedItem] = wateringCanCapacity;
+
+        // Update visual state in hotbar
+        UpdateWateringCanVisualState(selectedItem);
+
+        return true;
+    }
+
+    // Helper method to update the visual state of watering can in hotbar
+    private void UpdateWateringCanVisualState(ItemDefinition wateringCanItem)
+    {
+        if (inventoryController == null || wateringCanItem == null)
+            return;
+
+        // Get current durability
+        int currentDurability = wateringCanDurability.ContainsKey(wateringCanItem)
+            ? wateringCanDurability[wateringCanItem]
+            : 0;
+
+        // Determine which sprite to show (if it's a WateringCanItem)
+        Sprite spriteToShow = wateringCanItem.icon; // Default to regular icon
+
+        if (wateringCanItem is WateringCanItem wateringCanDef)
+        {
+            spriteToShow = wateringCanDef.GetSpriteForDurability(currentDurability, wateringCanCapacity);
+        }
+
+        // Update all hotbar slots that have this watering can
+        for (int i = 0; i < InventoryController.HotbarSize; i++)
+        {
+            if (inventoryController.GetHotbarItem(i) == wateringCanItem)
+            {
+                inventoryController.UpdateHotbarSlotIcon(i, spriteToShow);
+            }
+        }
     }
 }

@@ -21,6 +21,12 @@ public class FarmingManager : MonoBehaviour
     [Header("Inventory")]
     [SerializeField] private InventoryController inventoryController;
 
+    [Header("UI")]
+    [SerializeField] private PickupToastUIToolkit pickupToast;
+
+    [Header("Harvest")]
+    [SerializeField] private GameObject harvestItemPrefab; // Prefab for harvested crop items
+
     [Header("Digging")]
     [Tooltip("Tile to replace Grass with when hoed")]
     [SerializeField] private TileBase hoeTileFeedback;   // Optional: visual feedback for hoe action
@@ -28,6 +34,7 @@ public class FarmingManager : MonoBehaviour
     // Runtime tracking
     private HashSet<Vector3Int> hoedSoilCells = new HashSet<Vector3Int>();      // Cells that are tilled
     private Dictionary<Vector3Int, CropData> plantedCrops = new Dictionary<Vector3Int, CropData>(); // Crops by cell
+    private Dictionary<Vector3Int, GameObject> deadPlantVisuals = new Dictionary<Vector3Int, GameObject>(); // Dead plant sprite GameObjects
 
     // Crop definition lookup
     private Dictionary<string, CropDefinition> cropDefinitionLookup = new Dictionary<string, CropDefinition>();
@@ -67,6 +74,8 @@ public class FarmingManager : MonoBehaviour
         }
         if (inventoryController == null)
             inventoryController = FindObjectOfType<InventoryController>();
+        if (pickupToast == null)
+            pickupToast = FindObjectOfType<PickupToastUIToolkit>();
 
         // Build crop lookup
         if (availableCrops != null)
@@ -102,7 +111,11 @@ public class FarmingManager : MonoBehaviour
 
         // Check if already hoed
         if (hoedSoilCells.Contains(cellPos))
+        {
+            if (pickupToast != null)
+                pickupToast.Show("Already hoed!");
             return false;
+        }
 
         // Get current tile
         TileBase currentTile = groundTilemap.GetTile(cellPos);
@@ -111,12 +124,17 @@ public class FarmingManager : MonoBehaviour
         if (currentTile != grassTile && currentTile != null)
         {
             // Assume any non-null tile is already worked or invalid
+            if (pickupToast != null)
+                pickupToast.Show("Cannot hoe this tile");
             return false;
         }
 
         // Mark as hoed and set soil tile
         hoedSoilCells.Add(cellPos);
         groundTilemap.SetTile(cellPos, soilTile ?? grassTile);
+
+        if (pickupToast != null)
+            pickupToast.Show("Soil ready for planting");
 
         Debug.Log($"[FarmingManager] Hoed soil at {cellPos}");
         return true;
@@ -148,6 +166,8 @@ public class FarmingManager : MonoBehaviour
         // Check cell is hoed
         if (!IsHoedSoil(cellPos))
         {
+            if (pickupToast != null)
+                pickupToast.Show("Need to hoe first");
             Debug.LogWarning($"[FarmingManager] Cannot plant: cell {cellPos} is not hoed soil");
             return false;
         }
@@ -155,6 +175,8 @@ public class FarmingManager : MonoBehaviour
         // Check no existing crop
         if (plantedCrops.ContainsKey(cellPos))
         {
+            if (pickupToast != null)
+                pickupToast.Show("Already have a crop here");
             Debug.LogWarning($"[FarmingManager] Cannot plant: crop already exists at {cellPos}");
             return false;
         }
@@ -162,6 +184,8 @@ public class FarmingManager : MonoBehaviour
         // Check inventory has seed
         if (inventoryController == null || !HasItemInInventory(cropDef.seedItem, 1))
         {
+            if (pickupToast != null)
+                pickupToast.Show($"No {cropDef.seedItem.displayName} seeds");
             Debug.LogWarning($"[FarmingManager] Cannot plant: no seed ({cropDef.seedItem.displayName}) in inventory");
             return false;
         }
@@ -175,6 +199,9 @@ public class FarmingManager : MonoBehaviour
 
         // Display crop on tilemap
         UpdateCropTileAtCell(cellPos, cropDef);
+
+        if (pickupToast != null)
+            pickupToast.Show($"Planted {cropDef.displayName}");
 
         Debug.Log($"[FarmingManager] Planted {cropDef.displayName} at {cellPos}");
         return true;
@@ -198,10 +225,24 @@ public class FarmingManager : MonoBehaviour
     public bool TryWaterAtCell(Vector3Int cellPos)
     {
         if (!plantedCrops.TryGetValue(cellPos, out CropData crop))
+        {
+            if (pickupToast != null)
+                pickupToast.Show("No crop to water");
             return false;
+        }
+
+        if (crop.isDead)
+        {
+            if (pickupToast != null)
+                pickupToast.Show("Plant is dead");
+            return false;
+        }
 
         crop.wasWateredToday = true;
         plantedCrops[cellPos] = crop;
+
+        if (pickupToast != null)
+            pickupToast.Show("Plant watered ✓");
 
         Debug.Log($"[FarmingManager] Watered crop at {cellPos}");
         return true;
@@ -234,12 +275,83 @@ public class FarmingManager : MonoBehaviour
         // Check if mature
         if (!crop.IsMature(cropDef))
         {
+            if (pickupToast != null)
+                pickupToast.Show("Not ready to harvest");
             Debug.LogWarning($"[FarmingManager] Crop at {cellPos} is not mature yet (stage {crop.currentStage}/{cropDef.TotalStages - 1})");
             return false;
         }
 
-        // Add harvest item to inventory
-        inventoryController.TryAdd(cropDef.harvestItem, cropDef.harvestAmount);
+        // Get world position of crop (center of tile)
+        Vector3 worldPos = cropTilemap != null ? cropTilemap.CellToWorld(cellPos) : Vector3.zero;
+        worldPos.x += 0.5f; // Center horizontally on tile
+        worldPos.y += 0.5f; // Center vertically on tile
+        worldPos.z = 0f; // Ensure 2D positioning
+
+        // Spawn harvest item - use prefab if available, otherwise create dynamically
+        GameObject harvestGO;
+        if (cropDef.harvestPrefab != null)
+        {
+            Debug.Log($"[FarmingManager] Instantiating harvest prefab for {cropDef.displayName}");
+            // Instantiate the harvest prefab
+            harvestGO = Instantiate(cropDef.harvestPrefab, worldPos, Quaternion.identity);
+
+            // Ensure SpriteRenderer is visible on top of soil
+            SpriteRenderer prefabSR = harvestGO.GetComponent<SpriteRenderer>();
+            if (prefabSR != null)
+            {
+                prefabSR.sortingOrder = 1; // Render above soil/tilemap
+            }
+
+            // Ensure it has PickupComponent with correct item/count
+            PickupComponent pickup = harvestGO.GetComponent<PickupComponent>();
+            if (pickup != null)
+            {
+                pickup.Set(cropDef.harvestItem, cropDef.harvestAmount);
+                Debug.Log($"[FarmingManager] Set harvest prefab item to {cropDef.harvestItem.displayName} x{cropDef.harvestAmount}");
+            }
+            else
+            {
+                Debug.LogWarning($"[FarmingManager] Harvest prefab missing PickupComponent! Adding one dynamically.");
+                pickup = harvestGO.AddComponent<PickupComponent>();
+                pickup.Set(cropDef.harvestItem, cropDef.harvestAmount);
+            }
+        }
+        else
+        {
+            Debug.Log($"[FarmingManager] No harvest prefab assigned for {cropDef.displayName}. Creating dynamically.");
+            // Fallback: create dynamically
+            harvestGO = new GameObject($"{cropDef.displayName}");
+            harvestGO.transform.position = worldPos;
+            harvestGO.transform.rotation = Quaternion.identity;
+
+            // Add sprite renderer
+            SpriteRenderer harvestSR = harvestGO.AddComponent<SpriteRenderer>();
+            if (cropDef.harvestItem != null && cropDef.harvestItem.icon != null)
+            {
+                harvestSR.sprite = cropDef.harvestItem.icon;
+                harvestSR.sortingOrder = 1;
+            }
+
+            // Add circle collider for pickup
+            CircleCollider2D collider = harvestGO.AddComponent<CircleCollider2D>();
+            collider.isTrigger = false;
+            collider.radius = 0.2f;
+
+            // Add pickup component
+            PickupComponent pickup = harvestGO.AddComponent<PickupComponent>();
+            pickup.Set(cropDef.harvestItem, cropDef.harvestAmount);
+        }
+
+        // Show toast
+        if (pickupToast != null)
+            pickupToast.Show($"Harvested {cropDef.displayName}! ✓");
+
+        // Clean up any dead plant visual
+        if (deadPlantVisuals.TryGetValue(cellPos, out GameObject deadGO))
+        {
+            Destroy(deadGO);
+            deadPlantVisuals.Remove(cellPos);
+        }
 
         // Remove crop from world
         plantedCrops.Remove(cellPos);
@@ -252,7 +364,7 @@ public class FarmingManager : MonoBehaviour
             groundTilemap.SetTile(cellPos, soilTile);
         }
 
-        Debug.Log($"[FarmingManager] Harvested {cropDef.displayName} at {cellPos}. Added {cropDef.harvestAmount}x {cropDef.harvestItem.displayName} to inventory");
+        Debug.Log($"[FarmingManager] Harvested {cropDef.displayName} at {cellPos}. Spawned pickup.");
         return true;
     }
 
@@ -266,21 +378,30 @@ public class FarmingManager : MonoBehaviour
     {
         Debug.Log("[FarmingManager] Advancing day...");
 
-        List<Vector3Int> cellsToRemove = new List<Vector3Int>();
+        List<Vector3Int> cellsToCheck = new List<Vector3Int>(plantedCrops.Keys);
 
-        foreach (var kvp in plantedCrops)
+        foreach (var cellPos in cellsToCheck)
         {
-            Vector3Int cellPos = kvp.Key;
-            CropData crop = kvp.Value;
+            if (!plantedCrops.TryGetValue(cellPos, out CropData crop))
+                continue;
 
-            if (cropDefinitionLookup.TryGetValue(crop.cropId, out CropDefinition cropDef))
+            if (!cropDefinitionLookup.TryGetValue(crop.cropId, out CropDefinition cropDef))
+                continue;
+
+            // Check if plant just died
+            bool wasDead = crop.isDead;
+            crop.AdvanceDay(cropDef, crop.wasWateredToday);
+            plantedCrops[cellPos] = crop;
+
+            // Show toast if plant died this day
+            if (!wasDead && crop.isDead)
             {
-                crop.AdvanceDay(cropDef, crop.wasWateredToday);
-                plantedCrops[cellPos] = crop;
-
-                // Update display
-                UpdateCropTileAtCell(cellPos, cropDef);
+                if (pickupToast != null)
+                    pickupToast.Show($"{cropDef.displayName} died ✗");
             }
+
+            // Update display
+            UpdateCropTileAtCell(cellPos, cropDef);
         }
 
         Debug.Log($"[FarmingManager] Day advanced. {plantedCrops.Count} crops updated.");
@@ -294,6 +415,51 @@ public class FarmingManager : MonoBehaviour
 
         if (!plantedCrops.TryGetValue(cellPos, out CropData crop))
             return;
+
+        // If dead, show dead plant sprite as GameObject
+        if (crop.isDead)
+        {
+            if (cropDef.deadPlantSprite != null)
+            {
+                // Create or get the dead plant visual GameObject
+                if (!deadPlantVisuals.ContainsKey(cellPos))
+                {
+                    Vector3 worldPos = cropTilemap.CellToWorld(cellPos); worldPos.x += 0.5f; // Center horizontally on tile
+                    worldPos.y += 0.5f; // Center vertically on tile                    worldPos.z = -1f; // Set Z behind tilemap so it's visible
+
+                    GameObject deadPlantGO = new GameObject($"Dead{cropDef.displayName}");
+                    deadPlantGO.transform.position = worldPos;
+                    deadPlantGO.transform.rotation = Quaternion.identity;
+
+                    SpriteRenderer sr = deadPlantGO.AddComponent<SpriteRenderer>();
+                    sr.sprite = cropDef.deadPlantSprite;
+                    sr.sortingOrder = 1; // Render on top of soil/grass layer
+                    sr.sortingLayerName = "Default"; // Ensure it's on a visible sorting layer
+
+                    Debug.Log($"[FarmingManager] Created dead plant visual for {cropDef.displayName} at {cellPos}");
+                    deadPlantVisuals[cellPos] = deadPlantGO;
+                }
+                else
+                {
+                    Debug.Log($"[FarmingManager] Dead plant visual already exists at {cellPos}");
+                }
+
+                // Clear the tilemap tile
+                cropTilemap.SetTile(cellPos, null);
+            }
+            else
+            {
+                Debug.LogWarning($"[FarmingManager] No deadPlantSprite assigned for {cropDef.displayName}! Assign it in the CropDefinition inspector.");
+            }
+            return;
+        }
+
+        // Alive crop: clear any dead plant visual and show stage tile
+        if (deadPlantVisuals.TryGetValue(cellPos, out GameObject deadGO))
+        {
+            Destroy(deadGO);
+            deadPlantVisuals.Remove(cellPos);
+        }
 
         TileBase stageTile = cropDef.GetStageTile(crop.currentStage);
         cropTilemap.SetTile(cellPos, stageTile);
@@ -353,6 +519,15 @@ public class FarmingManager : MonoBehaviour
         if (cropTilemap == null) return;
         cropTilemap.ClearAllTiles();
 
+        // Clean up old dead plant visuals first
+        foreach (var deadGO in deadPlantVisuals.Values)
+        {
+            if (deadGO != null)
+                Destroy(deadGO);
+        }
+        deadPlantVisuals.Clear();
+
+        // Refresh all crops with proper tile/sprite display
         foreach (var kvp in plantedCrops)
         {
             Vector3Int cellPos = kvp.Key;
@@ -360,8 +535,7 @@ public class FarmingManager : MonoBehaviour
 
             if (cropDefinitionLookup.TryGetValue(crop.cropId, out CropDefinition cropDef))
             {
-                TileBase stageTile = cropDef.GetStageTile(crop.currentStage);
-                cropTilemap.SetTile(cellPos, stageTile);
+                UpdateCropTileAtCell(cellPos, cropDef);
             }
         }
     }
@@ -393,6 +567,15 @@ public class FarmingManager : MonoBehaviour
         plantedCrops.Clear();
         if (cropTilemap != null)
             cropTilemap.ClearAllTiles();
+
+        // Clean up dead plant visuals
+        foreach (var deadGO in deadPlantVisuals.Values)
+        {
+            if (deadGO != null)
+                Destroy(deadGO);
+        }
+        deadPlantVisuals.Clear();
+
         Debug.Log("[FarmingManager] Cleared all crops");
     }
 

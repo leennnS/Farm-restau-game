@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="UnityEngine.UIElements UnityEngine.UIElements/Schema/UIElements.xsd UnityEditor.UIElements UnityEditor.UIElements/Schema/UIElements.xsd" xsi:noNamespaceSchemaLocation="UnityEngine.UIElements/Schema/UIElements.xsd">
+    <ui:VisualElement style="width: 100%; height: 100%; display: none;">
+        <!-- Dark semi-transparent overlay -->
+        <ui:VisualElement name="overlay" style="width: 100%; height: 100%; background-color: rgb(0, 0, 0);" />
+        
+        <!-- Center panel -->
+        <ui:VisualElement name="refillPanel" style="width: 350px; height: 280px; background-color: rgb(30, 100, 150); align-items: center; justify-content: center;">
+            
+            <!-- Title -->
+            <ui:Label text="Refilling Watering Can" name="titleLabel" style="font-size: 22px; color: rgb(200, 240, 255);" />
+            
+            <!-- Water container -->
+            <ui:VisualElement name="waterContainer" style="width: 300px; height: 120px; background-color: rgb(20, 60, 100);">
+                
+                <!-- Fill bar inside water container -->
+                <ui:ProgressBar value="0" name="fillBar" style="width: 100%; height: 100%;" />
+            </ui:VisualElement>
+            
+            <!-- Instruction text -->
+            <ui:Label text="Scroll up to pull water" name="instructionLabel" style="font-size: 14px; color: rgb(220, 240, 255);" />
+            
+            <!-- Progress percentage -->
+            <ui:Label text="0%" name="percentLabel" style="font-size: 12px; color: rgb(200, 220, 255);" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

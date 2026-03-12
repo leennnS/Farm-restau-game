@@ -20,6 +20,9 @@ public class CropDefinition : ScriptableObject
     [Tooltip("Days required to grow before advancing to next stage")]
     public int[] daysPerStage;
 
+    [Tooltip("Sprite to show when plant dies from lack of water")]
+    public Sprite deadPlantSprite;
+
     [Header("Items")]
     [Tooltip("The seed item to consume when planting")]
     public ItemDefinition seedItem;
@@ -31,9 +34,17 @@ public class CropDefinition : ScriptableObject
     [Min(1)]
     public int harvestAmount = 1;
 
+    [Header("Harvest")]
+    [Tooltip("Prefab to spawn when harvesting (drag the prefab file from Assets/Prefabs)")]
+    public GameObject harvestPrefab;
+
     [Header("Settings")]
     [Tooltip("If true, soil must be watered daily for crop to grow")]
-    public bool requiresWatering = false;
+    public bool requiresWatering = true;
+
+    [Tooltip("Days without watering before this crop dies (only if requiresWatering is true)")]
+    [Min(1)]
+    public int daysWithoutWaterUntilDeath = 3;
 
     [Tooltip("If true, finished harvest reverts soil to dirt (not harvested)")]
     public bool reveritToSoilAfterHarvest = true;

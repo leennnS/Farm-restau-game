@@ -1,7 +1,7 @@
 .cook-button {
-    width: 92px;
+    width: 108px;
     height: 34px;
-    margin-top: 0;
+    margin-top: 4px;
     padding-left: 10px;
     padding-right: 10px;
     font-size: 12px;
@@ -23,43 +23,157 @@
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
 
-    unity-text-align: middle-center;
+    -unity-text-align: middle-center;
+}
+
+.cook-button:hover {
+    background-color: rgb(255, 224, 120);
+    border-top-color: rgb(255, 245, 180);
+    border-bottom-color: rgb(170, 105, 10);
+}
+
+.cook-button:active {
+    background-color: rgb(235, 182, 60);
+    border-top-color: rgb(255, 220, 120);
+    border-bottom-color: rgb(130, 78, 8);
+}
+
+.back-button {
+    width: 84px;
+    height: 32px;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 12px;
+    -unity-font-style: bold;
+    color: rgb(80, 52, 28);
+
+    background-color: rgb(230, 212, 186);
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    border-left-color: rgb(176, 144, 108);
+    border-right-color: rgb(150, 118, 82);
+    border-top-color: rgb(246, 230, 210);
+    border-bottom-color: rgb(128, 92, 60);
+
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+
+    -unity-text-align: middle-center;
+}
+
+.back-button:hover {
+    background-color: rgb(240, 224, 200);
+}
+
+.back-button:active {
+    background-color: rgb(208, 188, 162);
 }
 
 .cooking-loading-container {
     display: none;
-    width: 150px;
+    width: 130px;
+    margin-top: 4px;
+    margin-bottom: 0;
+    margin-left: 6px;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+
+    background-color: transparent;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+
+    flex-direction: column;
     justify-content: center;
+    align-items: stretch;
     gap: 3px;
-    padding-top: 1px;
-    padding-bottom: 1px;
 }
 
 .cooking-loading-label {
-    font-size: 10px;
+    display: flex;
+    font-size: 9px;
     -unity-font-style: bold;
     color: rgb(92, 60, 32);
     unity-text-align: middle-left;
-    margin-bottom: 1px;
 }
 
 .cooking-loading-bar-background {
+    position: relative;
     width: 100%;
-    height: 3px;
-    background-color: rgba(120, 86, 48, 0.15);
-    border-top-left-radius: 2px;
-    border-top-right-radius: 2px;
-    border-bottom-left-radius: 2px;
-    border-bottom-right-radius: 2px;
+    height: 8px;
+    background-color: rgba(92, 60, 32, 0.22);
+
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+
     overflow: hidden;
 }
 
 .cooking-loading-bar-fill {
     width: 0%;
     height: 100%;
-    background-color: rgb(255, 190, 75);
-    border-top-left-radius: 2px;
-    border-bottom-left-radius: 2px;
-    border-top-right-radius: 2px;
-    border-bottom-right-radius: 2px;
+    background-color: rgb(255, 196, 70);
+
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+.cooking-progress-text {
+    display: flex;
+    font-size: 8px;
+    -unity-font-style: bold;
+    color: rgb(110, 78, 42);
+    unity-text-align: middle-right;
+}
+
+.top-tab {
+    width: 36px;
+    height: 36px;
+    margin-top: 6px;
+
+    background-color: rgb(214, 168, 107);
+    background-size: 20px 20px;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    border-left-width: 3px;
+    border-right-width: 3px;
+    border-top-width: 3px;
+    border-bottom-width: 3px;
+
+    border-left-color: rgb(122, 78, 42);
+    border-right-color: rgb(122, 78, 42);
+    border-top-color: rgb(183, 126, 62);
+    border-bottom-color: rgb(92, 58, 27);
+
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+.top-tab:hover {
+    background-color: rgb(228, 183, 122);
+}
+
+.active-top-tab {
+    height: 40px;
+    margin-top: 2px;
+    background-color: rgb(228, 183, 122);
+
+    border-left-color: rgb(139, 90, 43);
+    border-right-color: rgb(139, 90, 43);
+    border-top-color: rgb(192, 138, 74);
+    border-bottom-color: rgb(228, 183, 122);
 }

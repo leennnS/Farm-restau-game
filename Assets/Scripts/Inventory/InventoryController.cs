@@ -8,7 +8,7 @@ using UnityEngine.UIElements;
 
 public class InventoryController : MonoBehaviour
 {
-    private const int HotbarSize = 12;
+    public const int HotbarSize = 12;
 
     [Header("Input")]
     [SerializeField] private KeyCode toggleKey = KeyCode.I;
@@ -18,6 +18,7 @@ public class InventoryController : MonoBehaviour
 
     [Header("Debug")]
     [SerializeField] private bool debugSlotClicks = false;
+    private VisualElement _inventoryRootElement;
 
     // ---------- NEW: Inventory ----------
     [Header("Inventory")]
@@ -118,30 +119,41 @@ public class InventoryController : MonoBehaviour
     {
         _uiDocument = GetComponent<UIDocument>();
         _root = _uiDocument.rootVisualElement;
-        var cookingStyleSheet = Resources.Load<StyleSheet>("CookingStyles");
-        if (cookingStyleSheet != null && !_root.styleSheets.Contains(cookingStyleSheet))
+
+        var cookingStyleSheet = Resources.Load<StyleSheet>("UI/UXML/CookingStyles");
+
+        Debug.Log("ROOT exists? " + (_root != null));
+        Debug.Log("CookingStyles found? " + (cookingStyleSheet != null));
+
+        if (cookingStyleSheet != null)
+        {
             _root.styleSheets.Add(cookingStyleSheet);
-        else if (cookingStyleSheet == null)
-            Debug.LogWarning("CookingStyles.uss not found in a Resources folder.");
+            Debug.Log("CookingStyles added. Root stylesheet count = " + _root.styleSheets.count);
+        }
+        else
+        {
+            Debug.LogError("CookingStyles.uss was NOT loaded from Resources.");
+        }
 
-        // Find the HotBar HUD controller
+        var loadingContainer = _root.Q<VisualElement>("cookingLoadingContainer");
+        Debug.Log("Loading container found? " + (loadingContainer != null));
+
+        if (loadingContainer != null)
+        {
+            Debug.Log("Loading container classes: " + string.Join(", ", loadingContainer.GetClasses()));
+        }
+
         TryResolveHotbarHUD();
-
         CacheUI();
-        CacheInventorySlots();     // NEW
+        CacheInventorySlots();
         BindUI();
 
-        _slotsData = new ItemStack[inventorySize]; // NEW
+        _slotsData = new ItemStack[inventorySize];
         _hotbarData = new ItemStack[HotbarSize];
-        RefreshAllSlots();                         // NEW
+        RefreshAllSlots();
 
-        // Apply initial state
         SetOpen(startOpen);
-
-        // Optional: start on Tools tab if open
         ShowTools();
-
-        // Ensure outside HUD mirrors first 12 inventory slots from startup.
         SyncExternalHotbarAll();
     }
 
@@ -168,16 +180,25 @@ public class InventoryController : MonoBehaviour
 
         TryResolveHotbarHUD();
 
-        // Hide hotbar when inventory opens, show when it closes
         SetExternalHotbarVisible(!open);
 
-        // Refresh mirrored content when visibility changes.
         SyncExternalHotbarAll();
 
-        if (_root != null)
-            _root.style.display = open ? DisplayStyle.Flex : DisplayStyle.None;
+        if (_inventoryRootElement != null)
+            _inventoryRootElement.style.display =
+                open ? DisplayStyle.Flex : DisplayStyle.None;
     }
 
+
+    private void UpdateActiveTopTab(Button activeButton)
+    {
+        _tabToolsButton?.RemoveFromClassList("active-top-tab");
+        _tabMapButton?.RemoveFromClassList("active-top-tab");
+        _tabCraftingButton?.RemoveFromClassList("active-top-tab");
+        _tabSettingsButton?.RemoveFromClassList("active-top-tab");
+
+        activeButton?.AddToClassList("active-top-tab");
+    }
     // ----------------------------
     // UI Toolkit wiring
     // ----------------------------
@@ -233,6 +254,7 @@ public class InventoryController : MonoBehaviour
         _cookingLoadingBarFill = _root.Q<VisualElement>("cookingLoadingBarFill");
         _cookingLoadingLabel = _root.Q<Label>("cookingLoadingLabel");
         _cookingProgressText = _root.Q<Label>("cookingProgressText");
+        _inventoryRootElement = _root.Q<VisualElement>("inventoryRoot");
     }
 
     // NEW: cache inventory slots itemSlot01..itemSlot36 AND hotbarSlot01..hotbarSlot12
@@ -365,23 +387,29 @@ public class InventoryController : MonoBehaviour
     {
         ShowPage(_toolsPage, _mapPage, _craftingPage, _settingsPage);
         SetFooterVisible(true);
+        UpdateActiveTopTab(_tabToolsButton);
     }
 
     private void ShowMap()
     {
         ShowPage(_mapPage, _toolsPage, _craftingPage, _settingsPage);
         SetFooterVisible(true);
+        UpdateActiveTopTab(_tabMapButton);
     }
+
     private void ShowCrafting()
     {
         ShowPage(_craftingPage, _toolsPage, _mapPage, _settingsPage);
         SetFooterVisible(false);
         ShowRecipeCategory(_currentRecipeCategory);
+        UpdateActiveTopTab(_tabCraftingButton);
     }
+
     private void ShowSettings()
     {
         ShowPage(_settingsPage, _toolsPage, _mapPage, _craftingPage);
         SetFooterVisible(true);
+        UpdateActiveTopTab(_tabSettingsButton);
     }
 
     private void ShowPage(VisualElement show, VisualElement hide1, VisualElement hide2, VisualElement hide3)
@@ -1524,7 +1552,7 @@ public class InventoryController : MonoBehaviour
             _cookingLoadingContainer.style.display = DisplayStyle.Flex;
 
         if (_cookingLoadingLabel != null)
-            _cookingLoadingLabel.text = "Preparing meal...";
+            _cookingLoadingLabel.text = $"Preparing {_selectedRecipe.recipeName}...";
 
         if (_cookingLoadingBarFill != null)
             _cookingLoadingBarFill.style.width = new Length(0, LengthUnit.Percent);
@@ -1548,14 +1576,7 @@ public class InventoryController : MonoBehaviour
                 _cookingProgressText.text = percent + "%";
 
             if (_cookingLoadingLabel != null)
-            {
-                if (t < 0.33f)
-                    _cookingLoadingLabel.text = "Preparing meal...";
-                else if (t < 0.66f)
-                    _cookingLoadingLabel.text = "Cooking...";
-                else
-                    _cookingLoadingLabel.text = "Plating...";
-            }
+                _cookingLoadingLabel.text = $"Preparing {_selectedRecipe.recipeName}...";
 
             yield return null;
         }
@@ -1573,7 +1594,7 @@ public class InventoryController : MonoBehaviour
         RefreshAllSlots();
 
         if (_cookingLoadingLabel != null)
-            _cookingLoadingLabel.text = "Done!";
+            _cookingLoadingLabel.text = $"{_selectedRecipe.recipeName} ready!";
 
         if (_cookingProgressText != null)
             _cookingProgressText.text = "100%";
@@ -1840,6 +1861,25 @@ public class InventoryController : MonoBehaviour
             return null;
 
         return _hotbarData[slotIndex].item;
+    }
+
+    /// <summary>
+    /// Update the icon sprite shown in a hotbar slot (for tools like watering can with visual states).
+    /// Used to switch between empty/full sprites based on tool durability.
+    /// </summary>
+    public void UpdateHotbarSlotIcon(int slotIndex, Sprite newIcon)
+    {
+        if (!HasExternalHotbar()) return;
+        if (slotIndex < 0 || slotIndex >= HotbarSize) return;
+
+        if (_hotbarData == null || slotIndex >= _hotbarData.Length)
+            return;
+
+        var stack = _hotbarData[slotIndex];
+        var amount = stack.item != null ? stack.amount : 0;
+
+        // Update the external hotbar display with the new sprite
+        SetExternalHotbarSlot(slotIndex, newIcon, amount);
     }
 }
 
