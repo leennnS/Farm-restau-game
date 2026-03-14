@@ -161,13 +161,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: free version_0
+      name: market
       rect:
         serializedVersion: 2
-        x: 130
-        y: 112
-        width: 46
-        height: 32
+        x: 0
+        y: 48
+        width: 95
+        height: 96
       alignment: 9
       pivot: {x: 1.4228038, y: 0.61014485}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -2200,7 +2200,6 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":16.0,"y":16.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      free version_0: -5417840541486123170
       free version_1: 1701790139740859524
       free version_10: -684678532200030586
       free version_11: -2825727144831123757
@@ -2292,6 +2291,7 @@ TextureImporter:
       free version_9: -1551646802339693947
       free version_90: -1394542944
       free version_91: -2137044932
+      market: -5417840541486123170
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

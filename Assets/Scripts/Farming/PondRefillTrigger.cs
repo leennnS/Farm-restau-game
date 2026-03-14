@@ -1,89 +1,67 @@
 using UnityEngine;
 
 /// <summary>
-/// Detects when the player is near a pond and opens the refill mini-game UI.
-/// Place this component on a pond GameObject with a trigger collider.
+/// Opens the pond refill UI only when the player is inside the pond trigger
+/// and presses E.
+/// Place this component on a pond GameObject with a 2D trigger collider.
 /// </summary>
 public class PondRefillTrigger : MonoBehaviour
 {
-    [SerializeField] private float refillDistance = 2f;
+    [SerializeField] private KeyCode interactKey = KeyCode.E;
     [SerializeField] private PondRefillUI pondRefillUI;
 
-    private FarmingInputHandler farmingInputHandler;
-    private InventoryController inventoryController;
-    private Transform playerTransform;
     private bool playerInRange = false;
     private bool uiActive = false;
 
     private void Start()
     {
-        // Find required components
-        farmingInputHandler = FindFirstObjectByType<FarmingInputHandler>();
-        inventoryController = FindFirstObjectByType<InventoryController>();
-
         if (pondRefillUI == null)
             pondRefillUI = FindFirstObjectByType<PondRefillUI>();
 
-        // Find player by tag
-        GameObject playerGO = GameObject.FindGameObjectWithTag("Player");
-        if (playerGO != null)
-            playerTransform = playerGO.transform;
-
-        if (farmingInputHandler == null)
-            Debug.LogError("[PondRefillTrigger] FarmingInputHandler not found in scene!");
-        if (inventoryController == null)
-            Debug.LogError("[PondRefillTrigger] InventoryController not found in scene!");
-        if (playerTransform == null)
-            Debug.LogError("[PondRefillTrigger] Player with 'Player' tag not found!");
         if (pondRefillUI == null)
             Debug.LogError("[PondRefillTrigger] PondRefillUI not found in scene!");
     }
 
-    private void Update()
+   private void Update()
+{
+    if (!playerInRange || pondRefillUI == null)
+        return;
+
+    if (!uiActive && Input.GetKeyDown(interactKey))
     {
-        if (!playerInRange || playerTransform == null) return;
-
-        // Check distance to player
-        float distanceToPlayer = Vector2.Distance(transform.position, playerTransform.position);
-        if (distanceToPlayer > refillDistance)
-        {
-            playerInRange = false;
-            if (uiActive)
-            {
-                pondRefillUI.HideRefillUI();
-                uiActive = false;
-            }
-            return;
-        }
-
-        // Keep UI open while in range
-        if (!uiActive && pondRefillUI != null)
-        {
-            pondRefillUI.ShowRefillUI();
-            uiActive = true;
-        }
+        Debug.Log("[PondRefillTrigger] E pressed near pond. Showing refill UI.");
+        pondRefillUI.SetTrigger(this);
+        pondRefillUI.ShowRefillUI();
+        uiActive = true;
     }
+}
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("[PondRefillTrigger] OnTriggerEnter2D with: " + other.gameObject.name + " (tag: " + other.tag + ")");
-        if (other.CompareTag("Player"))
-        {
-            Debug.Log("[PondRefillTrigger] Player detected in trigger!");
-            playerInRange = true;
-        }
+        if (!other.CompareTag("Player"))
+            return;
+
+        Debug.Log("[PondRefillTrigger] Player entered pond range.");
+        playerInRange = true;
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        if (!other.CompareTag("Player"))
+            return;
+
+        Debug.Log("[PondRefillTrigger] Player left pond range.");
+        playerInRange = false;
+
+        if (uiActive && pondRefillUI != null)
         {
-            playerInRange = false;
-            if (uiActive && pondRefillUI != null)
-            {
-                pondRefillUI.HideRefillUI();
-                uiActive = false;
-            }
+            pondRefillUI.HideRefillUI();
+            uiActive = false;
         }
+    }
+
+    public void NotifyUIClosed()
+    {
+        uiActive = false;
     }
 }

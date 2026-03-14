@@ -120,6 +120,9 @@ public class InventoryController : MonoBehaviour
         _uiDocument = GetComponent<UIDocument>();
         _root = _uiDocument.rootVisualElement;
 
+        // Keep this inventory object across scene loads
+        DontDestroyOnLoad(gameObject);
+
         var cookingStyleSheet = Resources.Load<StyleSheet>("UI/UXML/CookingStyles");
 
         Debug.Log("ROOT exists? " + (_root != null));
@@ -260,9 +263,19 @@ public class InventoryController : MonoBehaviour
     // NEW: cache inventory slots itemSlot01..itemSlot36 AND hotbarSlot01..hotbarSlot12
     private void CacheInventorySlots()
     {
+        Debug.Log("[InventoryController] CacheInventorySlots called!");
+        Debug.Log($"[InventoryController] _root is null? {_root == null}");
+
+        if (_root == null)
+        {
+            Debug.LogError("[InventoryController] Cannot cache slots - _root is NULL!");
+            return;
+        }
+
         _itemSlots = new VisualElement[inventorySize];
         _hotbarSlots = new VisualElement[HotbarSize];
 
+        int foundInventorySlots = 0;
         // Cache inventory grid slots
         for (int i = 0; i < inventorySize; i++)
         {
@@ -271,6 +284,7 @@ public class InventoryController : MonoBehaviour
 
             if (_itemSlots[i] != null)
             {
+                foundInventorySlots++;
                 _itemSlots[i].style.position = Position.Relative;
 
                 // Register drag and drop handlers
@@ -284,7 +298,9 @@ public class InventoryController : MonoBehaviour
                 Debug.LogWarning($"Missing slot in UXML: {name}");
             }
         }
+        Debug.Log($"[InventoryController] Found {foundInventorySlots}/{inventorySize} inventory slots");
 
+        int foundHotbarSlots = 0;
         // Cache hotbar slots separately
         for (int i = 0; i < HotbarSize; i++)
         {
@@ -293,6 +309,7 @@ public class InventoryController : MonoBehaviour
 
             if (_hotbarSlots[i] != null)
             {
+                foundHotbarSlots++;
                 _hotbarSlots[i].style.position = Position.Relative;
 
                 // Register drag and drop handlers
@@ -306,6 +323,7 @@ public class InventoryController : MonoBehaviour
                 Debug.LogWarning($"Missing slot in UXML: {name}");
             }
         }
+        Debug.Log($"[InventoryController] Found {foundHotbarSlots}/{HotbarSize} hotbar slots");
 
         // Cache trash slot and register mouseup handler
         _trashSlot = _root.Q<VisualElement>("trashSlot");
@@ -313,6 +331,7 @@ public class InventoryController : MonoBehaviour
         {
             _trashSlot.pickingMode = PickingMode.Position;
             _trashSlot.RegisterCallback<MouseUpEvent>(evt => OnTrashSlotMouseUp(evt));
+            Debug.Log("[InventoryController] Trash slot found and hooked");
         }
         else
         {
@@ -636,6 +655,7 @@ public class InventoryController : MonoBehaviour
             countLabel.style.fontSize = 11;
             countLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
             countLabel.style.color = new Color(0.23f, 0.16f, 0.09f);
+            countLabel.pickingMode = PickingMode.Ignore;  // Allow mouse events to pass through to parent slot
             slotVE.Add(countLabel);
         }
 
@@ -673,8 +693,13 @@ public class InventoryController : MonoBehaviour
 
     private void OnInventorySlotMouseDown(int slotIndex, MouseDownEvent evt)
     {
+        Debug.Log($"[InventoryController] OnInventorySlotMouseDown called for slot {slotIndex}");
+
         if (_slotsData[slotIndex].item == null || _slotsData[slotIndex].amount <= 0)
+        {
+            Debug.Log($"[InventoryController] Slot {slotIndex} is empty, ignoring");
             return;
+        }
 
         _draggedSlotIndex = slotIndex;
         _draggedSlotElement = _itemSlots[slotIndex];

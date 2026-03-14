@@ -287,59 +287,73 @@ public class FarmingManager : MonoBehaviour
         worldPos.y += 0.5f; // Center vertically on tile
         worldPos.z = 0f; // Ensure 2D positioning
 
-        // Spawn harvest item - use prefab if available, otherwise create dynamically
-        GameObject harvestGO;
-        if (cropDef.harvestPrefab != null)
+        // Spawn 4 harvest items with offset positions
+        Vector3[] itemOffsets = new Vector3[4]
         {
-            Debug.Log($"[FarmingManager] Instantiating harvest prefab for {cropDef.displayName}");
-            // Instantiate the harvest prefab
-            harvestGO = Instantiate(cropDef.harvestPrefab, worldPos, Quaternion.identity);
+            new Vector3(-0.2f, 0.2f, 0f),   // top-left
+            new Vector3(0.2f, 0.2f, 0f),    // top-right
+            new Vector3(-0.2f, -0.2f, 0f),  // bottom-left
+            new Vector3(0.2f, -0.2f, 0f)    // bottom-right
+        };
 
-            // Ensure SpriteRenderer is visible on top of soil
-            SpriteRenderer prefabSR = harvestGO.GetComponent<SpriteRenderer>();
-            if (prefabSR != null)
-            {
-                prefabSR.sortingOrder = 1; // Render above soil/tilemap
-            }
+        for (int i = 0; i < 4; i++)
+        {
+            Vector3 itemPos = worldPos + itemOffsets[i];
 
-            // Ensure it has PickupComponent with correct item/count
-            PickupComponent pickup = harvestGO.GetComponent<PickupComponent>();
-            if (pickup != null)
+            // Spawn harvest item - use prefab if available, otherwise create dynamically
+            GameObject harvestGO;
+            if (cropDef.harvestPrefab != null)
             {
-                pickup.Set(cropDef.harvestItem, cropDef.harvestAmount);
-                Debug.Log($"[FarmingManager] Set harvest prefab item to {cropDef.harvestItem.displayName} x{cropDef.harvestAmount}");
+                Debug.Log($"[FarmingManager] Instantiating harvest prefab {i + 1}/4 for {cropDef.displayName}");
+                // Instantiate the harvest prefab
+                harvestGO = Instantiate(cropDef.harvestPrefab, itemPos, Quaternion.identity);
+
+                // Ensure SpriteRenderer is visible on top of soil
+                SpriteRenderer prefabSR = harvestGO.GetComponent<SpriteRenderer>();
+                if (prefabSR != null)
+                {
+                    prefabSR.sortingOrder = 1; // Render above soil/tilemap
+                }
+
+                // Ensure it has PickupComponent with correct item/count
+                PickupComponent pickup = harvestGO.GetComponent<PickupComponent>();
+                if (pickup != null)
+                {
+                    pickup.Set(cropDef.harvestItem, cropDef.harvestAmount);
+                    Debug.Log($"[FarmingManager] Set harvest prefab item {i + 1}/4 to {cropDef.harvestItem.displayName} x{cropDef.harvestAmount}");
+                }
+                else
+                {
+                    Debug.LogWarning($"[FarmingManager] Harvest prefab missing PickupComponent! Adding one dynamically.");
+                    pickup = harvestGO.AddComponent<PickupComponent>();
+                    pickup.Set(cropDef.harvestItem, cropDef.harvestAmount);
+                }
             }
             else
             {
-                Debug.LogWarning($"[FarmingManager] Harvest prefab missing PickupComponent! Adding one dynamically.");
-                pickup = harvestGO.AddComponent<PickupComponent>();
+                Debug.Log($"[FarmingManager] No harvest prefab assigned for {cropDef.displayName}. Creating dynamically ({i + 1}/4).");
+                // Fallback: create dynamically
+                harvestGO = new GameObject($"{cropDef.displayName}");
+                harvestGO.transform.position = itemPos;
+                harvestGO.transform.rotation = Quaternion.identity;
+
+                // Add sprite renderer
+                SpriteRenderer harvestSR = harvestGO.AddComponent<SpriteRenderer>();
+                if (cropDef.harvestItem != null && cropDef.harvestItem.icon != null)
+                {
+                    harvestSR.sprite = cropDef.harvestItem.icon;
+                    harvestSR.sortingOrder = 1;
+                }
+
+                // Add circle collider for pickup
+                CircleCollider2D collider = harvestGO.AddComponent<CircleCollider2D>();
+                collider.isTrigger = false;
+                collider.radius = 0.2f;
+
+                // Add pickup component
+                PickupComponent pickup = harvestGO.AddComponent<PickupComponent>();
                 pickup.Set(cropDef.harvestItem, cropDef.harvestAmount);
             }
-        }
-        else
-        {
-            Debug.Log($"[FarmingManager] No harvest prefab assigned for {cropDef.displayName}. Creating dynamically.");
-            // Fallback: create dynamically
-            harvestGO = new GameObject($"{cropDef.displayName}");
-            harvestGO.transform.position = worldPos;
-            harvestGO.transform.rotation = Quaternion.identity;
-
-            // Add sprite renderer
-            SpriteRenderer harvestSR = harvestGO.AddComponent<SpriteRenderer>();
-            if (cropDef.harvestItem != null && cropDef.harvestItem.icon != null)
-            {
-                harvestSR.sprite = cropDef.harvestItem.icon;
-                harvestSR.sortingOrder = 1;
-            }
-
-            // Add circle collider for pickup
-            CircleCollider2D collider = harvestGO.AddComponent<CircleCollider2D>();
-            collider.isTrigger = false;
-            collider.radius = 0.2f;
-
-            // Add pickup component
-            PickupComponent pickup = harvestGO.AddComponent<PickupComponent>();
-            pickup.Set(cropDef.harvestItem, cropDef.harvestAmount);
         }
 
         // Show toast

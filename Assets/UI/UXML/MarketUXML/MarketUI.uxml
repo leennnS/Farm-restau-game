@@ -1,0 +1,69 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/UXML/MarketUI.uss?fileID=7433441132597879392&amp;guid=75a8cfac75476704cb4fd11a5816d999&amp;type=3#MarketUI"/>
+    <ui:VisualElement name="screen-root" class="screen-root">
+        <ui:VisualElement name="market-root" class="market-root hidden">
+            <ui:VisualElement class="market-backdrop"/>
+            <ui:VisualElement class="market-window">
+                <ui:VisualElement class="market-topbar">
+                    <ui:VisualElement class="brand-block">
+                        <ui:Label name="market-title" text="Village Supermarket" class="market-title"/>
+                        <ui:Label name="market-subtitle" text="Browse and buy what you need." class="market-subtitle"/>
+                    </ui:VisualElement>
+                    <ui:VisualElement class="money-chip">
+                        <ui:Label text="Coins" class="money-chip-label"/>
+                        <ui:Label name="money-value" text="0 G" class="money-chip-value"/>
+                    </ui:VisualElement>
+                    <ui:Button name="close-button" text="Close" class="close-button"/>
+                </ui:VisualElement>
+                <ui:VisualElement class="market-body">
+                    <ui:VisualElement class="category-rail">
+                        <ui:Label text="Sections" class="rail-title"/>
+                        <ui:Button name="tab-seeds" text="Seeds" class="category-button seeds-button"/>
+                        <ui:Button name="tab-tools" text="Tools" class="category-button tools-button"/>
+                        <ui:Button name="tab-fruits" text="Fruits" class="category-button fruits-button"/>
+                        <ui:Button name="tab-produce" text="Produce" class="category-button produce-button"/>
+                    </ui:VisualElement>
+                    <ui:VisualElement class="section-stage">
+                        <ui:VisualElement name="section-seeds" class="section-panel seeds-theme">
+                            <ui:VisualElement class="section-header">
+                                <ui:Label text="Seeds" class="section-title"/>
+                                <ui:Label text="Grow your next harvest." class="section-description"/>
+                            </ui:VisualElement>
+                            <ui:ScrollView name="scroll-seeds" class="item-scroll">
+                                <ui:VisualElement name="grid-seeds" class="items-grid"/>
+                            </ui:ScrollView>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="section-tools" class="section-panel tools-theme hidden">
+                            <ui:VisualElement class="section-header">
+                                <ui:Label text="Tools" class="section-title"/>
+                                <ui:Label text="Reliable gear for farm work." class="section-description"/>
+                            </ui:VisualElement>
+                            <ui:ScrollView name="scroll-tools" class="item-scroll">
+                                <ui:VisualElement name="grid-tools" class="items-grid tools-grid"/>
+                            </ui:ScrollView>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="section-fruits" class="section-panel fruits-theme hidden">
+                            <ui:VisualElement class="section-header">
+                                <ui:Label text="Fruits" class="section-title"/>
+                                <ui:Label text="Sweet and colorful fresh picks." class="section-description"/>
+                            </ui:VisualElement>
+                            <ui:ScrollView name="scroll-fruits" class="item-scroll">
+                                <ui:VisualElement name="grid-fruits" class="items-grid"/>
+                            </ui:ScrollView>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="section-produce" class="section-panel produce-theme hidden">
+                            <ui:VisualElement class="section-header">
+                                <ui:Label text="Produce" class="section-title"/>
+                                <ui:Label text="Fresh goods from land and water." class="section-description"/>
+                            </ui:VisualElement>
+                            <ui:ScrollView name="scroll-produce" class="item-scroll">
+                                <ui:VisualElement name="grid-produce" class="items-grid"/>
+                            </ui:ScrollView>
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:Label name="interaction-hint" text="" class="interaction-hint hidden"/>
+    </ui:VisualElement>
+</ui:UXML>

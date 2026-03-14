@@ -1,0 +1,429 @@
+.screen-root {
+    flex-grow: 1;
+}
+
+.hidden {
+    display: none;
+}
+
+.market-root {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    align-items: center;
+    justify-content: center;
+}
+
+.market-backdrop {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.72);
+}
+
+.market-window {
+    width: 1080px;
+    height: 680px;
+    flex-direction: column;
+    border-top-left-radius: 26px;
+    border-top-right-radius: 26px;
+    border-bottom-left-radius: 26px;
+    border-bottom-right-radius: 26px;
+    border-width: 3px;
+    border-color: rgb(58, 38, 23);
+    background-color: rgb(245, 230, 210);
+    overflow: hidden;
+}
+
+.market-topbar {
+    height: 96px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 24px;
+    padding-right: 24px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    background-color: rgb(96, 62, 33);
+    border-bottom-width: 3px;
+    border-bottom-color: rgb(63, 38, 18);
+}
+
+.brand-block {
+    flex-direction: column;
+    justify-content: center;
+}
+
+.market-title {
+    font-size: 28px;
+    -unity-font-style: bold;
+    color: rgb(255, 244, 228);
+}
+
+.market-subtitle {
+    margin-top: 4px;
+    font-size: 14px;
+    color: rgb(232, 214, 188);
+}
+
+.money-chip {
+    min-width: 150px;
+    height: 56px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(255, 235, 166);
+    border-top-left-radius: 18px;
+    border-top-right-radius: 18px;
+    border-bottom-left-radius: 18px;
+    border-bottom-right-radius: 18px;
+    border-width: 2px;
+    border-color: rgb(161, 125, 42);
+    margin-left: auto;
+    margin-right: 12px;
+}
+
+.money-chip-label {
+    font-size: 12px;
+    color: rgb(105, 74, 15);
+}
+
+.money-chip-value {
+    font-size: 20px;
+    -unity-font-style: bold;
+    color: rgb(77, 53, 9);
+}
+
+.close-button {
+    width: 110px;
+    height: 44px;
+    color: white;
+    background-color: rgb(172, 76, 62);
+    border-width: 2px;
+    border-color: rgb(108, 39, 30);
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
+    border-bottom-left-radius: 14px;
+    border-bottom-right-radius: 14px;
+    font-size: 15px;
+    -unity-font-style: bold;
+}
+
+.close-button:hover {
+    background-color: rgb(193, 89, 74);
+}
+
+.market-body {
+    flex-grow: 1;
+    flex-direction: row;
+}
+
+.category-rail {
+    width: 220px;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background-color: rgb(228, 210, 186);
+    border-right-width: 3px;
+    border-right-color: rgb(182, 153, 117);
+}
+
+.rail-title {
+    font-size: 22px;
+    -unity-font-style: bold;
+    color: rgb(81, 57, 30);
+    margin-bottom: 18px;
+}
+
+.category-button {
+    height: 56px;
+    margin-bottom: 12px;
+    color: rgb(54, 36, 17);
+    border-width: 2px;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+    -unity-font-style: bold;
+    font-size: 17px;
+}
+
+.seeds-button {
+    background-color: rgb(201, 235, 185);
+    border-color: rgb(106, 157, 72);
+}
+
+.tools-button {
+    background-color: rgb(214, 207, 198);
+    border-color: rgb(111, 98, 86);
+}
+
+.fruits-button {
+    background-color: rgb(255, 214, 177);
+    border-color: rgb(192, 111, 47);
+}
+
+.produce-button {
+    background-color: rgb(204, 225, 239);
+    border-color: rgb(80, 130, 164);
+}
+
+.category-button.active-tab {
+    border-width: 4px;
+    translate: 3px 0;
+}
+
+.section-stage {
+    flex-grow: 1;
+    padding-left: 18px;
+    padding-right: 18px;
+    padding-top: 18px;
+    padding-bottom: 18px;
+}
+
+.section-panel {
+    flex-grow: 1;
+    border-top-left-radius: 22px;
+    border-top-right-radius: 22px;
+    border-bottom-left-radius: 22px;
+    border-bottom-right-radius: 22px;
+    border-width: 3px;
+    overflow: hidden;
+}
+
+.seeds-theme {
+    background-color: rgb(235, 247, 225);
+    border-color: rgb(111, 152, 78);
+}
+
+.tools-theme {
+    background-color: rgb(234, 230, 224);
+    border-color: rgb(116, 101, 89);
+}
+
+.fruits-theme {
+    background-color: rgb(255, 239, 223);
+    border-color: rgb(197, 116, 48);
+}
+
+.produce-theme {
+    background-color: rgb(228, 240, 246);
+    border-color: rgb(78, 129, 165);
+}
+
+.section-header {
+    height: 92px;
+    padding-left: 20px;
+    padding-right: 20px;
+    justify-content: center;
+    border-bottom-width: 3px;
+}
+
+.seeds-theme .section-header {
+    background-color: rgb(191, 225, 165);
+    border-bottom-color: rgb(110, 153, 78);
+}
+
+.tools-theme .section-header {
+    background-color: rgb(206, 198, 189);
+    border-bottom-color: rgb(120, 107, 92);
+}
+
+.fruits-theme .section-header {
+    background-color: rgb(255, 205, 160);
+    border-bottom-color: rgb(193, 113, 49);
+}
+
+.produce-theme .section-header {
+    background-color: rgb(191, 220, 237);
+    border-bottom-color: rgb(82, 127, 161);
+}
+
+.section-title {
+    font-size: 30px;
+    -unity-font-style: bold;
+    color: rgb(58, 39, 19);
+}
+
+.section-description {
+    margin-top: 4px;
+    font-size: 14px;
+    color: rgb(73, 54, 34);
+}
+
+.item-scroll {
+    flex-grow: 1;
+    padding-left: 18px;
+    padding-right: 18px;
+    padding-top: 18px;
+    padding-bottom: 18px;
+}
+
+.items-grid {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: flex-start;
+}
+
+.tools-grid {
+    max-width: 680px;
+}
+
+.item-card {
+    width: 188px;
+    min-height: 255px;
+    margin-right: 14px;
+    margin-bottom: 14px;
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    border-width: 2px;
+    border-top-left-radius: 18px;
+    border-top-right-radius: 18px;
+    border-bottom-left-radius: 18px;
+    border-bottom-right-radius: 18px;
+    justify-content: space-between;
+}
+
+.item-card.seeds-card {
+    background-color: rgb(250, 255, 246);
+    border-color: rgb(136, 177, 108);
+}
+
+.item-card.tools-card {
+    background-color: rgb(245, 243, 240);
+    border-color: rgb(130, 118, 105);
+}
+
+.item-card.fruits-card {
+    background-color: rgb(255, 248, 241);
+    border-color: rgb(212, 136, 71);
+}
+
+.item-card.produce-card {
+    background-color: rgb(243, 250, 255);
+    border-color: rgb(108, 154, 187);
+}
+
+.item-icon {
+    width: 100px;
+    height: 100px;
+    align-self: center;
+    background-color: rgba(255, 255, 255, 0.55);
+    border-width: 2px;
+    border-color: rgba(78, 54, 31, 0.2);
+    border-top-left-radius: 18px;
+    border-top-right-radius: 18px;
+    border-bottom-left-radius: 18px;
+    border-bottom-right-radius: 18px;
+    margin-bottom: 10px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.item-name {
+    font-size: 18px;
+    -unity-font-style: bold;
+    color: rgb(63, 42, 20);
+    min-height: 42px;
+    unity-text-align: middle-center;
+}
+
+.item-price {
+    margin-top: 8px;
+    margin-bottom: 10px;
+    align-self: center;
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    border-top-left-radius: 999px;
+    border-top-right-radius: 999px;
+    border-bottom-left-radius: 999px;
+    border-bottom-right-radius: 999px;
+    font-size: 14px;
+    -unity-font-style: bold;
+    color: white;
+}
+
+.seeds-card .item-price {
+    background-color: rgb(102, 160, 72);
+}
+
+.tools-card .item-price {
+    background-color: rgb(116, 101, 89);
+}
+
+.fruits-card .item-price {
+    background-color: rgb(215, 118, 47);
+}
+
+.produce-card .item-price {
+    background-color: rgb(74, 130, 167);
+}
+
+.buy-button {
+    height: 42px;
+    color: white;
+    font-size: 15px;
+    -unity-font-style: bold;
+    border-width: 2px;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+
+.seeds-card .buy-button {
+    background-color: rgb(104, 161, 72);
+    border-color: rgb(71, 113, 49);
+}
+
+.tools-card .buy-button {
+    background-color: rgb(111, 96, 84);
+    border-color: rgb(73, 61, 52);
+}
+
+.fruits-card .buy-button {
+    background-color: rgb(212, 116, 46);
+    border-color: rgb(145, 75, 22);
+}
+
+.produce-card .buy-button {
+    background-color: rgb(74, 130, 167);
+    border-color: rgb(45, 87, 113);
+}
+
+.buy-button:disabled {
+    opacity: 0.45;
+}
+
+.interaction-hint {
+    position: absolute;
+    left: 50%;
+    bottom: 50px;
+    translate: -50% 0;
+    min-width: 320px;
+    padding-left: 18px;
+    padding-right: 18px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    color: white;
+    font-size: 18px;
+    -unity-font-style: bold;
+    unity-text-align: middle-center;
+    background-color: rgba(0, 0, 0, 0.82);
+    border-width: 2px;
+    border-color: rgba(255, 255, 255, 0.15);
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+}

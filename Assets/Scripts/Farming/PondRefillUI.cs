@@ -3,8 +3,9 @@ using UnityEngine.UIElements;
 using System.Collections;
 
 /// <summary>
-/// Mini-game UI for refilling watering can at pond.
-/// Player scrolls mouse wheel to pull water up and fill the bar.
+/// Refill mini-game for watering can.
+/// Scroll mouse wheel upward to raise the water level.
+/// If the player stops, the water slowly drops.
 /// </summary>
 public class PondRefillUI : MonoBehaviour
 {
@@ -12,19 +13,25 @@ public class PondRefillUI : MonoBehaviour
     [SerializeField] private PickupToastUIToolkit pickupToast;
     [SerializeField] private FarmingInputHandler farmingInputHandler;
 
-    [Header("Fill Settings")]
-    [SerializeField] private float fillSpeed = 0.15f;  // How much scroll adds per unit
-    [SerializeField] private float fillDuration = 2f;  // Seconds to auto-fill if not scrolled
-    [SerializeField] private float autoFillPerSecond = 0.3f;  // Fill rate per second if idling
+    [Header("Optional")]
+    [SerializeField] private PondRefillTrigger currentTrigger;
 
-    private VisualElement root;
-    private ProgressBar fillBar;
-    private Label instructionLabel;
+    [Header("Fill Settings")]
+    [SerializeField] private float fillSpeed = 50f;
+    [SerializeField] private float drainPerSecond = 0.00001f;
+    [SerializeField] private KeyCode closeKey = KeyCode.Escape;
+
+    private VisualElement documentRoot;
+    private VisualElement refillRoot;
+    private VisualElement fillArea;
+    private VisualElement waveHighlight;
     private Label percentLabel;
-    private VisualElement waterContainer;
+    private Label instructionLabel;
+    private Label flavorLabel;
+
     private float currentFill = 0f;
     private bool isActive = false;
-    private float idleTimer = 0f;
+    private float waveTimer = 0f;
 
     private void OnEnable()
     {
@@ -32,167 +39,200 @@ public class PondRefillUI : MonoBehaviour
             uiDocument = GetComponent<UIDocument>();
 
         if (uiDocument != null)
-            root = uiDocument.rootVisualElement;
+        {
+            documentRoot = uiDocument.rootVisualElement;
+            refillRoot = documentRoot.Q<VisualElement>("refillRoot");
+            fillArea = documentRoot.Q<VisualElement>("fillArea");
+            waveHighlight = documentRoot.Q<VisualElement>("waveHighlight");
+            percentLabel = documentRoot.Q<Label>("percentLabel");
+            instructionLabel = documentRoot.Q<Label>("instructionLabel");
+            flavorLabel = documentRoot.Q<Label>("flavorLabel");
+        }
 
         if (farmingInputHandler == null)
             farmingInputHandler = FindFirstObjectByType<FarmingInputHandler>();
 
         if (pickupToast == null)
             pickupToast = FindFirstObjectByType<PickupToastUIToolkit>();
+
+        if (refillRoot != null)
+        {
+            refillRoot.style.display = DisplayStyle.None;
+            refillRoot.style.opacity = 0f;
+        }
+
+        if (fillArea != null)
+            fillArea.style.height = new Length(0, LengthUnit.Percent);
     }
 
     private void Update()
     {
-        if (!isActive || root == null) return;
+        if (!isActive || refillRoot == null)
+            return;
 
-        // Get mouse scroll input
+        if (Input.GetKeyDown(closeKey))
+        {
+            HideRefillUI();
+            return;
+        }
+
         float scrollInput = Input.GetAxis("Mouse ScrollWheel");
 
-        if (scrollInput != 0f)
+        Debug.Log($"[PondRefillUI] Scroll input: {scrollInput}, fillSpeed: {fillSpeed}, drain: {drainPerSecond}");
+
+        if (scrollInput > 0f)
         {
-            // Player is scrolling - add to fill
             currentFill += scrollInput * fillSpeed;
-            // Clamp to 0-1
-            currentFill = Mathf.Clamp01(currentFill);
-            idleTimer = 0f;
-            UpdateFillBar();
+            Debug.Log($"[PondRefillUI] Adding to fill! New fill: {currentFill}");
         }
         else
         {
-            // No scroll input - auto-fill slowly
-            idleTimer += Time.deltaTime;
-            if (idleTimer > 0.2f)  // Slight delay before auto-fill kicks in
-            {
-                currentFill += autoFillPerSecond * Time.deltaTime;
-                currentFill = Mathf.Clamp01(currentFill);
-                UpdateFillBar();
-            }
+            currentFill -= drainPerSecond * Time.deltaTime;
         }
 
-        // Check if full
+        currentFill = Mathf.Clamp01(currentFill);
+
+        UpdateVisuals(scrollInput > 0f);
+        AnimateWave();
+
         if (currentFill >= 1f)
-        {
             CompleteRefill();
-        }
+    }
+
+    public void SetTrigger(PondRefillTrigger trigger)
+    {
+        currentTrigger = trigger;
     }
 
     public void ShowRefillUI()
     {
-        Debug.Log("[PondRefillUI] ShowRefillUI called. Root is: " + (root != null ? "NOT NULL" : "NULL"));
+        if (refillRoot == null)
+            return;
 
-        if (root == null) return;
+        StopAllCoroutines();
 
-        // Enable UI
-        root.style.display = DisplayStyle.Flex;
-        Debug.Log("[PondRefillUI] UI display set to Flex");
+        refillRoot.style.display = DisplayStyle.Flex;
+        refillRoot.style.opacity = 0f;
+
         isActive = true;
         currentFill = 0f;
-        idleTimer = 0f;
+        waveTimer = 0f;
 
-        // Find UI elements
-        fillBar = root.Q<ProgressBar>("fillBar");
-        instructionLabel = root.Q<Label>("instructionLabel");
-        percentLabel = root.Q<Label>("percentLabel");
-        waterContainer = root.Q<VisualElement>("waterContainer");
-
-        if (fillBar != null)
-            fillBar.value = 0f;
-
-        if (instructionLabel != null)
-            instructionLabel.text = "Scroll up to pull water";
-
-        if (percentLabel != null)
-            percentLabel.text = "0%";
-
-        // Play show animation
+        UpdateVisuals(false);
         StartCoroutine(ShowAnimation());
     }
 
     public void HideRefillUI()
     {
-        if (root == null) return;
+        if (refillRoot == null)
+            return;
 
+        StopAllCoroutines();
         isActive = false;
         StartCoroutine(HideAnimation());
     }
 
-    private void UpdateFillBar()
+    private void UpdateVisuals(bool scrolledThisFrame)
     {
-        if (fillBar == null) return;
+        int percent = Mathf.RoundToInt(currentFill * 100f);
 
-        fillBar.value = currentFill;
+        if (fillArea != null)
+            fillArea.style.height = new Length(percent, LengthUnit.Percent);
 
-        // Update percentage
-        int percentage = (int)(currentFill * 100f);
         if (percentLabel != null)
-            percentLabel.text = $"{percentage}%";
+            percentLabel.text = percent + "%";
 
         if (instructionLabel != null)
         {
-            if (currentFill < 0.25f)
-                instructionLabel.text = "Scroll up to pull water";
+            if (currentFill < 0.2f)
+                instructionLabel.text = "Scroll up to raise the water.";
             else if (currentFill < 0.5f)
-                instructionLabel.text = "Keep scrolling...";
-            else if (currentFill < 0.75f)
-                instructionLabel.text = "Almost there!";
+                instructionLabel.text = "Good. Keep turning upward.";
+            else if (currentFill < 0.85f)
+                instructionLabel.text = "Nice. The can is filling well.";
             else
-                instructionLabel.text = "Nearly full!";
+                instructionLabel.text = "Almost full. Just a bit more.";
         }
+
+        if (flavorLabel != null)
+        {
+            if (scrolledThisFrame)
+            {
+                if (currentFill < 0.3f)
+                    flavorLabel.text = "Small ripples gather into the can.";
+                else if (currentFill < 0.7f)
+                    flavorLabel.text = "The water level rises steadily.";
+                else
+                    flavorLabel.text = "The can feels nearly full now.";
+            }
+            else
+            {
+                flavorLabel.text = "If you stop, the water slowly drops.";
+            }
+        }
+    }
+
+    private void AnimateWave()
+    {
+        if (waveHighlight == null)
+            return;
+
+        waveTimer += Time.deltaTime * 2.3f;
+        float xOffset = Mathf.Sin(waveTimer) * 2f;
+        waveHighlight.style.translate = new Translate(xOffset, 0, 0);
     }
 
     private void CompleteRefill()
     {
-        if (farmingInputHandler == null) return;
+        if (farmingInputHandler == null)
+            return;
 
-        // Perform refill
         bool refilled = farmingInputHandler.TryRefillWateringCan();
 
-        if (refilled)
-        {
-            if (pickupToast != null)
-                pickupToast.Show("Watering can refilled! ✓");
-            Debug.Log("[PondRefillUI] Watering can refilled successfully.");
-        }
+        if (refilled && pickupToast != null)
+            pickupToast.Show("Watering can refilled! ✓");
 
-        // Close UI
         HideRefillUI();
     }
 
     private IEnumerator ShowAnimation()
     {
-        if (root == null) yield break;
+        if (refillRoot == null)
+            yield break;
 
-        root.style.opacity = 0f;
         float elapsed = 0f;
-        float duration = 0.3f;
+        float duration = 0.2f;
 
         while (elapsed < duration)
         {
             elapsed += Time.deltaTime;
-            root.style.opacity = Mathf.Clamp01(elapsed / duration);
+            refillRoot.style.opacity = Mathf.Clamp01(elapsed / duration);
             yield return null;
         }
 
-        root.style.opacity = 1f;
+        refillRoot.style.opacity = 1f;
     }
 
     private IEnumerator HideAnimation()
     {
-        if (root == null) yield break;
+        if (refillRoot == null)
+            yield break;
 
-        root.style.opacity = 1f;
         float elapsed = 0f;
-        float duration = 0.3f;
+        float duration = 0.16f;
 
         while (elapsed < duration)
         {
             elapsed += Time.deltaTime;
-            root.style.opacity = Mathf.Clamp01(1f - (elapsed / duration));
+            refillRoot.style.opacity = Mathf.Clamp01(1f - (elapsed / duration));
             yield return null;
         }
 
-        root.style.opacity = 0f;
-        root.style.display = DisplayStyle.None;
+        refillRoot.style.opacity = 0f;
+        refillRoot.style.display = DisplayStyle.None;
         isActive = false;
+
+        if (currentTrigger != null)
+            currentTrigger.NotifyUIClosed();
     }
 }

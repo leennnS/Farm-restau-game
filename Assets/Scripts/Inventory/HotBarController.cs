@@ -79,6 +79,7 @@ public class HotBarController : MonoBehaviour
             label.style.fontSize = 11;
             label.style.unityFontStyleAndWeight = FontStyle.Bold;
             label.style.color = new Color(0.23f, 0.16f, 0.09f);
+            label.pickingMode = PickingMode.Ignore;  // Allow mouse events to pass through to parent slot
             slot.Add(label);
         }
         label.text = text;

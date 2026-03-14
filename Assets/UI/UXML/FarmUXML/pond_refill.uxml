@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:UXML xmlns:ui="UnityEngine.UIElements"
+         xmlns:uie="UnityEditor.UIElements"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="UnityEngine.UIElements UnityEngine.UIElements/Schema/UIElements.xsd UnityEditor.UIElements UnityEditor.UIElements/Schema/UIElements.xsd">
+
+    <ui:VisualElement name="refillRoot"
+                      style="width: 100%; height: 100%; position: absolute; left: 0; top: 0; right: 0; bottom: 0; align-items: center; justify-content: center;">
+
+        <ui:VisualElement name="overlay"
+                          style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.28);" />
+
+        <ui:VisualElement name="refillPanel"
+                          style="width: 360px; height: 330px; background-color: rgb(238, 221, 182); border-left-width: 3px; border-right-width: 3px; border-top-width: 3px; border-bottom-width: 3px; border-left-color: rgb(121, 94, 59); border-right-color: rgb(121, 94, 59); border-top-color: rgb(160, 127, 85); border-bottom-color: rgb(92, 67, 40); align-items: center; justify-content: flex-start; padding-top: 18px; padding-bottom: 16px; padding-left: 18px; padding-right: 18px;">
+
+            <ui:Label name="titleLabel"
+                      text="Refill Watering Can"
+                      style="font-size: 22px; unity-font-style: bold; color: rgb(73, 56, 35); margin-bottom: 6px;" />
+
+            <ui:Label name="subtitleLabel"
+                      text="Turn the wheel upward to draw water"
+                      style="font-size: 12px; color: rgb(105, 84, 57); margin-bottom: 16px;" />
+
+            <ui:VisualElement name="centerArea"
+                              style="flex-direction: row; align-items: center; justify-content: center; gap: 28px; margin-bottom: 16px;">
+
+                <ui:VisualElement name="gaugeShell"
+                                  style="width: 86px; height: 170px; background-color: rgb(212, 194, 160); border-left-width: 3px; border-right-width: 3px; border-top-width: 3px; border-bottom-width: 3px; border-left-color: rgb(145, 116, 74); border-right-color: rgb(145, 116, 74); border-top-color: rgb(184, 150, 106); border-bottom-color: rgb(104, 76, 45); align-items: center; justify-content: center;">
+
+                    <ui:VisualElement name="waterContainer"
+                                      style="width: 46px; height: 132px; background-color: rgb(188, 220, 231); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(95, 126, 145); border-right-color: rgb(95, 126, 145); border-top-color: rgb(139, 170, 188); border-bottom-color: rgb(59, 84, 101); position: relative;">
+
+                        <ui:VisualElement name="fillArea"
+                                          style="position: absolute; left: 0; right: 0; bottom: 0; height: 0%; background-color: rgb(71, 162, 205);" />
+
+                        <ui:VisualElement name="waveHighlight"
+                                          style="position: absolute; left: 0; right: 0; bottom: 0; height: 6px; background-color: rgba(206, 244, 255, 0.65);" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+
+                <ui:VisualElement name="statusArea"
+                                  style="width: 170px; flex-direction: column; align-items: flex-start; justify-content: center;">
+
+                    <ui:Label name="percentLabel"
+                              text="0%"
+                              style="font-size: 30px; unity-font-style: bold; color: rgb(47, 92, 114); margin-bottom: 8px;" />
+
+                    <ui:Label name="instructionLabel"
+                              text="Scroll up to raise the water."
+                              style="font-size: 15px; unity-font-style: bold; color: rgb(73, 56, 35); margin-bottom: 8px; white-space: normal;" />
+
+                    <ui:Label name="flavorLabel"
+                              text="If you stop, the water slowly drops."
+                              style="font-size: 12px; color: rgb(105, 84, 57); white-space: normal;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+
+            <ui:VisualElement name="footerHint"
+                              style="margin-top: 10px; padding-left: 12px; padding-right: 12px; padding-top: 7px; padding-bottom: 7px; background-color: rgba(255, 248, 232, 0.75); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(188, 162, 120); border-right-color: rgb(188, 162, 120); border-top-color: rgb(220, 197, 158); border-bottom-color: rgb(143, 113, 71);">
+                <ui:Label text="Mouse wheel up: fill   •   Esc: cancel"
+                          style="font-size: 11px; color: rgb(96, 75, 49);" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
