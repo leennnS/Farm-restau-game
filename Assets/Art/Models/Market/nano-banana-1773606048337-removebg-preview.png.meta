@@ -1,0 +1,2418 @@
+fileFormatVersion: 2
+guid: 1594f853a3fb85d4cab3a5a023678578
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -6788348296977538991
+    second: nano-banana-1773606048337-removebg-preview_0
+  - first:
+      213: 198944235236682114
+    second: nano-banana-1773606048337-removebg-preview_1
+  - first:
+      213: 6726167752924366823
+    second: nano-banana-1773606048337-removebg-preview_2
+  - first:
+      213: -67297060701957956
+    second: nano-banana-1773606048337-removebg-preview_3
+  - first:
+      213: -5747788346290321981
+    second: nano-banana-1773606048337-removebg-preview_4
+  - first:
+      213: -2169769886009202476
+    second: nano-banana-1773606048337-removebg-preview_5
+  - first:
+      213: -529789990149397806
+    second: nano-banana-1773606048337-removebg-preview_6
+  - first:
+      213: 2966200641803859340
+    second: nano-banana-1773606048337-removebg-preview_7
+  - first:
+      213: 4343102461935942328
+    second: nano-banana-1773606048337-removebg-preview_8
+  - first:
+      213: 1997434418622289267
+    second: nano-banana-1773606048337-removebg-preview_9
+  - first:
+      213: -4405270536608758149
+    second: nano-banana-1773606048337-removebg-preview_10
+  - first:
+      213: -8621588313646888906
+    second: nano-banana-1773606048337-removebg-preview_11
+  - first:
+      213: 6450050663389846582
+    second: nano-banana-1773606048337-removebg-preview_12
+  - first:
+      213: -9033529681680488821
+    second: nano-banana-1773606048337-removebg-preview_13
+  - first:
+      213: 4542815513020122512
+    second: nano-banana-1773606048337-removebg-preview_14
+  - first:
+      213: 1889733258756785154
+    second: nano-banana-1773606048337-removebg-preview_15
+  - first:
+      213: -3674207709256826675
+    second: nano-banana-1773606048337-removebg-preview_16
+  - first:
+      213: 2336708860432108
+    second: nano-banana-1773606048337-removebg-preview_17
+  - first:
+      213: -7840931142930906082
+    second: nano-banana-1773606048337-removebg-preview_18
+  - first:
+      213: -2984984337062491458
+    second: nano-banana-1773606048337-removebg-preview_19
+  - first:
+      213: -5239650149675431041
+    second: nano-banana-1773606048337-removebg-preview_20
+  - first:
+      213: 7233783181453878561
+    second: nano-banana-1773606048337-removebg-preview_21
+  - first:
+      213: 5307682443979181013
+    second: nano-banana-1773606048337-removebg-preview_22
+  - first:
+      213: 8282515968054325202
+    second: nano-banana-1773606048337-removebg-preview_23
+  - first:
+      213: 5983960415447513277
+    second: nano-banana-1773606048337-removebg-preview_24
+  - first:
+      213: 6415983512378253346
+    second: nano-banana-1773606048337-removebg-preview_25
+  - first:
+      213: 8815718995837699119
+    second: nano-banana-1773606048337-removebg-preview_26
+  - first:
+      213: -4448075625458530298
+    second: nano-banana-1773606048337-removebg-preview_27
+  - first:
+      213: 4176645582532160626
+    second: nano-banana-1773606048337-removebg-preview_28
+  - first:
+      213: -3310189819404754762
+    second: nano-banana-1773606048337-removebg-preview_29
+  - first:
+      213: -3990289072254179946
+    second: nano-banana-1773606048337-removebg-preview_30
+  - first:
+      213: -4928159560523290428
+    second: nano-banana-1773606048337-removebg-preview_31
+  - first:
+      213: -8428029105029071919
+    second: nano-banana-1773606048337-removebg-preview_32
+  - first:
+      213: 5129485539098339939
+    second: nano-banana-1773606048337-removebg-preview_33
+  - first:
+      213: 905705908697932096
+    second: nano-banana-1773606048337-removebg-preview_34
+  - first:
+      213: 2182282621059953258
+    second: nano-banana-1773606048337-removebg-preview_35
+  - first:
+      213: -7077001653987686832
+    second: nano-banana-1773606048337-removebg-preview_36
+  - first:
+      213: 2552085613784303762
+    second: nano-banana-1773606048337-removebg-preview_37
+  - first:
+      213: 5190113315464695533
+    second: nano-banana-1773606048337-removebg-preview_38
+  - first:
+      213: -7521904568568621418
+    second: nano-banana-1773606048337-removebg-preview_39
+  - first:
+      213: 6901381525629759595
+    second: nano-banana-1773606048337-removebg-preview_40
+  - first:
+      213: 2281686512891225785
+    second: nano-banana-1773606048337-removebg-preview_41
+  - first:
+      213: 4733519900959385366
+    second: nano-banana-1773606048337-removebg-preview_42
+  - first:
+      213: -1751996562681685567
+    second: nano-banana-1773606048337-removebg-preview_43
+  - first:
+      213: -2492347464595024813
+    second: nano-banana-1773606048337-removebg-preview_44
+  - first:
+      213: 4454293517066754619
+    second: nano-banana-1773606048337-removebg-preview_45
+  - first:
+      213: -5685699525361539003
+    second: nano-banana-1773606048337-removebg-preview_46
+  - first:
+      213: 5238299839433368700
+    second: nano-banana-1773606048337-removebg-preview_47
+  - first:
+      213: -8602575927748560281
+    second: nano-banana-1773606048337-removebg-preview_48
+  - first:
+      213: -62510952380288611
+    second: nano-banana-1773606048337-removebg-preview_49
+  - first:
+      213: -902289956192920996
+    second: nano-banana-1773606048337-removebg-preview_50
+  - first:
+      213: 4359375194906546981
+    second: nano-banana-1773606048337-removebg-preview_51
+  - first:
+      213: 5322719554805484281
+    second: nano-banana-1773606048337-removebg-preview_52
+  - first:
+      213: -2164953273641926699
+    second: nano-banana-1773606048337-removebg-preview_53
+  - first:
+      213: 6446915312541525212
+    second: nano-banana-1773606048337-removebg-preview_54
+  - first:
+      213: 1410339980190805289
+    second: nano-banana-1773606048337-removebg-preview_55
+  - first:
+      213: -1141523388969350053
+    second: nano-banana-1773606048337-removebg-preview_56
+  - first:
+      213: -4935290850129670803
+    second: nano-banana-1773606048337-removebg-preview_57
+  - first:
+      213: -1636176349070885501
+    second: nano-banana-1773606048337-removebg-preview_58
+  - first:
+      213: 2131971232371395694
+    second: nano-banana-1773606048337-removebg-preview_59
+  - first:
+      213: -4485349104268149200
+    second: nano-banana-1773606048337-removebg-preview_60
+  - first:
+      213: 3638838534702302369
+    second: nano-banana-1773606048337-removebg-preview_61
+  - first:
+      213: 8969607326250050808
+    second: nano-banana-1773606048337-removebg-preview_62
+  - first:
+      213: -2316350242946814341
+    second: nano-banana-1773606048337-removebg-preview_63
+  - first:
+      213: -7648526847762443508
+    second: nano-banana-1773606048337-removebg-preview_64
+  - first:
+      213: 3192611750437048906
+    second: nano-banana-1773606048337-removebg-preview_65
+  - first:
+      213: -4769759508500768603
+    second: nano-banana-1773606048337-removebg-preview_66
+  - first:
+      213: -8343833490832918627
+    second: nano-banana-1773606048337-removebg-preview_67
+  - first:
+      213: 4242374377494770435
+    second: nano-banana-1773606048337-removebg-preview_68
+  - first:
+      213: -3353138139051464652
+    second: nano-banana-1773606048337-removebg-preview_69
+  - first:
+      213: 1257106356519685232
+    second: nano-banana-1773606048337-removebg-preview_70
+  - first:
+      213: 8539902686166826344
+    second: nano-banana-1773606048337-removebg-preview_71
+  - first:
+      213: -8695789176327313918
+    second: nano-banana-1773606048337-removebg-preview_72
+  - first:
+      213: 7045022549135879447
+    second: nano-banana-1773606048337-removebg-preview_73
+  - first:
+      213: -8421903248973190058
+    second: nano-banana-1773606048337-removebg-preview_74
+  - first:
+      213: -4491095569562746106
+    second: nano-banana-1773606048337-removebg-preview_75
+  - first:
+      213: -5298736630251855362
+    second: nano-banana-1773606048337-removebg-preview_76
+  - first:
+      213: -6374283369538306117
+    second: nano-banana-1773606048337-removebg-preview_77
+  - first:
+      213: -4119076276337473163
+    second: nano-banana-1773606048337-removebg-preview_78
+  - first:
+      213: 5240972937023442065
+    second: nano-banana-1773606048337-removebg-preview_79
+  - first:
+      213: 7055929539461639395
+    second: nano-banana-1773606048337-removebg-preview_80
+  - first:
+      213: -2100666785396357014
+    second: nano-banana-1773606048337-removebg-preview_81
+  - first:
+      213: -5195580913107005287
+    second: nano-banana-1773606048337-removebg-preview_82
+  - first:
+      213: -1550435345530944377
+    second: nano-banana-1773606048337-removebg-preview_83
+  - first:
+      213: -6969897731202676985
+    second: nano-banana-1773606048337-removebg-preview_84
+  - first:
+      213: 2523410704282513243
+    second: nano-banana-1773606048337-removebg-preview_85
+  - first:
+      213: 4436320060368078406
+    second: nano-banana-1773606048337-removebg-preview_86
+  - first:
+      213: -4745947614697738795
+    second: nano-banana-1773606048337-removebg-preview_87
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 32
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_0
+      rect:
+        serializedVersion: 2
+        x: 105
+        y: 347
+        width: 64
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 150a60ba031fac1a0800000000000000
+      internalID: -6788348296977538991
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_1
+      rect:
+        serializedVersion: 2
+        x: 171
+        y: 350
+        width: 38
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 289e4675abac2c200800000000000000
+      internalID: 198944235236682114
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_2
+      rect:
+        serializedVersion: 2
+        x: 391
+        y: 347
+        width: 64
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7e78ebc3fe5285d50800000000000000
+      internalID: 6726167752924366823
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_3
+      rect:
+        serializedVersion: 2
+        x: 457
+        y: 350
+        width: 54
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cb09e6a0ea9e01ff0800000000000000
+      internalID: -67297060701957956
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_4
+      rect:
+        serializedVersion: 2
+        x: 575
+        y: 350
+        width: 48
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3c54c3fb3f0cb30b0800000000000000
+      internalID: -5747788346290321981
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_5
+      rect:
+        serializedVersion: 2
+        x: 623
+        y: 350
+        width: 41
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d8e41cd8cd63e1e0800000000000000
+      internalID: -2169769886009202476
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_6
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 291
+        width: 52
+        height: 55
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2d266979fcec5a8f0800000000000000
+      internalID: -529789990149397806
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_7
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 291
+        width: 52
+        height: 55
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c853143a4cf0a2920800000000000000
+      internalID: 2966200641803859340
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_8
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 291
+        width: 55
+        height: 57
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8baf0daadacc54c30800000000000000
+      internalID: 4343102461935942328
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_9
+      rect:
+        serializedVersion: 2
+        x: 217
+        y: 288
+        width: 58
+        height: 61
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 375de18550058bb10800000000000000
+      internalID: 1997434418622289267
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_10
+      rect:
+        serializedVersion: 2
+        x: 389
+        y: 292
+        width: 45
+        height: 55
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b76c0fd79c55dd2c0800000000000000
+      internalID: -4405270536608758149
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_11
+      rect:
+        serializedVersion: 2
+        x: 452
+        y: 291
+        width: 45
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6380b6d9b17f95880800000000000000
+      internalID: -8621588313646888906
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_12
+      rect:
+        serializedVersion: 2
+        x: 592
+        y: 286
+        width: 57
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 63cdf9e87ee238950800000000000000
+      internalID: 6450050663389846582
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_13
+      rect:
+        serializedVersion: 2
+        x: 27
+        y: 271
+        width: 31
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b86ac7fbd9472a280800000000000000
+      internalID: -9033529681680488821
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_14
+      rect:
+        serializedVersion: 2
+        x: 59
+        y: 271
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 095c2b5e3a25b0f30800000000000000
+      internalID: 4542815513020122512
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_15
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 270
+        width: 26
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2048078f26ea93a10800000000000000
+      internalID: 1889733258756785154
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_16
+      rect:
+        serializedVersion: 2
+        x: 148
+        y: 272
+        width: 20
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dc0ceb22e87920dc0800000000000000
+      internalID: -3674207709256826675
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_17
+      rect:
+        serializedVersion: 2
+        x: 167
+        y: 271
+        width: 47
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ceec19d693d480000800000000000000
+      internalID: 2336708860432108
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_18
+      rect:
+        serializedVersion: 2
+        x: 214
+        y: 272
+        width: 12
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e144e452baa6f2390800000000000000
+      internalID: -7840931142930906082
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_19
+      rect:
+        serializedVersion: 2
+        x: 225
+        y: 272
+        width: 15
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eba09418f843396d0800000000000000
+      internalID: -2984984337062491458
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_20
+      rect:
+        serializedVersion: 2
+        x: 239
+        y: 271
+        width: 32
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f7b064123f50947b0800000000000000
+      internalID: -5239650149675431041
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_21
+      rect:
+        serializedVersion: 2
+        x: 337
+        y: 272
+        width: 10
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 125e0c03a7f836460800000000000000
+      internalID: 7233783181453878561
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_22
+      rect:
+        serializedVersion: 2
+        x: 346
+        y: 271
+        width: 27
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5dbc4fdbf0da8a940800000000000000
+      internalID: 5307682443979181013
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_23
+      rect:
+        serializedVersion: 2
+        x: 374
+        y: 272
+        width: 11
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2dfe06ae36861f270800000000000000
+      internalID: 8282515968054325202
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_24
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 270
+        width: 29
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: db87fb02b4c4b0350800000000000000
+      internalID: 5983960415447513277
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_25
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 272
+        width: 55
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 220a11cd2072a0950800000000000000
+      internalID: 6415983512378253346
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_26
+      rect:
+        serializedVersion: 2
+        x: 568
+        y: 271
+        width: 11
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f24c19218b9b75a70800000000000000
+      internalID: 8815718995837699119
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_27
+      rect:
+        serializedVersion: 2
+        x: 578
+        y: 271
+        width: 35
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 608887a19c24542c0800000000000000
+      internalID: -4448075625458530298
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_28
+      rect:
+        serializedVersion: 2
+        x: 21
+        y: 228
+        width: 38
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 27ca88b470d66f930800000000000000
+      internalID: 4176645582532160626
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_29
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 228
+        width: 38
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6b0e34bb5e7df02d0800000000000000
+      internalID: -3310189819404754762
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_30
+      rect:
+        serializedVersion: 2
+        x: 138
+        y: 230
+        width: 140
+        height: 36
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 695aa21fa35af98c0800000000000000
+      internalID: -3990289072254179946
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_31
+      rect:
+        serializedVersion: 2
+        x: 310
+        y: 228
+        width: 33
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4c8609e7df8ab9bb0800000000000000
+      internalID: -4928159560523290428
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_32
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 228
+        width: 33
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1dbb61ebe20a90b80800000000000000
+      internalID: -8428029105029071919
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_33
+      rect:
+        serializedVersion: 2
+        x: 394
+        y: 228
+        width: 34
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 36aa57eabe79f2740800000000000000
+      internalID: 5129485539098339939
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_34
+      rect:
+        serializedVersion: 2
+        x: 468
+        y: 207
+        width: 142
+        height: 61
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 041a9eea9b6b19c00800000000000000
+      internalID: 905705908697932096
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_35
+      rect:
+        serializedVersion: 2
+        x: 607
+        y: 207
+        width: 43
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a6279cb4b76094e10800000000000000
+      internalID: 2182282621059953258
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_36
+      rect:
+        serializedVersion: 2
+        x: 118
+        y: 209
+        width: 53
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0564633cd7079cd90800000000000000
+      internalID: -7077001653987686832
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_37
+      rect:
+        serializedVersion: 2
+        x: 172
+        y: 209
+        width: 11
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2988ffd1854da6320800000000000000
+      internalID: 2552085613784303762
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_38
+      rect:
+        serializedVersion: 2
+        x: 182
+        y: 209
+        width: 20
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dee4c40ef8cf60840800000000000000
+      internalID: 5190113315464695533
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_39
+      rect:
+        serializedVersion: 2
+        x: 357
+        y: 199
+        width: 56
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 696541cc5a3dc9790800000000000000
+      internalID: -7521904568568621418
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_40
+      rect:
+        serializedVersion: 2
+        x: 415
+        y: 199
+        width: 41
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b60fa96bee1a6cf50800000000000000
+      internalID: 6901381525629759595
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_41
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 142
+        width: 94
+        height: 63
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9b66ea96bcd2aaf10800000000000000
+      internalID: 2281686512891225785
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_42
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 142
+        width: 186
+        height: 63
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6172de94547d0b140800000000000000
+      internalID: 4733519900959385366
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_43
+      rect:
+        serializedVersion: 2
+        x: 325
+        y: 138
+        width: 83
+        height: 58
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1c917a1a868afa7e0800000000000000
+      internalID: -1751996562681685567
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_44
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 138
+        width: 77
+        height: 61
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 354d7fb9f27696dd0800000000000000
+      internalID: -2492347464595024813
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_45
+      rect:
+        serializedVersion: 2
+        x: 534
+        y: 183
+        width: 64
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b3ad61a9a54d0dd30800000000000000
+      internalID: 4454293517066754619
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_46
+      rect:
+        serializedVersion: 2
+        x: 601
+        y: 183
+        width: 26
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 548e733e7665811b0800000000000000
+      internalID: -5685699525361539003
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_47
+      rect:
+        serializedVersion: 2
+        x: 626
+        y: 186
+        width: 9
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c74696443fd22b840800000000000000
+      internalID: 5238299839433368700
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_48
+      rect:
+        serializedVersion: 2
+        x: 516
+        y: 137
+        width: 68
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 76a7839a5c28d9880800000000000000
+      internalID: -8602575927748560281
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_49
+      rect:
+        serializedVersion: 2
+        x: 601
+        y: 139
+        width: 56
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d913dc8be9ae12ff0800000000000000
+      internalID: -62510952380288611
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_50
+      rect:
+        serializedVersion: 2
+        x: 37
+        y: 118
+        width: 45
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c5ad7bcb01c6a73f0800000000000000
+      internalID: -902289956192920996
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_51
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 118
+        width: 48
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 523dd0f84ac9f7c30800000000000000
+      internalID: 4359375194906546981
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_52
+      rect:
+        serializedVersion: 2
+        x: 174
+        y: 118
+        width: 52
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9fac43feb391ed940800000000000000
+      internalID: 5322719554805484281
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_53
+      rect:
+        serializedVersion: 2
+        x: 228
+        y: 115
+        width: 38
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5dff041d77a84f1e0800000000000000
+      internalID: -2164953273641926699
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_54
+      rect:
+        serializedVersion: 2
+        x: 332
+        y: 118
+        width: 38
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cd4601dc15b087950800000000000000
+      internalID: 6446915312541525212
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_55
+      rect:
+        serializedVersion: 2
+        x: 372
+        y: 118
+        width: 44
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 92dedcb5db8829310800000000000000
+      internalID: 1410339980190805289
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_56
+      rect:
+        serializedVersion: 2
+        x: 418
+        y: 118
+        width: 43
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b5c8ea9968e7820f0800000000000000
+      internalID: -1141523388969350053
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_57
+      rect:
+        serializedVersion: 2
+        x: 546
+        y: 118
+        width: 22
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d6d09cebe13528bb0800000000000000
+      internalID: -4935290850129670803
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_58
+      rect:
+        serializedVersion: 2
+        x: 567
+        y: 118
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 38dfbb387422b49e0800000000000000
+      internalID: -1636176349070885501
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_59
+      rect:
+        serializedVersion: 2
+        x: 578
+        y: 118
+        width: 52
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e6c49d84a88469d10800000000000000
+      internalID: 2131971232371395694
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_60
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 65
+        width: 57
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 03efa7a01c6d0c1c0800000000000000
+      internalID: -4485349104268149200
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_61
+      rect:
+        serializedVersion: 2
+        x: 88
+        y: 65
+        width: 57
+        height: 52
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1a40fef2e50cf7230800000000000000
+      internalID: 3638838534702302369
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_62
+      rect:
+        serializedVersion: 2
+        x: 180
+        y: 67
+        width: 39
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8f420e717527a7c70800000000000000
+      internalID: 8969607326250050808
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_63
+      rect:
+        serializedVersion: 2
+        x: 227
+        y: 67
+        width: 40
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b7ee3c10abbaadfd0800000000000000
+      internalID: -2316350242946814341
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_64
+      rect:
+        serializedVersion: 2
+        x: 311
+        y: 67
+        width: 34
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c03d4180b59fad590800000000000000
+      internalID: -7648526847762443508
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_65
+      rect:
+        serializedVersion: 2
+        x: 357
+        y: 67
+        width: 32
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a42d98ac87f6e4c20800000000000000
+      internalID: 3192611750437048906
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_66
+      rect:
+        serializedVersion: 2
+        x: 401
+        y: 67
+        width: 32
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5a815cf8ff86ecdb0800000000000000
+      internalID: -4769759508500768603
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_67
+      rect:
+        serializedVersion: 2
+        x: 444
+        y: 67
+        width: 33
+        height: 47
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d9775e9c5afb43c80800000000000000
+      internalID: -8343833490832918627
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_68
+      rect:
+        serializedVersion: 2
+        x: 526
+        y: 66
+        width: 41
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3037bcee401ffda30800000000000000
+      internalID: 4242374377494770435
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_69
+      rect:
+        serializedVersion: 2
+        x: 572
+        y: 66
+        width: 42
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 438e503d0a24771d0800000000000000
+      internalID: -3353138139051464652
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_70
+      rect:
+        serializedVersion: 2
+        x: 619
+        y: 66
+        width: 42
+        height: 50
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 07ccd312293227110800000000000000
+      internalID: 1257106356519685232
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_71
+      rect:
+        serializedVersion: 2
+        x: 41
+        y: 49
+        width: 42
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 86db0692f34d38670800000000000000
+      internalID: 8539902686166826344
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_72
+      rect:
+        serializedVersion: 2
+        x: 147
+        y: 4
+        width: 43
+        height: 45
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 206e25ff0d9525780800000000000000
+      internalID: -8695789176327313918
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_73
+      rect:
+        serializedVersion: 2
+        x: 159
+        y: 49
+        width: 40
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 71d6cdbaea2f4c160800000000000000
+      internalID: 7045022549135879447
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_74
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 49
+        width: 15
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 65cae30cd936f1b80800000000000000
+      internalID: -8421903248973190058
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_75
+      rect:
+        serializedVersion: 2
+        x: 214
+        y: 49
+        width: 17
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 603c1e3df5c6ca1c0800000000000000
+      internalID: -4491095569562746106
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_76
+      rect:
+        serializedVersion: 2
+        x: 313
+        y: 48
+        width: 45
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef1ec73db1b1776b0800000000000000
+      internalID: -5298736630251855362
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_77
+      rect:
+        serializedVersion: 2
+        x: 359
+        y: 49
+        width: 34
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bbf3dfc3c0ff987a0800000000000000
+      internalID: -6374283369538306117
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_78
+      rect:
+        serializedVersion: 2
+        x: 392
+        y: 49
+        width: 22
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5798a2253f916d6c0800000000000000
+      internalID: -4119076276337473163
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_79
+      rect:
+        serializedVersion: 2
+        x: 474
+        y: 46
+        width: 43
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 19cc7bc4e1dabb840800000000000000
+      internalID: 5240972937023442065
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_80
+      rect:
+        serializedVersion: 2
+        x: 519
+        y: 48
+        width: 39
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3ecebcf3882bbe160800000000000000
+      internalID: 7055929539461639395
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_81
+      rect:
+        serializedVersion: 2
+        x: 581
+        y: 48
+        width: 61
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a680df040bee8d2e0800000000000000
+      internalID: -2100666785396357014
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_82
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 48
+        width: 26
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9901578dfa695e7b0800000000000000
+      internalID: -5195580913107005287
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_83
+      rect:
+        serializedVersion: 2
+        x: 29
+        y: 4
+        width: 64
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7840b6e844fbb7ae0800000000000000
+      internalID: -1550435345530944377
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_84
+      rect:
+        serializedVersion: 2
+        x: 194
+        y: 4
+        width: 42
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7070dda01f2f54f90800000000000000
+      internalID: -6969897731202676985
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_85
+      rect:
+        serializedVersion: 2
+        x: 305
+        y: 5
+        width: 126
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b5f6d2b7aa4f40320800000000000000
+      internalID: 2523410704282513243
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_86
+      rect:
+        serializedVersion: 2
+        x: 483
+        y: 3
+        width: 68
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 646cd2c1799f09d30800000000000000
+      internalID: 4436320060368078406
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: nano-banana-1773606048337-removebg-preview_87
+      rect:
+        serializedVersion: 2
+        x: 596
+        y: 8
+        width: 60
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5dd245f1ac1032eb0800000000000000
+      internalID: -4745947614697738795
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      nano-banana-1773606048337-removebg-preview_0: -6788348296977538991
+      nano-banana-1773606048337-removebg-preview_1: 198944235236682114
+      nano-banana-1773606048337-removebg-preview_10: -4405270536608758149
+      nano-banana-1773606048337-removebg-preview_11: -8621588313646888906
+      nano-banana-1773606048337-removebg-preview_12: 6450050663389846582
+      nano-banana-1773606048337-removebg-preview_13: -9033529681680488821
+      nano-banana-1773606048337-removebg-preview_14: 4542815513020122512
+      nano-banana-1773606048337-removebg-preview_15: 1889733258756785154
+      nano-banana-1773606048337-removebg-preview_16: -3674207709256826675
+      nano-banana-1773606048337-removebg-preview_17: 2336708860432108
+      nano-banana-1773606048337-removebg-preview_18: -7840931142930906082
+      nano-banana-1773606048337-removebg-preview_19: -2984984337062491458
+      nano-banana-1773606048337-removebg-preview_2: 6726167752924366823
+      nano-banana-1773606048337-removebg-preview_20: -5239650149675431041
+      nano-banana-1773606048337-removebg-preview_21: 7233783181453878561
+      nano-banana-1773606048337-removebg-preview_22: 5307682443979181013
+      nano-banana-1773606048337-removebg-preview_23: 8282515968054325202
+      nano-banana-1773606048337-removebg-preview_24: 5983960415447513277
+      nano-banana-1773606048337-removebg-preview_25: 6415983512378253346
+      nano-banana-1773606048337-removebg-preview_26: 8815718995837699119
+      nano-banana-1773606048337-removebg-preview_27: -4448075625458530298
+      nano-banana-1773606048337-removebg-preview_28: 4176645582532160626
+      nano-banana-1773606048337-removebg-preview_29: -3310189819404754762
+      nano-banana-1773606048337-removebg-preview_3: -67297060701957956
+      nano-banana-1773606048337-removebg-preview_30: -3990289072254179946
+      nano-banana-1773606048337-removebg-preview_31: -4928159560523290428
+      nano-banana-1773606048337-removebg-preview_32: -8428029105029071919
+      nano-banana-1773606048337-removebg-preview_33: 5129485539098339939
+      nano-banana-1773606048337-removebg-preview_34: 905705908697932096
+      nano-banana-1773606048337-removebg-preview_35: 2182282621059953258
+      nano-banana-1773606048337-removebg-preview_36: -7077001653987686832
+      nano-banana-1773606048337-removebg-preview_37: 2552085613784303762
+      nano-banana-1773606048337-removebg-preview_38: 5190113315464695533
+      nano-banana-1773606048337-removebg-preview_39: -7521904568568621418
+      nano-banana-1773606048337-removebg-preview_4: -5747788346290321981
+      nano-banana-1773606048337-removebg-preview_40: 6901381525629759595
+      nano-banana-1773606048337-removebg-preview_41: 2281686512891225785
+      nano-banana-1773606048337-removebg-preview_42: 4733519900959385366
+      nano-banana-1773606048337-removebg-preview_43: -1751996562681685567
+      nano-banana-1773606048337-removebg-preview_44: -2492347464595024813
+      nano-banana-1773606048337-removebg-preview_45: 4454293517066754619
+      nano-banana-1773606048337-removebg-preview_46: -5685699525361539003
+      nano-banana-1773606048337-removebg-preview_47: 5238299839433368700
+      nano-banana-1773606048337-removebg-preview_48: -8602575927748560281
+      nano-banana-1773606048337-removebg-preview_49: -62510952380288611
+      nano-banana-1773606048337-removebg-preview_5: -2169769886009202476
+      nano-banana-1773606048337-removebg-preview_50: -902289956192920996
+      nano-banana-1773606048337-removebg-preview_51: 4359375194906546981
+      nano-banana-1773606048337-removebg-preview_52: 5322719554805484281
+      nano-banana-1773606048337-removebg-preview_53: -2164953273641926699
+      nano-banana-1773606048337-removebg-preview_54: 6446915312541525212
+      nano-banana-1773606048337-removebg-preview_55: 1410339980190805289
+      nano-banana-1773606048337-removebg-preview_56: -1141523388969350053
+      nano-banana-1773606048337-removebg-preview_57: -4935290850129670803
+      nano-banana-1773606048337-removebg-preview_58: -1636176349070885501
+      nano-banana-1773606048337-removebg-preview_59: 2131971232371395694
+      nano-banana-1773606048337-removebg-preview_6: -529789990149397806
+      nano-banana-1773606048337-removebg-preview_60: -4485349104268149200
+      nano-banana-1773606048337-removebg-preview_61: 3638838534702302369
+      nano-banana-1773606048337-removebg-preview_62: 8969607326250050808
+      nano-banana-1773606048337-removebg-preview_63: -2316350242946814341
+      nano-banana-1773606048337-removebg-preview_64: -7648526847762443508
+      nano-banana-1773606048337-removebg-preview_65: 3192611750437048906
+      nano-banana-1773606048337-removebg-preview_66: -4769759508500768603
+      nano-banana-1773606048337-removebg-preview_67: -8343833490832918627
+      nano-banana-1773606048337-removebg-preview_68: 4242374377494770435
+      nano-banana-1773606048337-removebg-preview_69: -3353138139051464652
+      nano-banana-1773606048337-removebg-preview_7: 2966200641803859340
+      nano-banana-1773606048337-removebg-preview_70: 1257106356519685232
+      nano-banana-1773606048337-removebg-preview_71: 8539902686166826344
+      nano-banana-1773606048337-removebg-preview_72: -8695789176327313918
+      nano-banana-1773606048337-removebg-preview_73: 7045022549135879447
+      nano-banana-1773606048337-removebg-preview_74: -8421903248973190058
+      nano-banana-1773606048337-removebg-preview_75: -4491095569562746106
+      nano-banana-1773606048337-removebg-preview_76: -5298736630251855362
+      nano-banana-1773606048337-removebg-preview_77: -6374283369538306117
+      nano-banana-1773606048337-removebg-preview_78: -4119076276337473163
+      nano-banana-1773606048337-removebg-preview_79: 5240972937023442065
+      nano-banana-1773606048337-removebg-preview_8: 4343102461935942328
+      nano-banana-1773606048337-removebg-preview_80: 7055929539461639395
+      nano-banana-1773606048337-removebg-preview_81: -2100666785396357014
+      nano-banana-1773606048337-removebg-preview_82: -5195580913107005287
+      nano-banana-1773606048337-removebg-preview_83: -1550435345530944377
+      nano-banana-1773606048337-removebg-preview_84: -6969897731202676985
+      nano-banana-1773606048337-removebg-preview_85: 2523410704282513243
+      nano-banana-1773606048337-removebg-preview_86: 4436320060368078406
+      nano-banana-1773606048337-removebg-preview_87: -4745947614697738795
+      nano-banana-1773606048337-removebg-preview_9: 1997434418622289267
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
