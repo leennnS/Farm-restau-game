@@ -12,9 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8c83571b017d0e4fbe853a4bc8c0955, type: 3}
   m_Name: Pizza
   m_EditorClassIdentifier: Assembly-CSharp::RecipeDefinition
-  category: 0
-  recipeName: 
-  result: {fileID: 0}
+  category: 1
+  recipeName: Pizza
+  result: {fileID: 11400000, guid: 7eeb2a6549095674d84806112b68134f, type: 2}
   resultAmount: 1
-  recipeIcon: {fileID: 0}
-  ingredients: []
+  recipeIcon: {fileID: 6691926348039923862, guid: d993ff1bc38f35b46b11913d47717af1, type: 3}
+  ingredients:
+  - item: {fileID: 11400000, guid: 7272295af404e0143a748b7df4e0cefa, type: 2}
+    amount: 1
+  - item: {fileID: 11400000, guid: 02d2e448d97d74a4f8f98671d42aafe1, type: 2}
+    amount: 1
+  - item: {fileID: 11400000, guid: b195f71b30c9b3b4e9b5efd4ee78a405, type: 2}
+    amount: 1

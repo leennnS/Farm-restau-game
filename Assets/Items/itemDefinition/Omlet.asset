@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Omlet
   m_EditorClassIdentifier: Assembly-CSharp::ItemDefinition
   displayName: 
-  icon: {fileID: 4354855023668169331, guid: 30d15c509908d9c4b9d787ed04c335c1, type: 3}
+  icon: {fileID: 4703467250689537123, guid: d993ff1bc38f35b46b11913d47717af1, type: 3}
   maxStack: 99

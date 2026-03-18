@@ -24739,7 +24739,7 @@ Transform:
   m_GameObject: {fileID: 1149005621}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 83.479996, y: 3.65, z: -10}
+  m_LocalPosition: {x: 24.779999, y: 39.65, z: -10}
   m_LocalScale: {x: 2.1402, y: 2.1402, z: 11.399674}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -203906,6 +203906,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b3d05b968eecfc34f8b4e58b4acf909e, type: 2}
   - {fileID: 11400000, guid: d531412af9c1f004480c01eee408d450, type: 2}
   - {fileID: 11400000, guid: ceed152bebb4e0e49ad2f889e10fdb1c, type: 2}
+  - {fileID: 11400000, guid: ecadd0e151f891949b196cd0d455eba9, type: 2}
+  - {fileID: 11400000, guid: 5ef749eb71ab34c45a668f510318a27a, type: 2}
+  - {fileID: 11400000, guid: 35bc97b280d94ae48849fb4137353656, type: 2}
+  - {fileID: 11400000, guid: 1bf883e78cb6c054f9913ae1a4b3d189, type: 2}
+  - {fileID: 11400000, guid: 1e370fa0ab7554842a3d0fa890992615, type: 2}
+  - {fileID: 11400000, guid: e3b13c0bc426696418ddfa4d1afba28d, type: 2}
+  - {fileID: 11400000, guid: 9394eccbe4454d34988adcc7d84f4948, type: 2}
   gameMapImage: {fileID: 0}
   testItem: {fileID: 11400000, guid: 02d2e448d97d74a4f8f98671d42aafe1, type: 2}
   testAddKey: 107
@@ -208580,7 +208587,7 @@ Transform:
   m_GameObject: {fileID: 1846392987}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 83.479996, y: 3.65, z: -10}
+  m_LocalPosition: {x: 24.779999, y: 39.65, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -214215,11 +214222,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5904111917036164382, guid: 9ad108346c7a7e043b02cf2d3ee07124, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 71
+      value: 12.3
       objectReference: {fileID: 0}
     - target: {fileID: 5904111917036164382, guid: 9ad108346c7a7e043b02cf2d3ee07124, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 6.5
+      value: 42.5
       objectReference: {fileID: 0}
     - target: {fileID: 5904111917036164382, guid: 9ad108346c7a7e043b02cf2d3ee07124, type: 3}
       propertyPath: m_LocalPosition.z
@@ -214307,6 +214314,10 @@ PrefabInstance:
       propertyPath: nightOverlay
       value: 
       objectReference: {fileID: 728263675}
+    - target: {fileID: 3073219839254011450, guid: 1d06918efec09214a96a9760ecbb29d6, type: 3}
+      propertyPath: dayLengthSeconds
+      value: 100000
+      objectReference: {fileID: 0}
     - target: {fileID: 5113179902937631142, guid: 1d06918efec09214a96a9760ecbb29d6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4.71679
