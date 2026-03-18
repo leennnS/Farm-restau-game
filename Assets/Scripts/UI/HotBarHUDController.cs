@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -38,12 +39,24 @@ public class HotBarHUDController : MonoBehaviour
 
         for (int i = 0; i < HotbarSize; i++)
         {
+            int slotIndex = i;
             string slotName = $"hotbarSlot{(i + 1):00}";
             _slots[i] = _root.Q<VisualElement>(slotName);
 
             if (_slots[i] != null)
+            {
                 _slots[i].style.position = Position.Relative;
+                _slots[i].pickingMode = PickingMode.Position;
+                _slots[i].RegisterCallback<ClickEvent>(_ => SelectHotbarSlot(slotIndex));
+            }
         }
+    }
+
+    private void SelectHotbarSlot(int index)
+    {
+        FarmingInputHandler input = FindFirstObjectByType<FarmingInputHandler>();
+        if (input != null)
+            input.SetSelectedHotbarSlot(index);
     }
 
     public void SetSlot(int index, Sprite icon, int amount)
@@ -80,6 +93,7 @@ public class HotBarHUDController : MonoBehaviour
             countLabel.style.fontSize = 11;
             countLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
             countLabel.style.color = new Color(0.23f, 0.16f, 0.09f);
+            countLabel.pickingMode = PickingMode.Ignore;
             slot.Add(countLabel);
         }
 

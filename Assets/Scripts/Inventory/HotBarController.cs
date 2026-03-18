@@ -29,12 +29,25 @@ public class HotBarController : MonoBehaviour
 
         for (int i = 0; i < HotbarSize; i++)
         {
+            int slotIndex = i;
             string name = $"hotbarSlot{(i + 1):00}";
             _slots[i] = _root.Q<VisualElement>(name);
 
             if (_slots[i] == null)
                 Debug.LogWarning($"[HotBarHUD] Missing slot in HUD UXML: {name}");
+            else
+            {
+                _slots[i].pickingMode = PickingMode.Position;
+                _slots[i].RegisterCallback<ClickEvent>(_ => SelectHotbarSlot(slotIndex));
+            }
         }
+    }
+
+    private void SelectHotbarSlot(int index)
+    {
+        FarmingInputHandler input = FindFirstObjectByType<FarmingInputHandler>();
+        if (input != null)
+            input.SetSelectedHotbarSlot(index);
     }
 
     public void SetVisible(bool visible)

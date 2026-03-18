@@ -57,6 +57,11 @@ public class FarmingInputHandler : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha0)) selectedHotbarSlot = 9;
     }
 
+    public void SetSelectedHotbarSlot(int slotIndex)
+    {
+        selectedHotbarSlot = Mathf.Clamp(slotIndex, 0, InventoryController.HotbarSize - 1);
+    }
+
     private void HandleLeftClick()
     {
         if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())

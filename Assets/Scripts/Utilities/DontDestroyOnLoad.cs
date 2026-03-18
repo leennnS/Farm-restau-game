@@ -30,7 +30,7 @@ public class DontDestroyOnLoad : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // Only move/scale if this object is the player (tagged "Player")
+        // Only move if this object is the player (tagged "Player")
         if (!gameObject.CompareTag("Player")) return;
 
         // Find a spawn point in the newly loaded scene
@@ -39,8 +39,6 @@ public class DontDestroyOnLoad : MonoBehaviour
         {
             Transform t = transform;
             t.position = sp.transform.position;
-            float s = Mathf.Max(0.0001f, sp.playerScale);
-            t.localScale = new Vector3(s, s, s);
         }
     }
 }

@@ -41,7 +41,9 @@ public class CharacterController2D : MonoBehaviour
 
     void FixedUpdate()
     {
-        myRigidBody.MovePosition(myRigidBody.position + motionVector * speed * Time.fixedDeltaTime);
+        // Scale movement speed based on character scale for consistent perceived speed
+        float scaledSpeed = speed * transform.localScale.x;
+        myRigidBody.MovePosition(myRigidBody.position + motionVector * scaledSpeed * Time.fixedDeltaTime);
     }
 
 }

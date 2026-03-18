@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
 
 
 [RequireComponent(typeof(UIDocument))]
@@ -8,6 +9,8 @@ using UnityEngine.UIElements;
 
 public class InventoryController : MonoBehaviour
 {
+    private static InventoryController _instance;
+
     public const int HotbarSize = 12;
 
     [Header("Input")]
@@ -117,6 +120,14 @@ public class InventoryController : MonoBehaviour
 
     private void Awake()
     {
+        if (_instance != null && _instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        _instance = this;
+
         _uiDocument = GetComponent<UIDocument>();
         _root = _uiDocument.rootVisualElement;
 
@@ -160,6 +171,40 @@ public class InventoryController : MonoBehaviour
         SyncExternalHotbarAll();
     }
 
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        StartCoroutine(RebindAfterSceneLoad());
+    }
+
+    private System.Collections.IEnumerator RebindAfterSceneLoad()
+    {
+        // Let scene UI documents initialize first.
+        yield return null;
+
+        // Force re-resolve to scene-local HUD instances.
+        _hotbarHUD = null;
+        _hotbarController = null;
+        TryResolveHotbarHUD();
+
+        // Re-apply visibility and contents after transitions.
+        SetExternalHotbarVisible(!_isOpen);
+        SyncExternalHotbarAll();
+        RefreshAllSlots();
+
+        // Re-apply interaction state so hidden inventory cannot intercept clicks.
+        SetOpen(_isOpen);
+    }
+
     private void Update()
     {
         if (Input.GetKeyDown(toggleKey))
@@ -187,9 +232,23 @@ public class InventoryController : MonoBehaviour
 
         SyncExternalHotbarAll();
 
-        if (_inventoryRootElement != null)
-            _inventoryRootElement.style.display =
-                open ? DisplayStyle.Flex : DisplayStyle.None;
+        // Re-resolve in case UI was rebuilt across scene transitions.
+        if (_inventoryRootElement == null && _root != null)
+            _inventoryRootElement = _root.Q<VisualElement>("inventoryRoot");
+
+        // Prefer inventoryRoot, but fall back to root so hidden inventory cannot steal clicks.
+        VisualElement interactionRoot = _inventoryRootElement != null ? _inventoryRootElement : _root;
+        if (interactionRoot != null)
+        {
+            interactionRoot.style.display = open ? DisplayStyle.Flex : DisplayStyle.None;
+            interactionRoot.pickingMode = open ? PickingMode.Position : PickingMode.Ignore;
+        }
+
+        // Extra safety: when closed, root should not eat pointer events.
+        if (_root != null && !open)
+            _root.pickingMode = PickingMode.Ignore;
+        else if (_root != null)
+            _root.pickingMode = PickingMode.Position;
     }
 
 

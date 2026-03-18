@@ -37,7 +37,7 @@ public static class MarketSpawnManager
         if (spawn.transform.localScale != Vector3.one)
             player.transform.localScale = spawn.transform.localScale;
         else
-            player.transform.localScale = new Vector3(0.5f, 0.5f, 1f); // Default scale
+            player.transform.localScale = new Vector3(4f, 4f, 1f); // Default scale
 
         Debug.Log($"[MarketSpawnManager] Player moved to {spawn.transform.position}");
     }
