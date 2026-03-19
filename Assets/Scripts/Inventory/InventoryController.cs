@@ -11,6 +11,9 @@ public class InventoryController : MonoBehaviour
 {
     private static InventoryController _instance;
 
+    public static InventoryController Instance => _instance;
+    public static bool HasInstance => _instance != null;
+
     public const int HotbarSize = 12;
 
     [Header("Input")]
@@ -97,6 +100,8 @@ public class InventoryController : MonoBehaviour
 
     private RecipeDefinition _selectedRecipe;
     private RecipeCategory _currentRecipeCategory = RecipeCategory.BreakfastBakery;
+
+    public event Action<RecipeDefinition> OnRecipeCooked;
 
     // Settings controls
     private Slider _masterVolumeSlider;
@@ -1701,8 +1706,9 @@ public class InventoryController : MonoBehaviour
             yield return null;
         }
 
+        bool cookedSuccessfully = false;
         if (_selectedRecipe.result != null)
-            TryAdd(_selectedRecipe.result, _selectedRecipe.resultAmount);
+            cookedSuccessfully = TryAdd(_selectedRecipe.result, _selectedRecipe.resultAmount);
 
         for (int i = 0; i < _cookingRecipeSlotData.Length; i++)
         {
@@ -1731,6 +1737,9 @@ public class InventoryController : MonoBehaviour
             _backToRecipesButton.SetEnabled(true);
 
         _isCooking = false;
+
+        if (cookedSuccessfully)
+            OnRecipeCooked?.Invoke(_selectedRecipe);
 
         Debug.Log($"Cooked {_selectedRecipe.recipeName}!");
     }
@@ -1913,6 +1922,78 @@ public class InventoryController : MonoBehaviour
                 total += slot.amount;
         }
         return total;
+    }
+
+    // ==================== MENU HELPERS (FOR FUTURE ORDERS) ====================
+
+    public RecipeDefinition[] GetMenuRecipes()
+    {
+        if (recipes == null || recipes.Length == 0)
+            return Array.Empty<RecipeDefinition>();
+
+        int validCount = 0;
+        for (int i = 0; i < recipes.Length; i++)
+        {
+            if (recipes[i] != null)
+                validCount++;
+        }
+
+        if (validCount == 0)
+            return Array.Empty<RecipeDefinition>();
+
+        RecipeDefinition[] menu = new RecipeDefinition[validCount];
+        int menuIndex = 0;
+        for (int i = 0; i < recipes.Length; i++)
+        {
+            if (recipes[i] != null)
+                menu[menuIndex++] = recipes[i];
+        }
+
+        return menu;
+    }
+
+    public RecipeDefinition[] GetMenuRecipesByCategory(RecipeCategory category)
+    {
+        if (recipes == null || recipes.Length == 0)
+            return Array.Empty<RecipeDefinition>();
+
+        int count = 0;
+        for (int i = 0; i < recipes.Length; i++)
+        {
+            if (recipes[i] != null && recipes[i].category == category)
+                count++;
+        }
+
+        if (count == 0)
+            return Array.Empty<RecipeDefinition>();
+
+        RecipeDefinition[] filtered = new RecipeDefinition[count];
+        int filteredIndex = 0;
+        for (int i = 0; i < recipes.Length; i++)
+        {
+            if (recipes[i] != null && recipes[i].category == category)
+                filtered[filteredIndex++] = recipes[i];
+        }
+
+        return filtered;
+    }
+
+    public RecipeDefinition GetRandomMenuRecipe()
+    {
+        RecipeDefinition[] menu = GetMenuRecipes();
+        if (menu.Length == 0)
+            return null;
+
+        return menu[UnityEngine.Random.Range(0, menu.Length)];
+    }
+
+    public RecipeDefinition GetRandomMenuRecipeByCategory(RecipeCategory category)
+    {
+        RecipeDefinition[] menu = GetMenuRecipesByCategory(category);
+        if (menu.Length == 0)
+            return null;
+
+        return menu[UnityEngine.Random.Range(0, menu.Length)];
     }
 
     /// <summary>

@@ -35,6 +35,34 @@ public class RecipeDefinition : ScriptableObject
     public Sprite recipeIcon;
     public Ingredient[] ingredients;
 
+    [Header("Order Data")]
+    [Min(0)] public int rewardMoney = 0;
+    [Min(0f)] public float orderPreparationTime = 30f;
+    public bool usePenalty = false;
+    [Min(0)] public int penaltyMoney = 0;
+
+    public int GetPenaltyMoney()
+    {
+        return usePenalty ? penaltyMoney : 0;
+    }
+
+    public bool IsValidForOrder()
+    {
+        if (ingredients == null || ingredients.Length == 0)
+            return false;
+
+        for (int i = 0; i < ingredients.Length; i++)
+        {
+            if (ingredients[i].item == null)
+                return false;
+
+            if (ingredients[i].amount <= 0)
+                return false;
+        }
+
+        return true;
+    }
+
     public bool CanCraft(ItemStack[] inventory)
     {
         if (ingredients == null || ingredients.Length == 0)
