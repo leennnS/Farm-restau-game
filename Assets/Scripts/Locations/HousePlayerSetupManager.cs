@@ -21,9 +21,6 @@ public class HousePlayerSetupManager
             return;
         }
 
-        // Set player scale (keep z as 1)
-        player.transform.localScale = new Vector3(0.5f, 0.5f, 1f);
-
         // Attach movement constraint component if not present
         var limiter = player.GetComponent<PlayerMovementConstraint>();
         if (limiter == null)

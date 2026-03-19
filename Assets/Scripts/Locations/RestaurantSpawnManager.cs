@@ -3,6 +3,8 @@ using UnityEngine.SceneManagement;
 
 public static class RestaurantSpawnManager
 {
+    private static GameObject persistentPlayer;
+
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     static void Init()
     {
@@ -14,21 +16,25 @@ public static class RestaurantSpawnManager
         if (scene.name != "RestaurantScene")
             return;
 
-        // If a player already exists (tagged Player), don't instantiate another
-        var existing = GameObject.FindWithTag("Player");
-        if (existing != null)
+        // If persistent player exists, just place at spawn
+        if (persistentPlayer != null)
         {
-            // Ensure scale and movement constraint are set
-            SetupExistingPlayer(existing);
-            Debug.Log("RestaurantSpawnManager: Player already exists, configured existing instance.");
             return;
         }
 
-        // Load the player prefab from Resources. Place the prefab named exactly 'Main Character' under a Resources folder.
+        // Check scene for existing player (in case we just entered this scene)
+        GameObject existing = GameObject.FindWithTag("Player");
+        if (existing != null)
+        {
+            persistentPlayer = existing;
+            return;
+        }
+
+        // Load prefab
         GameObject prefab = Resources.Load<GameObject>("Main Character");
         if (prefab == null)
         {
-            Debug.LogError("RestaurantSpawnManager: Could not find prefab 'Main Character' in Resources. Please place the player prefab in a Resources folder and name it 'Main Character'.");
+            Debug.LogError("RestaurantSpawnManager: Could not find prefab 'Main Character' in Resources.");
             return;
         }
 
@@ -40,52 +46,39 @@ public static class RestaurantSpawnManager
             spawn = new GameObject("RestaurantSpawnPoint");
             if (grid != null)
                 spawn.transform.SetParent(grid.transform, true);
-            Debug.LogWarning("RestaurantSpawnManager: 'RestaurantSpawnPoint' not found; created one. Move it where you want the player to spawn.");
+            Debug.LogWarning("RestaurantSpawnManager: 'RestaurantSpawnPoint' not found; created one.");
         }
 
-        // Determine desired scale: if spawn has a non-default localScale, use it; otherwise default to (0.5,0.5,1)
-        Vector3 desiredScale = spawn.transform.localScale != Vector3.one ? spawn.transform.localScale : new Vector3(0.5f, 0.5f, 1f);
-
-        // Instantiate player prefab
-        GameObject player = GameObject.Instantiate(prefab, spawn.transform.position, Quaternion.identity);
-        player.name = prefab.name; // keep prefab name
+        // Instantiate player at spawn
+        GameObject player = Object.Instantiate(prefab, spawn.transform.position, Quaternion.identity);
+        player.name = prefab.name;
         player.tag = "Player";
 
-        // Apply scale
-        player.transform.localScale = desiredScale;
+        // Detach from any parent to prevent inherited scale
+        player.transform.SetParent(null);
 
-        // Keep player across scenes if you want persistence. Comment out if not desired.
+        // Apply prefab’s original scale
+        player.transform.localScale = prefab.transform.localScale;
+
+        // Optional: parent to grid while keeping world scale
+        if (grid != null)
+            player.transform.SetParent(grid.transform, worldPositionStays: true);
+
+        // Make persistent across scenes
         Object.DontDestroyOnLoad(player);
+        persistentPlayer = player;
 
-        // Ensure player has Rigidbody2D and Collider2D (warn but do not add)
-        var rb = player.GetComponent<Rigidbody2D>();
-        if (rb == null)
-            Debug.LogWarning("RestaurantSpawnManager: Instantiated player has no Rigidbody2D. Add one to enable proper physics collisions.");
+        // Ensure Rigidbody2D and Collider2D exist
+        if (player.GetComponent<Rigidbody2D>() == null)
+            Debug.LogWarning("Player has no Rigidbody2D. Add one for physics.");
+        if (player.GetComponent<Collider2D>() == null)
+            Debug.LogWarning("Player has no Collider2D. Add one for collisions.");
 
-        var col = player.GetComponent<Collider2D>();
-        if (col == null)
-            Debug.LogWarning("RestaurantSpawnManager: Instantiated player has no Collider2D. Add one to enable proper collisions with floor and walls.");
-
-        // Attach movement constraint so player can't leave the Grid/floor
-        var constraint = player.GetComponent<PlayerMovementConstraint>();
-        if (constraint == null)
-            player.AddComponent<PlayerMovementConstraint>();
-
-        Debug.Log($"RestaurantSpawnManager: Instantiated player at {spawn.transform.position} with scale {desiredScale}.");
-    }
-
-    static void SetupExistingPlayer(GameObject player)
-    {
-        // Set scale to spawn scale if point exists
-        GameObject spawn = GameObject.Find("RestaurantSpawnPoint");
-        if (spawn != null)
-        {
-            if (spawn.transform.localScale != Vector3.one)
-                player.transform.localScale = spawn.transform.localScale;
-            // Optionally move player to spawn if desired: we leave position unchanged per requirement
-        }
-
+        // Ensure movement constraint
         if (player.GetComponent<PlayerMovementConstraint>() == null)
             player.AddComponent<PlayerMovementConstraint>();
+
+        Debug.Log($"RestaurantSpawnManager: Instantiated player at {spawn.transform.position} with scale {player.transform.localScale}.");
     }
+
 }

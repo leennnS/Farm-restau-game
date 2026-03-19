@@ -126,14 +126,12 @@ public class RestaurantSpawnPoint : MonoBehaviour
         var player = GameObject.FindWithTag("Player");
         if (player == null) yield break;
 
+        RestaurantReturnContext.PendingReturnToFarm = true;
         SceneManager.LoadScene(targetSceneName);
     }
 
     void MovePlayerToSpawn(GameObject player)
     {
-        // Apply desired scale
-        player.transform.localScale = entryScale;
-
         // Ensure movement constraint & freeze rotation
         if (player.GetComponent<PlayerMovementConstraint>() == null)
             player.AddComponent<PlayerMovementConstraint>();

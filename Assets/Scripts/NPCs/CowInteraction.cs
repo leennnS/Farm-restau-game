@@ -60,6 +60,9 @@ public class CowInteraction : MonoBehaviour
     {
         timeSinceLastMilk += Time.deltaTime;
 
+        if (playerTransform == null)
+            TryResolvePlayer();
+
         if (playerTransform == null || milkingUI == null)
             return;
 
@@ -79,6 +82,13 @@ public class CowInteraction : MonoBehaviour
                 Debug.Log("[Cow] Cow is not ready yet.");
             }
         }
+    }
+
+    private void TryResolvePlayer()
+    {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+            playerTransform = player.transform;
     }
 
     public bool CanStartMilking()

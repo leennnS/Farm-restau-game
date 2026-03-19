@@ -16,10 +16,15 @@ public static class FarmSpawnManager
 
     private static void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (!MarketReturnContext.PendingReturnToFarm)
+        bool fromMarket = MarketReturnContext.PendingReturnToFarm;
+        bool fromRestaurant = RestaurantReturnContext.PendingReturnToFarm;
+        bool fromHouse = HouseExitTrigger.PendingReturnToFarm;
+        if (!fromMarket && !fromRestaurant && !fromHouse)
             return;
 
         MarketReturnContext.PendingReturnToFarm = false;
+        RestaurantReturnContext.PendingReturnToFarm = false;
+        HouseExitTrigger.PendingReturnToFarm = false;
 
         GameObject player = GameObject.FindWithTag("Player");
         if (player == null)
@@ -28,13 +33,30 @@ public static class FarmSpawnManager
             return;
         }
 
-        // Prefer explicit return spawn markers, then fallback to generic SpawnPoint behavior.
-        GameObject spawn = GameObject.Find("FarmReturnSpawnPoint");
-        if (spawn == null) spawn = GameObject.Find("FarmSpawnPoint");
-        if (spawn == null)
+        GameObject spawn = null;
+        if (fromRestaurant)
         {
-            SpawnPoint sp = Object.FindFirstObjectByType<SpawnPoint>();
-            if (sp != null) spawn = sp.gameObject;
+            spawn = GameObject.Find("SpawnPointResto");
+        }
+        else if (fromHouse)
+        {
+            spawn = GameObject.Find("HouseReturnSpawnPoint");
+            if (spawn == null)
+            {
+                SpawnPoint sp = Object.FindFirstObjectByType<SpawnPoint>();
+                if (sp != null) spawn = sp.gameObject;
+            }
+        }
+        else
+        {
+            // Prefer explicit return spawn markers, then fallback to generic SpawnPoint behavior.
+            spawn = GameObject.Find("FarmReturnSpawnPoint");
+            if (spawn == null) spawn = GameObject.Find("FarmSpawnPoint");
+            if (spawn == null)
+            {
+                SpawnPoint sp = Object.FindFirstObjectByType<SpawnPoint>();
+                if (sp != null) spawn = sp.gameObject;
+            }
         }
 
         if (spawn != null)
