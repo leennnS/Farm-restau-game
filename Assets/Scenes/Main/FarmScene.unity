@@ -17929,7 +17929,7 @@ MonoBehaviour:
   m_PanelSettings: {fileID: 11400000, guid: 98e1a6ba035ee1c48843aa8c1f152c82, type: 2}
   m_ParentUI: {fileID: 0}
   sourceAsset: {fileID: 9197481963319205126, guid: 960be00f66140474ea979a3ecc5cf3dd, type: 3}
-  m_SortingOrder: 1000
+  m_SortingOrder: 50
   m_Position: 0
   m_WorldSpaceSizeMode: 1
   m_WorldSpaceWidth: 1920
@@ -24779,7 +24779,7 @@ Transform:
   m_GameObject: {fileID: 1149005621}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 40.65, y: 49.11, z: -10}
+  m_LocalPosition: {x: 45.03, y: 57.74, z: -10}
   m_LocalScale: {x: 2.1402, y: 2.1402, z: 11.399674}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -204038,6 +204038,10 @@ MonoBehaviour:
   startOpen: 0
   debugSlotClicks: 0
   inventorySize: 36
+  inventoryUiScale: 1.25
+  autoScaleByDevice: 1
+  referenceDpi: 96
+  maxAutoScaleMultiplier: 1.45
   recipes:
   - {fileID: 11400000, guid: b3d05b968eecfc34f8b4e58b4acf909e, type: 2}
   - {fileID: 11400000, guid: d531412af9c1f004480c01eee408d450, type: 2}
@@ -208662,7 +208666,7 @@ Transform:
   m_GameObject: {fileID: 1846392987}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 40.65, y: 49.11, z: -10}
+  m_LocalPosition: {x: 45.03, y: 57.74, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -214370,11 +214374,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5904111917036164382, guid: 9ad108346c7a7e043b02cf2d3ee07124, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 65.4
+      value: 69.78
       objectReference: {fileID: 0}
     - target: {fileID: 5904111917036164382, guid: 9ad108346c7a7e043b02cf2d3ee07124, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.7
+      value: 6.93
       objectReference: {fileID: 0}
     - target: {fileID: 5904111917036164382, guid: 9ad108346c7a7e043b02cf2d3ee07124, type: 3}
       propertyPath: m_LocalPosition.z
@@ -214464,7 +214468,7 @@ PrefabInstance:
       objectReference: {fileID: 728263675}
     - target: {fileID: 3073219839254011450, guid: 1d06918efec09214a96a9760ecbb29d6, type: 3}
       propertyPath: dayLengthSeconds
-      value: 100000
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 5113179902937631142, guid: 1d06918efec09214a96a9760ecbb29d6, type: 3}
       propertyPath: m_LocalPosition.x

@@ -9,10 +9,6 @@
                         <ui:Label name="market-title" text="Village Supermarket" class="market-title"/>
                         <ui:Label name="market-subtitle" text="Browse and buy what you need." class="market-subtitle"/>
                     </ui:VisualElement>
-                    <ui:VisualElement class="money-chip">
-                        <ui:Label text="Coins" class="money-chip-label"/>
-                        <ui:Label name="money-value" text="0 G" class="money-chip-value"/>
-                    </ui:VisualElement>
                     <ui:Button name="close-button" text="Close" class="close-button"/>
                 </ui:VisualElement>
                 <ui:VisualElement class="market-body">

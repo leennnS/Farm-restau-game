@@ -7,7 +7,6 @@ public class MarketUIController : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private UIDocument uiDocument;
-    [SerializeField] private PlayerWallet playerWallet;
     [SerializeField] private MarketInventoryBridge inventoryBridge;
 
     [Header("Items")]
@@ -99,8 +98,7 @@ public class MarketUIController : MonoBehaviour
         PopulateAllSections();
         RefreshMoney();
 
-        if (playerWallet != null)
-            playerWallet.OnMoneyChanged += HandleMoneyChanged;
+        MoneyManager.Instance.OnMoneyChanged += HandleMoneyChanged;
 
         CloseMarketInstant();
         SetInteractionHint(string.Empty, false);
@@ -108,8 +106,8 @@ public class MarketUIController : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (playerWallet != null)
-            playerWallet.OnMoneyChanged -= HandleMoneyChanged;
+        if (MoneyManager.HasInstance)
+            MoneyManager.Instance.OnMoneyChanged -= HandleMoneyChanged;
     }
 
     private void Update()
@@ -188,8 +186,11 @@ public class MarketUIController : MonoBehaviour
 
     private void RefreshMoney()
     {
-        int money = playerWallet != null ? playerWallet.CurrentMoney : 0;
-        moneyValue.text = $"{money} G";
+        if (moneyValue == null)
+            return;
+
+        int money = MoneyManager.Instance.CurrentMoney;
+        moneyValue.text = $"{money}";
     }
 
     private void PopulateAllSections()
@@ -240,7 +241,7 @@ public class MarketUIController : MonoBehaviour
         };
         buyButton.AddToClassList("buy-button");
 
-        bool canAfford = playerWallet != null && playerWallet.CanAfford(item.price);
+        bool canAfford = MoneyManager.Instance.CanAfford(item.price);
         buyButton.SetEnabled(canAfford);
 
         card.Add(icon);
@@ -265,13 +266,7 @@ public class MarketUIController : MonoBehaviour
 
     private void TryBuy(MarketItemEntry item)
     {
-        if (playerWallet == null)
-        {
-            Debug.LogWarning("MarketUIController: PlayerWallet is missing.");
-            return;
-        }
-
-        if (!playerWallet.Spend(item.price))
+        if (!MoneyManager.Instance.SpendMoney(item.price))
         {
             marketSubtitle.text = "Not enough coins.";
             return;

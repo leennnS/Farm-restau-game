@@ -26,6 +26,10 @@ public class InventoryController : MonoBehaviour
     // ---------- NEW: Inventory ----------
     [Header("Inventory")]
     [SerializeField] private int inventorySize = 36;
+    [SerializeField, Range(0.8f, 2.0f)] private float inventoryUiScale = 1.25f;
+    [SerializeField] private bool autoScaleByDevice = true;
+    [SerializeField] private float referenceDpi = 96f;
+    [SerializeField, Range(1.0f, 1.8f)] private float maxAutoScaleMultiplier = 1.45f;
 
     [Header("Crafting")]
     [SerializeField] private RecipeDefinition[] recipes;
@@ -159,6 +163,7 @@ public class InventoryController : MonoBehaviour
 
         TryResolveHotbarHUD();
         CacheUI();
+        ApplyInventoryUiScale();
         CacheInventorySlots();
         BindUI();
 
@@ -317,6 +322,37 @@ public class InventoryController : MonoBehaviour
         _cookingLoadingLabel = _root.Q<Label>("cookingLoadingLabel");
         _cookingProgressText = _root.Q<Label>("cookingProgressText");
         _inventoryRootElement = _root.Q<VisualElement>("inventoryRoot");
+    }
+
+    private void ApplyInventoryUiScale()
+    {
+        if (_root == null)
+            return;
+
+        VisualElement inventoryShell = _root.Q<VisualElement>("inventoryShell");
+        if (inventoryShell == null)
+            return;
+
+        float targetScale = Mathf.Clamp(inventoryUiScale, 0.8f, 2.0f);
+
+        if (autoScaleByDevice)
+        {
+            // Screen.dpi is the best indicator for high-density laptop displays.
+            // If unavailable (0), we simply keep the manual scale value.
+            float dpi = Screen.dpi;
+            if (dpi > 0f)
+            {
+                float safeReferenceDpi = Mathf.Max(1f, referenceDpi);
+                float dpiMultiplier = Mathf.Clamp(dpi / safeReferenceDpi, 1f, maxAutoScaleMultiplier);
+                targetScale *= dpiMultiplier;
+            }
+        }
+
+        float clampedScale = Mathf.Clamp(targetScale, 0.8f, 2.0f);
+        inventoryShell.style.scale = new Scale(new Vector2(clampedScale, clampedScale));
+
+        if (debugSlotClicks)
+            Debug.Log($"[InventoryController] Applied inventory UI scale: {clampedScale:0.00} (dpi={Screen.dpi:0.0})");
     }
 
     // NEW: cache inventory slots itemSlot01..itemSlot36 AND hotbarSlot01..hotbarSlot12

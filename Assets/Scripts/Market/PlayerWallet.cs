@@ -5,46 +5,48 @@ public class PlayerWallet : MonoBehaviour
 {
     [SerializeField] private int startingMoney = 250;
 
-    public int CurrentMoney { get; private set; }
+    public int CurrentMoney => MoneyManager.Instance.CurrentMoney;
 
     public event Action<int> OnMoneyChanged;
 
     private void Awake()
     {
-        CurrentMoney = startingMoney;
+        // Migrate old inspector value only if there is no saved money yet.
+        if (!PlayerPrefs.HasKey("GlobalMoney"))
+            MoneyManager.Instance.SetMoney(startingMoney);
+
+        MoneyManager.Instance.OnMoneyChanged += HandleGlobalMoneyChanged;
         OnMoneyChanged?.Invoke(CurrentMoney);
+    }
+
+    private void OnDestroy()
+    {
+        if (MoneyManager.HasInstance)
+            MoneyManager.Instance.OnMoneyChanged -= HandleGlobalMoneyChanged;
+    }
+
+    private void HandleGlobalMoneyChanged(int newAmount)
+    {
+        OnMoneyChanged?.Invoke(newAmount);
     }
 
     public bool CanAfford(int amount)
     {
-        return CurrentMoney >= amount;
+        return MoneyManager.Instance.CanAfford(amount);
     }
 
     public bool Spend(int amount)
     {
-        if (amount < 0)
-            return false;
-
-        if (CurrentMoney < amount)
-            return false;
-
-        CurrentMoney -= amount;
-        OnMoneyChanged?.Invoke(CurrentMoney);
-        return true;
+        return MoneyManager.Instance.SpendMoney(amount);
     }
 
     public void AddMoney(int amount)
     {
-        if (amount < 0)
-            return;
-
-        CurrentMoney += amount;
-        OnMoneyChanged?.Invoke(CurrentMoney);
+        MoneyManager.Instance.AddMoney(amount);
     }
 
     public void SetMoney(int amount)
     {
-        CurrentMoney = Mathf.Max(0, amount);
-        OnMoneyChanged?.Invoke(CurrentMoney);
+        MoneyManager.Instance.SetMoney(amount);
     }
 }

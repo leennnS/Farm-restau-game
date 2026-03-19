@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class FarmingInputHandler : MonoBehaviour
 {
@@ -22,18 +23,41 @@ public class FarmingInputHandler : MonoBehaviour
 
     private enum FarmingAction { None, Hoe, Plant, Water, Harvest }
 
-    private void Awake()
+    private void ResolveReferences()
     {
         if (farmingManager == null) farmingManager = FindFirstObjectByType<FarmingManager>();
         if (inventoryController == null) inventoryController = FindFirstObjectByType<InventoryController>();
         if (mainCamera == null) mainCamera = Camera.main;
         if (pickupToast == null) pickupToast = FindFirstObjectByType<PickupToastUIToolkit>();
+    }
 
+    private void Awake()
+    {
+        ResolveReferences();
+
+        farmingManager?.Initialize();
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        ResolveReferences();
         farmingManager?.Initialize();
     }
 
     private void Update()
     {
+        ResolveReferences();
+
         ReadHotbarKeys();
 
         if (Input.GetMouseButtonDown(0))
