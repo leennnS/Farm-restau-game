@@ -24779,7 +24779,7 @@ Transform:
   m_GameObject: {fileID: 1149005621}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 45.03, y: 57.74, z: -10}
+  m_LocalPosition: {x: -50.874397, y: 55.510002, z: -10}
   m_LocalScale: {x: 2.1402, y: 2.1402, z: 11.399674}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -204042,6 +204042,7 @@ MonoBehaviour:
   autoScaleByDevice: 1
   referenceDpi: 96
   maxAutoScaleMultiplier: 1.45
+  enableInventoryCookingTab: 0
   recipes:
   - {fileID: 11400000, guid: b3d05b968eecfc34f8b4e58b4acf909e, type: 2}
   - {fileID: 11400000, guid: d531412af9c1f004480c01eee408d450, type: 2}
@@ -208666,7 +208667,7 @@ Transform:
   m_GameObject: {fileID: 1846392987}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 45.03, y: 57.74, z: -10}
+  m_LocalPosition: {x: -50.874397, y: 55.510002, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -214366,7 +214367,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5904111917036164382, guid: 9ad108346c7a7e043b02cf2d3ee07124, type: 3}
       propertyPath: m_LocalScale.x
-      value: 5
+      value: 4.2250004
       objectReference: {fileID: 0}
     - target: {fileID: 5904111917036164382, guid: 9ad108346c7a7e043b02cf2d3ee07124, type: 3}
       propertyPath: m_LocalScale.y
@@ -214374,11 +214375,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5904111917036164382, guid: 9ad108346c7a7e043b02cf2d3ee07124, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 69.78
+      value: -26.1244
       objectReference: {fileID: 0}
     - target: {fileID: 5904111917036164382, guid: 9ad108346c7a7e043b02cf2d3ee07124, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 6.93
+      value: 4.7
       objectReference: {fileID: 0}
     - target: {fileID: 5904111917036164382, guid: 9ad108346c7a7e043b02cf2d3ee07124, type: 3}
       propertyPath: m_LocalPosition.z
