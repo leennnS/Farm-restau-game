@@ -12,7 +12,8 @@ public enum RecipeCategory
 {
     BreakfastBakery,
     MainDish,
-    SoupsDrinks
+    SoupsDrinks,
+    Dessert
 }
 
 /// <summary>

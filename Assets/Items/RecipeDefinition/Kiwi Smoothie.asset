@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8c83571b017d0e4fbe853a4bc8c0955, type: 3}
+  m_Name: Kiwi Smoothie
+  m_EditorClassIdentifier: Assembly-CSharp::RecipeDefinition
+  category: 2
+  recipeName: Kiwi Smoothie
+  result: {fileID: 11400000, guid: 5667d94980af969458727109efdd53ee, type: 2}
+  resultAmount: 1
+  recipeIcon: {fileID: 563074387901286755, guid: d993ff1bc38f35b46b11913d47717af1, type: 3}
+  ingredients:
+  - item: {fileID: 11400000, guid: 3d55403e972bcc94197c6b3c110d1379, type: 2}
+    amount: 1
+  - item: {fileID: 11400000, guid: 1a0feff7f0937ed45b12828e0788ae88, type: 2}
+    amount: 3
+  - item: {fileID: 11400000, guid: 08a08c391d002584692886e06f656b84, type: 2}
+    amount: 3
+  rewardMoney: 5
+  orderPreparationTime: 30
+  usePenalty: 0
+  penaltyMoney: 0

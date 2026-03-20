@@ -80,6 +80,7 @@ public class InventoryController : MonoBehaviour
     private Button _tabBreakfastButton;
     private Button _tabMainDishButton;
     private Button _tabDrinksButton;
+    private Button _tabDessertButton;
     private Button _backToRecipesButton;
     private Button _cookRecipeButton;
     private VisualElement _cookingLoadingContainer;
@@ -366,6 +367,7 @@ public class InventoryController : MonoBehaviour
         _tabBreakfastButton = _root.Q<Button>("tabBreakfastButton");
         _tabMainDishButton = _root.Q<Button>("tabMainDishButton");
         _tabDrinksButton = _root.Q<Button>("tabDrinksButton");
+        _tabDessertButton = _root.Q<Button>("tabDessertButton");
         _backToRecipesButton = _root.Q<Button>("backToRecipesButton");
         _cookRecipeButton = _root.Q<Button>("cookRecipeButton");
 
@@ -565,6 +567,9 @@ public class InventoryController : MonoBehaviour
 
         if (_tabDrinksButton != null)
             _tabDrinksButton.clicked += () => ShowRecipeCategory(RecipeCategory.SoupsDrinks);
+
+        if (_tabDessertButton != null)
+            _tabDessertButton.clicked += () => ShowRecipeCategory(RecipeCategory.Dessert);
 
         if (_backToRecipesButton != null)
             _backToRecipesButton.clicked += ShowRecipeBrowser;

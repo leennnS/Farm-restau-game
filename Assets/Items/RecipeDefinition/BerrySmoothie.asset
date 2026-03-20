@@ -18,5 +18,13 @@ MonoBehaviour:
   resultAmount: 1
   recipeIcon: {fileID: -5908479232087478183, guid: d993ff1bc38f35b46b11913d47717af1, type: 3}
   ingredients:
-  - item: {fileID: 0}
-    amount: 0
+  - item: {fileID: 11400000, guid: d8b445a84887aa5449f8c29f6c9eb2ff, type: 2}
+    amount: 1
+  - item: {fileID: 11400000, guid: 3d55403e972bcc94197c6b3c110d1379, type: 2}
+    amount: 1
+  - item: {fileID: 11400000, guid: 1a0feff7f0937ed45b12828e0788ae88, type: 2}
+    amount: 3
+  rewardMoney: 5
+  orderPreparationTime: 30
+  usePenalty: 1
+  penaltyMoney: 0

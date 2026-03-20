@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: ChickenThigh
   m_EditorClassIdentifier: Assembly-CSharp::ItemDefinition
   displayName: ChickenThigh
-  icon: {fileID: 6749228223500090080, guid: 30d15c509908d9c4b9d787ed04c335c1, type: 3}
+  icon: {fileID: 21300000, guid: f89a4c1fde78944dcb14ead5d40721bc, type: 3}
   maxStack: 99
