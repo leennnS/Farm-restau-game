@@ -448,7 +448,7 @@ GameObject:
   - component: {fileID: 278282746}
   - component: {fileID: 278282748}
   m_Layer: 0
-  m_Name: Gemini_Generated_Image_ev8et3ev8et3ev8e-removebg-preview_2
+  m_Name: fish
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -950,7 +950,7 @@ GameObject:
   - component: {fileID: 485122382}
   - component: {fileID: 485122384}
   m_Layer: 0
-  m_Name: Gemini_Generated_Image_apsywgapsywgapsy__1_-removebg-preview (1)_0
+  m_Name: seeds
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1024,7 +1024,7 @@ Transform:
   m_GameObject: {fileID: 485122381}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.5, y: 9.41, z: 0}
+  m_LocalPosition: {x: -5.02, y: 9.41, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1088,7 +1088,7 @@ GameObject:
   - component: {fileID: 503174332}
   - component: {fileID: 503174334}
   m_Layer: 0
-  m_Name: Gemini_Generated_Image_7r76ts7r76ts7r76-removebg-preview_3
+  m_Name: meat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7447,7 +7447,7 @@ GameObject:
   - component: {fileID: 594832582}
   - component: {fileID: 594832584}
   m_Layer: 0
-  m_Name: Gemini_Generated_Image_p0kgfhp0kgfhp0kg__1_-removebg-preview_0
+  m_Name: materials
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7521,7 +7521,7 @@ Transform:
   m_GameObject: {fileID: 594832581}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10.26, y: 9.45, z: 0}
+  m_LocalPosition: {x: -9.86, y: 9.45, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8045,7 +8045,7 @@ GameObject:
   - component: {fileID: 767094514}
   - component: {fileID: 767094516}
   m_Layer: 0
-  m_Name: Gemini_Generated_Image_37xgix37xgix37xg-removebg-preview_2
+  m_Name: fruits_veggies
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8426,7 +8426,7 @@ GameObject:
   - component: {fileID: 855114559}
   - component: {fileID: 855114561}
   m_Layer: 0
-  m_Name: Gemini_Generated_Image_i55gyci55gyci55g-removebg-preview_0
+  m_Name: drinks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9319,97 +9319,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1308188633
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1308188635}
-  - component: {fileID: 1308188634}
-  m_Layer: 0
-  m_Name: wall_tiles_0 (3)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!212 &1308188634
-SpriteRenderer:
-  serializedVersion: 2
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1308188633}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_ForceMeshLod: -1
-  m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_MaskInteraction: 0
-  m_Sprite: {fileID: 6719823465543770808, guid: b2b691064cf6ccc4f835990fde4d9559, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 2.90625, y: 1.90625}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_SpriteSortPoint: 0
---- !u!4 &1308188635
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1308188633}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0.702153, z: 0, w: 0.71202606}
-  m_LocalPosition: {x: -12.99, y: 7.94, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: -89.2, z: 0}
 --- !u!1 &1313006990
 GameObject:
   m_ObjectHideFlags: 0
@@ -10083,96 +9992,206 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MarketUIController
   uiDocument: {fileID: 1544411703}
-  playerWallet: {fileID: 1089760161}
   inventoryBridge: {fileID: 1690621}
-  seedItems:
+  seedsEntries:
   - itemName: Tomato seed
     icon: {fileID: -1257518098505440576, guid: c4557cba60ffb6d43835613eb998dcc8, type: 3}
     price: 1
     description: 
     available: 1
     itemDefinition: {fileID: 11400000, guid: 1fe4385980a5bd1429b19a686572f2f9, type: 2}
-  toolItems:
+  toolsEntries:
   - itemName: Axe
     icon: {fileID: 6674386295937086461, guid: 263141e9e40b44546a59daec410a3c90, type: 3}
-    price: 10
+    price: 3
     description: 
     available: 1
     itemDefinition: {fileID: 11400000, guid: 4051753341b46134cb66b186244eaef0, type: 2}
-  fruitItems:
-  - itemName: Carrot
-    icon: {fileID: -5859083586626064994, guid: 54ba9dd135428e4498b4c6f6d56b5570, type: 3}
+  - itemName: Hoe
+    icon: {fileID: 2255215609454398309, guid: b162d5b66a053da4cbd7425236367a04, type: 3}
     price: 5
+    description: 
+    available: 1
+    itemDefinition: {fileID: 11400000, guid: 590c1cdd907e9e342bb2118c2c3f4dd1, type: 2}
+  - itemName: Bucket
+    icon: {fileID: 949185140388405158, guid: 2deffbfe15da3634f8be5682c392fb33, type: 3}
+    price: 4
+    description: 
+    available: 1
+    itemDefinition: {fileID: 11400000, guid: 590c1cdd907e9e342bb2118c2c3f4dd1, type: 2}
+  fruitsVegetablesEntries:
+  - itemName: Banana
+    icon: {fileID: 21300000, guid: 50e0347d981414d189ff77217bc6e69c, type: 3}
+    price: 2
+    description: 
+    available: 1
+    itemDefinition: {fileID: 11400000, guid: d1473749e9a5ea546a8405f16e79d37a, type: 2}
+  - itemName: Avocado
+    icon: {fileID: 21300000, guid: 0b97d02305ef74e7ea0cb413d9cc158a, type: 3}
+    price: 3
+    description: 
+    available: 1
+    itemDefinition: {fileID: 11400000, guid: 34fc6a4eb64545d4d88e76326d214d73, type: 2}
+  - itemName: Blueberry
+    icon: {fileID: 21300000, guid: 26b4d8692c5e74d17bd9dc28bcbe961b, type: 3}
+    price: 3
+    description: 
+    available: 1
+    itemDefinition: {fileID: 11400000, guid: d8b445a84887aa5449f8c29f6c9eb2ff, type: 2}
+  - itemName: Broccoli
+    icon: {fileID: 21300000, guid: bfbf8b6c3b15547df885053bd2807cdd, type: 3}
+    price: 2
+    description: 
+    available: 1
+    itemDefinition: {fileID: 11400000, guid: 0a96eea240a4f8945927f96f7bbb8058, type: 2}
+  - itemName: Carrot
+    icon: {fileID: 21300000, guid: 1fbdfb9bf6c2e4397a1d62eed589ec1f, type: 3}
+    price: 2
     description: 
     available: 1
     itemDefinition: {fileID: 11400000, guid: 214bddc6a76fba846ac3c20ad9571c30, type: 2}
-  - itemName: egg
-    icon: {fileID: -4929179470246120729, guid: 141e69f23a0563b4593c7b3aef8ff31d, type: 3}
-    price: 5
-    description: 
-    available: 0
-    itemDefinition: {fileID: 11400000, guid: 0d2e5eb3afe17214dbf84f68cb69a322, type: 2}
-  - itemName: potato
-    icon: {fileID: -5661783315169486296, guid: 389814ee25f371544a559e05cc32b65f, type: 3}
-    price: 5
+  - itemName: Lemon
+    icon: {fileID: 21300000, guid: f6d5f58465fff456eb84bd071b3134b9, type: 3}
+    price: 2
     description: 
     available: 1
-    itemDefinition: {fileID: 11400000, guid: ed44036c4adfa614ebe27835c2388b50, type: 2}
-  - itemName: tomato
-    icon: {fileID: -8113185096396602001, guid: c4557cba60ffb6d43835613eb998dcc8, type: 3}
-    price: 5
+    itemDefinition: {fileID: 11400000, guid: 026a948720989044ea1ff64f9768448f, type: 2}
+  - itemName: Pepper
+    icon: {fileID: 21300000, guid: 0e3588bd6507d4164b8cf749ed372de5, type: 3}
+    price: 2
+    description: 
+    available: 1
+    itemDefinition: {fileID: 11400000, guid: a4864ced25d569845ac4e24d6b8b03a8, type: 2}
+  - itemName: Pear
+    icon: {fileID: 21300000, guid: 31740551f69654fb7bc2a39c35d57d9c, type: 3}
+    price: 2
+    description: 
+    available: 1
+    itemDefinition: {fileID: 11400000, guid: b455b25f8d47c774890905a9726fa45c, type: 2}
+  - itemName: Peach
+    icon: {fileID: 21300000, guid: c549cabc0e9504b56a64b9171d8962bc, type: 3}
+    price: 2
+    description: 
+    available: 1
+    itemDefinition: {fileID: 11400000, guid: 6a68276888350c7499f283b3c0cbcacb, type: 2}
+  - itemName: Tomato
+    icon: {fileID: 21300000, guid: bb7faf4c850ef48cdb33c2bd17737619, type: 3}
+    price: 2
     description: 
     available: 1
     itemDefinition: {fileID: 11400000, guid: 7272295af404e0143a748b7df4e0cefa, type: 2}
-  - itemName: egg
-    icon: {fileID: -4929179470246120729, guid: 141e69f23a0563b4593c7b3aef8ff31d, type: 3}
-    price: 5
+  - itemName: Kiwi
+    icon: {fileID: 21300000, guid: cc8eede50ee1f49efa314de75e5506e3, type: 3}
+    price: 2
     description: 
     available: 1
-    itemDefinition: {fileID: 11400000, guid: 0d2e5eb3afe17214dbf84f68cb69a322, type: 2}
-  - itemName: egg
-    icon: {fileID: -4929179470246120729, guid: 141e69f23a0563b4593c7b3aef8ff31d, type: 3}
-    price: 5
+    itemDefinition: {fileID: 11400000, guid: 08a08c391d002584692886e06f656b84, type: 2}
+  - itemName: Cucumber
+    icon: {fileID: 21300000, guid: 76e54cc89c69d4cc0aacf00ba224b504, type: 3}
+    price: 2
     description: 
     available: 1
-    itemDefinition: {fileID: 11400000, guid: 0d2e5eb3afe17214dbf84f68cb69a322, type: 2}
-  - itemName: egg
-    icon: {fileID: -4929179470246120729, guid: 141e69f23a0563b4593c7b3aef8ff31d, type: 3}
-    price: 5
+    itemDefinition: {fileID: 11400000, guid: 71a9e37efb2984d489cac73ba111123b, type: 2}
+  - itemName: Pineapple
+    icon: {fileID: 21300000, guid: a2e86a433aa8b49018db7c80923744bd, type: 3}
+    price: 2
     description: 
     available: 1
-    itemDefinition: {fileID: 11400000, guid: 0d2e5eb3afe17214dbf84f68cb69a322, type: 2}
-  - itemName: egg
-    icon: {fileID: -4929179470246120729, guid: 141e69f23a0563b4593c7b3aef8ff31d, type: 3}
-    price: 5
+    itemDefinition: {fileID: 11400000, guid: edc3bcaaa54acf24ebff2a34afea676a, type: 2}
+  - itemName: Potato
+    icon: {fileID: 21300000, guid: 44994881295ab4b1084896d685432eff, type: 3}
+    price: 2
     description: 
     available: 1
-    itemDefinition: {fileID: 11400000, guid: 0d2e5eb3afe17214dbf84f68cb69a322, type: 2}
-  - itemName: egg
-    icon: {fileID: -4929179470246120729, guid: 141e69f23a0563b4593c7b3aef8ff31d, type: 3}
-    price: 5
+    itemDefinition: {fileID: 11400000, guid: ed44036c4adfa614ebe27835c2388b50, type: 2}
+  - itemName: 'Salat '
+    icon: {fileID: 21300000, guid: 3e87be51823d846949ed08c33c74b463, type: 3}
+    price: 2
     description: 
     available: 1
-    itemDefinition: {fileID: 11400000, guid: 0d2e5eb3afe17214dbf84f68cb69a322, type: 2}
-  - itemName: egg
-    icon: {fileID: -4929179470246120729, guid: 141e69f23a0563b4593c7b3aef8ff31d, type: 3}
-    price: 5
-    description: 
-    available: 0
-    itemDefinition: {fileID: 11400000, guid: 0d2e5eb3afe17214dbf84f68cb69a322, type: 2}
-  - itemName: egg
-    icon: {fileID: -4929179470246120729, guid: 141e69f23a0563b4593c7b3aef8ff31d, type: 3}
-    price: 5
+    itemDefinition: {fileID: 11400000, guid: 064354d567e63b2428406b79c773cb94, type: 2}
+  - itemName: Strawberry
+    icon: {fileID: 21300000, guid: b72023ef6c5c54ebb94ee8c520cfe2e9, type: 3}
+    price: 3
     description: 
     available: 1
-    itemDefinition: {fileID: 11400000, guid: 0d2e5eb3afe17214dbf84f68cb69a322, type: 2}
-  produceItems:
-  - itemName: Chicken
-    icon: {fileID: 6749228223500090080, guid: 30d15c509908d9c4b9d787ed04c335c1, type: 3}
-    price: 40
+    itemDefinition: {fileID: 11400000, guid: a620fcc93877474419d638aa32a00b77, type: 2}
+  - itemName: Watermelon
+    icon: {fileID: 21300000, guid: 458b96fa7bc9e4c409f9b7f0b8bb2630, type: 3}
+    price: 2
+    description: 
+    available: 1
+    itemDefinition: {fileID: 11400000, guid: 43c6401779b67b34495740bbef20857f, type: 2}
+  - itemName: Orange
+    icon: {fileID: 21300000, guid: 6fc31519aded24a839c1af9e163b6c01, type: 3}
+    price: 2
+    description: 
+    available: 1
+    itemDefinition: {fileID: 11400000, guid: 29bcbe781edccdf4ab588761d20a7203, type: 2}
+  fishSeafoodEntries:
+  - itemName: Fish
+    icon: {fileID: 21300000, guid: 711c10851768e431d943e3aea6a5f9fd, type: 3}
+    price: 8
+    description: 
+    available: 1
+    itemDefinition: {fileID: 11400000, guid: 9bada64d49290f942ba9e02b7d9a489d, type: 2}
+  meatPoultryEntries:
+  - itemName: Chicken Thighs
+    icon: {fileID: 21300000, guid: f89a4c1fde78944dcb14ead5d40721bc, type: 3}
+    price: 7
     description: 
     available: 1
     itemDefinition: {fileID: 11400000, guid: 65ee0be473cd218439617b7b80b5d67f, type: 2}
+  - itemName: Meat
+    icon: {fileID: 21300000, guid: 394fa39b4219b4a49a9b64ee3bf35481, type: 3}
+    price: 8
+    description: 
+    available: 1
+    itemDefinition: {fileID: 11400000, guid: b8c9acb334f073543a8deacd5e92bfb2, type: 2}
+  drinksEntries:
+  - itemName: Water
+    icon: {fileID: 21300000, guid: f27b8794232ef48a399fdfa75bcc1569, type: 3}
+    price: 1
+    description: 
+    available: 1
+    itemDefinition: {fileID: 11400000, guid: 3d55403e972bcc94197c6b3c110d1379, type: 2}
+  breadDairySweetenersEntries:
+  - itemName: Flour
+    icon: {fileID: 9132784678072903462, guid: 689e7063b815d204c9468939cb348916, type: 3}
+    price: 4
+    description: 
+    available: 1
+    itemDefinition: {fileID: 11400000, guid: 1c578b9448f4f824f886bfa28b10a019, type: 2}
+  - itemName: Milk
+    icon: {fileID: 21300000, guid: 23d916487f41d4333b22bd60bc91a000, type: 3}
+    price: 3
+    description: 
+    available: 1
+    itemDefinition: {fileID: 11400000, guid: 02d2e448d97d74a4f8f98671d42aafe1, type: 2}
+  - itemName: Cheese
+    icon: {fileID: 21300000, guid: 3ba5a88a0508a488a85c30169a8e18de, type: 3}
+    price: 6
+    description: 
+    available: 1
+    itemDefinition: {fileID: 11400000, guid: 5f68a53d4493660479d60eed3cd46abe, type: 2}
+  - itemName: Butter
+    icon: {fileID: 21300000, guid: b70944d5db9ae4c80b01034b6d3d91bf, type: 3}
+    price: 7
+    description: 
+    available: 1
+    itemDefinition: {fileID: 11400000, guid: e9a24d7d7dccc0848baac69df049050e, type: 2}
+  - itemName: Honey
+    icon: {fileID: 21300000, guid: 2fae0e1ac747f47648811811d0b34bfb, type: 3}
+    price: 8
+    description: 
+    available: 1
+    itemDefinition: {fileID: 11400000, guid: 602e6db3a6c1a514fa7988e0460390f0, type: 2}
+  - itemName: Chocolate
+    icon: {fileID: 21300000, guid: 6abcc03757a494181bcd2f733079582b, type: 3}
+    price: 3
+    description: 
+    available: 1
+    itemDefinition: {fileID: 11400000, guid: d701864ab178d384f929598c692602ee, type: 2}
   closeKey: 27
 --- !u!114 &1544411703
 MonoBehaviour:
@@ -10315,7 +10334,7 @@ GameObject:
   - component: {fileID: 1597618864}
   - component: {fileID: 1597618866}
   m_Layer: 0
-  m_Name: Gemini_Generated_Image_58jufc58jufc58ju-removebg-preview_0
+  m_Name: flour
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11333,7 +11352,6 @@ SceneRoots:
   - {fileID: 2103000187}
   - {fileID: 244139918}
   - {fileID: 559589092}
-  - {fileID: 1308188635}
   - {fileID: 842351754}
   - {fileID: 1419693233}
   - {fileID: 1492211851}

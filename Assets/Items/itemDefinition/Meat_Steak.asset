@@ -9,11 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d423432e6c9e6744b9300bc757a1af6, type: 3}
-  m_Name: Watering_can 1
-  m_EditorClassIdentifier: Assembly-CSharp::WateringCanItem
-  displayName: Watering can
-  icon: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 2d1e90db75a22bd44b53036bc18de6e1, type: 3}
+  m_Name: Meat_Steak
+  m_EditorClassIdentifier: Assembly-CSharp::ItemDefinition
+  displayName: Meat Steak
+  icon: {fileID: -4536646526587992613, guid: 24f664dacea3572498f59a8885d363c5, type: 3}
   maxStack: 99
-  fullSprite: {fileID: 0}
-  emptySprite: {fileID: 0}

@@ -14,10 +14,15 @@
                 <ui:VisualElement class="market-body">
                     <ui:VisualElement class="category-rail">
                         <ui:Label text="Sections" class="rail-title"/>
-                        <ui:Button name="tab-seeds" text="Seeds" class="category-button seeds-button"/>
-                        <ui:Button name="tab-tools" text="Tools" class="category-button tools-button"/>
-                        <ui:Button name="tab-fruits" text="Fruits" class="category-button fruits-button"/>
-                        <ui:Button name="tab-produce" text="Produce" class="category-button produce-button"/>
+                        <ui:ScrollView mode="Vertical" class="category-scroll">
+                            <ui:Button name="tab-seeds" text="Seeds" class="category-button seeds-button"/>
+                            <ui:Button name="tab-tools" text="Tools" class="category-button tools-button"/>
+                            <ui:Button name="tab-fruits-vegetables" text="Fruits &amp; Vegetables" class="category-button fruits-vegetables-button"/>
+                            <ui:Button name="tab-fish-seafood" text="Fish &amp; Seafood" class="category-button fish-seafood-button"/>
+                            <ui:Button name="tab-meat-poultry" text="Meat &amp; Poultry" class="category-button meat-poultry-button"/>
+                            <ui:Button name="tab-drinks" text="Drinks" class="category-button drinks-button"/>
+                            <ui:Button name="tab-baking-dairy" text="Bread Dairy&#10;Sweeteners" class="category-button baking-dairy-button"/>
+                        </ui:ScrollView>
                     </ui:VisualElement>
                     <ui:VisualElement class="section-stage">
                         <ui:VisualElement name="section-seeds" class="section-panel seeds-theme">
@@ -38,22 +43,49 @@
                                 <ui:VisualElement name="grid-tools" class="items-grid tools-grid"/>
                             </ui:ScrollView>
                         </ui:VisualElement>
-                        <ui:VisualElement name="section-fruits" class="section-panel fruits-theme hidden">
+                        <ui:VisualElement name="section-fruits-vegetables" class="section-panel fruits-vegetables-theme hidden">
                             <ui:VisualElement class="section-header">
-                                <ui:Label text="Fruits" class="section-title"/>
-                                <ui:Label text="Sweet and colorful fresh picks." class="section-description"/>
+                                <ui:Label text="Fruits and Vegetables" class="section-title"/>
+                                <ui:Label text="Fresh picks for daily meals and recipes." class="section-description"/>
                             </ui:VisualElement>
-                            <ui:ScrollView name="scroll-fruits" class="item-scroll">
-                                <ui:VisualElement name="grid-fruits" class="items-grid"/>
+                            <ui:ScrollView name="scroll-fruits-vegetables" class="item-scroll">
+                                <ui:VisualElement name="grid-fruits-vegetables" class="items-grid"/>
                             </ui:ScrollView>
                         </ui:VisualElement>
-                        <ui:VisualElement name="section-produce" class="section-panel produce-theme hidden">
+                        <ui:VisualElement name="section-fish-seafood" class="section-panel fish-seafood-theme hidden">
                             <ui:VisualElement class="section-header">
-                                <ui:Label text="Produce" class="section-title"/>
-                                <ui:Label text="Fresh goods from land and water." class="section-description"/>
+                                <ui:Label text="Fish and Seafood" class="section-title"/>
+                                <ui:Label text="From river and sea, ready for your kitchen." class="section-description"/>
                             </ui:VisualElement>
-                            <ui:ScrollView name="scroll-produce" class="item-scroll">
-                                <ui:VisualElement name="grid-produce" class="items-grid"/>
+                            <ui:ScrollView name="scroll-fish-seafood" class="item-scroll">
+                                <ui:VisualElement name="grid-fish-seafood" class="items-grid"/>
+                            </ui:ScrollView>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="section-meat-poultry" class="section-panel meat-poultry-theme hidden">
+                            <ui:VisualElement class="section-header">
+                                <ui:Label text="Meat and Poultry" class="section-title"/>
+                                <ui:Label text="Quality cuts for hearty dishes." class="section-description"/>
+                            </ui:VisualElement>
+                            <ui:ScrollView name="scroll-meat-poultry" class="item-scroll">
+                                <ui:VisualElement name="grid-meat-poultry" class="items-grid"/>
+                            </ui:ScrollView>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="section-drinks" class="section-panel drinks-theme hidden">
+                            <ui:VisualElement class="section-header">
+                                <ui:Label text="Drinks" class="section-title"/>
+                                <ui:Label text="Refreshments and juices." class="section-description"/>
+                            </ui:VisualElement>
+                            <ui:ScrollView name="scroll-drinks" class="item-scroll">
+                                <ui:VisualElement name="grid-drinks" class="items-grid"/>
+                            </ui:ScrollView>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="section-baking-dairy" class="section-panel baking-dairy-theme hidden">
+                            <ui:VisualElement class="section-header">
+                                <ui:Label text="Bread Dairy Sweeteners" class="section-title"/>
+                                <ui:Label text="Bread, dairy, and sweeteners for pantry staples." class="section-description"/>
+                            </ui:VisualElement>
+                            <ui:ScrollView name="scroll-baking-dairy" class="item-scroll">
+                                <ui:VisualElement name="grid-baking-dairy" class="items-grid"/>
                             </ui:ScrollView>
                         </ui:VisualElement>
                     </ui:VisualElement>

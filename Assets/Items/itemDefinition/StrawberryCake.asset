@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: StrawberryCake
   m_EditorClassIdentifier: Assembly-CSharp::ItemDefinition
   displayName: Strawberry Cake
-  icon: {fileID: -2794881115054452592, guid: d993ff1bc38f35b46b11913d47717af1, type: 3}
+  icon: {fileID: -3849930226702274373, guid: 08108cc06c11b594baea863f71d94461, type: 3}
   maxStack: 99

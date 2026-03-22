@@ -122,7 +122,7 @@ public class GlobalMoneyHUD : MonoBehaviour
         iconText.fontStyle = FontStyle.Bold;
         iconText.alignment = TextAnchor.MiddleCenter;
         iconText.color = iconTextColor;
-        iconText.text = "$";
+        iconText.text = "G";
         iconText.raycastTarget = false;
 
         GameObject textGo = new GameObject("MoneyText");

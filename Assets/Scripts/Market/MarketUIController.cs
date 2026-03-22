@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UIElements;
 
 [RequireComponent(typeof(UIDocument))]
@@ -10,10 +11,20 @@ public class MarketUIController : MonoBehaviour
     [SerializeField] private MarketInventoryBridge inventoryBridge;
 
     [Header("Items")]
-    [SerializeField] private MarketItemEntry[] seedItems;
-    [SerializeField] private MarketItemEntry[] toolItems;
-    [SerializeField] private MarketItemEntry[] fruitItems;
-    [SerializeField] private MarketItemEntry[] produceItems;
+    [FormerlySerializedAs("seedItems")]
+    [SerializeField] private MarketItemEntry[] seedsEntries;
+    [FormerlySerializedAs("toolItems")]
+    [SerializeField] private MarketItemEntry[] toolsEntries;
+    [FormerlySerializedAs("fruitVegetableItems")]
+    [SerializeField] private MarketItemEntry[] fruitsVegetablesEntries;
+    [FormerlySerializedAs("fishSeafoodItems")]
+    [SerializeField] private MarketItemEntry[] fishSeafoodEntries;
+    [FormerlySerializedAs("meatPoultryItems")]
+    [SerializeField] private MarketItemEntry[] meatPoultryEntries;
+    [FormerlySerializedAs("drinkItems")]
+    [SerializeField] private MarketItemEntry[] drinksEntries;
+    [FormerlySerializedAs("bakingDairyItems")]
+    [SerializeField] private MarketItemEntry[] breadDairySweetenersEntries;
 
     [Header("Input")]
     [SerializeField] private KeyCode closeKey = KeyCode.Escape;
@@ -26,18 +37,27 @@ public class MarketUIController : MonoBehaviour
     private Button closeButton;
     private Button seedsTabButton;
     private Button toolsTabButton;
-    private Button fruitsTabButton;
-    private Button produceTabButton;
+    private Button fruitsVegetablesTabButton;
+    private Button fishSeafoodTabButton;
+    private Button meatPoultryTabButton;
+    private Button drinksTabButton;
+    private Button breadDairySweetenersTabButton;
 
     private VisualElement seedsSection;
     private VisualElement toolsSection;
-    private VisualElement fruitsSection;
-    private VisualElement produceSection;
+    private VisualElement fruitsVegetablesSection;
+    private VisualElement fishSeafoodSection;
+    private VisualElement meatPoultrySection;
+    private VisualElement drinksSection;
+    private VisualElement breadDairySweetenersSection;
 
     private VisualElement seedsGrid;
     private VisualElement toolsGrid;
-    private VisualElement fruitsGrid;
-    private VisualElement produceGrid;
+    private VisualElement fruitsVegetablesGrid;
+    private VisualElement fishSeafoodGrid;
+    private VisualElement meatPoultryGrid;
+    private VisualElement drinksGrid;
+    private VisualElement breadDairySweetenersGrid;
 
     private readonly Dictionary<MarketSectionType, VisualElement> sectionLookup = new();
     private readonly Dictionary<MarketSectionType, Button> tabLookup = new();
@@ -66,34 +86,52 @@ public class MarketUIController : MonoBehaviour
         closeButton = root.Q<Button>("close-button");
         seedsTabButton = root.Q<Button>("tab-seeds");
         toolsTabButton = root.Q<Button>("tab-tools");
-        fruitsTabButton = root.Q<Button>("tab-fruits");
-        produceTabButton = root.Q<Button>("tab-produce");
+        fruitsVegetablesTabButton = root.Q<Button>("tab-fruits-vegetables");
+        fishSeafoodTabButton = root.Q<Button>("tab-fish-seafood");
+        meatPoultryTabButton = root.Q<Button>("tab-meat-poultry");
+        drinksTabButton = root.Q<Button>("tab-drinks");
+        breadDairySweetenersTabButton = root.Q<Button>("tab-baking-dairy");
 
         seedsSection = root.Q<VisualElement>("section-seeds");
         toolsSection = root.Q<VisualElement>("section-tools");
-        fruitsSection = root.Q<VisualElement>("section-fruits");
-        produceSection = root.Q<VisualElement>("section-produce");
+        fruitsVegetablesSection = root.Q<VisualElement>("section-fruits-vegetables");
+        fishSeafoodSection = root.Q<VisualElement>("section-fish-seafood");
+        meatPoultrySection = root.Q<VisualElement>("section-meat-poultry");
+        drinksSection = root.Q<VisualElement>("section-drinks");
+        breadDairySweetenersSection = root.Q<VisualElement>("section-baking-dairy");
 
         seedsGrid = root.Q<VisualElement>("grid-seeds");
         toolsGrid = root.Q<VisualElement>("grid-tools");
-        fruitsGrid = root.Q<VisualElement>("grid-fruits");
-        produceGrid = root.Q<VisualElement>("grid-produce");
+        fruitsVegetablesGrid = root.Q<VisualElement>("grid-fruits-vegetables");
+        fishSeafoodGrid = root.Q<VisualElement>("grid-fish-seafood");
+        meatPoultryGrid = root.Q<VisualElement>("grid-meat-poultry");
+        drinksGrid = root.Q<VisualElement>("grid-drinks");
+        breadDairySweetenersGrid = root.Q<VisualElement>("grid-baking-dairy");
 
         sectionLookup[MarketSectionType.Seeds] = seedsSection;
         sectionLookup[MarketSectionType.Tools] = toolsSection;
-        sectionLookup[MarketSectionType.Fruits] = fruitsSection;
-        sectionLookup[MarketSectionType.Produce] = produceSection;
+        sectionLookup[MarketSectionType.FruitsAndVegetables] = fruitsVegetablesSection;
+        sectionLookup[MarketSectionType.FishAndSeafood] = fishSeafoodSection;
+        sectionLookup[MarketSectionType.MeatAndPoultry] = meatPoultrySection;
+        sectionLookup[MarketSectionType.Drinks] = drinksSection;
+        sectionLookup[MarketSectionType.BreadDairySweeteners] = breadDairySweetenersSection;
 
         tabLookup[MarketSectionType.Seeds] = seedsTabButton;
         tabLookup[MarketSectionType.Tools] = toolsTabButton;
-        tabLookup[MarketSectionType.Fruits] = fruitsTabButton;
-        tabLookup[MarketSectionType.Produce] = produceTabButton;
+        tabLookup[MarketSectionType.FruitsAndVegetables] = fruitsVegetablesTabButton;
+        tabLookup[MarketSectionType.FishAndSeafood] = fishSeafoodTabButton;
+        tabLookup[MarketSectionType.MeatAndPoultry] = meatPoultryTabButton;
+        tabLookup[MarketSectionType.Drinks] = drinksTabButton;
+        tabLookup[MarketSectionType.BreadDairySweeteners] = breadDairySweetenersTabButton;
 
         closeButton.clicked += CloseMarket;
         seedsTabButton.clicked += () => OpenSection(MarketSectionType.Seeds);
         toolsTabButton.clicked += () => OpenSection(MarketSectionType.Tools);
-        fruitsTabButton.clicked += () => OpenSection(MarketSectionType.Fruits);
-        produceTabButton.clicked += () => OpenSection(MarketSectionType.Produce);
+        fruitsVegetablesTabButton.clicked += () => OpenSection(MarketSectionType.FruitsAndVegetables);
+        fishSeafoodTabButton.clicked += () => OpenSection(MarketSectionType.FishAndSeafood);
+        meatPoultryTabButton.clicked += () => OpenSection(MarketSectionType.MeatAndPoultry);
+        drinksTabButton.clicked += () => OpenSection(MarketSectionType.Drinks);
+        breadDairySweetenersTabButton.clicked += () => OpenSection(MarketSectionType.BreadDairySweeteners);
 
         PopulateAllSections();
         RefreshMoney();
@@ -127,14 +165,14 @@ public class MarketUIController : MonoBehaviour
 
     public void OpenSection(MarketSectionType section)
     {
-        currentSection = section;
+        currentSection = NormalizeSection(section);
 
         marketRoot.RemoveFromClassList("hidden");
         SetInteractionHint(string.Empty, false);
 
         foreach (KeyValuePair<MarketSectionType, VisualElement> pair in sectionLookup)
         {
-            if (pair.Key == section)
+            if (pair.Key == currentSection)
                 pair.Value.RemoveFromClassList("hidden");
             else
                 pair.Value.AddToClassList("hidden");
@@ -145,11 +183,22 @@ public class MarketUIController : MonoBehaviour
             pair.Value.RemoveFromClassList("active-tab");
         }
 
-        if (tabLookup.TryGetValue(section, out Button activeButton))
+        if (tabLookup.TryGetValue(currentSection, out Button activeButton))
             activeButton.AddToClassList("active-tab");
 
-        marketSubtitle.text = GetSubtitle(section);
+        marketSubtitle.text = GetSubtitle(currentSection);
         RefreshMoney();
+    }
+
+    private static MarketSectionType NormalizeSection(MarketSectionType section)
+    {
+        // Map legacy serialized enum values that may still exist in scene objects.
+        return (int)section switch
+        {
+            2 => MarketSectionType.FruitsAndVegetables,
+            3 => MarketSectionType.FishAndSeafood,
+            _ => section
+        };
     }
 
     public void CloseMarket()
@@ -178,8 +227,11 @@ public class MarketUIController : MonoBehaviour
         {
             MarketSectionType.Seeds => "Choose seeds for your next harvest.",
             MarketSectionType.Tools => "Pick the right equipment for the job.",
-            MarketSectionType.Fruits => "Fresh fruits ready for sale or cooking.",
-            MarketSectionType.Produce => "Fish, meat, and fresh market goods.",
+            MarketSectionType.FruitsAndVegetables => "Fresh fruits and vegetables for daily cooking.",
+            MarketSectionType.FishAndSeafood => "Fresh fish and seafood from the market.",
+            MarketSectionType.MeatAndPoultry => "Quality meat and poultry cuts.",
+            MarketSectionType.Drinks => "Refreshing drinks and juices.",
+            MarketSectionType.BreadDairySweeteners => "Bread, dairy, and sweeteners for your pantry.",
             _ => "Browse the market."
         };
     }
@@ -195,18 +247,47 @@ public class MarketUIController : MonoBehaviour
 
     private void PopulateAllSections()
     {
-        PopulateSection(seedsGrid, seedItems, MarketSectionType.Seeds);
-        PopulateSection(toolsGrid, toolItems, MarketSectionType.Tools);
-        PopulateSection(fruitsGrid, fruitItems, MarketSectionType.Fruits);
-        PopulateSection(produceGrid, produceItems, MarketSectionType.Produce);
+        PopulateSection(seedsGrid, seedsEntries, MarketSectionType.Seeds);
+        PopulateSection(toolsGrid, toolsEntries, MarketSectionType.Tools);
+        PopulateSection(fruitsVegetablesGrid, ResolveItemsForSection(MarketSectionType.FruitsAndVegetables), MarketSectionType.FruitsAndVegetables);
+        PopulateSection(fishSeafoodGrid, ResolveItemsForSection(MarketSectionType.FishAndSeafood), MarketSectionType.FishAndSeafood);
+        PopulateSection(meatPoultryGrid, ResolveItemsForSection(MarketSectionType.MeatAndPoultry), MarketSectionType.MeatAndPoultry);
+        PopulateSection(drinksGrid, ResolveItemsForSection(MarketSectionType.Drinks), MarketSectionType.Drinks);
+        PopulateSection(breadDairySweetenersGrid, ResolveItemsForSection(MarketSectionType.BreadDairySweeteners), MarketSectionType.BreadDairySweeteners);
+    }
+
+    private MarketItemEntry[] ResolveItemsForSection(MarketSectionType section)
+    {
+        return section switch
+        {
+            MarketSectionType.FruitsAndVegetables => fruitsVegetablesEntries,
+            MarketSectionType.FishAndSeafood => fishSeafoodEntries,
+            MarketSectionType.MeatAndPoultry => meatPoultryEntries,
+            MarketSectionType.Drinks => drinksEntries,
+            MarketSectionType.BreadDairySweeteners => breadDairySweetenersEntries,
+            _ => null
+        };
+    }
+
+    private static bool HasEntries(MarketItemEntry[] items)
+    {
+        return items != null && items.Length > 0;
     }
 
     private void PopulateSection(VisualElement grid, MarketItemEntry[] items, MarketSectionType sectionType)
     {
+        if (grid == null)
+            return;
+
         grid.Clear();
 
-        if (items == null)
+        if (items == null || items.Length == 0)
+        {
+            grid.Add(CreateEmptySectionCard(sectionType));
             return;
+        }
+
+        int addedCount = 0;
 
         foreach (MarketItemEntry item in items)
         {
@@ -214,7 +295,29 @@ public class MarketUIController : MonoBehaviour
                 continue;
 
             grid.Add(CreateItemCard(item, sectionType));
+            addedCount++;
         }
+
+        if (addedCount == 0)
+            grid.Add(CreateEmptySectionCard(sectionType));
+    }
+
+    private VisualElement CreateEmptySectionCard(MarketSectionType sectionType)
+    {
+        VisualElement card = new VisualElement();
+        card.AddToClassList("item-card");
+        card.AddToClassList(GetCardClass(sectionType));
+        card.AddToClassList("empty-item-card");
+
+        Label title = new Label("No items yet");
+        title.AddToClassList("item-name");
+
+        Label detail = new Label("This category is ready and can be filled later.");
+        detail.AddToClassList("empty-item-detail");
+
+        card.Add(title);
+        card.Add(detail);
+        return card;
     }
 
     private VisualElement CreateItemCard(MarketItemEntry item, MarketSectionType sectionType)
@@ -258,8 +361,11 @@ public class MarketUIController : MonoBehaviour
         {
             MarketSectionType.Seeds => "seeds-card",
             MarketSectionType.Tools => "tools-card",
-            MarketSectionType.Fruits => "fruits-card",
-            MarketSectionType.Produce => "produce-card",
+            MarketSectionType.FruitsAndVegetables => "fruits-vegetables-card",
+            MarketSectionType.FishAndSeafood => "fish-seafood-card",
+            MarketSectionType.MeatAndPoultry => "meat-poultry-card",
+            MarketSectionType.Drinks => "drinks-card",
+            MarketSectionType.BreadDairySweeteners => "baking-dairy-card",
             _ => "seeds-card"
         };
     }
