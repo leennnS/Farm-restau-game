@@ -63,6 +63,8 @@ public class MarketUIController : MonoBehaviour
     private readonly Dictionary<MarketSectionType, Button> tabLookup = new();
 
     private MarketSectionType currentSection = MarketSectionType.Seeds;
+    private bool isSectionLocked;
+    private MarketSectionType lockedSection = MarketSectionType.Seeds;
 
     public bool IsOpen => !marketRoot.ClassListContains("hidden");
 
@@ -125,13 +127,13 @@ public class MarketUIController : MonoBehaviour
         tabLookup[MarketSectionType.BreadDairySweeteners] = breadDairySweetenersTabButton;
 
         closeButton.clicked += CloseMarket;
-        seedsTabButton.clicked += () => OpenSection(MarketSectionType.Seeds);
-        toolsTabButton.clicked += () => OpenSection(MarketSectionType.Tools);
-        fruitsVegetablesTabButton.clicked += () => OpenSection(MarketSectionType.FruitsAndVegetables);
-        fishSeafoodTabButton.clicked += () => OpenSection(MarketSectionType.FishAndSeafood);
-        meatPoultryTabButton.clicked += () => OpenSection(MarketSectionType.MeatAndPoultry);
-        drinksTabButton.clicked += () => OpenSection(MarketSectionType.Drinks);
-        breadDairySweetenersTabButton.clicked += () => OpenSection(MarketSectionType.BreadDairySweeteners);
+        seedsTabButton.clicked += () => TrySwitchTab(MarketSectionType.Seeds);
+        toolsTabButton.clicked += () => TrySwitchTab(MarketSectionType.Tools);
+        fruitsVegetablesTabButton.clicked += () => TrySwitchTab(MarketSectionType.FruitsAndVegetables);
+        fishSeafoodTabButton.clicked += () => TrySwitchTab(MarketSectionType.FishAndSeafood);
+        meatPoultryTabButton.clicked += () => TrySwitchTab(MarketSectionType.MeatAndPoultry);
+        drinksTabButton.clicked += () => TrySwitchTab(MarketSectionType.Drinks);
+        breadDairySweetenersTabButton.clicked += () => TrySwitchTab(MarketSectionType.BreadDairySweeteners);
 
         PopulateAllSections();
         RefreshMoney();
@@ -165,7 +167,18 @@ public class MarketUIController : MonoBehaviour
 
     public void OpenSection(MarketSectionType section)
     {
+        OpenSection(section, false);
+    }
+
+    public void OpenSection(MarketSectionType section, bool lockToSingleSection)
+    {
         currentSection = NormalizeSection(section);
+
+        if (lockToSingleSection)
+        {
+            isSectionLocked = true;
+            lockedSection = currentSection;
+        }
 
         marketRoot.RemoveFromClassList("hidden");
         SetInteractionHint(string.Empty, false);
@@ -186,8 +199,27 @@ public class MarketUIController : MonoBehaviour
         if (tabLookup.TryGetValue(currentSection, out Button activeButton))
             activeButton.AddToClassList("active-tab");
 
+        RefreshTabVisibility();
+
         marketSubtitle.text = GetSubtitle(currentSection);
         RefreshMoney();
+    }
+
+    private void TrySwitchTab(MarketSectionType section)
+    {
+        if (isSectionLocked && section != lockedSection)
+            return;
+
+        OpenSection(section, false);
+    }
+
+    private void RefreshTabVisibility()
+    {
+        foreach (KeyValuePair<MarketSectionType, Button> pair in tabLookup)
+        {
+            bool shouldShow = !isSectionLocked || pair.Key == lockedSection;
+            pair.Value.style.display = shouldShow ? DisplayStyle.Flex : DisplayStyle.None;
+        }
     }
 
     private static MarketSectionType NormalizeSection(MarketSectionType section)
@@ -204,11 +236,15 @@ public class MarketUIController : MonoBehaviour
     public void CloseMarket()
     {
         marketRoot.AddToClassList("hidden");
+        isSectionLocked = false;
+        RefreshTabVisibility();
     }
 
     public void CloseMarketInstant()
     {
         marketRoot.AddToClassList("hidden");
+        isSectionLocked = false;
+        RefreshTabVisibility();
     }
 
     public void SetInteractionHint(string message, bool show)

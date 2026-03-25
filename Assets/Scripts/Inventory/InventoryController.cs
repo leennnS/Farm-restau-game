@@ -41,6 +41,9 @@ public class InventoryController : MonoBehaviour
     [Header("Map")]
     [SerializeField] private Texture2D gameMapImage;
 
+    [Header("UI")]
+    [SerializeField] private StyleSheet cookingStyleSheet;
+
     [Header("Quick Test (optional)")]
     [SerializeField] private ItemDefinition testItem;
     [SerializeField] private KeyCode testAddKey = KeyCode.K;
@@ -146,14 +149,18 @@ public class InventoryController : MonoBehaviour
         // Keep this inventory object across scene loads
         DontDestroyOnLoad(gameObject);
 
-        var cookingStyleSheet = Resources.Load<StyleSheet>("UI/UXML/CookingStyles");
+        var loadedStyleSheet = cookingStyleSheet;
+
+        // Backward-compatible fallback in case the inspector field is not assigned yet.
+        if (loadedStyleSheet == null)
+            loadedStyleSheet = Resources.Load<StyleSheet>("UI/UXML/CookingStyles");
 
         Debug.Log("ROOT exists? " + (_root != null));
-        Debug.Log("CookingStyles found? " + (cookingStyleSheet != null));
+        Debug.Log("CookingStyles found? " + (loadedStyleSheet != null));
 
-        if (cookingStyleSheet != null)
+        if (loadedStyleSheet != null)
         {
-            _root.styleSheets.Add(cookingStyleSheet);
+            _root.styleSheets.Add(loadedStyleSheet);
             Debug.Log("CookingStyles added. Root stylesheet count = " + _root.styleSheets.count);
         }
         else
