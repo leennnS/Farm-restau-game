@@ -11,6 +11,9 @@ public class InventoryController : MonoBehaviour
 {
     private static InventoryController _instance;
 
+    public static InventoryController Instance => _instance;
+    public static bool HasInstance => _instance != null;
+
     public const int HotbarSize = 12;
 
     [Header("Input")]
@@ -26,12 +29,20 @@ public class InventoryController : MonoBehaviour
     // ---------- NEW: Inventory ----------
     [Header("Inventory")]
     [SerializeField] private int inventorySize = 36;
+    [SerializeField, Range(0.8f, 2.0f)] private float inventoryUiScale = 1.25f;
+    [SerializeField] private bool autoScaleByDevice = true;
+    [SerializeField] private float referenceDpi = 96f;
+    [SerializeField, Range(1.0f, 1.8f)] private float maxAutoScaleMultiplier = 1.45f;
 
     [Header("Crafting")]
+    [SerializeField] private bool enableInventoryCookingTab = false;
     [SerializeField] private RecipeDefinition[] recipes;
 
     [Header("Map")]
     [SerializeField] private Texture2D gameMapImage;
+
+    [Header("UI")]
+    [SerializeField] private StyleSheet cookingStyleSheet;
 
     [Header("Quick Test (optional)")]
     [SerializeField] private ItemDefinition testItem;
@@ -49,6 +60,7 @@ public class InventoryController : MonoBehaviour
     private UIDocument _uiDocument;
     private VisualElement _root;
     private bool _isOpen;
+    private bool _isCookingOnlyMode;
 
     // Hotbar HUD reference (supports either controller script)
     private HotBarHUDController _hotbarHUD;
@@ -71,6 +83,7 @@ public class InventoryController : MonoBehaviour
     private Button _tabBreakfastButton;
     private Button _tabMainDishButton;
     private Button _tabDrinksButton;
+    private Button _tabDessertButton;
     private Button _backToRecipesButton;
     private Button _cookRecipeButton;
     private VisualElement _cookingLoadingContainer;
@@ -93,6 +106,8 @@ public class InventoryController : MonoBehaviour
 
     private RecipeDefinition _selectedRecipe;
     private RecipeCategory _currentRecipeCategory = RecipeCategory.BreakfastBakery;
+
+    public event Action<RecipeDefinition> OnRecipeCooked;
 
     // Settings controls
     private Slider _masterVolumeSlider;
@@ -134,14 +149,18 @@ public class InventoryController : MonoBehaviour
         // Keep this inventory object across scene loads
         DontDestroyOnLoad(gameObject);
 
-        var cookingStyleSheet = Resources.Load<StyleSheet>("UI/UXML/CookingStyles");
+        var loadedStyleSheet = cookingStyleSheet;
+
+        // Backward-compatible fallback in case the inspector field is not assigned yet.
+        if (loadedStyleSheet == null)
+            loadedStyleSheet = Resources.Load<StyleSheet>("UI/UXML/CookingStyles");
 
         Debug.Log("ROOT exists? " + (_root != null));
-        Debug.Log("CookingStyles found? " + (cookingStyleSheet != null));
+        Debug.Log("CookingStyles found? " + (loadedStyleSheet != null));
 
-        if (cookingStyleSheet != null)
+        if (loadedStyleSheet != null)
         {
-            _root.styleSheets.Add(cookingStyleSheet);
+            _root.styleSheets.Add(loadedStyleSheet);
             Debug.Log("CookingStyles added. Root stylesheet count = " + _root.styleSheets.count);
         }
         else
@@ -159,6 +178,7 @@ public class InventoryController : MonoBehaviour
 
         TryResolveHotbarHUD();
         CacheUI();
+        ApplyInventoryUiScale();
         CacheInventorySlots();
         BindUI();
 
@@ -218,9 +238,68 @@ public class InventoryController : MonoBehaviour
         SyncExternalHotbarAll();
     }
 
+    public bool IsCookingOnlyModeOpen => _isOpen && _isCookingOnlyMode;
+
     public void Toggle() => SetOpen(!_isOpen);
     public void Open() => SetOpen(true);
-    public void Close() => SetOpen(false);
+    public void Close()
+    {
+        _isCookingOnlyMode = false;
+        RestoreDefaultLayout();
+        SetOpen(false);
+    }
+
+    public void OpenCookingOnlyMode()
+    {
+        _isCookingOnlyMode = true;
+        ApplyCookingOnlyLayout();
+        SetOpen(true);
+    }
+
+    public void CloseCookingOnlyMode()
+    {
+        _isCookingOnlyMode = false;
+        RestoreDefaultLayout();
+        SetOpen(false);
+    }
+
+    private void ApplyCookingOnlyLayout()
+    {
+        if (_tabToolsButton != null)
+            _tabToolsButton.style.display = DisplayStyle.None;
+
+        if (_tabMapButton != null)
+            _tabMapButton.style.display = DisplayStyle.None;
+
+        if (_tabSettingsButton != null)
+            _tabSettingsButton.style.display = DisplayStyle.None;
+
+        if (_tabCraftingButton != null)
+            _tabCraftingButton.style.display = DisplayStyle.Flex;
+
+        ShowPage(_craftingPage, _toolsPage, _mapPage, _settingsPage);
+        SetFooterVisible(false);
+        ShowRecipeCategory(_currentRecipeCategory);
+        UpdateActiveTopTab(_tabCraftingButton);
+    }
+
+    private void RestoreDefaultLayout()
+    {
+        if (_tabToolsButton != null)
+            _tabToolsButton.style.display = DisplayStyle.Flex;
+
+        if (_tabMapButton != null)
+            _tabMapButton.style.display = DisplayStyle.Flex;
+
+        if (_tabSettingsButton != null)
+            _tabSettingsButton.style.display = DisplayStyle.Flex;
+
+        if (_tabCraftingButton != null)
+            _tabCraftingButton.style.display = enableInventoryCookingTab ? DisplayStyle.Flex : DisplayStyle.None;
+
+        if (_isOpen)
+            ShowTools();
+    }
 
     private void SetOpen(bool open)
     {
@@ -295,6 +374,7 @@ public class InventoryController : MonoBehaviour
         _tabBreakfastButton = _root.Q<Button>("tabBreakfastButton");
         _tabMainDishButton = _root.Q<Button>("tabMainDishButton");
         _tabDrinksButton = _root.Q<Button>("tabDrinksButton");
+        _tabDessertButton = _root.Q<Button>("tabDessertButton");
         _backToRecipesButton = _root.Q<Button>("backToRecipesButton");
         _cookRecipeButton = _root.Q<Button>("cookRecipeButton");
 
@@ -317,6 +397,46 @@ public class InventoryController : MonoBehaviour
         _cookingLoadingLabel = _root.Q<Label>("cookingLoadingLabel");
         _cookingProgressText = _root.Q<Label>("cookingProgressText");
         _inventoryRootElement = _root.Q<VisualElement>("inventoryRoot");
+
+        if (!enableInventoryCookingTab)
+        {
+            if (_tabCraftingButton != null)
+                _tabCraftingButton.style.display = DisplayStyle.None;
+
+            if (_craftingPage != null)
+                _craftingPage.style.display = DisplayStyle.None;
+        }
+    }
+
+    private void ApplyInventoryUiScale()
+    {
+        if (_root == null)
+            return;
+
+        VisualElement inventoryShell = _root.Q<VisualElement>("inventoryShell");
+        if (inventoryShell == null)
+            return;
+
+        float targetScale = Mathf.Clamp(inventoryUiScale, 0.8f, 2.0f);
+
+        if (autoScaleByDevice)
+        {
+            // Screen.dpi is the best indicator for high-density laptop displays.
+            // If unavailable (0), we simply keep the manual scale value.
+            float dpi = Screen.dpi;
+            if (dpi > 0f)
+            {
+                float safeReferenceDpi = Mathf.Max(1f, referenceDpi);
+                float dpiMultiplier = Mathf.Clamp(dpi / safeReferenceDpi, 1f, maxAutoScaleMultiplier);
+                targetScale *= dpiMultiplier;
+            }
+        }
+
+        float clampedScale = Mathf.Clamp(targetScale, 0.8f, 2.0f);
+        inventoryShell.style.scale = new Scale(new Vector2(clampedScale, clampedScale));
+
+        if (debugSlotClicks)
+            Debug.Log($"[InventoryController] Applied inventory UI scale: {clampedScale:0.00} (dpi={Screen.dpi:0.0})");
     }
 
     // NEW: cache inventory slots itemSlot01..itemSlot36 AND hotbarSlot01..hotbarSlot12
@@ -411,7 +531,7 @@ public class InventoryController : MonoBehaviour
         if (_tabMapButton != null)
             _tabMapButton.clicked += ShowMap;
 
-        if (_tabCraftingButton != null)
+        if (enableInventoryCookingTab && _tabCraftingButton != null)
             _tabCraftingButton.clicked += ShowCrafting;
 
         if (_tabSettingsButton != null)
@@ -441,7 +561,8 @@ public class InventoryController : MonoBehaviour
         }
 
         // Populate crafting recipes
-        PopulateCraftingRecipes();
+        if (enableInventoryCookingTab)
+            PopulateCraftingRecipes();
 
         // Populate map display
         PopulateMapDisplay();
@@ -453,6 +574,9 @@ public class InventoryController : MonoBehaviour
 
         if (_tabDrinksButton != null)
             _tabDrinksButton.clicked += () => ShowRecipeCategory(RecipeCategory.SoupsDrinks);
+
+        if (_tabDessertButton != null)
+            _tabDessertButton.clicked += () => ShowRecipeCategory(RecipeCategory.Dessert);
 
         if (_backToRecipesButton != null)
             _backToRecipesButton.clicked += ShowRecipeBrowser;
@@ -477,6 +601,12 @@ public class InventoryController : MonoBehaviour
 
     private void ShowCrafting()
     {
+        if (!enableInventoryCookingTab)
+        {
+            ShowTools();
+            return;
+        }
+
         ShowPage(_craftingPage, _toolsPage, _mapPage, _settingsPage);
         SetFooterVisible(false);
         ShowRecipeCategory(_currentRecipeCategory);
@@ -1665,8 +1795,9 @@ public class InventoryController : MonoBehaviour
             yield return null;
         }
 
+        bool cookedSuccessfully = false;
         if (_selectedRecipe.result != null)
-            TryAdd(_selectedRecipe.result, _selectedRecipe.resultAmount);
+            cookedSuccessfully = TryAdd(_selectedRecipe.result, _selectedRecipe.resultAmount);
 
         for (int i = 0; i < _cookingRecipeSlotData.Length; i++)
         {
@@ -1695,6 +1826,9 @@ public class InventoryController : MonoBehaviour
             _backToRecipesButton.SetEnabled(true);
 
         _isCooking = false;
+
+        if (cookedSuccessfully)
+            OnRecipeCooked?.Invoke(_selectedRecipe);
 
         Debug.Log($"Cooked {_selectedRecipe.recipeName}!");
     }
@@ -1877,6 +2011,108 @@ public class InventoryController : MonoBehaviour
                 total += slot.amount;
         }
         return total;
+    }
+
+    // ==================== MENU HELPERS (FOR FUTURE ORDERS) ====================
+
+    public RecipeDefinition[] GetMenuRecipes()
+    {
+        if (recipes == null || recipes.Length == 0)
+            return Array.Empty<RecipeDefinition>();
+
+        int validCount = 0;
+        for (int i = 0; i < recipes.Length; i++)
+        {
+            if (recipes[i] != null)
+                validCount++;
+        }
+
+        if (validCount == 0)
+            return Array.Empty<RecipeDefinition>();
+
+        RecipeDefinition[] menu = new RecipeDefinition[validCount];
+        int menuIndex = 0;
+        for (int i = 0; i < recipes.Length; i++)
+        {
+            if (recipes[i] != null)
+                menu[menuIndex++] = recipes[i];
+        }
+
+        return menu;
+    }
+
+    public RecipeDefinition[] GetMenuRecipesByCategory(RecipeCategory category)
+    {
+        if (recipes == null || recipes.Length == 0)
+            return Array.Empty<RecipeDefinition>();
+
+        int count = 0;
+        for (int i = 0; i < recipes.Length; i++)
+        {
+            if (recipes[i] != null && recipes[i].category == category)
+                count++;
+        }
+
+        if (count == 0)
+            return Array.Empty<RecipeDefinition>();
+
+        RecipeDefinition[] filtered = new RecipeDefinition[count];
+        int filteredIndex = 0;
+        for (int i = 0; i < recipes.Length; i++)
+        {
+            if (recipes[i] != null && recipes[i].category == category)
+                filtered[filteredIndex++] = recipes[i];
+        }
+
+        return filtered;
+    }
+
+    public RecipeDefinition GetRandomMenuRecipe()
+    {
+        RecipeDefinition[] menu = GetMenuRecipes();
+        if (menu.Length == 0)
+            return null;
+
+        return menu[UnityEngine.Random.Range(0, menu.Length)];
+    }
+
+    public RecipeDefinition GetRandomMenuRecipeByCategory(RecipeCategory category)
+    {
+        RecipeDefinition[] menu = GetMenuRecipesByCategory(category);
+        if (menu.Length == 0)
+            return null;
+
+        return menu[UnityEngine.Random.Range(0, menu.Length)];
+    }
+
+    public bool TryCookRecipeFromExternalUI(RecipeDefinition recipe, out string message)
+    {
+        message = string.Empty;
+
+        if (recipe == null)
+        {
+            message = "No recipe selected.";
+            return false;
+        }
+
+        if (_slotsData == null || _slotsData.Length == 0)
+        {
+            message = "Inventory is not ready.";
+            return false;
+        }
+
+        if (!recipe.CanCraft(_slotsData))
+        {
+            message = "Missing ingredients.";
+            return false;
+        }
+
+        recipe.Craft(ref _slotsData);
+        RefreshAllSlots();
+        OnRecipeCooked?.Invoke(recipe);
+
+        message = $"Cooked {recipe.recipeName}!";
+        return true;
     }
 
     /// <summary>

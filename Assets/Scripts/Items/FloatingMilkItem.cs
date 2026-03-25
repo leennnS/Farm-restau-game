@@ -28,6 +28,13 @@ public class FloatingMilkItem : MonoBehaviour
     private void Update()
     {
         if (playerTransform == null)
+        {
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            if (player != null)
+                playerTransform = player.transform;
+        }
+
+        if (playerTransform == null)
             return;
 
         float distanceToPlayer = Vector3.Distance(transform.position, playerTransform.position);

@@ -10,6 +10,8 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class HouseExitTrigger : MonoBehaviour
 {
+    public static bool PendingReturnToFarm;
+
     [Tooltip("Radius used when no trigger collider is present (world units)")]
     public float radius = 1.25f;
 
@@ -128,8 +130,13 @@ public class HouseExitTrigger : MonoBehaviour
             yield break;
 
         // Reset player scale before loading farm scene
-        player.transform.localScale = new Vector3(1f, 1f, 1f);
+        DontDestroyOnLoad ddol = player.GetComponent<DontDestroyOnLoad>();
+        if (ddol != null)
+            ddol.RestoreOriginalScale();
+        else
+            player.transform.localScale = new Vector3(1f, 1f, 1f);
 
+        PendingReturnToFarm = true;
         // Load target scene
         SceneManager.LoadScene(targetSceneName);
     }

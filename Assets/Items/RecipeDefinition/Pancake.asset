@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8c83571b017d0e4fbe853a4bc8c0955, type: 3}
   m_Name: Pancake
   m_EditorClassIdentifier: Assembly-CSharp::RecipeDefinition
-  category: 0
+  category: 3
   recipeName: Pancake
   result: {fileID: 11400000, guid: b4308282580d4d84e8bf0283cb528ba2, type: 2}
   resultAmount: 1
@@ -22,3 +22,11 @@ MonoBehaviour:
     amount: 1
   - item: {fileID: 11400000, guid: b195f71b30c9b3b4e9b5efd4ee78a405, type: 2}
     amount: 1
+  - item: {fileID: 11400000, guid: 1c578b9448f4f824f886bfa28b10a019, type: 2}
+    amount: 1
+  - item: {fileID: 11400000, guid: a75f459dfd23bb340a0da81168120a50, type: 2}
+    amount: 1
+  rewardMoney: 15
+  orderPreparationTime: 30
+  usePenalty: 1
+  penaltyMoney: 5

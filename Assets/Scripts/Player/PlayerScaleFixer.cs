@@ -17,8 +17,7 @@ public class PlayerScaleFixer : MonoBehaviour
 
     void Start()
     {
-        if (targetScale == Vector3.zero) targetScale = new Vector3(0.5f, 0.5f, 1f);
-        transform.localScale = targetScale;
+        // Disabled to avoid modifying player scale across scenes.
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
@@ -39,7 +38,6 @@ public class PlayerScaleFixer : MonoBehaviour
     void Update()
     {
         elapsed += Time.deltaTime;
-        transform.localScale = targetScale;
         if (elapsed >= duration)
             Destroy(this);
     }

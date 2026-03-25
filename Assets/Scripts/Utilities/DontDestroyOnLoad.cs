@@ -4,10 +4,11 @@ using UnityEngine.SceneManagement;
 public class DontDestroyOnLoad : MonoBehaviour
 {
     private static DontDestroyOnLoad instance;
+    private Vector3 originalScale; // Store original player scale
 
     private void Awake()
     {
-        // Ensure only one instance of this persistent object exists
+        // Singleton pattern — only one player exists
         if (instance != null && instance != this)
         {
             Destroy(gameObject);
@@ -16,6 +17,9 @@ public class DontDestroyOnLoad : MonoBehaviour
 
         instance = this;
         DontDestroyOnLoad(gameObject);
+
+        // Store the player's original scale
+        originalScale = transform.localScale;
     }
 
     private void OnEnable()
@@ -30,15 +34,10 @@ public class DontDestroyOnLoad : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // Only move if this object is the player (tagged "Player")
-        if (!gameObject.CompareTag("Player")) return;
+    }
 
-        // Find a spawn point in the newly loaded scene
-        SpawnPoint sp = FindObjectOfType<SpawnPoint>();
-        if (sp != null)
-        {
-            Transform t = transform;
-            t.position = sp.transform.position;
-        }
+    public void RestoreOriginalScale()
+    {
+        transform.localScale = originalScale;
     }
 }

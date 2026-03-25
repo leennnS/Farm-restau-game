@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8c83571b017d0e4fbe853a4bc8c0955, type: 3}
+  m_Name: Fish Steak
+  m_EditorClassIdentifier: Assembly-CSharp::RecipeDefinition
+  category: 1
+  recipeName: Fish Steak
+  result: {fileID: 11400000, guid: 385d35be70e590443abc0eeaffa6acfe, type: 2}
+  resultAmount: 1
+  recipeIcon: {fileID: 21300000, guid: a1a5e23bba6eb4bb199f63ad13182e00, type: 3}
+  ingredients:
+  - item: {fileID: 11400000, guid: 9bada64d49290f942ba9e02b7d9a489d, type: 2}
+    amount: 1
+  - item: {fileID: 11400000, guid: 026a948720989044ea1ff64f9768448f, type: 2}
+    amount: 1
+  - item: {fileID: 11400000, guid: 6e9e7b38e7fa6e2409f62b737e973a8b, type: 2}
+    amount: 1
+  rewardMoney: 25
+  orderPreparationTime: 30
+  usePenalty: 1
+  penaltyMoney: 5

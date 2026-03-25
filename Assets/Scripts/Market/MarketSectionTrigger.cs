@@ -8,6 +8,7 @@ public class MarketSectionTrigger : MonoBehaviour
     [SerializeField] private KeyCode interactKey = KeyCode.E;
     [SerializeField] private string promptMessage = "Press E to browse";
 
+    private static MarketSectionTrigger activeTrigger;
     private bool playerInside;
 
     private void Reset()
@@ -21,12 +22,15 @@ public class MarketSectionTrigger : MonoBehaviour
         if (!playerInside || marketUI == null)
             return;
 
+        if (activeTrigger != this)
+            return;
+
         if (marketUI.IsOpen)
             return;
 
         if (Input.GetKeyDown(interactKey))
         {
-            marketUI.OpenSection(sectionType);
+            marketUI.OpenSection(sectionType, true);
         }
     }
 
@@ -36,6 +40,7 @@ public class MarketSectionTrigger : MonoBehaviour
             return;
 
         playerInside = true;
+        activeTrigger = this;
 
         if (marketUI != null && !marketUI.IsOpen)
             marketUI.SetInteractionHint(promptMessage, true);
@@ -48,7 +53,16 @@ public class MarketSectionTrigger : MonoBehaviour
 
         playerInside = false;
 
+        if (activeTrigger == this)
+            activeTrigger = null;
+
         if (marketUI != null)
             marketUI.SetInteractionHint(string.Empty, false);
+    }
+
+    private void OnDisable()
+    {
+        if (activeTrigger == this)
+            activeTrigger = null;
     }
 }

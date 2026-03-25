@@ -11,6 +11,10 @@ public class ItemFlyToPlayer : MonoBehaviour
     private Transform target;
     private Vector3 riseTarget;
     private bool rising = true;
+    private bool initialized;
+    private float targetSearchTimer;
+
+    [SerializeField] private float targetSearchTimeout = 1.5f;
 
     private void Start()
     {
@@ -34,16 +38,23 @@ public class ItemFlyToPlayer : MonoBehaviour
     {
         target = playerTarget;
         riseTarget = transform.position + Vector3.up * riseHeight;
-        Debug.Log($"[ItemFlyToPlayer] Initialized! Target: {target.gameObject.name}, RiseTarget: {riseTarget}");
+        initialized = true;
+        string targetName = target != null ? target.gameObject.name : "<null>";
+        Debug.Log($"[ItemFlyToPlayer] Initialized! Target: {targetName}, RiseTarget: {riseTarget}");
     }
 
     private void Update()
     {
         if (target == null)
         {
-            Debug.Log("[ItemFlyToPlayer] Target is null, destroying");
-            Destroy(gameObject);
-            return;
+            if (!TryResolveTarget())
+                return;
+        }
+
+        if (!initialized)
+        {
+            riseTarget = transform.position + Vector3.up * riseHeight;
+            initialized = true;
         }
 
         if (rising)
@@ -68,5 +79,25 @@ public class ItemFlyToPlayer : MonoBehaviour
                 Destroy(gameObject);
             }
         }
+    }
+
+    private bool TryResolveTarget()
+    {
+        targetSearchTimer += Time.deltaTime;
+        if (targetSearchTimer > targetSearchTimeout)
+        {
+            Debug.Log("[ItemFlyToPlayer] Target not found in time, destroying");
+            Destroy(gameObject);
+            return false;
+        }
+
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            target = player.transform;
+            return true;
+        }
+
+        return false;
     }
 }

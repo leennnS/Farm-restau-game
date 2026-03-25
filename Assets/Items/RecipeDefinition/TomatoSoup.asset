@@ -20,3 +20,11 @@ MonoBehaviour:
   ingredients:
   - item: {fileID: 11400000, guid: 7272295af404e0143a748b7df4e0cefa, type: 2}
     amount: 2
+  - item: {fileID: 11400000, guid: 6e9e7b38e7fa6e2409f62b737e973a8b, type: 2}
+    amount: 1
+  - item: {fileID: 11400000, guid: 3d55403e972bcc94197c6b3c110d1379, type: 2}
+    amount: 1
+  rewardMoney: 6
+  orderPreparationTime: 30
+  usePenalty: 1
+  penaltyMoney: 5

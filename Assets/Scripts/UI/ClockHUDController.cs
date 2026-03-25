@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// UI Toolkit clock display - shows in-game time (HH:MM) from DayNightCycleNice2D
@@ -13,8 +14,41 @@ public class ClockHUDController : MonoBehaviour
     private Label _clockLabel;
     private string _lastDisplayedTime = "";
 
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        RebindCycle();
+    }
+
+    private void RebindCycle()
+    {
+        if (cycle == null)
+            cycle = FindFirstObjectByType<DayNightCycleNice2D>();
+    }
+
     private void Start()
     {
+        if (FindFirstObjectByType<GlobalClockHUD>() != null)
+        {
+            if (clockDocument == null)
+                clockDocument = GetComponent<UIDocument>();
+
+            if (clockDocument != null)
+                clockDocument.rootVisualElement.style.display = DisplayStyle.None;
+
+            enabled = false;
+            return;
+        }
+
         // Cache UI reference
         if (clockDocument == null)
         {
@@ -39,7 +73,7 @@ public class ClockHUDController : MonoBehaviour
         // Cache cycle reference
         if (cycle == null)
         {
-            cycle = FindFirstObjectByType<DayNightCycleNice2D>();
+            RebindCycle();
             Debug.Log("[ClockHUD] Auto-found DayNightCycleNice2D");
         }
 
@@ -61,6 +95,9 @@ public class ClockHUDController : MonoBehaviour
 
     private void Update()
     {
+        if (cycle == null)
+            RebindCycle();
+
         if (_clockLabel == null || cycle == null)
             return;
 

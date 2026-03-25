@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Core farming system manager.
@@ -41,6 +42,25 @@ public class FarmingManager : MonoBehaviour
 
     private bool initialized = false;
 
+    private void ResolveReferences()
+    {
+        if (groundTilemap == null)
+            groundTilemap = FindFirstObjectByType<Tilemap>();
+
+        if (cropTilemap == null)
+        {
+            Tilemap[] tilemaps = FindObjectsByType<Tilemap>(FindObjectsSortMode.None);
+            if (tilemaps.Length > 1)
+                cropTilemap = tilemaps[1];
+        }
+
+        if (inventoryController == null)
+            inventoryController = FindFirstObjectByType<InventoryController>();
+
+        if (pickupToast == null)
+            pickupToast = FindFirstObjectByType<PickupToastUIToolkit>();
+    }
+
     private void Awake()
     {
         Initialize();
@@ -50,32 +70,27 @@ public class FarmingManager : MonoBehaviour
     {
         // Subscribe to day advancement event
         DayNightCycleNice2D.OnDayAdvanced += AdvanceDay;
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        ResolveReferences();
     }
 
     private void OnDisable()
     {
         // Unsubscribe from day advancement event
         DayNightCycleNice2D.OnDayAdvanced -= AdvanceDay;
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        ResolveReferences();
     }
 
     public void Initialize()
     {
         if (initialized) return;
 
-        // Auto-find references if not set
-        if (groundTilemap == null)
-            groundTilemap = FindObjectOfType<Tilemap>();
-        if (cropTilemap == null)
-        {
-            // Try to find a second tilemap (assumes Ground is first, Crop is second)
-            Tilemap[] tilemaps = FindObjectsOfType<Tilemap>();
-            if (tilemaps.Length > 1)
-                cropTilemap = tilemaps[1];
-        }
-        if (inventoryController == null)
-            inventoryController = FindObjectOfType<InventoryController>();
-        if (pickupToast == null)
-            pickupToast = FindObjectOfType<PickupToastUIToolkit>();
+        ResolveReferences();
 
         // Build crop lookup
         if (availableCrops != null)
@@ -151,6 +166,8 @@ public class FarmingManager : MonoBehaviour
     /// </summary>
     public bool TryPlantAtWorldPosition(Vector3 worldPos, CropDefinition cropDef)
     {
+        ResolveReferences();
+
         if (cropTilemap == null || inventoryController == null || cropDef == null)
             return false;
 
@@ -257,6 +274,8 @@ public class FarmingManager : MonoBehaviour
     /// </summary>
     public bool TryHarvestAtWorldPosition(Vector3 worldPos)
     {
+        ResolveReferences();
+
         if (inventoryController == null || cropTilemap == null)
             return false;
 

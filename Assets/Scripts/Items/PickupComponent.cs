@@ -55,6 +55,12 @@ public class PickupComponent : MonoBehaviour
 
     private void Update()
     {
+        if (player == null)
+        {
+            var playerGO = GameObject.FindGameObjectWithTag("Player");
+            player = playerGO != null ? playerGO.transform : null;
+        }
+
         if (player == null || inv == null || item == null) return;
 
         ttl -= Time.deltaTime;

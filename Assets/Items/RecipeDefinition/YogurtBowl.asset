@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8c83571b017d0e4fbe853a4bc8c0955, type: 3}
   m_Name: YogurtBowl
   m_EditorClassIdentifier: Assembly-CSharp::RecipeDefinition
-  category: 0
+  category: 3
   recipeName: Yogurt Bowl
   result: {fileID: 11400000, guid: c1cafbed1442c144690b71415867abf9, type: 2}
   resultAmount: 1
@@ -20,3 +20,13 @@ MonoBehaviour:
   ingredients:
   - item: {fileID: 11400000, guid: 02d2e448d97d74a4f8f98671d42aafe1, type: 2}
     amount: 1
+  - item: {fileID: 11400000, guid: 602e6db3a6c1a514fa7988e0460390f0, type: 2}
+    amount: 1
+  - item: {fileID: 11400000, guid: a620fcc93877474419d638aa32a00b77, type: 2}
+    amount: 2
+  - item: {fileID: 11400000, guid: 6a68276888350c7499f283b3c0cbcacb, type: 2}
+    amount: 2
+  rewardMoney: 7
+  orderPreparationTime: 30
+  usePenalty: 1
+  penaltyMoney: 5

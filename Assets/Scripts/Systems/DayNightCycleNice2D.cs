@@ -1,18 +1,31 @@
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using System;
+using UnityEngine.SceneManagement;
 
 public class DayNightCycleNice2D : MonoBehaviour
 {
+    private static DayNightCycleNice2D s_instance;
+
+    private const string SavedTimeKey = "DayNight_TimeNormalized";
+    private const string SavedDayKey = "DayNight_DayIndex";
+
+    private static bool s_hasPersistentState;
+    private static float s_persistentTimeNormalized;
+    private static int s_persistentDay;
+
     [Header("References")]
     [SerializeField] private Light2D globalLight;          // Global Light 2D
     [SerializeField] private Light2D moonLight;            // Moon Light 2D (optional for night)
     [SerializeField] private Camera mainCamera;            // Main Camera (or leave empty)
     [SerializeField] private SpriteRenderer nightOverlay;  // NightOverlay sprite renderer
+    [SerializeField] private Transform playerTransform;    // Player (auto-found by tag if empty)
+    [SerializeField] private string playerTag = "Player";
 
     [Header("Cycle")]
     [Tooltip("Real seconds for a full 24h cycle. 60 for testing (fast), 300+ for realistic")]
     [SerializeField] private float dayLengthSeconds = 60f;
+    [SerializeField] private bool autoCreateGlobalClockHud = true;
 
     [Range(0f, 1f)]
     [Tooltip("0 = midnight, 0.25 = 6AM, 0.5 = noon, 0.75 = 6PM")]
@@ -36,12 +49,71 @@ public class DayNightCycleNice2D : MonoBehaviour
     public static event Action OnDayAdvanced;
     private int currentDay = 0;
     private float lastTimeNormalized = 0f;
+    private bool _warnedInvalidDayLength;
+    private float _nextDiskSaveTime;
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        ResolveRuntimeReferences();
+        FitOverlayToCamera();
+    }
+
+    private void ResolveRuntimeReferences()
+    {
+        if (mainCamera == null)
+            mainCamera = Camera.main;
+
+        if (playerTransform == null)
+        {
+            GameObject player = GameObject.FindGameObjectWithTag(playerTag);
+            if (player != null)
+                playerTransform = player.transform;
+        }
+    }
 
     private void Awake()
     {
-        TimeNormalized = startTimeNormalized;
+        if (s_instance != null && s_instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
 
-        if (mainCamera == null) mainCamera = Camera.main;
+        s_instance = this;
+        DontDestroyOnLoad(gameObject);
+
+        if (PlayerPrefs.HasKey(SavedTimeKey))
+        {
+            TimeNormalized = Mathf.Repeat(PlayerPrefs.GetFloat(SavedTimeKey, startTimeNormalized), 1f);
+            currentDay = Mathf.Max(0, PlayerPrefs.GetInt(SavedDayKey, 0));
+            SavePersistentState();
+        }
+        else if (s_hasPersistentState)
+        {
+            TimeNormalized = s_persistentTimeNormalized;
+            currentDay = s_persistentDay;
+        }
+        else
+        {
+            TimeNormalized = startTimeNormalized;
+            currentDay = 0;
+            SavePersistentState();
+        }
+
+        ResolveRuntimeReferences();
+
+        if (autoCreateGlobalClockHud)
+            EnsureGlobalClockHudExists();
 
         if (globalLight == null) globalLight = FindFirstObjectByType<Light2D>();
 
@@ -69,6 +141,17 @@ public class DayNightCycleNice2D : MonoBehaviour
 
         Apply();
         FitOverlayToCamera();
+        _nextDiskSaveTime = Time.unscaledTime + 1f;
+    }
+
+    private void EnsureGlobalClockHudExists()
+    {
+        GlobalClockHUD existingHud = FindFirstObjectByType<GlobalClockHUD>();
+        if (existingHud != null)
+            return;
+
+        GameObject hudGo = new GameObject("GlobalClockHUD");
+        hudGo.AddComponent<GlobalClockHUD>();
     }
 
     private void InitializeDefaultGradients()
@@ -155,7 +238,16 @@ public class DayNightCycleNice2D : MonoBehaviour
 
     private void Update()
     {
-        if (dayLengthSeconds <= 0f) return;
+        if (dayLengthSeconds <= 0f)
+        {
+            if (!_warnedInvalidDayLength)
+            {
+                Debug.LogWarning("[DayNightCycleNice2D] dayLengthSeconds was <= 0. Auto-correcting to 60.");
+                _warnedInvalidDayLength = true;
+            }
+
+            dayLengthSeconds = 60f;
+        }
 
         lastTimeNormalized = TimeNormalized;
         TimeNormalized += Time.deltaTime / dayLengthSeconds;
@@ -170,18 +262,52 @@ public class DayNightCycleNice2D : MonoBehaviour
         }
 
         Apply();
+        SavePersistentState();
+
+        if (Time.unscaledTime >= _nextDiskSaveTime)
+        {
+            SaveToDisk();
+            _nextDiskSaveTime = Time.unscaledTime + 1f;
+        }
+    }
+
+    private void SavePersistentState()
+    {
+        s_hasPersistentState = true;
+        s_persistentTimeNormalized = TimeNormalized;
+        s_persistentDay = currentDay;
+    }
+
+    private void SaveToDisk()
+    {
+        PlayerPrefs.SetFloat(SavedTimeKey, Mathf.Repeat(TimeNormalized, 1f));
+        PlayerPrefs.SetInt(SavedDayKey, Mathf.Max(0, currentDay));
+        PlayerPrefs.Save();
+    }
+
+    private void OnApplicationPause(bool pauseStatus)
+    {
+        if (pauseStatus)
+            SaveToDisk();
+    }
+
+    private void OnApplicationQuit()
+    {
+        SaveToDisk();
     }
 
     private void LateUpdate()
     {
+        ResolveRuntimeReferences();
+
         // Position overlay in LateUpdate so it matches final camera position (after Cinemachine)
         FitOverlayToCamera();
 
-        // Position moonlight to follow camera and scale range dynamically
+        // Position moonlight to follow player first (or camera fallback) and scale range dynamically
         if (moonLight != null && mainCamera != null)
         {
-            Vector3 camPos = mainCamera.transform.position;
-            moonLight.transform.position = new Vector3(camPos.x, camPos.y, 0f); // Behind camera so it lights the scene
+            Vector3 followPos = playerTransform != null ? playerTransform.position : mainCamera.transform.position;
+            moonLight.transform.position = new Vector3(followPos.x, followPos.y, 0f);
 
             // Dynamically scale moonlight range based on camera size
             if (mainCamera.orthographic)
@@ -234,9 +360,9 @@ public class DayNightCycleNice2D : MonoBehaviour
     {
         if (nightOverlay == null || mainCamera == null) return;
 
-        // Follow camera position
-        Vector3 camPos = mainCamera.transform.position;
-        nightOverlay.transform.position = new Vector3(camPos.x, camPos.y, nightOverlay.transform.position.z);
+        // Follow player first for gameplay readability; fall back to camera.
+        Vector3 followPos = playerTransform != null ? playerTransform.position : mainCamera.transform.position;
+        nightOverlay.transform.position = new Vector3(followPos.x, followPos.y, nightOverlay.transform.position.z);
 
         // Scale to cover camera view (orthographic)
         if (mainCamera.orthographic)
@@ -266,6 +392,15 @@ public class DayNightCycleNice2D : MonoBehaviour
         int hours = totalMinutes / 60;
         int minutes = totalMinutes % 60;
 
+        return $"{hours:D2}:{minutes:D2}";
+    }
+
+    public static string GetSavedTimeString()
+    {
+        float normalized = PlayerPrefs.GetFloat(SavedTimeKey, 0.25f);
+        int totalMinutes = Mathf.RoundToInt(Mathf.Repeat(normalized, 1f) * 24f * 60f) % (24 * 60);
+        int hours = totalMinutes / 60;
+        int minutes = totalMinutes % 60;
         return $"{hours:D2}:{minutes:D2}";
     }
 
