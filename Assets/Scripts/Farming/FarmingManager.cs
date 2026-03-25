@@ -1,7 +1,11 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Collections.Generic;
+using System;
 using UnityEngine.SceneManagement;
+
+using System.Text;
+
 
 /// <summary>
 /// Core farming system manager.
@@ -15,7 +19,8 @@ public class FarmingManager : MonoBehaviour
     [SerializeField] private Tilemap cropTilemap;        // Displays crops (separate layer)
     [SerializeField] private TileBase grassTile;         // Tile for untilled grass
     [SerializeField] private TileBase soilTile;          // Tile for tilled soil
-
+    public Tilemap GroundTilemap => groundTilemap;
+    public Tilemap CropTilemap => cropTilemap;
     [Header("Crops")]
     [SerializeField] private CropDefinition[] availableCrops;
 
@@ -42,16 +47,63 @@ public class FarmingManager : MonoBehaviour
 
     private bool initialized = false;
 
+    [ContextMenu("Debug Tilemap Runtime State")]
+    public void DebugTilemapRuntimeState()
+    {
+        StringBuilder sb = new StringBuilder();
+
+        sb.AppendLine($"=== TILEMAP DEBUG | Scene: {SceneManager.GetActiveScene().name} ===");
+
+        if (groundTilemap != null)
+        {
+            sb.AppendLine($"GroundTilemap scene: {groundTilemap.gameObject.scene.name}");
+            sb.AppendLine($"GroundTilemap pos: {groundTilemap.transform.position}");
+            sb.AppendLine($"GroundTilemap localPos: {groundTilemap.transform.localPosition}");
+            sb.AppendLine($"GroundTilemap scale: {groundTilemap.transform.lossyScale}");
+            sb.AppendLine($"GroundTilemap parent: {(groundTilemap.transform.parent ? groundTilemap.transform.parent.name : "NONE")}");
+        }
+
+        if (cropTilemap != null)
+        {
+            sb.AppendLine($"CropTilemap scene: {cropTilemap.gameObject.scene.name}");
+            sb.AppendLine($"CropTilemap pos: {cropTilemap.transform.position}");
+            sb.AppendLine($"CropTilemap localPos: {cropTilemap.transform.localPosition}");
+            sb.AppendLine($"CropTilemap scale: {cropTilemap.transform.lossyScale}");
+            sb.AppendLine($"CropTilemap parent: {(cropTilemap.transform.parent ? cropTilemap.transform.parent.name : "NONE")}");
+        }
+
+        if (groundTilemap != null && groundTilemap.layoutGrid != null)
+        {
+            var grid = groundTilemap.layoutGrid;
+            sb.AppendLine($"Grid scene: {grid.gameObject.scene.name}");
+            sb.AppendLine($"Grid pos: {grid.transform.position}");
+            sb.AppendLine($"Grid localPos: {grid.transform.localPosition}");
+            sb.AppendLine($"Grid scale: {grid.transform.lossyScale}");
+            sb.AppendLine($"Grid cellSize: {grid.cellSize}");
+            sb.AppendLine($"Grid cellGap: {grid.cellGap}");
+        }
+
+        var allTilemaps = FindObjectsByType<Tilemap>(FindObjectsSortMode.None);
+        sb.AppendLine("--- ALL TILEMAPS IN PLAY ---");
+        foreach (var tm in allTilemaps)
+        {
+            sb.AppendLine($"{tm.name} | scene={tm.gameObject.scene.name} | pos={tm.transform.position} | parent={(tm.transform.parent ? tm.transform.parent.name : "NONE")}");
+        }
+
+        Debug.Log(sb.ToString());
+    }
     private void ResolveReferences()
     {
         if (groundTilemap == null)
-            groundTilemap = FindFirstObjectByType<Tilemap>();
+        {
+            GameObject go = GameObject.Find("GroundTilemap");
+            if (go != null) groundTilemap = go.GetComponent<Tilemap>();
+        }
 
         if (cropTilemap == null)
         {
-            Tilemap[] tilemaps = FindObjectsByType<Tilemap>(FindObjectsSortMode.None);
-            if (tilemaps.Length > 1)
-                cropTilemap = tilemaps[1];
+            GameObject go = GameObject.Find("CropTilemap");
+            if (go != null) cropTilemap = go.GetComponent<Tilemap>();
         }
 
         if (inventoryController == null)
@@ -114,46 +166,44 @@ public class FarmingManager : MonoBehaviour
     /// </summary>
     public bool TryHoeAtWorldPosition(Vector3 worldPos)
     {
-        if (groundTilemap == null) return false;
+        if (groundTilemap == null)
+        {
+            Debug.LogError("groundTilemap is NULL");
+            return false;
+        }
 
         Vector3Int cellPos = groundTilemap.WorldToCell(worldPos);
+        Debug.Log($"HOE | World:{worldPos} -> GroundCell:{cellPos} using {groundTilemap.name}");
         return TryHoeAtCell(cellPos);
     }
 
-    public bool TryHoeAtCell(Vector3Int cellPos)
-    {
-        if (groundTilemap == null) return false;
+   public bool TryHoeAtCell(Vector3Int cellPos)
+{
+    if (groundTilemap == null) return false;
 
-        // Check if already hoed
-        if (hoedSoilCells.Contains(cellPos))
-        {
-            if (pickupToast != null)
-                pickupToast.Show("Already hoed!");
-            return false;
-        }
+    Vector3 center = groundTilemap.GetCellCenterWorld(cellPos);
 
-        // Get current tile
-        TileBase currentTile = groundTilemap.GetTile(cellPos);
+    Debug.DrawLine(center + Vector3.left * 0.45f, center + Vector3.right * 0.45f, Color.red, 2f);
+    Debug.DrawLine(center + Vector3.up * 0.45f, center + Vector3.down * 0.45f, Color.red, 2f);
 
-        // Only hoe if it's grass or similar (check by tile comparison)
-        if (currentTile != grassTile && currentTile != null)
-        {
-            // Assume any non-null tile is already worked or invalid
-            if (pickupToast != null)
-                pickupToast.Show("Cannot hoe this tile");
-            return false;
-        }
+    if (hoedSoilCells.Contains(cellPos))
+        return false;
 
-        // Mark as hoed and set soil tile
-        hoedSoilCells.Add(cellPos);
-        groundTilemap.SetTile(cellPos, soilTile ?? grassTile);
+    TileBase currentTile = groundTilemap.GetTile(cellPos);
 
-        if (pickupToast != null)
-            pickupToast.Show("Soil ready for planting");
+    Debug.Log($"[TryHoeAtCell BEFORE] Scene={SceneManager.GetActiveScene().name} Cell={cellPos} Tile={(currentTile ? currentTile.name : "NULL")}");
 
-        Debug.Log($"[FarmingManager] Hoed soil at {cellPos}");
-        return true;
-    }
+    if (currentTile != grassTile && currentTile != null)
+        return false;
+
+    hoedSoilCells.Add(cellPos);
+    groundTilemap.SetTile(cellPos, soilTile ?? grassTile);
+
+    TileBase afterTile = groundTilemap.GetTile(cellPos);
+    Debug.Log($"[TryHoeAtCell AFTER] Scene={SceneManager.GetActiveScene().name} Cell={cellPos} Tile={(afterTile ? afterTile.name : "NULL")}");
+
+    return true;
+}
 
     public bool IsHoedSoil(Vector3Int cellPos) => hoedSoilCells.Contains(cellPos);
 
@@ -172,6 +222,7 @@ public class FarmingManager : MonoBehaviour
             return false;
 
         Vector3Int cellPos = cropTilemap.WorldToCell(worldPos);
+        Debug.Log($"PLANT | World:{worldPos} -> CropCell:{cellPos} using {cropTilemap.name}");
         return TryPlantAtCell(cellPos, cropDef);
     }
 
@@ -236,6 +287,7 @@ public class FarmingManager : MonoBehaviour
             return false;
 
         Vector3Int cellPos = cropTilemap.WorldToCell(worldPos);
+        Debug.Log($"WATER | World:{worldPos} -> CropCell:{cellPos} using {cropTilemap.name}");
         return TryWaterAtCell(cellPos);
     }
 
@@ -280,6 +332,7 @@ public class FarmingManager : MonoBehaviour
             return false;
 
         Vector3Int cellPos = cropTilemap.WorldToCell(worldPos);
+        Debug.Log($"HARVEST | World:{worldPos} -> CropCell:{cellPos} using {cropTilemap.name}");
         return TryHarvestAtCell(cellPos);
     }
 
@@ -457,8 +510,10 @@ public class FarmingManager : MonoBehaviour
                 // Create or get the dead plant visual GameObject
                 if (!deadPlantVisuals.ContainsKey(cellPos))
                 {
-                    Vector3 worldPos = cropTilemap.CellToWorld(cellPos); worldPos.x += 0.5f; // Center horizontally on tile
-                    worldPos.y += 0.5f; // Center vertically on tile                    worldPos.z = -1f; // Set Z behind tilemap so it's visible
+                    Vector3 worldPos = cropTilemap.CellToWorld(cellPos);
+                    worldPos.x += 0.5f; // Center horizontally on tile
+                    worldPos.y += 0.5f; // Center vertically on tile
+                    worldPos.z = -1f;   // Set Z behind tilemap so it's visible
 
                     GameObject deadPlantGO = new GameObject($"Dead{cropDef.displayName}");
                     deadPlantGO.transform.position = worldPos;
@@ -543,9 +598,11 @@ public class FarmingManager : MonoBehaviour
 
     public void SetHoedSoils(HashSet<Vector3Int> soilCells)
     {
+        Debug.Log($"[SetHoedSoils] Scene={SceneManager.GetActiveScene().name} Count={soilCells.Count}\n{Environment.StackTrace}");
         hoedSoilCells = new HashSet<Vector3Int>(soilCells);
         RefreshAllSoilTiles();
     }
+
 
     private void RefreshAllCropTiles()
     {
@@ -577,8 +634,11 @@ public class FarmingManager : MonoBehaviour
     {
         if (groundTilemap == null) return;
 
+        Debug.Log($"[RefreshAllSoilTiles] Scene={SceneManager.GetActiveScene().name} Count={hoedSoilCells.Count}\n{Environment.StackTrace}");
+
         foreach (var cellPos in hoedSoilCells)
         {
+            Debug.Log($"[RefreshAllSoilTiles] Painting soil at {cellPos}");
             groundTilemap.SetTile(cellPos, soilTile);
         }
     }

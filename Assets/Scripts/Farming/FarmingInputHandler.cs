@@ -34,7 +34,6 @@ public class FarmingInputHandler : MonoBehaviour
     private void Awake()
     {
         ResolveReferences();
-
         farmingManager?.Initialize();
     }
 
@@ -56,8 +55,6 @@ public class FarmingInputHandler : MonoBehaviour
 
     private void Update()
     {
-        ResolveReferences();
-
         ReadHotbarKeys();
 
         if (Input.GetMouseButtonDown(0))
@@ -94,8 +91,48 @@ public class FarmingInputHandler : MonoBehaviour
         if (mainCamera == null || farmingManager == null || inventoryController == null)
             return;
 
-        Vector3 world = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-        world.z = 0f;
+        Vector3 mouse = Input.mousePosition;
+
+        // Ignore clicks outside the actual camera/game render area
+        if (!mainCamera.pixelRect.Contains(mouse))
+        {
+            Debug.Log($"IGNORED CLICK outside pixelRect | Mouse:{mouse} | PixelRect:{mainCamera.pixelRect}");
+            return;
+        }
+
+        float targetZ = farmingManager.GroundTilemap != null
+            ? farmingManager.GroundTilemap.transform.position.z
+            : 0f;
+
+        // For an orthographic camera, convert directly using the camera distance to the tile plane
+        mouse.z = Mathf.Abs(mainCamera.transform.position.z - targetZ);
+
+        Vector3 world = mainCamera.ScreenToWorldPoint(mouse);
+        world.z = targetZ;
+
+        Vector3Int groundCell = farmingManager.GroundTilemap != null
+            ? farmingManager.GroundTilemap.WorldToCell(world)
+            : Vector3Int.zero;
+
+        Vector3Int cropCell = farmingManager.CropTilemap != null
+            ? farmingManager.CropTilemap.WorldToCell(world)
+            : Vector3Int.zero;
+
+        Vector3 groundCenter = farmingManager.GroundTilemap != null
+            ? farmingManager.GroundTilemap.GetCellCenterWorld(groundCell)
+            : Vector3.zero;
+
+        Debug.Log(
+            $"CLICK | Screen:{Input.mousePosition} | World:{world} | " +
+            $"GroundCell:{groundCell} | CropCell:{cropCell} | GroundCenter:{groundCenter} | " +
+            $"Camera:{mainCamera.name} PixelRect:{mainCamera.pixelRect}"
+        );
+
+        Debug.DrawLine(groundCenter + Vector3.left * 0.3f, groundCenter + Vector3.right * 0.3f, Color.red, 2f);
+        Debug.DrawLine(groundCenter + Vector3.up * 0.3f, groundCenter + Vector3.down * 0.3f, Color.red, 2f);
+
+        SpawnDebugCross(world, Color.cyan);
+        SpawnDebugCross(groundCenter, Color.yellow);
 
         ItemDefinition selectedItem = inventoryController.GetHotbarItem(selectedHotbarSlot);
         FarmingAction action = GetAction(selectedItem);
@@ -118,6 +155,33 @@ public class FarmingInputHandler : MonoBehaviour
                 TryPlant(world, selectedItem);
                 break;
         }
+    }
+    private void SpawnDebugCross(Vector3 pos, Color color)
+    {
+        GameObject go = new GameObject("ClickDebugCross");
+        go.transform.position = pos;
+
+        LineRenderer lr = go.AddComponent<LineRenderer>();
+        lr.positionCount = 4; // two segments
+        lr.useWorldSpace = true;
+        lr.startWidth = 0.03f;
+        lr.endWidth = 0.03f;
+        lr.material = new Material(Shader.Find("Sprites/Default"));
+        lr.startColor = color;
+        lr.endColor = color;
+        lr.sortingOrder = 1000;
+
+        Vector3 left = pos + Vector3.left * 0.2f;
+        Vector3 right = pos + Vector3.right * 0.2f;
+        Vector3 up = pos + Vector3.up * 0.2f;
+        Vector3 down = pos + Vector3.down * 0.2f;
+
+        lr.SetPosition(0, left);
+        lr.SetPosition(1, right);
+        lr.SetPosition(2, up);
+        lr.SetPosition(3, down);
+
+        Destroy(go, 2f);
     }
 
     private FarmingAction GetAction(ItemDefinition item)

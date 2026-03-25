@@ -12,6 +12,7 @@ public class FarmingDataSaveSystem : MonoBehaviour
 
     private string SavePath => Path.Combine(Application.persistentDataPath, saveFileName);
 
+
     private void Awake()
     {
         if (farmingManager == null)
