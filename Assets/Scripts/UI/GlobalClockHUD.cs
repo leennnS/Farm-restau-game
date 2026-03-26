@@ -48,7 +48,12 @@ public class GlobalClockHUD : MonoBehaviour
 
     private void RebindCycle()
     {
-        _cycle = FindFirstObjectByType<DayNightCycleNice2D>();
+        // Use public static accessor first (more reliable and performant)
+        _cycle = DayNightCycleNice2D.Instance;
+
+        // Fallback to FindFirstObjectByType if needed
+        if (_cycle == null)
+            _cycle = FindFirstObjectByType<DayNightCycleNice2D>();
     }
 
     private void BuildHudIfNeeded()

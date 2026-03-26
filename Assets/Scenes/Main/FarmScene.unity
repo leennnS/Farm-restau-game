@@ -24857,7 +24857,7 @@ Transform:
   m_GameObject: {fileID: 1149005621}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 20.45, y: 67.31, z: -10}
+  m_LocalPosition: {x: -51.45, y: 54.81, z: -10}
   m_LocalScale: {x: 2.1402, y: 2.1402, z: 11.399674}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -204134,7 +204134,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9394eccbe4454d34988adcc7d84f4948, type: 2}
   gameMapImage: {fileID: 0}
   cookingStyleSheet: {fileID: 7433441132597879392, guid: 487566365cc70c14f8b11b65c5be9d1d, type: 3}
-  testItem: {fileID: 11400000, guid: 02d2e448d97d74a4f8f98671d42aafe1, type: 2}
+  testItem: {fileID: 11400000, guid: 1fe4385980a5bd1429b19a686572f2f9, type: 2}
   testAddKey: 107
   testAddAmount: 1
 --- !u!1 &1639961936
@@ -208743,7 +208743,7 @@ Transform:
   m_GameObject: {fileID: 1846392987}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 20.45, y: 67.31, z: -10}
+  m_LocalPosition: {x: -51.45, y: 54.81, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -214338,11 +214338,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5904111917036164382, guid: 9ad108346c7a7e043b02cf2d3ee07124, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 45.2
+      value: -26.7
       objectReference: {fileID: 0}
     - target: {fileID: 5904111917036164382, guid: 9ad108346c7a7e043b02cf2d3ee07124, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 16.5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5904111917036164382, guid: 9ad108346c7a7e043b02cf2d3ee07124, type: 3}
       propertyPath: m_LocalPosition.z

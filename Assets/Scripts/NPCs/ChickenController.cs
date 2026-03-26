@@ -23,6 +23,7 @@ public class ChickenController : MonoBehaviour
 
     private bool hasLaidEggToday = false;
     private float lastCheckedTime = -1f;
+    private bool _warnedMissingCycle;
 
     private SpriteRenderer chickenSpriteRenderer;
 
@@ -38,11 +39,19 @@ public class ChickenController : MonoBehaviour
 
         if (dayNightCycle == null)
         {
-            dayNightCycle = FindFirstObjectByType<DayNightCycleNice2D>();
+            // First try the public static accessor (preferred and more reliable)
+            dayNightCycle = DayNightCycleNice2D.Instance;
+
+            if (dayNightCycle == null)
+            {
+                // Fallback to FindFirstObjectByType if static accessor not available
+                dayNightCycle = FindFirstObjectByType<DayNightCycleNice2D>();
+            }
+
             if (dayNightCycle == null)
                 Debug.LogError("[Chicken] ERROR: DayNightCycleNice2D not found in scene!");
             else
-                Debug.Log("[Chicken] Found DayNightCycleNice2D in scene");
+                Debug.Log("[Chicken] Found DayNightCycleNice2D");
         }
         else
         {
@@ -87,8 +96,25 @@ public class ChickenController : MonoBehaviour
     {
         if (dayNightCycle == null)
         {
-            Debug.LogError("[Chicken] ERROR: dayNightCycle is NULL! Cannot check time.");
-            return;
+            // Try to rebind each frame until we find it
+            dayNightCycle = DayNightCycleNice2D.Instance;
+            if (dayNightCycle == null)
+                dayNightCycle = FindFirstObjectByType<DayNightCycleNice2D>();
+
+            if (dayNightCycle == null)
+            {
+                if (!_warnedMissingCycle)
+                {
+                    Debug.LogError("[Chicken] ERROR: dayNightCycle is NULL! Cannot check time.");
+                    _warnedMissingCycle = true;
+                }
+                return;
+            }
+            else
+            {
+                _warnedMissingCycle = false;
+                Debug.Log("[Chicken] Rebound DayNightCycleNice2D at runtime");
+            }
         }
 
         if (eggItem == null)

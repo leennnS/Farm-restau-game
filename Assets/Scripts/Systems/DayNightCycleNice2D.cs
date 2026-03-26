@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class DayNightCycleNice2D : MonoBehaviour
 {
     private static DayNightCycleNice2D s_instance;
+    private static bool s_isFirstInitialization = true; // Track if Awake() has run in this session
 
     private const string SavedTimeKey = "DayNight_TimeNormalized";
     private const string SavedDayKey = "DayNight_DayIndex";
@@ -13,6 +14,29 @@ public class DayNightCycleNice2D : MonoBehaviour
     private static bool s_hasPersistentState;
     private static float s_persistentTimeNormalized;
     private static int s_persistentDay;
+
+    [Header("Persistence")]
+    [Tooltip("If true, time is saved/loaded across game sessions via PlayerPrefs. If false (default), each play starts on a fresh day.")]
+    [SerializeField] private bool persistAcrossSessions = false;
+
+    /// <summary>
+    /// Public static accessor to get the DayNightCycleNice2D instance safely.
+    /// Preferred over FindFirstObjectByType for performance.
+    /// </summary>
+    public static DayNightCycleNice2D Instance => s_instance;
+
+    /// <summary>
+    /// Ensures statics reset at the start of each play session (works even if domain reload is disabled).
+    /// </summary>
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ResetStatics()
+    {
+        s_instance = null;
+        s_isFirstInitialization = true;
+        s_hasPersistentState = false;
+        s_persistentTimeNormalized = 0f;
+        s_persistentDay = 0;
+    }
 
     [Header("References")]
     [SerializeField] private Light2D globalLight;          // Global Light 2D
@@ -65,6 +89,18 @@ public class DayNightCycleNice2D : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         ResolveRuntimeReferences();
+
+        // CRITICAL FIX: Re-find lights after scene load
+        // When transitioning scenes, old lights become null, breaking the Apply() method
+        if (globalLight == null && mode != LoadSceneMode.Additive)
+        {
+            globalLight = FindFirstObjectByType<Light2D>();
+            if (globalLight != null)
+                Debug.Log($"[DayNightCycleNice2D] Re-found global light in scene '{scene.name}'");
+            else
+                Debug.LogWarning($"[DayNightCycleNice2D] Could not find Light2D in scene '{scene.name}'. Day/night lighting may not work!");
+        }
+
         FitOverlayToCamera();
     }
 
@@ -92,23 +128,40 @@ public class DayNightCycleNice2D : MonoBehaviour
         s_instance = this;
         DontDestroyOnLoad(gameObject);
 
-        if (PlayerPrefs.HasKey(SavedTimeKey))
+        // FIX: Only use in-memory state for same-session scene transitions.
+        // If this is the first initialization for the session, start fresh unless persistence is explicitly enabled.
+        if (!s_isFirstInitialization && s_hasPersistentState)
+        {
+            TimeNormalized = s_persistentTimeNormalized;
+            currentDay = s_persistentDay;
+            Debug.Log($"[DayNightCycleNice2D] Resumed from scene transition: Time={TimeNormalized}, Day={currentDay}");
+        }
+        else if (persistAcrossSessions && PlayerPrefs.HasKey(SavedTimeKey))
         {
             TimeNormalized = Mathf.Repeat(PlayerPrefs.GetFloat(SavedTimeKey, startTimeNormalized), 1f);
             currentDay = Mathf.Max(0, PlayerPrefs.GetInt(SavedDayKey, 0));
             SavePersistentState();
-        }
-        else if (s_hasPersistentState)
-        {
-            TimeNormalized = s_persistentTimeNormalized;
-            currentDay = s_persistentDay;
+            Debug.Log($"[DayNightCycleNice2D] Loaded persisted time from disk: Time={TimeNormalized}, Day={currentDay}");
         }
         else
         {
+            // Fresh start - always begin on a bright new day
             TimeNormalized = startTimeNormalized;
             currentDay = 0;
             SavePersistentState();
+
+            // If we are not persisting across sessions, clear any old PlayerPrefs keys to avoid stale loads elsewhere
+            if (!persistAcrossSessions)
+            {
+                PlayerPrefs.DeleteKey(SavedTimeKey);
+                PlayerPrefs.DeleteKey(SavedDayKey);
+            }
+
+            Debug.Log($"[DayNightCycleNice2D] Fresh start: Time={startTimeNormalized}, Day=0");
         }
+
+        // Mark that we've initialized once in this session
+        s_isFirstInitialization = false;
 
         ResolveRuntimeReferences();
 
@@ -280,6 +333,9 @@ public class DayNightCycleNice2D : MonoBehaviour
 
     private void SaveToDisk()
     {
+        if (!persistAcrossSessions)
+            return;
+
         PlayerPrefs.SetFloat(SavedTimeKey, Mathf.Repeat(TimeNormalized, 1f));
         PlayerPrefs.SetInt(SavedDayKey, Mathf.Max(0, currentDay));
         PlayerPrefs.Save();
@@ -299,6 +355,12 @@ public class DayNightCycleNice2D : MonoBehaviour
     private void LateUpdate()
     {
         ResolveRuntimeReferences();
+
+        // CRITICAL: Re-find global light if it becomes null (e.g., after scene transitions)
+        if (globalLight == null)
+        {
+            globalLight = FindFirstObjectByType<Light2D>();
+        }
 
         // Position overlay in LateUpdate so it matches final camera position (after Cinemachine)
         FitOverlayToCamera();
@@ -500,4 +562,36 @@ public class DayNightCycleNice2D : MonoBehaviour
     }
 
     public int GetHour24() => Mathf.FloorToInt(TimeNormalized * 24f) % 24;
+
+    /// <summary>
+    /// Reset the day/night cycle to a fresh new day. Call this when starting a new game.
+    /// </summary>
+    public void ResetToNewDay()
+    {
+        TimeNormalized = startTimeNormalized;
+        currentDay = 0;
+        SavePersistentState();
+        PlayerPrefs.DeleteKey(SavedTimeKey);
+        PlayerPrefs.DeleteKey(SavedDayKey);
+        PlayerPrefs.Save();
+        Apply();
+        Debug.Log("[DayNightCycleNice2D] Reset to new day!");
+    }
+
+    /// <summary>
+    /// Force a complete day/night system refresh. Useful after scene transitions if lighting looks wrong.
+    /// </summary>
+    public void RefreshLighting()
+    {
+        globalLight = FindFirstObjectByType<Light2D>();
+        if (globalLight != null)
+        {
+            Apply();
+            Debug.Log("[DayNightCycleNice2D] Lighting refreshed!");
+        }
+        else
+        {
+            Debug.LogWarning("[DayNightCycleNice2D] Could not find Light2D for refresh!");
+        }
+    }
 }

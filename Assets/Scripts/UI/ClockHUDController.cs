@@ -32,7 +32,14 @@ public class ClockHUDController : MonoBehaviour
     private void RebindCycle()
     {
         if (cycle == null)
-            cycle = FindFirstObjectByType<DayNightCycleNice2D>();
+        {
+            // Use public static accessor first (more reliable)
+            cycle = DayNightCycleNice2D.Instance;
+
+            // Fallback to FindFirstObjectByType if needed
+            if (cycle == null)
+                cycle = FindFirstObjectByType<DayNightCycleNice2D>();
+        }
     }
 
     private void Start()
