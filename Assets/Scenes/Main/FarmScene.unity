@@ -24857,7 +24857,7 @@ Transform:
   m_GameObject: {fileID: 1149005621}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -16.25, y: 84.91, z: -10}
+  m_LocalPosition: {x: 20.45, y: 67.31, z: -10}
   m_LocalScale: {x: 2.1402, y: 2.1402, z: 11.399674}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -208683,6 +208683,7 @@ GameObject:
   - component: {fileID: 1846392989}
   - component: {fileID: 1846392988}
   - component: {fileID: 1846392990}
+  - component: {fileID: 1846392991}
   m_Layer: 0
   m_Name: CinemachineCamera
   m_TagString: Untagged
@@ -208742,7 +208743,7 @@ Transform:
   m_GameObject: {fileID: 1846392987}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -16.25, y: 84.91, z: -10}
+  m_LocalPosition: {x: 20.45, y: 67.31, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -208767,6 +208768,18 @@ MonoBehaviour:
     RotationDamping: {x: 1, y: 1, z: 1}
     QuaternionDamping: 1
   FollowOffset: {x: 0, y: 0, z: -10}
+--- !u!114 &1846392991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1846392987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df7edc906b1865549993a2f1eec45bfe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraFollowFix
 --- !u!1 &1854230730
 GameObject:
   m_ObjectHideFlags: 0
@@ -214325,11 +214338,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5904111917036164382, guid: 9ad108346c7a7e043b02cf2d3ee07124, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8.5
+      value: 45.2
       objectReference: {fileID: 0}
     - target: {fileID: 5904111917036164382, guid: 9ad108346c7a7e043b02cf2d3ee07124, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 34.1
+      value: 16.5
       objectReference: {fileID: 0}
     - target: {fileID: 5904111917036164382, guid: 9ad108346c7a7e043b02cf2d3ee07124, type: 3}
       propertyPath: m_LocalPosition.z
