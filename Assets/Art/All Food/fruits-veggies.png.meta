@@ -15905,7 +15905,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: fruits-veggies_597
+      name: red apple
       rect:
         serializedVersion: 2
         x: 8
@@ -15927,7 +15927,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: fruits-veggies_598
+      name: green apple
       rect:
         serializedVersion: 2
         x: 39
@@ -22851,8 +22851,6 @@ TextureImporter:
       fruits-veggies_594: 2938068273305672051
       fruits-veggies_595: 3327441172837028410
       fruits-veggies_596: -7201953212159022650
-      fruits-veggies_597: 6815970735115902753
-      fruits-veggies_598: -8785626402576720970
       fruits-veggies_599: 5945165369598883795
       fruits-veggies_6: -2653411282353314666
       fruits-veggies_60: -562578885363835076
@@ -23185,6 +23183,8 @@ TextureImporter:
       fruits-veggies_97: -2731842835484468724
       fruits-veggies_98: 3191907335984763570
       fruits-veggies_99: -3902167595592293291
+      green apple: -8785626402576720970
+      red apple: 6815970735115902753
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -1,0 +1,192 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7227401120699774709
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2630289653288186201}
+  - component: {fileID: 8896625322045103709}
+  - component: {fileID: 3840201522669184889}
+  - component: {fileID: 749211738994366396}
+  m_Layer: 0
+  m_Name: Apple tree_9 (13)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2630289653288186201
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7227401120699774709}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -2.3, y: -38.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &8896625322045103709
+SpriteRenderer:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7227401120699774709}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 120
+  m_MaskInteraction: 0
+  m_Sprite: {fileID: -6594918029764745455, guid: 85a51d25b2fea8e4da2cf8af763fc713, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 7.125, y: 9.9375}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_SpriteSortPoint: 0
+--- !u!61 &3840201522669184889
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7227401120699774709}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: -2.31}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 7.125, y: 9.9375}
+    newSize: {x: 7.125, y: 9.9375}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 2.48, y: 3.68}
+  m_EdgeRadius: 0
+--- !u!114 &749211738994366396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7227401120699774709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4d2ab7c34fe83642b5eb63ae15ec4f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FruitTreeInteraction
+  growthSprites:
+  - {fileID: -2961027734069146731, guid: fd0f8d94e9beef5419773ffeec4cb641, type: 3}
+  - {fileID: 7684884187054276554, guid: 85a51d25b2fea8e4da2cf8af763fc713, type: 3}
+  - {fileID: 3014037574009398538, guid: 85a51d25b2fea8e4da2cf8af763fc713, type: 3}
+  - {fileID: -6594918029764745455, guid: 85a51d25b2fea8e4da2cf8af763fc713, type: 3}
+  - {fileID: -6594918029764745455, guid: 85a51d25b2fea8e4da2cf8af763fc713, type: 3}
+  daysPerStage: 1
+  seedItem: {fileID: 11400000, guid: 16b47ca967a7e0d48bc7ba39da227dc7, type: 2}
+  interactionDistance: 2.2
+  minOutsideDistance: 0.5
+  interactionKey: 101
+  toastUI: {fileID: 0}
+  interactionPrompt: Press E to pick fruit
+  interactionCenterOverride: {fileID: 0}
+  fruitItem: {fileID: 11400000, guid: f9987af22b477f444ad08b4a753e1d15, type: 2}
+  minFruit: 3
+  maxFruit: 6
+  pickupPrefab: {fileID: 5239925600674446907, guid: 16ba372f6c61fbb4d8f84b69fccb4ee9, type: 3}
+  spawnScaleMultiplier: 1.4
+  spriteWithFruit: {fileID: -6594918029764745455, guid: 85a51d25b2fea8e4da2cf8af763fc713, type: 3}
+  spriteWithoutFruit: {fileID: 3014037574009398538, guid: 85a51d25b2fea8e4da2cf8af763fc713, type: 3}
+  spriteSwitchBackDays: 3
+  dropRadius: 0.6
+  dropHeightOffset: 0.25
+  fallDistance: 1.5
+  pickupTtlSeconds: 45
+  pickupMagnetDelaySeconds: 0.8
+  launchForce: 1.5
+  allowPhysicsFall: 1
+  maxFallDistance: 3
+  useFixedLandingPlane: 1
+  fixedLandingOffset: 0.3
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  groundRayDistance: 5
+  groundOffset: 0.05
+  try3DGroundRaycast: 1
+  cooldownDays: 1

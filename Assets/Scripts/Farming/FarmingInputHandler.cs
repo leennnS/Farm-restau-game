@@ -20,8 +20,9 @@ public class FarmingInputHandler : MonoBehaviour
 
     private int selectedHotbarSlot = 0;
     private Dictionary<ItemDefinition, int> wateringCanDurability = new Dictionary<ItemDefinition, int>();
+    private TreePlanter _treePlanter = null;
 
-    private enum FarmingAction { None, Hoe, Plant, Water, Harvest }
+    private enum FarmingAction { None, Hoe, Plant, Water, Harvest, Dig }
 
     private void ResolveReferences()
     {
@@ -81,6 +82,21 @@ public class FarmingInputHandler : MonoBehaviour
     public void SetSelectedHotbarSlot(int slotIndex)
     {
         selectedHotbarSlot = Mathf.Clamp(slotIndex, 0, InventoryController.HotbarSize - 1);
+        if (_treePlanter != null)
+            _treePlanter.SetSelectedHotbarSlot(selectedHotbarSlot);
+    }
+
+    public void RegisterTreePlanter(TreePlanter planter)
+    {
+        _treePlanter = planter;
+        if (_treePlanter != null)
+            _treePlanter.SetSelectedHotbarSlot(selectedHotbarSlot);
+    }
+
+    public void UnregisterTreePlanter(TreePlanter planter)
+    {
+        if (_treePlanter == planter)
+            _treePlanter = null;
     }
 
     private void HandleLeftClick()
@@ -137,10 +153,26 @@ public class FarmingInputHandler : MonoBehaviour
         ItemDefinition selectedItem = inventoryController.GetHotbarItem(selectedHotbarSlot);
         FarmingAction action = GetAction(selectedItem);
 
+        // Handle digging first (with hands tool on grass)
+        if (action == FarmingAction.Dig)
+        {
+            if (_treePlanter != null && _treePlanter.TryDigHole(world))
+                return;
+        }
+
+        // Then try planting a seed in an existing hole
+        if (action == FarmingAction.Plant && _treePlanter != null && _treePlanter.TryPlantTree(world))
+            return;
+
         switch (action)
         {
             case FarmingAction.Hoe:
                 farmingManager.TryHoeAtWorldPosition(world);
+                break;
+
+            case FarmingAction.Dig:
+                // Dig already tried above; if we're here it failed, so maybe try to harvest crops instead
+                farmingManager.TryHarvestAtWorldPosition(world);
                 break;
 
             case FarmingAction.Water:
@@ -195,7 +227,9 @@ public class FarmingInputHandler : MonoBehaviour
 
         if (name.Contains(hoeKeyword)) return FarmingAction.Hoe;
         if (name.Contains(wateringCanKeyword)) return FarmingAction.Water;
-        if (name.Contains(handKeyword)) return FarmingAction.Harvest;
+
+        // Hands tool: returns Dig for planting holes or Harvest for crops (context-dependent)
+        if (name.Contains(handKeyword)) return FarmingAction.Dig;
 
         if (name.Contains("seed") || name.Contains("sapling")) return FarmingAction.Plant;
 

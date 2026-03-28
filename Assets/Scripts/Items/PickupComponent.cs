@@ -8,6 +8,7 @@ public class PickupComponent : MonoBehaviour
     [SerializeField] private float speed = 5f;
     [SerializeField] private float pickupDistance = 1.5f;
     [SerializeField] private float collectDistance = 0.1f;
+    [SerializeField] private float magnetDelay = 0f; // seconds before magnet engages
 
     [Header("Lifetime")]
     [SerializeField] private float ttl = 10f;
@@ -19,6 +20,7 @@ public class PickupComponent : MonoBehaviour
     private InventoryController inv;
     private PickupToastUIToolkit pickupToast;
     private SpriteRenderer sr;
+    private float _magnetTimer;
 
     private void Awake()
     {
@@ -48,6 +50,12 @@ public class PickupComponent : MonoBehaviour
             sr.sprite = item.icon;
     }
 
+    public void SetMagnetDelay(float delaySeconds)
+    {
+        magnetDelay = delaySeconds;
+        _magnetTimer = delaySeconds;
+    }
+
     public void SetTimeToLive(float newTTL)
     {
         ttl = newTTL;
@@ -68,6 +76,12 @@ public class PickupComponent : MonoBehaviour
         {
             Destroy(gameObject);
             return;
+        }
+
+        if (_magnetTimer > 0f)
+        {
+            _magnetTimer -= Time.deltaTime;
+            return; // wait before magnet engages
         }
 
         float distance = Vector3.Distance(transform.position, player.position);
