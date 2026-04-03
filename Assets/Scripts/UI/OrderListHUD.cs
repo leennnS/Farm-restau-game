@@ -19,6 +19,7 @@ public class OrderListHUD : MonoBehaviour
 
     private Text _ordersText;
     private RectTransform _panelRect;
+    private Canvas _canvas;
 
     private void Awake()
     {
@@ -99,6 +100,12 @@ public class OrderListHUD : MonoBehaviour
             CanvasGroup group = canvasGo.AddComponent<CanvasGroup>();
             group.blocksRaycasts = false;
             group.interactable = false;
+
+            _canvas = canvas;
+        }
+        else
+        {
+            _canvas = canvas;
         }
 
         GameObject panelGo = new GameObject("OrdersPanel");
@@ -197,5 +204,23 @@ public class OrderListHUD : MonoBehaviour
 
         _ordersText.fontSize = bodyFontSize;
         _ordersText.text = sb.ToString();
+    }
+
+    /// <summary>
+    /// Hides the orders UI panel.
+    /// </summary>
+    public void HideOrdersUI()
+    {
+        if (_canvas != null)
+            _canvas.enabled = false;
+    }
+
+    /// <summary>
+    /// Shows the orders UI panel.
+    /// </summary>
+    public void ShowOrdersUI()
+    {
+        if (_canvas != null)
+            _canvas.enabled = true;
     }
 }

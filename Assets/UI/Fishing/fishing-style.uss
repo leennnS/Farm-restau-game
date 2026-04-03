@@ -1,0 +1,617 @@
+/* ======================
+   FISHING SYSTEM UI STYLES
+   ====================== */
+
+/* Global Fishing UI Container */
+#fishing-panel {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: none;
+    flex-direction: column;
+    background-color: rgba(10, 10, 20, 0.85);
+    padding: 20px;
+    font-size: 20px;
+}
+
+.fishing-panel * {
+    font-family: resource('Fonts & Materials/LegacyRuntime');
+}
+
+/* ====== HEADER ====== */
+#fishing-header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom-width: 2px;
+    border-bottom-color: rgba(100, 150, 200, 0.5);
+    background-color: rgba(20, 40, 60, 0.4);
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+    border-radius: 4px;
+}
+
+#phase-label {
+    color: rgb(150, 200, 255);
+    font-size: 24px;
+    font-weight: bold;
+    flex-grow: 1;
+    -unity-font-style: bold;
+}
+
+#catchable-name-label {
+    color: rgb(200, 255, 200);
+    font-size: 20px;
+    -unity-text-align: middle-right;
+    min-width: 200px;
+    -unity-font-style: bold;
+}
+
+/* ====== TENSION DISPLAY ====== */
+#tension-container {
+    flex-direction: column;
+    margin-bottom: 30px;
+    background-color: rgba(20, 20, 40, 0.8);
+    padding: 15px;
+    border-radius: 8px;
+    border-width: 2px;
+    border-color: rgba(100, 150, 200, 0.5);
+}
+
+#tension-container Label:first-child {
+    color: rgb(200, 255, 200);
+    font-size: 18px;
+    margin-bottom: 10px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+}
+
+.tension-label-title {
+    color: rgb(180, 180, 200);
+    font-size: 14px;
+    margin-bottom: 8px;
+    -unity-font-style: bold;
+    text-transform: uppercase;
+}
+
+#tension-bar {
+    height: 50px;
+    margin-bottom: 10px;
+    background-color: rgba(30, 30, 50, 0.8);
+    border-radius: 6px;
+    border-width: 3px;
+    border-color: rgba(100, 150, 200, 0.6);
+}
+
+#tension-bar:focus {
+    border-color: rgba(150, 200, 255, 0.8);
+}
+
+#tension-label {
+    color: rgb(200, 255, 200);
+    font-size: 18px;
+    -unity-text-align: middle-center;
+    -unity-font-style: bold;
+}
+
+.tension-value-label {
+    color: rgb(150, 200, 255);
+    font-size: 14px;
+    -unity-text-align: middle-center;
+    -unity-font-style: bold;
+}
+
+/* ====== PHASE PANELS (Generic) ====== */
+.fishing-phase-panel {
+    flex-grow: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(15, 30, 50, 0.6);
+    border-radius: 10px;
+    padding: 30px;
+    display: none;
+    border-width: 2px;
+    border-color: rgba(100, 150, 200, 0.3);
+    gap: 20px;
+}
+
+.phase-title {
+    font-size: 28px;
+    -unity-font-style: bold;
+    color: rgb(200, 230, 255);
+    -unity-text-align: middle-center;
+}
+
+.phase-description {
+    font-size: 16px;
+    color: rgb(150, 180, 200);
+    -unity-text-align: middle-center;
+    white-space: normal;
+}
+
+/* ====== CASTING PHASE ====== */
+#casting-panel {
+    background-color: rgba(30, 50, 80, 0.5);
+    flex-grow: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    padding: 30px;
+    border-width: 2px;
+    border-color: rgba(100, 150, 200, 0.3);
+    gap: 20px;
+}
+
+/* ====== WAITING/ANTICIPATION PHASE ====== */
+#waiting-panel {
+    background-color: rgba(20, 40, 60, 0.5);
+    flex-grow: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    padding: 30px;
+    border-width: 2px;
+    border-color: rgba(100, 150, 200, 0.3);
+    gap: 20px;
+}
+
+.waiting-animation {
+    flex-direction: row;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 20px;
+    height: 60px;
+}
+
+.waiting-dot {
+    font-size: 36px;
+    color: rgb(100, 200, 255);
+    opacity: 0.3;
+    -unity-text-align: middle-center;
+    min-width: 50px;
+}
+
+.waiting-dot-1 {
+    animation-name: pulse;
+    animation-duration: 1.5s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+}
+
+.waiting-dot-2 {
+    animation-name: pulse;
+    animation-duration: 1.5s;
+    animation-delay: 0.2s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+}
+
+.waiting-dot-3 {
+    animation-name: pulse;
+    animation-duration: 1.5s;
+    animation-delay: 0.4s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+}
+
+/* ====== BITE REACTION PHASE ====== */
+#bite-reaction-panel {
+    background-color: rgba(80, 30, 30, 0.6);
+    border-color: rgba(255, 100, 100, 0.5);
+    flex-grow: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    padding: 30px;
+    border-width: 2px;
+    gap: 20px;
+}
+
+.bite-warning {
+    color: rgb(255, 150, 100);
+    font-size: 32px;
+    animation-name: pulse-strong;
+    animation-duration: 0.5s;
+    animation-iteration-count: infinite;
+}
+
+#bite-reel-button {
+    width: 150px;
+    height: 50px;
+    font-size: 18px;
+    background-color: rgb(255, 100, 100);
+    border-color: rgb(255, 150, 150);
+    color: rgb(255, 255, 255);
+    margin-top: 15px;
+    border-radius: 6px;
+    border-width: 3px;
+    -unity-font-style: bold;
+    animation-name: pulse-strong;
+    animation-duration: 0.4s;
+    animation-iteration-count: infinite;
+}
+
+#bite-reel-button:hover {
+    background-color: rgb(255, 150, 120);
+    border-color: rgb(255, 200, 180);
+}
+
+#bite-reel-button:active {
+    background-color: rgb(200, 80, 80);
+    scale: 0.95 0.95;
+}
+
+/* ====== CATCH PHASE ====== */
+#catch-panel {
+    background-color: rgba(30, 70, 50, 0.5);
+    border-color: rgba(100, 200, 150, 0.4);
+    flex-grow: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    padding: 30px;
+    border-width: 2px;
+    gap: 20px;
+}
+
+.catch-title {
+    color: rgb(100, 255, 150);
+    font-size: 32px;
+}
+
+#creature-info {
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0;
+    min-height: 100px;
+    flex-grow: 1;
+}
+
+.creature-image {
+    width: 150px;
+    height: 150px;
+    background-color: rgba(50, 70, 60, 0.6);
+    border-radius: 8px;
+    border-width: 2px;
+    border-color: rgba(100, 200, 150, 0.4);
+}
+
+#reel-controls {
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.control-hint {
+    color: rgb(150, 200, 150);
+    font-size: 14px;
+}
+
+#reel-button {
+    width: 150px;
+    height: 60px;
+    font-size: 20px;
+    background-color: rgb(80, 200, 100);
+    border-color: rgb(150, 255, 170);
+    color: rgb(255, 255, 255);
+    border-radius: 8px;
+    cursor: link;
+    border-width: 3px;
+    -unity-font-style: bold;
+    animation-name: pulse-strong;
+    animation-duration: 0.5s;
+    animation-iteration-count: infinite;
+}
+
+#reel-button:hover {
+    background-color: rgb(100, 200, 120);
+    border-color: rgb(150, 240, 170);
+}
+
+#reel-button:active {
+    background-color: rgb(60, 150, 80);
+    scale: 0.95 0.95;
+}
+
+/* Tension zones visual reference */
+.tension-zones {
+    flex-direction: row;
+    gap: 15px;
+    justify-content: center;
+    margin: 15px 0;
+    width: 100%;
+}
+
+.zone-label {
+    flex-grow: 1;
+    padding: 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    -unity-text-align: middle-center;
+    -unity-font-style: bold;
+    color: rgb(255, 255, 255);
+    white-space: normal;
+}
+
+.zone-safe {
+    background-color: rgba(50, 200, 50, 0.5);
+    border-width: 1px;
+    border-color: rgb(100, 255, 100);
+}
+
+.zone-caution {
+    background-color: rgba(255, 200, 50, 0.5);
+    border-width: 1px;
+    border-color: rgb(255, 220, 100);
+}
+
+.zone-danger {
+    background-color: rgba(255, 50, 50, 0.5);
+    border-width: 1px;
+    border-color: rgb(255, 120, 120);
+}
+
+#catch-progress {
+    width: 100%;
+    height: 50px;
+    background-color: rgba(10, 10, 20, 0.9);
+    border-radius: 8px;
+    margin-top: 20px;
+    border-width: 3px;
+    border-color: rgb(100, 255, 100);
+}
+
+#catch-progress-label {
+    font-size: 20px;
+    color: rgb(200, 255, 200);
+    -unity-text-align: middle-center;
+    -unity-font-style: bold;
+    margin-bottom: 10px;
+}
+
+#rhythm-label {
+    font-size: 24px;
+    color: rgb(255, 200, 100);
+    -unity-text-align: middle-center;
+    -unity-font-style: bold;
+    margin-bottom: 10px;
+    animation-name: pulse-strong;
+    animation-duration: 0.5s;
+    animation-iteration-count: infinite;
+}
+
+/* ====== RESULT PANEL ====== */
+#result-panel {
+    background-color: rgba(30, 50, 80, 0.7);
+    border-color: rgba(100, 200, 255, 0.5);
+    flex-grow: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    padding: 30px;
+    border-width: 2px;
+}
+
+.result-content {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+}
+
+#result-status-label {
+    font-size: 48px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    color: rgb(100, 255, 150);
+    margin-bottom: 20px;
+    text-shadow: 0 0 15px rgba(100, 255, 150, 0.6);
+}
+
+#result-catchable-image {
+    width: 200px;
+    height: 200px;
+    background-color: rgba(50, 80, 120, 0.4);
+    border-radius: 8px;
+    border-width: 3px;
+    border-color: rgba(150, 200, 255, 0.4);
+    margin: 20px 0;
+}
+
+#result-description-label {
+    font-size: 22px;
+    color: rgb(200, 220, 255);
+    -unity-text-align: middle-center;
+    white-space: normal;
+    margin: 10px 0;
+    max-width: 400px;
+    -unity-font-style: bold;
+}
+
+#continue-button {
+    width: 150px;
+    height: 50px;
+    font-size: 18px;
+    background-color: rgb(100, 150, 200);
+    border-color: rgb(150, 180, 220);
+    color: rgb(255, 255, 255);
+    border-radius: 6px;
+    margin-top: 20px;
+    border-width: 3px;
+    -unity-font-style: bold;
+}
+
+#continue-button:hover {
+    background-color: rgb(120, 170, 220);
+    border-color: rgb(170, 200, 240);
+}
+
+#continue-button:active {
+    background-color: rgb(80, 130, 180);
+    scale: 0.95 0.95;
+}
+
+/* ====== FISHING PROMPT ====== */
+#fishing-prompt {
+    position: absolute;
+    bottom: 80px;
+    left: 50%;
+    translate: -50% 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    animation-name: bob;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+}
+
+.prompt-text {
+    font-size: 18px;
+    color: rgb(150, 200, 255);
+    -unity-font-style: bold;
+    text-shadow: 0 0 10px rgba(100, 150, 200, 0.8);
+    -unity-text-align: middle-center;
+    padding: 10px 20px;
+    background-color: rgba(20, 40, 60, 0.8);
+    border-radius: 6px;
+    border-width: 2px;
+    border-color: rgba(100, 150, 200, 0.6);
+}
+
+/* ====== INSTRUCTION LABELS ====== */
+#casting-panel Label,
+#waiting-panel Label,
+#bite-reaction-panel Label,
+#catch-panel Label {
+    white-space: normal;
+    -unity-text-align: middle-center;
+    font-size: 28px;
+    -unity-font-style: bold;
+    color: rgb(200, 255, 200);
+    margin-bottom: 15px;
+}
+
+/* Main titles - larger and golden */
+#casting-panel Label {
+    font-size: 48px;
+    color: rgb(255, 255, 100);
+    margin-bottom: 20px;
+    text-shadow: 0 0 20px rgba(255, 200, 0, 0.8);
+}
+
+#waiting-panel Label {
+    font-size: 48px;
+    color: rgb(255, 255, 100);
+    margin-bottom: 20px;
+    text-shadow: 0 0 20px rgba(255, 200, 0, 0.8);
+}
+
+#bite-reaction-panel Label {
+    font-size: 48px;
+    color: rgb(255, 255, 100);
+    margin-bottom: 20px;
+    text-shadow: 0 0 20px rgba(255, 200, 0, 0.8);
+}
+
+#bite-reaction-panel Label {
+    color: rgb(255, 200, 150);
+    font-size: 32px;
+    animation-name: pulse-strong;
+    animation-duration: 0.4s;
+    animation-iteration-count: infinite;
+    margin-bottom: 30px;
+}
+
+#catch-panel Label {
+    font-size: 24px;
+    color: rgb(200, 255, 200);
+    margin-bottom: 20px;
+}
+
+/* Reel control labels */
+#reel-controls Label {
+    font-size: 26px;
+    color: rgb(255, 220, 150);
+    -unity-font-style: bold;
+    margin-bottom: 15px;
+    animation-name: pulse-strong;
+    animation-duration: 0.6s;
+    animation-iteration-count: infinite;
+}
+
+/* ====== ANIMATIONS ====== */
+@keyframes pulse {
+    0% {
+        opacity: 0.3;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.3;
+    }
+}
+
+@keyframes pulse-strong {
+    0% {
+        scale: 1 1;
+        opacity: 0.8;
+    }
+    50% {
+        scale: 1.1 1.1;
+        opacity: 1;
+    }
+    100% {
+        scale: 1 1;
+        opacity: 0.8;
+    }
+}
+
+@keyframes bob {
+    0% {
+        translate: -50% 0;
+    }
+    50% {
+        translate: -50% -10px;
+    }
+    100% {
+        translate: -50% 0;
+    }
+}
+
+/* ====== RESPONSIVE ====== */
+@media (max-width: 768px) {
+    #fishing-panel {
+        padding: 10px;
+    }
+
+    .phase-title {
+        font-size: 24px;
+    }
+
+    .phase-description {
+        font-size: 14px;
+    }
+
+    .reel-button {
+        width: 100px;
+        height: 40px;
+        font-size: 14px;
+    }
+
+    .result-catchable-image {
+        width: 150px;
+        height: 150px;
+    }
+}

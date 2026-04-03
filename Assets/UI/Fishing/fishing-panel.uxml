@@ -1,0 +1,53 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/Fishing/fishing-style.uss?fileID=7433441132597879392&amp;guid=79ae84310d9fc224b8ff214cd248c954&amp;type=3#fishing-style"/>
+    <ui:VisualElement name="fishing-panel">
+        <ui:VisualElement name="fishing-header">
+            <ui:Label name="phase-label" text="Getting ready..."/>
+            <ui:Label name="catchable-name-label" text="???"/>
+        </ui:VisualElement>
+        <ui:VisualElement name="tension-container">
+            <ui:Label text="LINE TENSION"/>
+            <ui:ProgressBar name="tension-bar"/>
+            <ui:Label name="tension-label" text="Tension: 0%"/>
+        </ui:VisualElement>
+        <ui:VisualElement name="casting-panel">
+            <ui:Label text="CASTING LINE"/>
+            <ui:Label text="Waiting for fish to come..."/>
+        </ui:VisualElement>
+        <ui:VisualElement name="waiting-panel">
+            <ui:Label text="GET READY!"/>
+            <ui:Label text="Fish might bite anytime - be alert"/>
+        </ui:VisualElement>
+        <ui:VisualElement name="bite-reaction-panel">
+            <ui:Label text="FISH BITING!"/>
+            <ui:Label text="⚡ PRESS SPACE NOW! ⚡"/>
+            <ui:Button name="bite-reel-button" text="REEL!"/>
+        </ui:VisualElement>
+        <ui:VisualElement name="catch-panel">
+            <ui:Label text="REELING IN!"/>
+            <ui:Label text="🔄 HOLD SPACE TO REEL! 🔄"/>
+            <ui:Label text="Holding Space reduces tension. Just fill the bar!"/>
+            <ui:VisualElement name="creature-info">
+                <ui:Image name="catchable-image"/>
+            </ui:VisualElement>
+            <ui:VisualElement name="reel-controls">
+                <ui:Label text="FILL THE BAR!"/>
+                <ui:Button name="reel-button" text="HOLD IT!"/>
+            </ui:VisualElement>
+            <ui:Label name="rhythm-label" text="⚡ HOLD SPACE! ⚡"/>
+            <ui:ProgressBar name="catch-progress"/>
+            <ui:Label name="catch-progress-label" text="Progress: 0% | Energy: 100% | Tension: 0%"/>
+        </ui:VisualElement>
+        <ui:VisualElement name="result-panel">
+            <ui:VisualElement name="result-content">
+                <ui:Label name="result-status-label" text="Result"/>
+                <ui:Image name="result-catchable-image"/>
+                <ui:Label name="result-description-label" text="You caught something!"/>
+                <ui:Button name="continue-button" text="Continue"/>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="fishing-prompt">
+        <ui:Label text="[E] Fish"/>
+    </ui:VisualElement>
+</ui:UXML>
