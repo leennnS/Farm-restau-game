@@ -3289,6 +3289,58 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!1 &260838730
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 260838732}
+  - component: {fileID: 260838731}
+  m_Layer: 0
+  m_Name: FarmingInputHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &260838731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 260838730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb2c080afb49cd44394e9a9e1591edf6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FarmingInputHandler
+  farmingManager: {fileID: 293555420}
+  inventoryController: {fileID: 1634073454}
+  mainCamera: {fileID: 1149005623}
+  pickupToast: {fileID: 1731260854}
+  hoeKeyword: hoe
+  wateringCanKeyword: watering_can
+  handKeyword: hand
+  wateringCanCapacity: 10
+--- !u!4 &260838732
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 260838730}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.65692, y: 12.07051, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &264288540
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21655,6 +21707,59 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!1 &1024882274
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1024882276}
+  - component: {fileID: 1024882275}
+  m_Layer: 0
+  m_Name: StrayAnimalSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1024882275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1024882274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bb97f27fb7bba344a33e84503d79e4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StrayAnimalSpawner
+  availableAnimals:
+  - {fileID: 11400000, guid: 69994bf426c6c674da6afbc8d02602ba, type: 2}
+  farmingManager: {fileID: 293555420}
+  minSpawnIntervalSeconds: 30
+  maxSpawnIntervalSeconds: 60
+  maxActiveAnimals: 2
+  spawnAreaCenter: {fileID: 2087670556}
+  spawnAreaSize: {x: 20, y: 20}
+  strayAnimalPrefab: {fileID: 2486021043140773862, guid: f265a3f4d5b347a41b35a5fa5df2499c, type: 3}
+--- !u!4 &1024882276
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1024882274}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -39.7, y: -12.8, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1028904812
 GameObject:
   m_ObjectHideFlags: 0
@@ -24126,7 +24231,7 @@ Transform:
   m_GameObject: {fileID: 1149005621}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -91.05, y: 89.91, z: -10}
+  m_LocalPosition: {x: -53.35, y: 25.61, z: -10}
   m_LocalScale: {x: 2.1402, y: 2.1402, z: 11.399674}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -202693,7 +202798,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9394eccbe4454d34988adcc7d84f4948, type: 2}
   gameMapImage: {fileID: 0}
   cookingStyleSheet: {fileID: 7433441132597879392, guid: 487566365cc70c14f8b11b65c5be9d1d, type: 3}
-  testItem: {fileID: 11400000, guid: 16b47ca967a7e0d48bc7ba39da227dc7, type: 2}
+  testItem: {fileID: 11400000, guid: 590c1cdd907e9e342bb2118c2c3f4dd1, type: 2}
   testAddKey: 107
   testAddAmount: 1
 --- !u!1 &1639961936
@@ -230025,7 +230130,7 @@ Transform:
   m_GameObject: {fileID: 1846392987}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -91.05, y: 89.91, z: -10}
+  m_LocalPosition: {x: -53.35, y: 25.61, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -234385,6 +234490,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2087670555
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2087670556}
+  m_Layer: 0
+  m_Name: FarmCenter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2087670556
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2087670555}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -39.2, y: -11.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2088527515
 GameObject:
   m_ObjectHideFlags: 0
@@ -235591,11 +235727,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5904111917036164382, guid: 9ad108346c7a7e043b02cf2d3ee07124, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -66.3
+      value: -28.6
       objectReference: {fileID: 0}
     - target: {fileID: 5904111917036164382, guid: 9ad108346c7a7e043b02cf2d3ee07124, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 39.1
+      value: -25.2
       objectReference: {fileID: 0}
     - target: {fileID: 5904111917036164382, guid: 9ad108346c7a7e043b02cf2d3ee07124, type: 3}
       propertyPath: m_LocalPosition.z
@@ -235775,3 +235911,6 @@ SceneRoots:
   - {fileID: 2010720163}
   - {fileID: 216016016}
   - {fileID: 1884897945}
+  - {fileID: 1024882276}
+  - {fileID: 2087670556}
+  - {fileID: 260838732}

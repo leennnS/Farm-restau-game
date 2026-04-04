@@ -16,6 +16,9 @@ MonoBehaviour:
   zoneDescription: A peaceful fishing spot
   catchablePool:
   - catchable: {fileID: 11400000, guid: 051b6f93d868b694093103aa093c0875, type: 2}
+    spawnWeight: 45.3
+    enabled: 1
+  - catchable: {fileID: 11400000, guid: f7fe116ce0ddbc745ad64d9fb5b26b42, type: 2}
     spawnWeight: 100
     enabled: 1
   difficultyModifier: 1

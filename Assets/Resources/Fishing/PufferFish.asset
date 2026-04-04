@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 612509ba272d042478369da610463ffe, type: 3}
+  m_Name: PufferFish
+  m_EditorClassIdentifier: Assembly-CSharp::CatchableDefinition
+  catchableName: Fish
+  description: A common fish
+  catchFlavor: You caught a Pufferfish!
+  inventoryItem: {fileID: 11400000, guid: 84a12b7fe7445314788236aa651955f4, type: 2}
+  rarity: 1
+  sellPrice: 70
+  catchableIcon: {fileID: 2800000, guid: 5015cfb60d29d45d9b4b73a29dac9603, type: 3}
+  catchUICatchableImage: {fileID: 2800000, guid: 5015cfb60d29d45d9b4b73a29dac9603, type: 3}
+  uiAccentColor: {r: 0, g: 1, b: 1, a: 1}
+  difficultyScore: 0.616
+  biteDelayMin: 1.5
+  biteDelayMax: 3
+  behaviorType: 0
+  tensionIncreaseRate: 0.1
+  tensionDecayRate: 0.05
+  creaturePullStrength: 0.08
+  successWindow: 0.5
+  catchDurationMin: 2
+  catchDurationMax: 4
+  canFakeOut: 0
+  fakeOutChance: 0.3
+  canDive: 0
+  diveIntensity: 0.5
+  stackable: 1
+  maxStackSize: 999

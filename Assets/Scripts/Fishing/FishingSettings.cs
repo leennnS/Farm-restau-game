@@ -24,6 +24,8 @@ public class FishingSettings : ScriptableObject
     [SerializeField] public float relaxedTensionZoneMax = 0.7f; // Safe zone upper bound
     [SerializeField] public float warningTensionStart = 0.80f; // When to start warning UI
     [SerializeField] public float tensionDecayRate = 0.15f; // How fast tension relaxes when not reeling
+    [SerializeField] public float minTensionThreshold = 0.3f; // Minimum tension to keep - line goes slack below this
+    [SerializeField] public float minTensionBuffer = 0.1f; // How long player can stay below min before failure (seconds)
 
     [Header("Player Control")]
     [SerializeField] public float reelInputDuration = 0.15f; // How long to detect reel input

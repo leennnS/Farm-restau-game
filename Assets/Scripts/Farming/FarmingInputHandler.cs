@@ -56,10 +56,14 @@ public class FarmingInputHandler : MonoBehaviour
 
     private void Update()
     {
+        //Debug.Log("[FarmingInputHandler] Update called");
         ReadHotbarKeys();
 
         if (Input.GetMouseButtonDown(0))
+        {
+            Debug.Log("[FarmingInputHandler] MOUSE CLICK DETECTED");
             HandleLeftClick();
+        }
     }
 
     private void ReadHotbarKeys()
@@ -101,11 +105,37 @@ public class FarmingInputHandler : MonoBehaviour
 
     private void HandleLeftClick()
     {
-        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
-            return;
+        Debug.Log("[FarmingInputHandler] HandleLeftClick START");
 
-        if (mainCamera == null || farmingManager == null || inventoryController == null)
+        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
+        {
+            // Log which UI object is blocking
+            GameObject uiObject = EventSystem.current.currentSelectedGameObject;
+            Debug.Log($"[FarmingInputHandler] BLOCKED: Click is over UI: {(uiObject ? uiObject.name : "Unknown UI")}");
+
+            // ALLOW farming anyway - don't block UI clicks from farming
+            // Proceed instead of returning
+        }
+
+        if (mainCamera == null)
+        {
+            Debug.LogError("[FarmingInputHandler] BLOCKED: mainCamera is NULL");
             return;
+        }
+
+        if (farmingManager == null)
+        {
+            Debug.LogError("[FarmingInputHandler] BLOCKED: farmingManager is NULL");
+            return;
+        }
+
+        if (inventoryController == null)
+        {
+            Debug.LogError("[FarmingInputHandler] BLOCKED: inventoryController is NULL");
+            return;
+        }
+
+        Debug.Log("[FarmingInputHandler] All references OK, continuing...");
 
         Vector3 mouse = Input.mousePosition;
 

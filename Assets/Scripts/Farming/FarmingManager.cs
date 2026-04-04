@@ -177,33 +177,33 @@ public class FarmingManager : MonoBehaviour
         return TryHoeAtCell(cellPos);
     }
 
-   public bool TryHoeAtCell(Vector3Int cellPos)
-{
-    if (groundTilemap == null) return false;
+    public bool TryHoeAtCell(Vector3Int cellPos)
+    {
+        if (groundTilemap == null) return false;
 
-    Vector3 center = groundTilemap.GetCellCenterWorld(cellPos);
+        Vector3 center = groundTilemap.GetCellCenterWorld(cellPos);
 
-    Debug.DrawLine(center + Vector3.left * 0.45f, center + Vector3.right * 0.45f, Color.red, 2f);
-    Debug.DrawLine(center + Vector3.up * 0.45f, center + Vector3.down * 0.45f, Color.red, 2f);
+        Debug.DrawLine(center + Vector3.left * 0.45f, center + Vector3.right * 0.45f, Color.red, 2f);
+        Debug.DrawLine(center + Vector3.up * 0.45f, center + Vector3.down * 0.45f, Color.red, 2f);
 
-    if (hoedSoilCells.Contains(cellPos))
-        return false;
+        if (hoedSoilCells.Contains(cellPos))
+            return false;
 
-    TileBase currentTile = groundTilemap.GetTile(cellPos);
+        TileBase currentTile = groundTilemap.GetTile(cellPos);
 
-    Debug.Log($"[TryHoeAtCell BEFORE] Scene={SceneManager.GetActiveScene().name} Cell={cellPos} Tile={(currentTile ? currentTile.name : "NULL")}");
+        Debug.Log($"[TryHoeAtCell BEFORE] Scene={SceneManager.GetActiveScene().name} Cell={cellPos} Tile={(currentTile ? currentTile.name : "NULL")}");
 
-    if (currentTile != grassTile && currentTile != null)
-        return false;
+        if (currentTile != grassTile && currentTile != null)
+            return false;
 
-    hoedSoilCells.Add(cellPos);
-    groundTilemap.SetTile(cellPos, soilTile ?? grassTile);
+        hoedSoilCells.Add(cellPos);
+        groundTilemap.SetTile(cellPos, soilTile ?? grassTile);
 
-    TileBase afterTile = groundTilemap.GetTile(cellPos);
-    Debug.Log($"[TryHoeAtCell AFTER] Scene={SceneManager.GetActiveScene().name} Cell={cellPos} Tile={(afterTile ? afterTile.name : "NULL")}");
+        TileBase afterTile = groundTilemap.GetTile(cellPos);
+        Debug.Log($"[TryHoeAtCell AFTER] Scene={SceneManager.GetActiveScene().name} Cell={cellPos} Tile={(afterTile ? afterTile.name : "NULL")}");
 
-    return true;
-}
+        return true;
+    }
 
     public bool IsHoedSoil(Vector3Int cellPos) => hoedSoilCells.Contains(cellPos);
 
@@ -451,6 +451,38 @@ public class FarmingManager : MonoBehaviour
         }
 
         Debug.Log($"[FarmingManager] Harvested {cropDef.displayName} at {cellPos}. Spawned pickup.");
+        return true;
+    }
+
+    /// <summary>
+    /// Destroys a crop at the given cell position (e.g., when stray animal eats it).
+    /// Does NOT give harvest items to player.
+    /// </summary>
+    public bool TryDestroyPlantedCrop(Vector3Int cellPos)
+    {
+        if (!plantedCrops.TryGetValue(cellPos, out CropData crop))
+            return false;
+
+        if (!cropDefinitionLookup.TryGetValue(crop.cropId, out CropDefinition cropDef))
+            return false;
+
+        // Clean up any dead plant visual
+        if (deadPlantVisuals.TryGetValue(cellPos, out GameObject deadGO))
+        {
+            Destroy(deadGO);
+            deadPlantVisuals.Remove(cellPos);
+        }
+
+        // Remove crop from world
+        plantedCrops.Remove(cellPos);
+        if (cropTilemap != null)
+            cropTilemap.SetTile(cellPos, null);
+
+        // Revert to soil
+        if (groundTilemap != null)
+            groundTilemap.SetTile(cellPos, soilTile);
+
+        Debug.Log($"[FarmingManager] Crop {cropDef.displayName} destroyed at {cellPos}!");
         return true;
     }
 

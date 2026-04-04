@@ -26,6 +26,7 @@ public class FishingMiniGameController : MonoBehaviour
     private bool playerReactedToBite = false;
     private bool playerIsReeling = false;
     private float reelInputTimer = 0f;
+    private float lowTensionTimer = 0f; // Tracks how long tension has been too low
 
     // Creature behavior
     private float creatureBehaviorTimer = 0f;
@@ -78,6 +79,7 @@ public class FishingMiniGameController : MonoBehaviour
         playerIsReeling = false;
         catchPhaseTimer = 0f;
         creatureBehaviorTimer = 0f;
+        lowTensionTimer = 0f;
 
         OnTensionChanged?.Invoke(currentTension);
     }
@@ -119,7 +121,11 @@ public class FishingMiniGameController : MonoBehaviour
         // Continuous tension decay (line relaxes over time)
         if (currentState == FishingState.Catching && !playerIsReeling)
         {
-            currentTension = Mathf.Max(0f, currentTension - fishingSettings.tensionDecayRate * Time.deltaTime);
+            // Harder fish decay slower - player must reel more to manage tension
+            float scaledDecayRate = fishingSettings.tensionDecayRate * (1f - currentCatchable.difficultyScore * 0.5f);
+            float scaledMinTension = fishingSettings.minTensionThreshold * (0.5f + currentCatchable.difficultyScore * 0.5f);
+
+            currentTension = Mathf.Max(scaledMinTension, currentTension - scaledDecayRate * Time.deltaTime);
             OnTensionChanged?.Invoke(currentTension);
         }
     }
@@ -183,7 +189,7 @@ public class FishingMiniGameController : MonoBehaviour
         // Manage tension from creature behavior
         UpdateCreatureBehavior();
 
-        // Check for line break
+        // Check for line break (too much tension)
         if (currentTension >= fishingSettings.lineBreakerThreshold)
         {
             DebugLog("Line broke! Too much tension.");
@@ -191,12 +197,32 @@ public class FishingMiniGameController : MonoBehaviour
             return;
         }
 
-        // Check for success - just fill the progress bar!
-        catchPhaseTimer += Time.deltaTime;
+        // Check if tension has been too low for too long (line goes slack)
+        float scaledMinTension = fishingSettings.minTensionThreshold * (0.5f + currentCatchable.difficultyScore * 0.5f);
+        if (currentTension < scaledMinTension)
+        {
+            lowTensionTimer += Time.deltaTime;
+            if (lowTensionTimer >= fishingSettings.minTensionBuffer)
+            {
+                DebugLog("Line went slack! Tension too low for too long. Failure.");
+                CompleteCatch(FishingResultType.LineBroke);
+                return;
+            }
+        }
+        else
+        {
+            lowTensionTimer = 0f; // Reset timer if tension is back in range
+        }
+
+        // SUCCESS: Keep filling catch bar ONLY if tension stays in acceptable range
+        if (currentTension >= scaledMinTension && currentTension < fishingSettings.lineBreakerThreshold)
+        {
+            catchPhaseTimer += Time.deltaTime;
+        }
+        // If tension is out of range, pause progress (don't tick the timer)
 
         if (catchPhaseTimer >= catchPhaseDuration)
         {
-            // Just succeed if you filled the bar - tension almost doesn't matter anymore
             DebugLog("Successfully caught!");
             CompleteCatch(FishingResultType.Success);
         }
@@ -205,31 +231,32 @@ public class FishingMiniGameController : MonoBehaviour
     private void UpdateCreatureBehavior()
     {
         // Creature applies resistance based on behavior type and difficulty
-        float baseResistance = currentCatchable.creaturePullStrength * currentZone.difficultyModifier;
+        // Scale by difficulty score so harder fish create more tension
+        float baseResistance = currentCatchable.creaturePullStrength * currentZone.difficultyModifier * (1f + currentCatchable.difficultyScore);
 
         switch (currentCatchable.behaviorType)
         {
             case FishBehaviorType.Standard:
-                currentCreaturePullForce = baseResistance * 0.5f;
+                currentCreaturePullForce = baseResistance * 2f;
                 break;
 
             case FishBehaviorType.FastDarter:
                 // Quick, erratic resistance
                 if (creatureBehaviorTimer >= nextBehaviorChangeTime)
                 {
-                    currentCreaturePullForce = UnityEngine.Random.Range(baseResistance * 0.3f, baseResistance);
+                    currentCreaturePullForce = UnityEngine.Random.Range(baseResistance * 1.5f, baseResistance * 3f);
                     nextBehaviorChangeTime = creatureBehaviorTimer + UnityEngine.Random.Range(0.3f, 0.8f);
                 }
                 break;
 
             case FishBehaviorType.SlowHeavy:
                 // Consistent strong resistance
-                currentCreaturePullForce = baseResistance * 1.2f;
+                currentCreaturePullForce = baseResistance * 3f;
                 break;
 
             case FishBehaviorType.Elusive:
                 // Quickly loses tension, tries to escape
-                currentCreaturePullForce = baseResistance * 0.2f;
+                currentCreaturePullForce = baseResistance * 1f;
                 break;
 
             case FishBehaviorType.Aggressive:
@@ -238,11 +265,11 @@ public class FishingMiniGameController : MonoBehaviour
                 {
                     if (UnityEngine.Random.value < 0.4f) // 40% chance of aggressive dive
                     {
-                        currentCreaturePullForce = baseResistance * 1.5f;
+                        currentCreaturePullForce = baseResistance * 4f;
                     }
                     else
                     {
-                        currentCreaturePullForce = baseResistance * 0.5f;
+                        currentCreaturePullForce = baseResistance * 1.5f;
                     }
                     nextBehaviorChangeTime = creatureBehaviorTimer + UnityEngine.Random.Range(0.5f, 1.5f);
                 }
@@ -252,7 +279,7 @@ public class FishingMiniGameController : MonoBehaviour
                 // Tricky - switches between pulling and loose
                 if (creatureBehaviorTimer >= nextBehaviorChangeTime)
                 {
-                    currentCreaturePullForce = UnityEngine.Random.value < 0.5f ? baseResistance * 0.8f : 0f;
+                    currentCreaturePullForce = UnityEngine.Random.value < 0.5f ? baseResistance * 2.5f : 0f;
                     nextBehaviorChangeTime = creatureBehaviorTimer + UnityEngine.Random.Range(0.4f, 1f);
                 }
                 break;
@@ -287,7 +314,7 @@ public class FishingMiniGameController : MonoBehaviour
 
             // Reduce tension when reeling (pulling the line reduces tension)
             currentTension -= fishingSettings.reelTensionIncrement * 2f; // Double reduction for better control
-            currentTension = Mathf.Max(0f, currentTension);
+            currentTension = Mathf.Max(fishingSettings.minTensionThreshold, currentTension);
             OnTensionChanged?.Invoke(currentTension);
         }
     }
@@ -318,8 +345,9 @@ public class FishingMiniGameController : MonoBehaviour
         playerReactedToBite = false;
         OnBiteOccurred?.Invoke();
 
-        // Apply tension bump from bite
-        currentTension += fishingSettings.biteTensionIncrease;
+        // Apply tension bump from bite - scales with fish difficulty
+        float biteTensionIncrease = fishingSettings.biteTensionIncrease * (1f + currentCatchable.difficultyScore);
+        currentTension += biteTensionIncrease;
         OnTensionChanged?.Invoke(currentTension);
 
         if (fishingSettings.enableBiteVibration)
