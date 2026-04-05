@@ -60,6 +60,11 @@ public class PickupToastUIToolkit : MonoBehaviour
 
     public void Show(string message)
     {
+        Show(message, showTime);
+    }
+
+    public void Show(string message, float duration)
+    {
         if (toast == null || toastLabel == null)
             return;
 
@@ -67,10 +72,10 @@ public class PickupToastUIToolkit : MonoBehaviour
             StopCoroutine(currentRoutine);
 
         toastLabel.text = message;
-        currentRoutine = StartCoroutine(AnimateToast());
+        currentRoutine = StartCoroutine(AnimateToast(duration));
     }
 
-    private IEnumerator AnimateToast()
+    private IEnumerator AnimateToast(float duration)
     {
         toast.style.display = DisplayStyle.Flex;
         toast.style.opacity = 1f;
@@ -78,10 +83,10 @@ public class PickupToastUIToolkit : MonoBehaviour
 
         float timer = 0f;
 
-        while (timer < showTime)
+        while (timer < duration)
         {
             timer += Time.deltaTime;
-            float t = timer / showTime;
+            float t = timer / duration;
 
             toast.style.opacity = Mathf.Lerp(1f, 0f, t);
             toast.style.bottom = Mathf.Lerp(startBottom, endBottom, t);

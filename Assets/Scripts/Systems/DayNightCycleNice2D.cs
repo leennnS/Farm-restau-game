@@ -45,6 +45,7 @@ public class DayNightCycleNice2D : MonoBehaviour
     [SerializeField] private SpriteRenderer nightOverlay;  // NightOverlay sprite renderer
     [SerializeField] private Transform playerTransform;    // Player (auto-found by tag if empty)
     [SerializeField] private string playerTag = "Player";
+    [SerializeField] private PickupToastUIToolkit toastUI; // Toast notifications (auto-found if empty)
 
     [Header("Cycle")]
     [Tooltip("Real seconds for a full 24h cycle. 60 for testing (fast), 300+ for realistic")]
@@ -75,6 +76,7 @@ public class DayNightCycleNice2D : MonoBehaviour
     private float lastTimeNormalized = 0f;
     private bool _warnedInvalidDayLength;
     private float _nextDiskSaveTime;
+    private bool _hasShownNightNotification = false; // Track if night notification was shown today
 
     private void OnEnable()
     {
@@ -114,6 +116,11 @@ public class DayNightCycleNice2D : MonoBehaviour
             GameObject player = GameObject.FindGameObjectWithTag(playerTag);
             if (player != null)
                 playerTransform = player.transform;
+        }
+
+        if (toastUI == null)
+        {
+            toastUI = FindFirstObjectByType<PickupToastUIToolkit>();
         }
     }
 
@@ -242,21 +249,21 @@ public class DayNightCycleNice2D : MonoBehaviour
         );
 
         lightIntensity = new AnimationCurve(
-      new Keyframe(0.0f, 0.25f, 0f, 0f),
+      new Keyframe(0.0f, 0.4f, 0f, 0f),
       new Keyframe(0.25f, 0.85f, 0f, 0f),
       new Keyframe(0.5f, 1.0f, 0f, 0f),
       new Keyframe(0.75f, 0.85f, 0f, 0f),
-      new Keyframe(1.0f, 0.25f, 0f, 0f)
+      new Keyframe(1.0f, 0.4f, 0f, 0f)
   );
 
         overlayAlpha = new AnimationCurve(
-            new Keyframe(0.0f, 0.15f, 0f, 0f),
-            new Keyframe(0.2f, 0.12f, 0f, 0f),
-            new Keyframe(0.35f, 0.05f, 0f, 0f),
+            new Keyframe(0.0f, 0.08f, 0f, 0f),
+            new Keyframe(0.2f, 0.06f, 0f, 0f),
+            new Keyframe(0.35f, 0.02f, 0f, 0f),
             new Keyframe(0.5f, 0.0f, 0f, 0f),
-            new Keyframe(0.65f, 0.05f, 0f, 0f),
-            new Keyframe(0.8f, 0.12f, 0f, 0f),
-            new Keyframe(1.0f, 0.15f, 0f, 0f)
+            new Keyframe(0.65f, 0.02f, 0f, 0f),
+            new Keyframe(0.8f, 0.06f, 0f, 0f),
+            new Keyframe(1.0f, 0.08f, 0f, 0f)
         );
     }
 
@@ -310,8 +317,19 @@ public class DayNightCycleNice2D : MonoBehaviour
         {
             TimeNormalized -= 1f;
             currentDay++;
+            _hasShownNightNotification = false; // Reset notification flag for new day
             OnDayAdvanced?.Invoke();
             Debug.Log($"[DayNightCycleNice2D] Day {currentDay} started!");
+        }
+
+        // Show "turn on flashlight" notification at dusk (~6 PM, 0.75)
+        if (TimeNormalized >= 0.75f && !_hasShownNightNotification)
+        {
+            _hasShownNightNotification = true;
+            if (toastUI != null)
+            {
+                toastUI.Show("🌙 Night approaching! Press F to turn on your flashlight", 6.0f);
+            }
         }
 
         Apply();
@@ -399,13 +417,13 @@ public class DayNightCycleNice2D : MonoBehaviour
             moonLight.color = moonColor.Evaluate(TimeNormalized);
             float moonIntensityValue = moonIntensity.Evaluate(TimeNormalized);
 
-            // Multiply by 2.0 to boost the final brightness
-            moonLight.intensity = moonIntensityValue * 2.0f;
+            // Multiply by 3.0 to boost the final brightness (stronger moonlight)
+            moonLight.intensity = moonIntensityValue * 3.0f;
 
             // Also boost the global light at night to support moonlight visibility
             if (moonIntensityValue > 0.1f && globalLight != null)
             {
-                globalLight.intensity = Mathf.Max(globalLight.intensity, 0.5f);
+                globalLight.intensity = Mathf.Max(globalLight.intensity, 0.55f);
             }
         }
 
@@ -513,22 +531,22 @@ public class DayNightCycleNice2D : MonoBehaviour
 
         // Light intensity: low at night, peak at noon
         lightIntensity = new AnimationCurve(
-            new Keyframe(0.0f, 0.25f, 0f, 0f),   // Midnight: dark with moonlight
+            new Keyframe(0.0f, 0.4f, 0f, 0f),   // Midnight: brighter with moonlight
             new Keyframe(0.25f, 0.85f, 0f, 0f),  // 6 AM: bright
             new Keyframe(0.5f, 1.0f, 0f, 0f),    // Noon: max brightness
             new Keyframe(0.75f, 0.85f, 0f, 0f),  // 6 PM: bright
-            new Keyframe(1.0f, 0.25f, 0f, 0f)    // Midnight: dark with moonlight
+            new Keyframe(1.0f, 0.4f, 0f, 0f)    // Midnight: brighter with moonlight
         );
 
         // Overlay alpha: dark at night, transparent at day
         overlayAlpha = new AnimationCurve(
-            new Keyframe(0.0f, 0.15f, 0f, 0f),   // Midnight: subtle darkness + color
-            new Keyframe(0.2f, 0.12f, 0f, 0f),    // Pre-dawn: subtle darkness
-            new Keyframe(0.35f, 0.05f, 0f, 0f),   // Sunrise: fading
+            new Keyframe(0.0f, 0.08f, 0f, 0f),   // Midnight: subtle darkness + color
+            new Keyframe(0.2f, 0.06f, 0f, 0f),    // Pre-dawn: subtle darkness
+            new Keyframe(0.35f, 0.02f, 0f, 0f),   // Sunrise: fading
             new Keyframe(0.5f, 0.0f, 0f, 0f),    // Noon: no overlay
-            new Keyframe(0.65f, 0.05f, 0f, 0f),   // Sunset: fading in
-            new Keyframe(0.8f, 0.12f, 0f, 0f),    // Post-dusk: subtle darkness
-            new Keyframe(1.0f, 0.15f, 0f, 0f)    // Midnight: subtle darkness + color
+            new Keyframe(0.65f, 0.02f, 0f, 0f),   // Sunset: fading in
+            new Keyframe(0.8f, 0.06f, 0f, 0f),    // Post-dusk: subtle darkness
+            new Keyframe(1.0f, 0.08f, 0f, 0f)    // Midnight: subtle darkness + color
         );
 
         // Moon light
