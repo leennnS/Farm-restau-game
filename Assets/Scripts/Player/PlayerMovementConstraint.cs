@@ -25,7 +25,8 @@ public class PlayerMovementConstraint : MonoBehaviour
     {
         playerCollider = GetComponent<Collider2D>();
         if (playerCollider == null)
-            Debug.LogWarning("PlayerMovementConstraint: Player has no Collider2D. Overlap detection will be limited.");
+        {
+        }
 
         // Build contact filter to detect non-trigger colliders
         contactFilter = new ContactFilter2D();
@@ -43,7 +44,6 @@ public class PlayerMovementConstraint : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("PlayerMovementConstraint: 'Grid' GameObject not found in scene. Floor bounds will not be applied.");
         }
 
         rb = GetComponent<Rigidbody2D>();
@@ -90,7 +90,6 @@ public class PlayerMovementConstraint : MonoBehaviour
         else
         {
             haveFloorBounds = false;
-            Debug.LogWarning("PlayerMovementConstraint: no SpriteRenderers with sprites found under 'Grid' to compute floor bounds.");
         }
     }
 

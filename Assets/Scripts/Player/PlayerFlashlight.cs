@@ -23,6 +23,9 @@ public class PlayerFlashlight : MonoBehaviour
     private bool isFlashlightOn = false;
     private float currentIntensity = 0f;
     private float targetIntensity = 0f;
+    private Vector2 lastDirection = Vector2.right; // Default direction
+    private Light2D[] coneLights; // Array of lights forming a cone
+    private const int CONE_LIGHT_COUNT = 5; // Number of lights in the cone
 
     private void Start()
     {
@@ -31,28 +34,76 @@ public class PlayerFlashlight : MonoBehaviour
 
     private void SetupFlashlight()
     {
-        // Create or find a flashlight light on this object
+        // Remove the old point light if it exists
         flashlight = GetComponent<Light2D>();
-
-        if (flashlight == null)
+        if (flashlight != null)
         {
-            flashlight = gameObject.AddComponent<Light2D>();
+            Destroy(flashlight);
         }
 
-        // Configure flashlight properties
-        flashlight.lightType = Light2D.LightType.Point;
-        flashlight.intensity = 0f;
-        flashlight.pointLightOuterRadius = flashlightRange;
-        flashlight.color = flashlightColor;
-        flashlight.enabled = true; // Keep enabled, control via intensity
+        // Create an array of lights forming a cone shape
+        coneLights = new Light2D[CONE_LIGHT_COUNT];
+        float coneAngle = 60f; // Total cone angle
+        float angleStep = coneAngle / (CONE_LIGHT_COUNT - 1);
 
-        Debug.Log("[PlayerFlashlight] Flashlight created! Press 'F' to toggle.");
+        for (int i = 0; i < CONE_LIGHT_COUNT; i++)
+        {
+            // Create child objects for each light
+            GameObject lightObj = new GameObject($"ConeLightCenter");
+            lightObj.transform.SetParent(transform);
+            lightObj.transform.localPosition = Vector3.zero;
+
+            Light2D light = lightObj.AddComponent<Light2D>();
+            light.lightType = Light2D.LightType.Point;
+            light.intensity = 0f;
+            light.pointLightOuterRadius = flashlightRange;
+            light.color = flashlightColor;
+            light.enabled = true;
+
+            coneLights[i] = light;
+        }
     }
 
     private void Update()
     {
         HandleInput();
+        UpdatePlayerDirection();
         UpdateFlashlightIntensity();
+    }
+
+    private void UpdatePlayerDirection()
+    {
+        // Get movement input to determine flashlight direction
+        float inputX = Input.GetAxis("Horizontal");
+        float inputY = Input.GetAxis("Vertical");
+
+        Vector2 inputDirection = new Vector2(inputX, inputY);
+
+        // Only update direction if there's actual movement input
+        if (inputDirection.magnitude > 0.1f)
+        {
+            lastDirection = inputDirection.normalized;
+        }
+
+        // Update cone light positions and angles
+        if (coneLights != null && coneLights.Length > 0)
+        {
+            float baseAngle = Mathf.Atan2(lastDirection.y, lastDirection.x) * Mathf.Rad2Deg;
+            float coneAngle = 60f;
+            float coneRadius = flashlightRange * 0.15f; // Offset from center
+            float angleStep = coneAngle / (CONE_LIGHT_COUNT - 1);
+
+            for (int i = 0; i < CONE_LIGHT_COUNT; i++)
+            {
+                float currentAngle = baseAngle - (coneAngle / 2) + (i * angleStep);
+                float radians = currentAngle * Mathf.Deg2Rad;
+
+                // Position each light in a cone formation
+                float offsetX = Mathf.Cos(radians) * coneRadius;
+                float offsetY = Mathf.Sin(radians) * coneRadius;
+                coneLights[i].transform.localPosition = new Vector3(offsetX, offsetY, 0);
+            }
+        }
     }
 
     private void HandleInput()
@@ -61,9 +112,6 @@ public class PlayerFlashlight : MonoBehaviour
         {
             isFlashlightOn = !isFlashlightOn;
             targetIntensity = isFlashlightOn ? flashlightIntensity : 0f;
-
-            string status = isFlashlightOn ? "ON" : "OFF";
-            Debug.Log($"[PlayerFlashlight] Flashlight turned {status}");
         }
     }
 
@@ -73,9 +121,15 @@ public class PlayerFlashlight : MonoBehaviour
         float duration = targetIntensity > currentIntensity ? fadeInDuration : fadeOutDuration;
         currentIntensity = Mathf.Lerp(currentIntensity, targetIntensity, Time.deltaTime / duration);
 
-        if (flashlight != null)
+        if (coneLights != null)
         {
-            flashlight.intensity = currentIntensity;
+            foreach (Light2D light in coneLights)
+            {
+                if (light != null)
+                {
+                    light.intensity = currentIntensity / CONE_LIGHT_COUNT; // Divide by light count to prevent overlap brightness
+                }
+            }
         }
     }
 

@@ -48,7 +48,7 @@ public class RestaurantCookingUIController : MonoBehaviour
 
         if (inventory == null)
         {
-            Debug.LogWarning("[RestaurantCookingUIController] InventoryController not found.");
+
             return;
         }
 

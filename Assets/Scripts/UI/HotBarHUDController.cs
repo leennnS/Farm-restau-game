@@ -16,14 +16,14 @@ public class HotBarHUDController : MonoBehaviour
         _uiDocument = GetComponent<UIDocument>();
         if (_uiDocument == null)
         {
-            Debug.LogError("HotBarHUDController: UIDocument component not found!");
+
             return;
         }
 
         _root = _uiDocument.rootVisualElement;
         if (_root == null)
         {
-            Debug.LogError("HotBarHUDController: Root visual element is null!");
+
             return;
         }
 

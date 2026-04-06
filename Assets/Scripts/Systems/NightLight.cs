@@ -17,7 +17,8 @@ public class NightLight : MonoBehaviour
     [Tooltip("Time when light turns OFF (0-24). Default 6 = 6 AM")]
     [SerializeField] private float nightEndTime = 6f;
 
-    [SerializeField] private AnimationCurve nightIntensityCurve = new AnimationCurve(
+    [SerializeField]
+    private AnimationCurve nightIntensityCurve = new AnimationCurve(
         new Keyframe(0f, 0.5f),
         new Keyframe(0.5f, 1.0f),
         new Keyframe(1f, 0.5f)
@@ -33,7 +34,7 @@ public class NightLight : MonoBehaviour
 
         if (light2D == null)
         {
-            Debug.LogError($"[NightLight] No Light2D found on {gameObject.name}!");
+
             enabled = false;
             return;
         }
@@ -42,7 +43,7 @@ public class NightLight : MonoBehaviour
         dayNightCycle = DayNightCycleNice2D.Instance;
         if (dayNightCycle == null)
         {
-            Debug.LogWarning($"[NightLight] DayNightCycleNice2D not found. Light will not update.");
+
             enabled = false;
             return;
         }

@@ -20,7 +20,7 @@ public class PickupToastUIToolkit : MonoBehaviour
 
         if (uiDocument == null)
         {
-            Debug.LogError("[PickupToastUIToolkit] No UIDocument found!");
+
             return;
         }
 

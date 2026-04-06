@@ -167,14 +167,12 @@ public class FruitTreeInteraction : MonoBehaviour
         {
             if (_growthStage < 3)
             {
-                Debug.Log($"[FruitTree] Tree not ready yet. Growth stage: {_growthStage}/3");
+
                 return;
             }
 
             if (CanPick())
                 DoPick();
-            else
-                Debug.Log("[FruitTree] Not ready yet (cooldown).");
         }
     }
 
@@ -187,7 +185,7 @@ public class FruitTreeInteraction : MonoBehaviour
     {
         if (fruitItem == null || pickupPrefab == null)
         {
-            Debug.LogError("[FruitTree] Missing fruit item or pickup prefab.");
+
             return;
         }
 
@@ -212,10 +210,6 @@ public class FruitTreeInteraction : MonoBehaviour
                 pickup.Set(fruitItem, 1);
                 pickup.SetTimeToLive(pickupTtlSeconds);
                 pickup.SetMagnetDelay(pickupMagnetDelaySeconds);
-            }
-            else
-            {
-                Debug.LogWarning("[FruitTree] Pickup prefab missing PickupComponent.");
             }
 
             // Add physics to make fruit fall and clamp to tree bounds
@@ -244,11 +238,6 @@ public class FruitTreeInteraction : MonoBehaviour
             _spriteRenderer.sprite = spriteWithoutFruit;
             _spriteShowsFruit = false;
             _daysSinceSpriteChange = 0;
-            Debug.Log($"[FruitTree] Spawned {fruitCount} {fruitItem.displayName}(s). Sprite changed to no fruit.");
-        }
-        else
-        {
-            Debug.Log($"[FruitTree] Spawned {fruitCount} {fruitItem.displayName}(s). They will fall down...");
         }
     }
 
@@ -265,7 +254,6 @@ public class FruitTreeInteraction : MonoBehaviour
                 _growthStage++;
                 _daysSinceLastStageAdvance = 0;
                 UpdateGrowthSprite();
-                Debug.Log($"[FruitTree] Advanced to growth stage {_growthStage}/3");
             }
         }
 
@@ -279,7 +267,7 @@ public class FruitTreeInteraction : MonoBehaviour
                 {
                     _spriteRenderer.sprite = spriteWithFruit;
                     _spriteShowsFruit = true;
-                    Debug.Log($"[FruitTree] {spriteSwitchBackDays} days passed. Fruit regrew! Sprite switched back.");
+
                 }
             }
         }
@@ -331,7 +319,7 @@ public class FruitTreeInteraction : MonoBehaviour
         _spriteShowsFruit = true;
         _daysSinceSpriteChange = 0;
         UpdateGrowthSprite();
-        Debug.Log("[FruitTree] New sapling initialized at growth stage 0. Will stay seedling for one full day.");
+
     }
 
     /// <summary>

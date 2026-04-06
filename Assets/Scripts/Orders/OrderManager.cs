@@ -121,7 +121,7 @@ public class OrderManager : MonoBehaviour
 
         if (!recipe.IsValidForOrder())
         {
-            Debug.LogWarning($"[OrderManager] Cannot create order from invalid recipe: {recipe.recipeName}");
+
             return false;
         }
 
@@ -135,9 +135,9 @@ public class OrderManager : MonoBehaviour
         _activeOrders.Add(order);
 
         if (logOrderEvents)
-            Debug.Log($"[OrderManager] New order: {recipe.recipeName} ({order.remainingTime:0}s, +{order.rewardMoney})");
 
-        NotifyOrdersChanged();
+
+            NotifyOrdersChanged();
         return true;
     }
 
@@ -163,7 +163,7 @@ public class OrderManager : MonoBehaviour
 
             if (!recipe.IsValidForOrder())
             {
-                Debug.LogWarning($"[OrderManager] Skipping invalid order recipe: {recipe.recipeName}");
+
                 continue;
             }
 
@@ -213,9 +213,9 @@ public class OrderManager : MonoBehaviour
                 MoneyManager.Instance.SpendMoney(order.penaltyMoney);
 
             if (logOrderEvents)
-                Debug.Log($"[OrderManager] Order failed: {order.recipe.recipeName} (-{order.penaltyMoney})");
 
-            OnOrderFailed?.Invoke(order);
+
+                OnOrderFailed?.Invoke(order);
             changed = true;
         }
 
@@ -242,9 +242,9 @@ public class OrderManager : MonoBehaviour
                 MoneyManager.Instance.AddMoney(order.rewardMoney);
 
             if (logOrderEvents)
-                Debug.Log($"[OrderManager] Order completed: {order.recipe.recipeName} (+{order.rewardMoney})");
 
-            OnOrderCompleted?.Invoke(order);
+
+                OnOrderCompleted?.Invoke(order);
             NotifyOrdersChanged();
             return;
         }

@@ -49,6 +49,6 @@ public class CameraFollowFix : MonoBehaviour
 
         cam.Follow = player.transform;
 
-        Debug.Log("[CameraFollowFix] Player assigned successfully.");
+
     }
 }

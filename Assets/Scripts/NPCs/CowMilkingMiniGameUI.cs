@@ -69,7 +69,7 @@ public class CowMilkingMinigameUI : MonoBehaviour
     {
         if (uiDocument == null)
         {
-            Debug.LogError("[Milking UI] UIDocument is missing.");
+
             return;
         }
 

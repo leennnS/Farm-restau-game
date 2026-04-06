@@ -35,8 +35,6 @@ public class CowInteraction : MonoBehaviour
         timeSinceLastMilk = milkCooldown;
 
         milkFlyEffectPrefab = Resources.Load<GameObject>(milkFlyEffectResourcesPath);
-        if (milkFlyEffectPrefab == null)
-            Debug.LogWarning("[Cow] Milk fly effect prefab not found in Resources.");
 
         if (pickupToast == null)
             pickupToast = FindFirstObjectByType<PickupToastUIToolkit>();
@@ -52,8 +50,6 @@ public class CowInteraction : MonoBehaviour
             playerInventory = FindFirstObjectByType<InventoryController>();
 
         milkingUI = FindFirstObjectByType<CowMilkingMinigameUI>();
-        if (milkingUI == null)
-            Debug.LogError("[Cow] No CowMilkingMinigameUI found in scene.");
     }
 
     private void Update()
@@ -76,10 +72,6 @@ public class CowInteraction : MonoBehaviour
             if (CanStartMilking())
             {
                 milkingUI.OpenMilkingGame(this);
-            }
-            else
-            {
-                Debug.Log("[Cow] Cow is not ready yet.");
             }
         }
     }
@@ -112,13 +104,13 @@ public class CowInteraction : MonoBehaviour
 
         if (!success)
         {
-            Debug.Log("[Cow] Milking failed or cancelled.");
+
             return;
         }
 
         if (playerInventory == null || milkItemDefinition == null)
         {
-            Debug.LogError("[Cow] Missing player inventory or milk item definition.");
+
             return;
         }
 
@@ -126,7 +118,7 @@ public class CowInteraction : MonoBehaviour
         {
             timeSinceLastMilk = 0f;
 
-            Debug.Log("[Cow] Milk added to inventory.");
+
 
             if (pickupToast != null)
                 pickupToast.Show($"+{milkQuantity} {milkItemDefinition.displayName}");
@@ -135,7 +127,7 @@ public class CowInteraction : MonoBehaviour
         }
         else
         {
-            Debug.Log("[Cow] Inventory full.");
+
         }
     }
 

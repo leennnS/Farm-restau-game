@@ -67,9 +67,7 @@ public class ClockHUDController : MonoBehaviour
         {
             _clockLabel = clockDocument.rootVisualElement.Q<Label>(labelName);
             if (_clockLabel == null)
-                Debug.LogError($"[ClockHUD] Label '{labelName}' not found in UXML!");
-            else
-                Debug.Log($"[ClockHUD] Found label '{labelName}'");
+                return;
         }
         else
         {
@@ -81,12 +79,12 @@ public class ClockHUDController : MonoBehaviour
         if (cycle == null)
         {
             RebindCycle();
-            Debug.Log("[ClockHUD] Auto-found DayNightCycleNice2D");
+
         }
 
         if (cycle == null)
         {
-            Debug.LogError("[ClockHUD] DayNightCycleNice2D not found in scene!");
+
             return;
         }
 
@@ -96,7 +94,7 @@ public class ClockHUDController : MonoBehaviour
             string initialTime = cycle.GetTimeString();
             _clockLabel.text = initialTime;
             _lastDisplayedTime = initialTime;
-            Debug.Log($"[ClockHUD] Clock initialized: {initialTime}");
+
         }
     }
 

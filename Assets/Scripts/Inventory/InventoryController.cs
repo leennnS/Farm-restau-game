@@ -155,26 +155,12 @@ public class InventoryController : MonoBehaviour
         if (loadedStyleSheet == null)
             loadedStyleSheet = Resources.Load<StyleSheet>("UI/UXML/CookingStyles");
 
-        Debug.Log("ROOT exists? " + (_root != null));
-        Debug.Log("CookingStyles found? " + (loadedStyleSheet != null));
-
         if (loadedStyleSheet != null)
         {
             _root.styleSheets.Add(loadedStyleSheet);
-            Debug.Log("CookingStyles added. Root stylesheet count = " + _root.styleSheets.count);
-        }
-        else
-        {
-            Debug.LogError("CookingStyles.uss was NOT loaded from Resources.");
         }
 
         var loadingContainer = _root.Q<VisualElement>("cookingLoadingContainer");
-        Debug.Log("Loading container found? " + (loadingContainer != null));
-
-        if (loadingContainer != null)
-        {
-            Debug.Log("Loading container classes: " + string.Join(", ", loadingContainer.GetClasses()));
-        }
 
         TryResolveHotbarHUD();
         CacheUI();
@@ -434,20 +420,13 @@ public class InventoryController : MonoBehaviour
 
         float clampedScale = Mathf.Clamp(targetScale, 0.8f, 2.0f);
         inventoryShell.style.scale = new Scale(new Vector2(clampedScale, clampedScale));
-
-        if (debugSlotClicks)
-            Debug.Log($"[InventoryController] Applied inventory UI scale: {clampedScale:0.00} (dpi={Screen.dpi:0.0})");
     }
 
     // NEW: cache inventory slots itemSlot01..itemSlot36 AND hotbarSlot01..hotbarSlot12
     private void CacheInventorySlots()
     {
-        Debug.Log("[InventoryController] CacheInventorySlots called!");
-        Debug.Log($"[InventoryController] _root is null? {_root == null}");
-
         if (_root == null)
         {
-            Debug.LogError("[InventoryController] Cannot cache slots - _root is NULL!");
             return;
         }
 
@@ -477,7 +456,7 @@ public class InventoryController : MonoBehaviour
                 Debug.LogWarning($"Missing slot in UXML: {name}");
             }
         }
-        Debug.Log($"[InventoryController] Found {foundInventorySlots}/{inventorySize} inventory slots");
+
 
         int foundHotbarSlots = 0;
         // Cache hotbar slots separately
@@ -502,7 +481,7 @@ public class InventoryController : MonoBehaviour
                 Debug.LogWarning($"Missing slot in UXML: {name}");
             }
         }
-        Debug.Log($"[InventoryController] Found {foundHotbarSlots}/{HotbarSize} hotbar slots");
+
 
         // Cache trash slot and register mouseup handler
         _trashSlot = _root.Q<VisualElement>("trashSlot");
@@ -510,11 +489,6 @@ public class InventoryController : MonoBehaviour
         {
             _trashSlot.pickingMode = PickingMode.Position;
             _trashSlot.RegisterCallback<MouseUpEvent>(evt => OnTrashSlotMouseUp(evt));
-            Debug.Log("[InventoryController] Trash slot found and hooked");
-        }
-        else
-        {
-            Debug.LogWarning("Missing slot in UXML: trashSlot");
         }
     }
 
@@ -552,13 +526,6 @@ public class InventoryController : MonoBehaviour
 
         if (_quitButton != null)
             _quitButton.clicked += QuitGame;
-
-        // OPTIONAL: slot click debugging
-        if (debugSlotClicks)
-        {
-            HookSlotClicks("itemSlot", inventorySize);
-            MakeClickable(_root.Q<VisualElement>("trashSlot"), "trashSlot");
-        }
 
         // Populate crafting recipes
         if (enableInventoryCookingTab)
@@ -659,7 +626,7 @@ public class InventoryController : MonoBehaviour
 
     private void QuitGame()
     {
-        Debug.Log("Quitting game...");
+
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else
@@ -852,41 +819,16 @@ public class InventoryController : MonoBehaviour
     }
 
     // ----------------------------
-    // OPTIONAL: Slot click debugging (kept)
-    // ----------------------------
-
-    private void HookSlotClicks(string prefix, int count)
-    {
-        for (int i = 1; i <= count; i++)
-        {
-            string name = $"{prefix}{i:00}";
-            var ve = _root.Q<VisualElement>(name);
-            MakeClickable(ve, name);
-        }
-    }
-
-    private void MakeClickable(VisualElement ve, string debugName)
-    {
-        if (ve == null) return;
-
-        ve.pickingMode = PickingMode.Position;
-        ve.RegisterCallback<ClickEvent>(_ =>
-        {
-            Debug.Log($"Clicked: {debugName}");
-        });
-    }
-
-    // ----------------------------
     // Drag and Drop Handlers (NEW)
     // ----------------------------
 
     private void OnInventorySlotMouseDown(int slotIndex, MouseDownEvent evt)
     {
-        Debug.Log($"[InventoryController] OnInventorySlotMouseDown called for slot {slotIndex}");
+
 
         if (_slotsData[slotIndex].item == null || _slotsData[slotIndex].amount <= 0)
         {
-            Debug.Log($"[InventoryController] Slot {slotIndex} is empty, ignoring");
+
             return;
         }
 
@@ -896,9 +838,6 @@ public class InventoryController : MonoBehaviour
         _isDraggingFromHotbar = false;
 
         _draggedSlotElement.style.opacity = 0.5f;
-
-        if (debugSlotClicks)
-            Debug.Log($"Started dragging inventory slot {slotIndex}");
 
         evt.StopPropagation();
     }
@@ -922,8 +861,6 @@ public class InventoryController : MonoBehaviour
             if (_draggedSlotIndex != targetSlotIndex)
             {
                 SwapInventorySlots(_draggedSlotIndex, targetSlotIndex);
-                if (debugSlotClicks)
-                    Debug.Log($"Swapped inventory slots {_draggedSlotIndex} <-> {targetSlotIndex}");
             }
         }
         else
@@ -951,9 +888,6 @@ public class InventoryController : MonoBehaviour
 
         _draggedSlotElement.style.opacity = 0.5f;
 
-        if (debugSlotClicks)
-            Debug.Log($"Started dragging hotbar slot {slotIndex}");
-
         evt.StopPropagation();
     }
 
@@ -976,8 +910,6 @@ public class InventoryController : MonoBehaviour
             if (_draggedSlotIndex != targetSlotIndex)
             {
                 SwapHotbarSlots(_draggedSlotIndex, targetSlotIndex);
-                if (debugSlotClicks)
-                    Debug.Log($"Swapped hotbar slots {_draggedSlotIndex} <-> {targetSlotIndex}");
             }
         }
         else
@@ -1009,8 +941,6 @@ public class InventoryController : MonoBehaviour
             _hotbarData[_draggedSlotIndex] = new ItemStack { item = null, amount = 0 };
             RefreshHotbarSlot(_draggedSlotIndex);
             SyncExternalHotbarSlot(_draggedSlotIndex);
-            if (debugSlotClicks)
-                Debug.Log($"Deleted item from hotbar slot {_draggedSlotIndex}");
         }
         else
         {
@@ -1032,9 +962,6 @@ public class InventoryController : MonoBehaviour
                     }
                 }
             }
-
-            if (debugSlotClicks)
-                Debug.Log($"Deleted item from inventory slot {_draggedSlotIndex}");
         }
 
         ResetDragState();
@@ -1093,9 +1020,6 @@ public class InventoryController : MonoBehaviour
             RefreshInventorySlot(otherIndex);
             SyncExternalHotbarSlot(slotIndex);
         }
-
-        if (debugSlotClicks)
-            Debug.Log($"Swapped inventory and hotbar");
     }
 
     private void CopyInventoryToHotbar(int inventoryIndex, int hotbarIndex)
@@ -1111,8 +1035,6 @@ public class InventoryController : MonoBehaviour
         {
             if (_hotbarData[i].item == source.item)
             {
-                if (debugSlotClicks)
-                    Debug.Log($"Item already exists in hotbar at slot {i}. Cannot add duplicates.");
                 return; // Item already in hotbar, don't add again
             }
         }
@@ -1120,8 +1042,6 @@ public class InventoryController : MonoBehaviour
         // Only add if target slot is empty
         if (_hotbarData[hotbarIndex].item != null)
         {
-            if (debugSlotClicks)
-                Debug.Log($"Hotbar slot {hotbarIndex} is not empty. Swap functionality would apply here.");
             return; // Target slot is occupied, don't overwrite
         }
 
@@ -1133,9 +1053,6 @@ public class InventoryController : MonoBehaviour
 
         RefreshHotbarSlot(hotbarIndex);
         SyncExternalHotbarSlot(hotbarIndex);
-
-        if (debugSlotClicks)
-            Debug.Log($"Copied inventory slot {inventoryIndex} to hotbar slot {hotbarIndex} ({source.amount} items)");
     }
 
     private void MoveHotbarToInventory(int hotbarIndex, int inventoryIndex)
@@ -1151,8 +1068,6 @@ public class InventoryController : MonoBehaviour
         {
             if (_slotsData[i].item == source.item)
             {
-                if (debugSlotClicks)
-                    Debug.Log($"Item already exists in inventory at slot {i}. Cannot add duplicates.");
                 return; // Item already in inventory, don't add again
             }
         }
@@ -1160,8 +1075,6 @@ public class InventoryController : MonoBehaviour
         // Only add if target slot is empty
         if (_slotsData[inventoryIndex].item != null)
         {
-            if (debugSlotClicks)
-                Debug.Log($"Inventory slot {inventoryIndex} is not empty.");
             return; // Target slot is occupied, don't overwrite
         }
 
@@ -1178,9 +1091,6 @@ public class InventoryController : MonoBehaviour
         RefreshInventorySlot(inventoryIndex);
         RefreshHotbarSlot(hotbarIndex);
         SyncExternalHotbarSlot(hotbarIndex);
-
-        if (debugSlotClicks)
-            Debug.Log($"Moved hotbar slot {hotbarIndex} to inventory slot {inventoryIndex}");
     }
 
     private void ResetDragState()
@@ -1262,7 +1172,6 @@ public class InventoryController : MonoBehaviour
     {
         if (_recipeGrid == null)
         {
-            Debug.Log("recipeGrid is NULL");
             return;
         }
 
@@ -1270,7 +1179,6 @@ public class InventoryController : MonoBehaviour
 
         if (recipes == null || recipes.Length == 0)
         {
-            Debug.Log("No recipes assigned.");
             return;
         }
 
@@ -1284,19 +1192,19 @@ public class InventoryController : MonoBehaviour
                 continue;
 
             recipeCount++;
-            Debug.Log($"Recipe: {recipe.recipeName}, Category: {recipe.category}, Current: {_currentRecipeCategory}");
+
 
             // Only show recipes in the current category
             if (recipe.category != _currentRecipeCategory)
                 continue;
 
             matchingCategoryCount++;
-            Debug.Log($"  → Matched category for: {recipe.recipeName}");
+
 
             int ingredientCount = recipe.ingredients != null ? recipe.ingredients.Length : 0;
             if (ingredientCount <= 0)
             {
-                Debug.Log($"  → Skipped {recipe.recipeName}: no ingredients ({ingredientCount})");
+
                 continue;
             }
 
@@ -1339,7 +1247,7 @@ public class InventoryController : MonoBehaviour
             _recipeGrid.Add(dishBox);
         }
 
-        Debug.Log($"Recipe Grid Summary: Total recipes: {recipeCount}, Matching category: {matchingCategoryCount}, With ingredients: {withIngredientsCount}");
+
     }
 
     private void ShowRecipeDetail(RecipeDefinition recipe)
@@ -1547,7 +1455,7 @@ public class InventoryController : MonoBehaviour
         // Wrong item
         if (requiredIngredient.item == null || draggedStack.item != requiredIngredient.item)
         {
-            Debug.Log("Wrong ingredient for this slot.");
+
             ResetCookingDragState();
             evt.StopPropagation();
             return;
@@ -1556,7 +1464,7 @@ public class InventoryController : MonoBehaviour
         // Already full
         if (placedStack.amount >= requiredIngredient.amount)
         {
-            Debug.Log("This ingredient slot is already full.");
+
             ResetCookingDragState();
             evt.StopPropagation();
             return;
@@ -1739,13 +1647,13 @@ public class InventoryController : MonoBehaviour
         {
             if (_cookingRecipeSlotData[i].item != _selectedRecipe.ingredients[i].item)
             {
-                Debug.Log("Wrong ingredient in slot.");
+
                 return;
             }
 
             if (_cookingRecipeSlotData[i].amount < _selectedRecipe.ingredients[i].amount)
             {
-                Debug.Log("Not all ingredients are placed.");
+
                 return;
             }
         }
@@ -1830,7 +1738,7 @@ public class InventoryController : MonoBehaviour
         if (cookedSuccessfully)
             OnRecipeCooked?.Invoke(_selectedRecipe);
 
-        Debug.Log($"Cooked {_selectedRecipe.recipeName}!");
+
     }
     private void ReturnPlacedCookingIngredientsToInventory()
     {
@@ -1951,7 +1859,7 @@ public class InventoryController : MonoBehaviour
     {
         if (recipe == null || !recipe.CanCraft(_slotsData))
         {
-            Debug.Log("Cannot craft recipe: missing ingredients");
+
             return;
         }
 
@@ -1961,7 +1869,7 @@ public class InventoryController : MonoBehaviour
         for (int i = 0; i < _itemSlots.Length; i++)
             RefreshInventorySlot(i);
 
-        Debug.Log($"Crafted {recipe.recipeName}!");
+
     }
 
     // ==================== MAP DISPLAY ====================

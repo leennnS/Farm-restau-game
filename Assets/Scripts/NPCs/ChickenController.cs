@@ -29,55 +29,29 @@ public class ChickenController : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log("[Chicken] Starting up...");
-
         chickenSpriteRenderer = GetComponent<SpriteRenderer>();
-        if (chickenSpriteRenderer == null)
-        {
-            Debug.LogWarning("[Chicken] No SpriteRenderer found on chicken. Dynamic egg spacing will fall back to transform position.");
-        }
 
         if (dayNightCycle == null)
         {
-            // First try the public static accessor (preferred and more reliable)
             dayNightCycle = DayNightCycleNice2D.Instance;
 
             if (dayNightCycle == null)
             {
-                // Fallback to FindFirstObjectByType if static accessor not available
                 dayNightCycle = FindFirstObjectByType<DayNightCycleNice2D>();
             }
-
-            if (dayNightCycle == null)
-                Debug.LogError("[Chicken] ERROR: DayNightCycleNice2D not found in scene!");
-            else
-                Debug.Log("[Chicken] Found DayNightCycleNice2D");
-        }
-        else
-        {
-            Debug.Log("[Chicken] DayNightCycleNice2D was pre-assigned");
         }
 
         if (eggPrefabPath == null)
         {
             eggPrefabPath = Resources.Load<GameObject>("Prefabs/Items/Egg");
-            if (eggPrefabPath == null)
-                Debug.LogError("[Chicken] ERROR: Egg prefab not found! Path: Resources/Prefabs/Items/Egg");
-            else
-                Debug.Log("[Chicken] Loaded Egg prefab from Resources");
-        }
-        else
-        {
-            Debug.Log("[Chicken] Egg prefab was pre-assigned in Inspector");
         }
 
         if (eggItem == null)
-            Debug.LogError("[Chicken] ERROR: Egg Item Definition not assigned in Inspector!");
-        else
-            Debug.Log($"[Chicken] Egg item assigned: {eggItem.displayName}");
+        {
+            return;
+        }
 
         DayNightCycleNice2D.OnDayAdvanced += OnNewDay;
-        Debug.Log("[Chicken] Subscribed to OnDayAdvanced event");
     }
 
     private void OnDestroy()
@@ -89,37 +63,30 @@ public class ChickenController : MonoBehaviour
     {
         hasLaidEggToday = false;
         lastCheckedTime = -1f;
-        Debug.Log("[Chicken] New day started. Egg laying reset.");
+
     }
 
     private void Update()
     {
         if (dayNightCycle == null)
         {
-            // Try to rebind each frame until we find it
             dayNightCycle = DayNightCycleNice2D.Instance;
             if (dayNightCycle == null)
                 dayNightCycle = FindFirstObjectByType<DayNightCycleNice2D>();
 
             if (dayNightCycle == null)
             {
-                if (!_warnedMissingCycle)
-                {
-                    Debug.LogError("[Chicken] ERROR: dayNightCycle is NULL! Cannot check time.");
-                    _warnedMissingCycle = true;
-                }
+                _warnedMissingCycle = true;
                 return;
             }
             else
             {
                 _warnedMissingCycle = false;
-                Debug.Log("[Chicken] Rebound DayNightCycleNice2D at runtime");
             }
         }
 
         if (eggItem == null)
         {
-            Debug.LogError("[Chicken] ERROR: eggItem is NULL! Assign it in Inspector.");
             return;
         }
 
@@ -147,7 +114,6 @@ public class ChickenController : MonoBehaviour
 
         if (inWindow)
         {
-            Debug.Log($"[Chicken] IN LAYING WINDOW! Current hour: {currentHour:F1}, Window: {windowStart}-{windowStart + eggLayingTimeWindow}");
             TryLayEgg();
         }
 
@@ -156,32 +122,29 @@ public class ChickenController : MonoBehaviour
 
     private void TryLayEgg()
     {
-        Debug.Log("[Chicken] TryLayEgg() called");
-
         if (hasLaidEggToday)
         {
-            Debug.LogWarning("[Chicken] Already laid egg today, skipping");
             return;
         }
 
         if (eggPrefabPath == null)
         {
-            Debug.LogError("[Chicken] ERROR: Egg prefab is NULL! Cannot spawn egg.");
+
             return;
         }
 
         Vector3 spawnPos = GetEggSpawnPosition();
 
-        Debug.Log($"[Chicken] Spawning egg at position: {spawnPos}");
+
 
         GameObject eggGO = Instantiate(eggPrefabPath, spawnPos, Quaternion.identity);
         if (eggGO == null)
         {
-            Debug.LogError("[Chicken] ERROR: Failed to instantiate egg prefab!");
+
             return;
         }
 
-        Debug.Log("[Chicken] Egg instantiated successfully");
+
 
         Rigidbody2D rb = eggGO.GetComponent<Rigidbody2D>();
         if (rb != null)
@@ -190,22 +153,22 @@ public class ChickenController : MonoBehaviour
             rb.gravityScale = 0f;
             rb.linearVelocity = Vector2.zero;
             rb.angularVelocity = 0f;
-            Debug.Log("[Chicken] Rigidbody physics disabled (kinematic)");
+
         }
         else
         {
-            Debug.Log("[Chicken] No Rigidbody2D on egg (okay if using trigger pickup only)");
+
         }
 
         Collider2D collider = eggGO.GetComponent<Collider2D>();
         if (collider != null)
         {
             collider.isTrigger = true;
-            Debug.Log($"[Chicken] Collider set to trigger (type: {collider.GetType().Name})");
+
         }
         else
         {
-            Debug.LogError("[Chicken] ERROR: No collider on egg prefab! Pickup won't work.");
+
         }
 
         PickupComponent pickup = eggGO.GetComponent<PickupComponent>();
@@ -213,11 +176,11 @@ public class ChickenController : MonoBehaviour
         {
             pickup.Set(eggItem, eggCount);
             pickup.SetTimeToLive(eggTimeToLive);
-            Debug.Log($"[Chicken] ✓ Egg spawned successfully at {spawnPos}! Item: {eggItem.displayName}, Count: {eggCount}, TTL: {eggTimeToLive}s");
+
         }
         else
         {
-            Debug.LogError("[Chicken] ERROR: Egg prefab missing PickupComponent!");
+
             Destroy(eggGO);
             return;
         }
@@ -225,7 +188,7 @@ public class ChickenController : MonoBehaviour
         MatchEggSortingToChicken(eggGO);
 
         hasLaidEggToday = true;
-        Debug.Log("[Chicken] hasLaidEggToday set to true");
+
     }
 
     private Vector3 GetEggSpawnPosition()

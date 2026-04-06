@@ -27,14 +27,14 @@ public class MoneyDisplayUI : MonoBehaviour
 
         if (uiDocument == null)
         {
-            Debug.LogError("MoneyDisplayUI: UIDocument is missing.");
+
             return;
         }
 
         _moneyLabel = uiDocument.rootVisualElement.Q<Label>(labelName);
 
         if (_moneyLabel == null)
-            Debug.LogWarning($"MoneyDisplayUI: Label '{labelName}' was not found.");
+            return;
     }
 
     private void OnEnable()

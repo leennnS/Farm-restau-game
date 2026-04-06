@@ -18,7 +18,6 @@ public static class CollisionFixerOnLoad
         GameObject player = GameObject.FindWithTag("Player");
         if (player == null)
         {
-            Debug.LogWarning($"CollisionFixerOnLoad: no Player (tag 'Player') found in scene {scene.name}.");
             return;
         }
 
@@ -27,7 +26,6 @@ public static class CollisionFixerOnLoad
         if (constraint == null)
         {
             player.AddComponent<PlayerMovementConstraint>();
-            Debug.Log("CollisionFixerOnLoad: Added PlayerMovementConstraint to player.");
         }
 
         // Ensure player Rigidbody2D uses continuous collision and interpolation for reliable physics
@@ -36,11 +34,6 @@ public static class CollisionFixerOnLoad
         {
             rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
             rb.interpolation = RigidbodyInterpolation2D.Interpolate;
-            Debug.Log("CollisionFixerOnLoad: Configured Rigidbody2D collisionDetectionMode=Continuous and interpolation=Interpolate.");
-        }
-        else
-        {
-            Debug.LogWarning("CollisionFixerOnLoad: Player has no Rigidbody2D; collisions may not behave as expected.");
         }
 
         // Ensure all Collider2D under Grid are non-trigger at runtime (so they block movement)
@@ -57,8 +50,6 @@ public static class CollisionFixerOnLoad
                     changed++;
                 }
             }
-            if (changed > 0)
-                Debug.Log($"CollisionFixerOnLoad: set isTrigger=false on {changed} Collider2D(s) under Grid.");
         }
     }
 }

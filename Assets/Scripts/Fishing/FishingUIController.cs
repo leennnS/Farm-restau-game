@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 using System;
+using System.Collections;
 
 /// <summary>
 /// Manages the fishing mini-game UI. Connects FishingMiniGameController events to UI elements.
@@ -54,6 +55,11 @@ public class FishingUIController : MonoBehaviour
     // State
     private bool isUIActive = false;
     private bool inputEnabled = false;
+
+    // Animation tracking
+    private Color targetTensionColor = Color.white;
+    private float biteShakeTimer = 0f;
+    private bool isShaking = false;
 
     private void Start()
     {
@@ -168,9 +174,6 @@ public class FishingUIController : MonoBehaviour
         if (isUIActive)
             return;
 
-        // Disable player movement
-        DisablePlayerMovement();
-
         isUIActive = true;
         inputEnabled = true;
         rhythmEnergy = 1f; // Reset energy for new catch
@@ -178,16 +181,11 @@ public class FishingUIController : MonoBehaviour
         if (fishingPanel != null)
         {
             fishingPanel.style.display = DisplayStyle.Flex;
-            // Could add opening animation here
         }
 
-        // Hide the orders UI
-        if (orderListHUD != null)
-            orderListHUD.HideOrdersUI();
-
         // Start the mini-game with the specified zone
-        miniGameController.StartFishing(zone);
-        UpdatePhaseUI(FishingState.Casting);
+        if (miniGameController != null)
+            miniGameController.StartFishing(zone);
     }
 
     /// <summary>
@@ -210,20 +208,41 @@ public class FishingUIController : MonoBehaviour
         {
             resultPanel.style.display = DisplayStyle.None;
         }
-
-        // Show orders UI again
-        if (orderListHUD == null)
-            orderListHUD = FindFirstObjectByType<OrderListHUD>();
-
-        if (orderListHUD != null)
-            orderListHUD.ShowOrdersUI();
-
-        // Re-enable player movement
-        EnablePlayerMovement();
     }
 
     private void Update()
     {
+        // Handle bite shake animation
+        if (isShaking)
+        {
+            biteShakeTimer -= Time.deltaTime;
+            if (biteShakeTimer <= 0f)
+            {
+                isShaking = false;
+                // Reset position
+                if (catchPanel != null)
+                    catchPanel.style.transformOrigin = new TransformOrigin(Length.Percent(50), Length.Percent(50));
+            }
+            else
+            {
+                // Shake effect
+                if (catchPanel != null)
+                {
+                    float shake = Mathf.Sin(biteShakeTimer * 20f) * 8f;
+                    catchPanel.style.translate = new Translate(new Length(shake, LengthUnit.Pixel), 0);
+                }
+            }
+        }
+
+        // Smooth tension bar color transitions
+        if (tensionBar != null && targetTensionColor != Color.clear)
+        {
+            Color currentColor = tensionBar.style.backgroundColor.value;
+            Color smoothColor = Color.Lerp(currentColor, targetTensionColor, Time.deltaTime * 5f);
+            tensionBar.style.backgroundColor = smoothColor;
+        }
+
+        // Original game logic
         if (!isUIActive || !inputEnabled)
             return;
 
@@ -346,6 +365,17 @@ public class FishingUIController : MonoBehaviour
             case FishingState.Catching:
                 if (catchPanel != null)
                     catchPanel.style.display = DisplayStyle.Flex;
+
+                // Show the fish image during catching
+                if (catchableImage != null && miniGameController != null)
+                {
+                    CatchableDefinition catchable = miniGameController.GetCurrentCatchable();
+                    if (catchable != null && catchable.catchUICatchableImage != null)
+                    {
+                        catchableImage.image = catchable.catchUICatchableImage;
+                    }
+                }
+
                 UpdatePhaseLabel("Reel in! Manage tension!");
                 break;
 
@@ -374,6 +404,26 @@ public class FishingUIController : MonoBehaviour
         // Visual/audio feedback for bite
         Debug.Log("[FishingUI] Bite occurred!");
 
+        // Shake animation on catch panel
+        if (catchPanel != null)
+        {
+            isShaking = true;
+            biteShakeTimer = 0.3f; // Shake for 0.3 seconds
+        }
+
+        // Tension bar pulse
+        if (tensionBar != null)
+        {
+            // Brief color flash
+            tensionBar.style.backgroundColor = new Color(1f, 1f, 0.2f); // Bright yellow
+        }
+
+        // Scale up the catchable image briefly
+        if (catchableImage != null)
+        {
+            StartCoroutine(ScaleImageBriefly(catchableImage, 1.1f, 0.15f));
+        }
+
         // Could play sound effect, shake screen, etc.
         if (fishingSettings != null && fishingSettings.enableBiteVibration)
         {
@@ -386,6 +436,12 @@ public class FishingUIController : MonoBehaviour
         if (tensionBar != null)
         {
             tensionBar.value = newTension;
+
+            // Pulse animation on high tension
+            if (newTension > 0.75f)
+            {
+                StartCoroutine(PulseTensionBar());
+            }
         }
 
         if (tensionLabel != null)
@@ -393,28 +449,28 @@ public class FishingUIController : MonoBehaviour
             tensionLabel.text = $"Tension: {newTension:P0}";
         }
 
-        // Change color based on tension level
+        // Change color based on tension level with smooth transitions
         if (tensionBar != null && fishingSettings != null)
         {
             if (newTension < fishingSettings.relaxedTensionZoneMax)
             {
                 // Green - safe zone
-                tensionBar.style.backgroundColor = new Color(0.2f, 0.8f, 0.2f);
+                targetTensionColor = new Color(0.2f, 0.8f, 0.2f);
             }
             else if (newTension < fishingSettings.warningTensionStart)
             {
                 // Yellow - caution
-                tensionBar.style.backgroundColor = new Color(1f, 0.8f, 0.2f);
+                targetTensionColor = new Color(1f, 0.8f, 0.2f);
             }
             else if (newTension < fishingSettings.lineBreakerThreshold)
             {
                 // Red - danger
-                tensionBar.style.backgroundColor = new Color(1f, 0.2f, 0.2f);
+                targetTensionColor = new Color(1f, 0.2f, 0.2f);
             }
             else
             {
                 // Dark red - critical
-                tensionBar.style.backgroundColor = new Color(0.8f, 0f, 0f);
+                targetTensionColor = new Color(0.8f, 0f, 0f);
             }
         }
     }
@@ -570,5 +626,69 @@ public class FishingUIController : MonoBehaviour
             FishingResultType.Escaped => "The fish wriggled free.",
             _ => "The catch was unsuccessful."
         };
+    }
+
+    // Animation helper methods
+
+    private IEnumerator ScaleImageBriefly(VisualElement image, float targetScale, float duration)
+    {
+        if (image == null) yield break;
+
+        float elapsed = 0f;
+
+        // Scale up
+        while (elapsed < duration && image != null)
+        {
+            float t = elapsed / duration;
+            float scale = Mathf.Lerp(1f, targetScale, t);
+            image.style.scale = new Scale(new Vector3(scale, scale, scale));
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        // Scale back down
+        elapsed = 0f;
+        while (elapsed < duration * 0.5f && image != null)
+        {
+            float t = elapsed / (duration * 0.5f);
+            float scale = Mathf.Lerp(targetScale, 1f, t);
+            image.style.scale = new Scale(new Vector3(scale, scale, scale));
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        if (image != null)
+            image.style.scale = new Scale(Vector3.one);
+    }
+
+    private IEnumerator PulseTensionBar()
+    {
+        if (tensionBar == null) yield break;
+
+        float duration = 0.2f;
+        float elapsed = 0f;
+
+        // Pulse out
+        while (elapsed < duration)
+        {
+            float t = elapsed / duration;
+            float scale = Mathf.Lerp(1f, 1.15f, t);
+            tensionBar.style.scale = new Scale(new Vector3(scale, scale, scale));
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        // Pulse back
+        elapsed = 0f;
+        while (elapsed < duration)
+        {
+            float t = elapsed / duration;
+            float scale = Mathf.Lerp(1.15f, 1f, t);
+            tensionBar.style.scale = new Scale(new Vector3(scale, scale, scale));
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        tensionBar.style.scale = new Scale(Vector3.one);
     }
 }

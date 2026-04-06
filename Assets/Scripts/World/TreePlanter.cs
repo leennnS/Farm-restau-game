@@ -59,7 +59,6 @@ public class TreePlanter : MonoBehaviour
     {
         if (holeSprite == null)
         {
-            Debug.LogError("[TreePlanter] holeSprite is NOT assigned in inspector!");
             return false;
         }
 
@@ -92,7 +91,6 @@ public class TreePlanter : MonoBehaviour
 
         if (toastUI != null)
             toastUI.Show("Hole dug! Plant a seed here.");
-        Debug.Log($"[TreePlanter] Hole dug at {roundedPos}. Check Hierarchy!");
 
         return true;
     }
@@ -156,7 +154,6 @@ public class TreePlanter : MonoBehaviour
         if (treeScript != null)
         {
             treeScript.InitializeAsNewSapling();
-            Debug.Log($"[TreePlanter] Tree planted in hole at {holePos}");
         }
 
         // Mark hole as having seed and hide hole marker

@@ -97,10 +97,6 @@ public class DayNightCycleNice2D : MonoBehaviour
         if (globalLight == null && mode != LoadSceneMode.Additive)
         {
             globalLight = FindFirstObjectByType<Light2D>();
-            if (globalLight != null)
-                Debug.Log($"[DayNightCycleNice2D] Re-found global light in scene '{scene.name}'");
-            else
-                Debug.LogWarning($"[DayNightCycleNice2D] Could not find Light2D in scene '{scene.name}'. Day/night lighting may not work!");
         }
 
         FitOverlayToCamera();
@@ -141,14 +137,14 @@ public class DayNightCycleNice2D : MonoBehaviour
         {
             TimeNormalized = s_persistentTimeNormalized;
             currentDay = s_persistentDay;
-            Debug.Log($"[DayNightCycleNice2D] Resumed from scene transition: Time={TimeNormalized}, Day={currentDay}");
+
         }
         else if (persistAcrossSessions && PlayerPrefs.HasKey(SavedTimeKey))
         {
             TimeNormalized = Mathf.Repeat(PlayerPrefs.GetFloat(SavedTimeKey, startTimeNormalized), 1f);
             currentDay = Mathf.Max(0, PlayerPrefs.GetInt(SavedDayKey, 0));
             SavePersistentState();
-            Debug.Log($"[DayNightCycleNice2D] Loaded persisted time from disk: Time={TimeNormalized}, Day={currentDay}");
+
         }
         else
         {
@@ -164,7 +160,7 @@ public class DayNightCycleNice2D : MonoBehaviour
                 PlayerPrefs.DeleteKey(SavedDayKey);
             }
 
-            Debug.Log($"[DayNightCycleNice2D] Fresh start: Time={startTimeNormalized}, Day=0");
+
         }
 
         // Mark that we've initialized once in this session
@@ -194,9 +190,10 @@ public class DayNightCycleNice2D : MonoBehaviour
         // Debug moonLight setup
         if (moonLight != null)
         {
-            Debug.Log($"[MoonLight Setup] Found moonLight! Intensity: {moonLight.intensity}, Range: {moonLight.pointLightOuterRadius}, Color: {moonLight.color}");
             if (moonLight.intensity <= 0)
-                Debug.LogError("[MoonLight Setup] ERROR: MoonLight intensity is 0 or negative! Set it to at least 1.0 in the Inspector!");
+            {
+                // Intensity is too low
+            }
         }
 
         Apply();
@@ -302,7 +299,7 @@ public class DayNightCycleNice2D : MonoBehaviour
         {
             if (!_warnedInvalidDayLength)
             {
-                Debug.LogWarning("[DayNightCycleNice2D] dayLengthSeconds was <= 0. Auto-correcting to 60.");
+
                 _warnedInvalidDayLength = true;
             }
 
@@ -319,7 +316,7 @@ public class DayNightCycleNice2D : MonoBehaviour
             currentDay++;
             _hasShownNightNotification = false; // Reset notification flag for new day
             OnDayAdvanced?.Invoke();
-            Debug.Log($"[DayNightCycleNice2D] Day {currentDay} started!");
+
         }
 
         // Show "turn on flashlight" notification at dusk (~6 PM, 0.75)
@@ -576,7 +573,7 @@ public class DayNightCycleNice2D : MonoBehaviour
             new Keyframe(1.0f, 1.0f, 0f, 0f)    // Midnight: strong moonlight
         );
 
-        Debug.Log("DayNightCycleNice2D reset to Stardew-like defaults!");
+
     }
 
     public int GetHour24() => Mathf.FloorToInt(TimeNormalized * 24f) % 24;
@@ -593,7 +590,7 @@ public class DayNightCycleNice2D : MonoBehaviour
         PlayerPrefs.DeleteKey(SavedDayKey);
         PlayerPrefs.Save();
         Apply();
-        Debug.Log("[DayNightCycleNice2D] Reset to new day!");
+
     }
 
     /// <summary>
@@ -605,11 +602,11 @@ public class DayNightCycleNice2D : MonoBehaviour
         if (globalLight != null)
         {
             Apply();
-            Debug.Log("[DayNightCycleNice2D] Lighting refreshed!");
+
         }
         else
         {
-            Debug.LogWarning("[DayNightCycleNice2D] Could not find Light2D for refresh!");
+
         }
     }
 }

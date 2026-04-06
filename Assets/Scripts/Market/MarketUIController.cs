@@ -417,9 +417,9 @@ public class MarketUIController : MonoBehaviour
         if (inventoryBridge != null)
             inventoryBridge.ReceivePurchase(item, 1);
         else
-            Debug.LogWarning("MarketUIController: MarketInventoryBridge is missing.");
 
-        marketSubtitle.text = $"Purchased {item.itemName}.";
+
+            marketSubtitle.text = $"Purchased {item.itemName}.";
         RefreshMoney();
         PopulateAllSections();
     }

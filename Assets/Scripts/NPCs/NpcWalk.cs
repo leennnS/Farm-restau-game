@@ -20,7 +20,7 @@ public class NPCWalker : MonoBehaviour
     {
         if (turnPoint == null || queuePoint == null)
         {
-            Debug.LogError("Assign TurnPoint and QueuePoint!");
+
             return;
         }
 
@@ -55,7 +55,7 @@ public class NPCWalker : MonoBehaviour
             {
                 reachedQueue = true;
 
-                Debug.Log("NPC reached queue");
+
 
                 // STOP animation
                 if (animator != null)
