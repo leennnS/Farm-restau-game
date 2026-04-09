@@ -2225,13 +2225,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Terrain_96
+      name: road
       rect:
         serializedVersion: 2
         x: 0
-        y: 160
-        width: 16
-        height: 16
+        y: 128
+        width: 80
+        height: 48
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -3193,13 +3193,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Terrain_140
+      name: sidesand
       rect:
         serializedVersion: 2
         x: 0
         y: 112
-        width: 16
-        height: 16
+        width: 80
+        height: 23
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -4570,7 +4570,6 @@ TextureImporter:
       Terrain_136: -258470323
       Terrain_139: -1599069084
       Terrain_14: -1173958851
-      Terrain_140: 1277245616
       Terrain_141: 165055445
       Terrain_142: 2099161428
       Terrain_143: 516592621
@@ -4711,7 +4710,6 @@ TextureImporter:
       Terrain_93: 1087154154
       Terrain_94: 133744141
       Terrain_95: -2074032945
-      Terrain_96: 416984621
       Terrain_97: -2095105935
       Terrain_98: -674014021
       Terrain_99: -1837000279
@@ -4719,6 +4717,8 @@ TextureImporter:
       down: -1939378314
       end: -2016637464
       endd: 1493682821
+      road: 416984621
+      sidesand: 1277245616
       straight: -93215528
       straight up: 717327347
       tryyy: -1876424886

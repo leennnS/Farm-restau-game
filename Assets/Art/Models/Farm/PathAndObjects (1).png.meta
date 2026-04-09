@@ -1084,13 +1084,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PathAndObjects (1)_44
+      name: doc
       rect:
         serializedVersion: 2
-        x: 256
-        y: 128
-        width: 64
-        height: 64
+        x: 288
+        y: 100
+        width: 95
+        height: 88
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1348,13 +1348,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: wooden boat
+      name: left boat
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 125
-        height: 65
+        width: 128
+        height: 63
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1392,12 +1392,12 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PathAndObjects (1)_58
+      name: right boat
       rect:
         serializedVersion: 2
         x: 128
         y: 0
-        width: 64
+        width: 129
         height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -1436,13 +1436,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PathAndObjects (1)_60
+      name: legs
       rect:
         serializedVersion: 2
-        x: 256
+        x: 271
         y: 0
-        width: 64
-        height: 64
+        width: 121
+        height: 26
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -1577,7 +1577,6 @@ TextureImporter:
       PathAndObjects (1)_41: -26959452
       PathAndObjects (1)_42: 1710538573
       PathAndObjects (1)_43: 2028926232
-      PathAndObjects (1)_44: 682776646
       PathAndObjects (1)_45: -1463511404
       PathAndObjects (1)_46: -1627294270
       PathAndObjects (1)_47: 1370952637
@@ -1590,10 +1589,8 @@ TextureImporter:
       PathAndObjects (1)_54: 1638584074
       PathAndObjects (1)_55: -930479369
       PathAndObjects (1)_57: 246366002
-      PathAndObjects (1)_58: 488608257
       PathAndObjects (1)_59: 278131726
       PathAndObjects (1)_6: -327282185
-      PathAndObjects (1)_60: 596989887
       PathAndObjects (1)_61: -1469336895
       PathAndObjects (1)_62: 1439517814
       PathAndObjects (1)_63: 678235539
@@ -1601,8 +1598,11 @@ TextureImporter:
       PathAndObjects (1)_8: -1022129103
       PathAndObjects (1)_9: 1446591342
       big dock: 1521662481
+      doc: 682776646
       dock: -827961529
-      wooden boat: 1223031001
+      left boat: 1223031001
+      legs: 596989887
+      right boat: 488608257
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
