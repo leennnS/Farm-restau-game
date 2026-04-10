@@ -23,6 +23,6 @@ MonoBehaviour:
   - item: {fileID: 11400000, guid: 6e9e7b38e7fa6e2409f62b737e973a8b, type: 2}
     amount: 1
   rewardMoney: 35
-  orderPreparationTime: 30
+  orderPreparationTime: 40
   usePenalty: 1
   penaltyMoney: 5

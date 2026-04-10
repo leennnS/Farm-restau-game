@@ -19,6 +19,6 @@ MonoBehaviour:
   recipeIcon: {fileID: -3849930226702274373, guid: 08108cc06c11b594baea863f71d94461, type: 3}
   ingredients: []
   rewardMoney: 15
-  orderPreparationTime: 30
+  orderPreparationTime: 40
   usePenalty: 1
   penaltyMoney: 5

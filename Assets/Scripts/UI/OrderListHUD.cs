@@ -5,6 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class OrderListHUD : MonoBehaviour
 {
+    [Header("Scene Filter")]
+    [SerializeField] private bool runOnlyInRestaurantScene = true;
+    [SerializeField] private string restaurantSceneName = "RestaurantScene";
+
     [Header("Layout")]
     [SerializeField] private Vector2 topLeftOffset = new Vector2(24f, -24f);
     [SerializeField] private Vector2 panelSize = new Vector2(380f, 220f);
@@ -12,67 +16,80 @@ public class OrderListHUD : MonoBehaviour
     [SerializeField] private float fallbackClockHeight = 54f;
 
     [Header("Style")]
-    [SerializeField] private int headerFontSize = 24;
-    [SerializeField] private int bodyFontSize = 18;
+    [SerializeField] private int headerFontSize = 28;
+    [SerializeField] private int bodyFontSize = 24;
     [SerializeField] private Color panelColor = new Color(0.08f, 0.13f, 0.18f, 0.8f);
     [SerializeField] private Color textColor = new Color(0.95f, 0.98f, 1f, 1f);
 
     private Text _ordersText;
     private RectTransform _panelRect;
     private Canvas _canvas;
+    private RestaurantNpcQueueManager _restaurantQueueManager;
 
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
-        BuildHudIfNeeded();
     }
 
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
-        EnsureManagerExists();
-        UpdateAnchorPosition();
-
-        if (OrderManager.Instance != null)
-        {
-            OrderManager.Instance.OnOrdersChanged += HandleOrdersChanged;
-            Refresh(OrderManager.Instance.ActiveOrders);
-        }
+        ResolveRestaurantQueueManager();
+        if (IsSceneAllowed())
+            BuildHudIfNeeded();
+        UpdateVisibility();
+        RefreshFromCurrentSource();
     }
 
     private void OnDisable()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
-        if (OrderManager.Instance != null)
-            OrderManager.Instance.OnOrdersChanged -= HandleOrdersChanged;
+
+        if (_restaurantQueueManager != null)
+            _restaurantQueueManager.OnQueueOrdersChanged -= HandleQueueOrdersChanged;
+
+        _restaurantQueueManager = null;
     }
 
     private void LateUpdate()
     {
+        if (!IsSceneAllowed())
+            return;
+
         UpdateAnchorPosition();
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        UpdateAnchorPosition();
+        ResolveRestaurantQueueManager();
+        if (IsSceneAllowed())
+            BuildHudIfNeeded();
+        UpdateVisibility();
+        RefreshFromCurrentSource();
     }
 
-    private void EnsureManagerExists()
+    private bool IsSceneAllowed()
     {
-        if (OrderManager.Instance != null)
-            return;
+        if (!runOnlyInRestaurantScene)
+            return true;
 
-        OrderManager existing = FindFirstObjectByType<OrderManager>();
-        if (existing != null)
-            return;
+        Scene active = SceneManager.GetActiveScene();
+        string activeName = active.name ?? string.Empty;
+        if (string.Equals(activeName, restaurantSceneName, System.StringComparison.OrdinalIgnoreCase))
+            return true;
 
-        GameObject managerGo = new GameObject("OrderManager");
-        managerGo.AddComponent<OrderManager>();
+        return activeName.IndexOf("restaurant", System.StringComparison.OrdinalIgnoreCase) >= 0;
     }
 
-    private void HandleOrdersChanged(System.Collections.Generic.IReadOnlyList<Order> orders)
+    private void ResolveRestaurantQueueManager()
     {
-        Refresh(orders);
+        if (_restaurantQueueManager != null)
+            return;
+
+        _restaurantQueueManager = FindFirstObjectByType<RestaurantNpcQueueManager>();
+
+        if (_restaurantQueueManager != null)
+            _restaurantQueueManager.OnQueueOrdersChanged += HandleQueueOrdersChanged;
     }
 
     private void BuildHudIfNeeded()
@@ -146,6 +163,20 @@ public class OrderListHUD : MonoBehaviour
         _ordersText.raycastTarget = false;
     }
 
+    private void UpdateVisibility()
+    {
+        if (_canvas == null)
+            return;
+
+        bool visible = IsSceneAllowed();
+        _canvas.enabled = visible;
+
+        if (!visible)
+            return;
+
+        UpdateAnchorPosition();
+    }
+
     private void UpdateAnchorPosition()
     {
         if (_panelRect == null)
@@ -172,7 +203,29 @@ public class OrderListHUD : MonoBehaviour
         _panelRect.anchoredPosition = new Vector2(offset.x, offset.y - clockHeight - spacingBelowClock);
     }
 
-    private void Refresh(System.Collections.Generic.IReadOnlyList<Order> orders)
+    private void HandleQueueOrdersChanged(System.Collections.Generic.IReadOnlyList<RestaurantNpcQueueManager.QueueOrderView> orders)
+    {
+        Refresh(orders);
+    }
+
+    private void RefreshFromCurrentSource()
+    {
+        if (!IsSceneAllowed())
+        {
+            Refresh(null);
+            return;
+        }
+
+        if (_restaurantQueueManager != null)
+        {
+            Refresh(_restaurantQueueManager.GetQueueOrders());
+            return;
+        }
+
+        Refresh(null);
+    }
+
+    private void Refresh(System.Collections.Generic.IReadOnlyList<RestaurantNpcQueueManager.QueueOrderView> orders)
     {
         if (_ordersText == null)
             return;
@@ -190,16 +243,18 @@ public class OrderListHUD : MonoBehaviour
 
         for (int i = 0; i < orders.Count; i++)
         {
-            Order order = orders[i];
-            string name = order.recipe != null ? order.recipe.recipeName : "Unknown";
-            sb.Append(i + 1)
-              .Append(". ")
-              .Append(name)
-              .Append(" | ")
-              .Append(Mathf.CeilToInt(order.remainingTime))
-              .Append("s | +")
-              .Append(order.rewardMoney)
-              .AppendLine();
+            RestaurantNpcQueueManager.QueueOrderView order = orders[i];
+            int seconds = Mathf.Max(0, Mathf.CeilToInt(order.remainingTime));
+            sb.Append("Q")
+                .Append(order.queueIndex)
+  .Append(". ")
+                .Append(order.recipeName)
+                .Append(" | ")
+                .Append(seconds)
+                .Append("s")
+                .Append(" | +")
+                .Append(order.rewardMoney)
+  .AppendLine();
         }
 
         _ordersText.fontSize = bodyFontSize;

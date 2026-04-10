@@ -1217,7 +1217,7 @@ Transform:
   m_GameObject: {fileID: 462093121}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.13, y: 6.38, z: 0}
+  m_LocalPosition: {x: 9.3, y: 6.1, z: 0}
   m_LocalScale: {x: 6.26, y: 0.62, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1770,7 +1770,7 @@ Transform:
   m_GameObject: {fileID: 562060518}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.77, y: 6.18, z: 0}
+  m_LocalPosition: {x: -1.11, y: 5.68, z: 0}
   m_LocalScale: {x: 6.26, y: 0.62, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9021,7 +9021,7 @@ Transform:
   m_GameObject: {fileID: 995370187}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.37, y: -1.42, z: 0}
+  m_LocalPosition: {x: -4.81, y: -1.25, z: 0}
   m_LocalScale: {x: 6.26, y: 0.62, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9116,7 +9116,7 @@ Transform:
   m_GameObject: {fileID: 996689212}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.91, y: 6.41, z: 0}
+  m_LocalPosition: {x: 3.97, y: 5.8, z: 0}
   m_LocalScale: {x: 6.26, y: 0.62, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10762,6 +10762,18 @@ MonoBehaviour:
     description: 
     available: 1
     itemDefinition: {fileID: 11400000, guid: d701864ab178d384f929598c692602ee, type: 2}
+  - itemName: Sugar
+    icon: {fileID: -3413006870710782370, guid: 5879dc754149292478bedd9a37f9dd2e, type: 3}
+    price: 3
+    description: 
+    available: 1
+    itemDefinition: {fileID: 11400000, guid: a75f459dfd23bb340a0da81168120a50, type: 2}
+  - itemName: Salt
+    icon: {fileID: 21300000, guid: c426c992373b24cc3883c5a23a361a83, type: 3}
+    price: 3
+    description: 
+    available: 1
+    itemDefinition: {fileID: 11400000, guid: 6e9e7b38e7fa6e2409f62b737e973a8b, type: 2}
   closeKey: 27
 --- !u!114 &1544411703
 MonoBehaviour:

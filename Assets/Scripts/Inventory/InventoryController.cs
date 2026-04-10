@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
@@ -9,6 +10,8 @@ using UnityEngine.SceneManagement;
 
 public class InventoryController : MonoBehaviour
 {
+    private const string InventorySaveKey = "GlobalInventory";
+
     private static InventoryController _instance;
 
     public static InventoryController Instance => _instance;
@@ -33,6 +36,7 @@ public class InventoryController : MonoBehaviour
     [SerializeField] private bool autoScaleByDevice = true;
     [SerializeField] private float referenceDpi = 96f;
     [SerializeField, Range(1.0f, 1.8f)] private float maxAutoScaleMultiplier = 1.45f;
+    [SerializeField] private ItemDefinition[] knownItemDefinitions;
 
     [Header("Crafting")]
     [SerializeField] private bool enableInventoryCookingTab = false;
@@ -84,6 +88,7 @@ public class InventoryController : MonoBehaviour
     private Button _tabMainDishButton;
     private Button _tabDrinksButton;
     private Button _tabDessertButton;
+    private Button _tabServeButton;
     private Button _backToRecipesButton;
     private Button _cookRecipeButton;
     private VisualElement _cookingLoadingContainer;
@@ -106,6 +111,11 @@ public class InventoryController : MonoBehaviour
 
     private RecipeDefinition _selectedRecipe;
     private RecipeCategory _currentRecipeCategory = RecipeCategory.BreakfastBakery;
+    private bool _isServeMode;
+    private int _selectedServeQueueIndex = -1;
+    private RecipeDefinition _selectedServeRecipe;
+    private Label _serveStatusLabel;
+    private RestaurantNpcQueueManager _restaurantQueueManager;
 
     public event Action<RecipeDefinition> OnRecipeCooked;
 
@@ -132,6 +142,22 @@ public class InventoryController : MonoBehaviour
     private VisualElement _draggedSlotElement;
     private bool _isDragging = false;
     private bool _isDraggingFromHotbar = false;
+    private readonly Dictionary<string, ItemDefinition> _itemLookupByKey = new Dictionary<string, ItemDefinition>(StringComparer.Ordinal);
+    private bool _inventorySaveDirty;
+
+    [Serializable]
+    private struct SavedStackData
+    {
+        public string itemKey;
+        public int amount;
+    }
+
+    [Serializable]
+    private class InventorySaveData
+    {
+        public SavedStackData[] slots;
+        public SavedStackData[] hotbar;
+    }
 
     private void Awake()
     {
@@ -170,6 +196,9 @@ public class InventoryController : MonoBehaviour
 
         _slotsData = new ItemStack[inventorySize];
         _hotbarData = new ItemStack[HotbarSize];
+
+        RebuildItemLookupFromKnownItems();
+        LoadInventoryData();
         RefreshAllSlots();
 
         SetOpen(startOpen);
@@ -222,7 +251,188 @@ public class InventoryController : MonoBehaviour
 
         // Keep external HUD mirrored to inventory slots 1..12.
         SyncExternalHotbarAll();
+
+        if (_inventorySaveDirty)
+            SaveInventoryData();
     }
+
+    private void OnApplicationPause(bool pauseStatus)
+    {
+        if (pauseStatus)
+            SaveInventoryData();
+    }
+
+    private void OnApplicationQuit()
+    {
+        SaveInventoryData();
+    }
+
+    private void MarkInventoryDirty()
+    {
+        _inventorySaveDirty = true;
+    }
+
+    private void SaveInventoryData()
+    {
+        if (_slotsData == null || _hotbarData == null)
+            return;
+
+        InventorySaveData data = new InventorySaveData
+        {
+            slots = BuildSavedStacks(_slotsData),
+            hotbar = BuildSavedStacks(_hotbarData)
+        };
+
+        PlayerPrefs.SetString(InventorySaveKey, JsonUtility.ToJson(data));
+        PlayerPrefs.Save();
+        _inventorySaveDirty = false;
+    }
+
+    private SavedStackData[] BuildSavedStacks(ItemStack[] source)
+    {
+        SavedStackData[] result = new SavedStackData[source.Length];
+        for (int i = 0; i < source.Length; i++)
+        {
+            ItemStack stack = source[i];
+            result[i] = new SavedStackData
+            {
+                itemKey = stack.item != null ? GetItemKey(stack.item) : string.Empty,
+                amount = stack.item != null ? Mathf.Max(0, stack.amount) : 0
+            };
+        }
+
+        return result;
+    }
+
+    private void LoadInventoryData()
+    {
+        if (!PlayerPrefs.HasKey(InventorySaveKey))
+            return;
+
+        string json = PlayerPrefs.GetString(InventorySaveKey, string.Empty);
+        if (string.IsNullOrEmpty(json))
+            return;
+
+        InventorySaveData data = JsonUtility.FromJson<InventorySaveData>(json);
+        if (data == null)
+            return;
+
+        ApplyLoadedStacks(data.slots, _slotsData);
+        ApplyLoadedStacks(data.hotbar, _hotbarData);
+    }
+
+    private void ApplyLoadedStacks(SavedStackData[] source, ItemStack[] target)
+    {
+        if (target == null)
+            return;
+
+        for (int i = 0; i < target.Length; i++)
+            target[i] = new ItemStack { item = null, amount = 0 };
+
+        if (source == null)
+            return;
+
+        int max = Mathf.Min(source.Length, target.Length);
+        for (int i = 0; i < max; i++)
+        {
+            SavedStackData saved = source[i];
+            if (string.IsNullOrEmpty(saved.itemKey) || saved.amount <= 0)
+                continue;
+
+            ItemDefinition item = TryResolveItem(saved.itemKey);
+            if (item == null)
+                continue;
+
+            target[i] = new ItemStack { item = item, amount = Mathf.Max(1, saved.amount) };
+        }
+    }
+
+    private void RebuildItemLookupFromKnownItems()
+    {
+        _itemLookupByKey.Clear();
+
+        if (knownItemDefinitions != null)
+        {
+            for (int i = 0; i < knownItemDefinitions.Length; i++)
+                RegisterItemForLookup(knownItemDefinitions[i]);
+        }
+
+        if (recipes != null)
+        {
+            for (int i = 0; i < recipes.Length; i++)
+            {
+                RecipeDefinition recipe = recipes[i];
+                if (recipe == null)
+                    continue;
+
+                RegisterItemForLookup(recipe.result);
+
+                if (recipe.ingredients == null)
+                    continue;
+
+                for (int j = 0; j < recipe.ingredients.Length; j++)
+                    RegisterItemForLookup(recipe.ingredients[j].item);
+            }
+        }
+
+        RegisterItemForLookup(testItem);
+    }
+
+    private void RegisterItemForLookup(ItemDefinition item)
+    {
+        if (item == null)
+            return;
+
+        string key = GetItemKey(item);
+        if (string.IsNullOrEmpty(key))
+            return;
+
+        if (!_itemLookupByKey.ContainsKey(key))
+            _itemLookupByKey.Add(key, item);
+    }
+
+    private ItemDefinition TryResolveItem(string key)
+    {
+        if (string.IsNullOrEmpty(key))
+            return null;
+
+        if (_itemLookupByKey.TryGetValue(key, out ItemDefinition item))
+            return item;
+
+        return null;
+    }
+
+    private static string GetItemKey(ItemDefinition item)
+    {
+        if (item == null)
+            return string.Empty;
+
+        if (!string.IsNullOrEmpty(item.displayName))
+            return item.displayName;
+
+        return item.name;
+    }
+
+#if UNITY_EDITOR
+    private void OnValidate()
+    {
+        // Keep known item list populated so runtime save-load can resolve items by key.
+        string[] guids = UnityEditor.AssetDatabase.FindAssets("t:ItemDefinition", new[] { "Assets/Items/itemDefinition", "Assets/Resources/Prefabs" });
+        if (guids == null || guids.Length == 0)
+            return;
+
+        List<ItemDefinition> found = new List<ItemDefinition>(guids.Length);
+        for (int i = 0; i < guids.Length; i++)
+        {
+            string path = UnityEditor.AssetDatabase.GUIDToAssetPath(guids[i]);
+            ItemDefinition item = UnityEditor.AssetDatabase.LoadAssetAtPath<ItemDefinition>(path);
+            if (item != null)
+                found.Add(item);
+        }
+
+        knownItemDefinitions = found.ToArray();
+    }
+#endif
 
     public bool IsCookingOnlyModeOpen => _isOpen && _isCookingOnlyMode;
 
@@ -361,6 +571,7 @@ public class InventoryController : MonoBehaviour
         _tabMainDishButton = _root.Q<Button>("tabMainDishButton");
         _tabDrinksButton = _root.Q<Button>("tabDrinksButton");
         _tabDessertButton = _root.Q<Button>("tabDessertButton");
+        EnsureServeTabButton();
         _backToRecipesButton = _root.Q<Button>("backToRecipesButton");
         _cookRecipeButton = _root.Q<Button>("cookRecipeButton");
 
@@ -383,6 +594,7 @@ public class InventoryController : MonoBehaviour
         _cookingLoadingLabel = _root.Q<Label>("cookingLoadingLabel");
         _cookingProgressText = _root.Q<Label>("cookingProgressText");
         _inventoryRootElement = _root.Q<VisualElement>("inventoryRoot");
+        EnsureServeStatusLabel();
 
         if (!enableInventoryCookingTab)
         {
@@ -392,6 +604,35 @@ public class InventoryController : MonoBehaviour
             if (_craftingPage != null)
                 _craftingPage.style.display = DisplayStyle.None;
         }
+    }
+
+    private void EnsureServeTabButton()
+    {
+        if (_tabServeButton != null)
+            return;
+
+        VisualElement tabRow = _tabDessertButton != null ? _tabDessertButton.parent : null;
+        if (tabRow == null)
+            return;
+
+        _tabServeButton = new Button { name = "tabServeButton", text = "Serve" };
+        _tabServeButton.AddToClassList("category-tab");
+        tabRow.Add(_tabServeButton);
+    }
+
+    private void EnsureServeStatusLabel()
+    {
+        if (_serveStatusLabel != null || _recipeBrowserView == null)
+            return;
+
+        _serveStatusLabel = new Label();
+        _serveStatusLabel.name = "serveStatusLabel";
+        _serveStatusLabel.style.fontSize = 13;
+        _serveStatusLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
+        _serveStatusLabel.style.color = new Color(0.23f, 0.16f, 0.09f, 1f);
+        _serveStatusLabel.style.marginBottom = 8;
+        _serveStatusLabel.style.display = DisplayStyle.None;
+        _recipeBrowserView.Insert(0, _serveStatusLabel);
     }
 
     private void ApplyInventoryUiScale()
@@ -545,11 +786,14 @@ public class InventoryController : MonoBehaviour
         if (_tabDessertButton != null)
             _tabDessertButton.clicked += () => ShowRecipeCategory(RecipeCategory.Dessert);
 
+        if (_tabServeButton != null)
+            _tabServeButton.clicked += ShowServeTab;
+
         if (_backToRecipesButton != null)
             _backToRecipesButton.clicked += ShowRecipeBrowser;
 
         if (_cookRecipeButton != null)
-            _cookRecipeButton.clicked += CookSelectedRecipe;
+            _cookRecipeButton.clicked += OnCookOrServePressed;
     }
 
     private void ShowTools()
@@ -576,8 +820,19 @@ public class InventoryController : MonoBehaviour
 
         ShowPage(_craftingPage, _toolsPage, _mapPage, _settingsPage);
         SetFooterVisible(false);
-        ShowRecipeCategory(_currentRecipeCategory);
+        if (_isServeMode)
+            ShowServeTab();
+        else
+            ShowRecipeCategory(_currentRecipeCategory);
         UpdateActiveTopTab(_tabCraftingButton);
+    }
+
+    private void OnCookOrServePressed()
+    {
+        if (_isServeMode)
+            TryServeSelectedOrder();
+        else
+            CookSelectedRecipe();
     }
 
     private void ShowSettings()
@@ -643,6 +898,8 @@ public class InventoryController : MonoBehaviour
     {
         if (item == null || amount <= 0) return false;
 
+        bool changed = false;
+
         // 1) stack into existing
         for (int i = 0; i < _slotsData.Length && amount > 0; i++)
         {
@@ -653,6 +910,7 @@ public class InventoryController : MonoBehaviour
 
                 _slotsData[i].amount += addNow;
                 amount -= addNow;
+                changed = true;
 
                 RefreshSlot(i);
             }
@@ -667,10 +925,14 @@ public class InventoryController : MonoBehaviour
 
                 _slotsData[i] = new ItemStack { item = item, amount = addNow };
                 amount -= addNow;
+                changed = true;
 
                 RefreshSlot(i);
             }
         }
+
+        if (changed)
+            MarkInventoryDirty();
 
         return amount == 0;
     }
@@ -941,6 +1203,7 @@ public class InventoryController : MonoBehaviour
             _hotbarData[_draggedSlotIndex] = new ItemStack { item = null, amount = 0 };
             RefreshHotbarSlot(_draggedSlotIndex);
             SyncExternalHotbarSlot(_draggedSlotIndex);
+            MarkInventoryDirty();
         }
         else
         {
@@ -962,6 +1225,8 @@ public class InventoryController : MonoBehaviour
                     }
                 }
             }
+
+            MarkInventoryDirty();
         }
 
         ResetDragState();
@@ -979,6 +1244,7 @@ public class InventoryController : MonoBehaviour
 
         RefreshSlot(source);
         RefreshSlot(target);
+        MarkInventoryDirty();
     }
 
     private void SwapHotbarSlots(int source, int target)
@@ -994,6 +1260,7 @@ public class InventoryController : MonoBehaviour
         RefreshHotbarSlot(target);
         SyncExternalHotbarSlot(source);
         SyncExternalHotbarSlot(target);
+        MarkInventoryDirty();
     }
 
     private void SwapInventoryAndHotbar(int slotIndex, int otherIndex, bool draggedFromInventory)
@@ -1020,6 +1287,8 @@ public class InventoryController : MonoBehaviour
             RefreshInventorySlot(otherIndex);
             SyncExternalHotbarSlot(slotIndex);
         }
+
+        MarkInventoryDirty();
     }
 
     private void CopyInventoryToHotbar(int inventoryIndex, int hotbarIndex)
@@ -1053,6 +1322,7 @@ public class InventoryController : MonoBehaviour
 
         RefreshHotbarSlot(hotbarIndex);
         SyncExternalHotbarSlot(hotbarIndex);
+        MarkInventoryDirty();
     }
 
     private void MoveHotbarToInventory(int hotbarIndex, int inventoryIndex)
@@ -1091,6 +1361,7 @@ public class InventoryController : MonoBehaviour
         RefreshInventorySlot(inventoryIndex);
         RefreshHotbarSlot(hotbarIndex);
         SyncExternalHotbarSlot(hotbarIndex);
+        MarkInventoryDirty();
     }
 
     private void ResetDragState()
@@ -1124,6 +1395,7 @@ public class InventoryController : MonoBehaviour
         if (_tabMapButton != null) _tabMapButton.clicked -= ShowMap;
         if (_tabCraftingButton != null) _tabCraftingButton.clicked -= ShowCrafting;
         if (_tabSettingsButton != null) _tabSettingsButton.clicked -= ShowSettings;
+        if (_tabServeButton != null) _tabServeButton.clicked -= ShowServeTab;
 
         if (_masterVolumeSlider != null)
             _masterVolumeSlider.UnregisterValueChangedCallback(evt => OnMasterVolumeChanged(evt.newValue));
@@ -1136,20 +1408,70 @@ public class InventoryController : MonoBehaviour
             _exitButton.clicked -= ExitToMenu;
         if (_quitButton != null)
             _quitButton.clicked -= QuitGame;
+
+        if (_cookRecipeButton != null)
+            _cookRecipeButton.clicked -= OnCookOrServePressed;
     }
 
     // ==================== CRAFTING SYSTEM ====================
     private void ShowRecipeCategory(RecipeCategory category)
     {
+        _isServeMode = false;
         _currentRecipeCategory = category;
         Debug.Log($"Switching to recipe category: {category}");
+        SetServeStatus(string.Empty);
+        UpdateActiveCookingSubTab();
         ShowRecipeBrowser();
         PopulateRecipeGrid();
     }
 
+    private void ShowServeTab()
+    {
+        _isServeMode = true;
+        _selectedServeQueueIndex = -1;
+        _selectedServeRecipe = null;
+
+        ShowRecipeBrowser();
+        PopulateServeGrid();
+        UpdateActiveCookingSubTab();
+    }
+
+    private void UpdateActiveCookingSubTab()
+    {
+        _tabBreakfastButton?.RemoveFromClassList("active-category-tab");
+        _tabMainDishButton?.RemoveFromClassList("active-category-tab");
+        _tabDrinksButton?.RemoveFromClassList("active-category-tab");
+        _tabDessertButton?.RemoveFromClassList("active-category-tab");
+        _tabServeButton?.RemoveFromClassList("active-category-tab");
+
+        if (_isServeMode)
+        {
+            _tabServeButton?.AddToClassList("active-category-tab");
+            return;
+        }
+
+        switch (_currentRecipeCategory)
+        {
+            case RecipeCategory.BreakfastBakery:
+                _tabBreakfastButton?.AddToClassList("active-category-tab");
+                break;
+            case RecipeCategory.MainDish:
+                _tabMainDishButton?.AddToClassList("active-category-tab");
+                break;
+            case RecipeCategory.SoupsDrinks:
+                _tabDrinksButton?.AddToClassList("active-category-tab");
+                break;
+            case RecipeCategory.Dessert:
+                _tabDessertButton?.AddToClassList("active-category-tab");
+                break;
+        }
+    }
+
     private void ShowRecipeBrowser()
     {
-        ReturnPlacedCookingIngredientsToInventory();
+        if (!_isServeMode)
+            ReturnPlacedCookingIngredientsToInventory();
+
         _selectedRecipe = null;
 
         if (_recipeBrowserView != null)
@@ -1166,10 +1488,22 @@ public class InventoryController : MonoBehaviour
         if (_backToRecipesButton != null)
             _backToRecipesButton.SetEnabled(true);
 
+        if (_cookRecipeButton != null)
+            _cookRecipeButton.text = _isServeMode ? "Serve" : "Cook";
+
         _isCooking = false;
+
+        if (_isServeMode)
+            PopulateServeGrid();
     }
     private void PopulateRecipeGrid()
     {
+        if (_isServeMode)
+        {
+            PopulateServeGrid();
+            return;
+        }
+
         if (_recipeGrid == null)
         {
             return;
@@ -1248,6 +1582,196 @@ public class InventoryController : MonoBehaviour
         }
 
 
+    }
+
+    private void PopulateServeGrid()
+    {
+        if (_recipeGrid == null)
+            return;
+
+        _recipeGrid.Clear();
+        TryResolveRestaurantQueueManager();
+
+        if (_restaurantQueueManager == null)
+        {
+            SetServeStatus("No queue manager found in this scene.");
+            return;
+        }
+
+        IReadOnlyList<RestaurantNpcQueueManager.QueueOrderView> orders = _restaurantQueueManager.GetQueueOrders();
+        if (orders == null || orders.Count == 0)
+        {
+            SetServeStatus("No customer orders right now.");
+            return;
+        }
+
+        SetServeStatus("Select an order. Only Q0 (front) can be served.");
+
+        for (int i = 0; i < orders.Count; i++)
+        {
+            RestaurantNpcQueueManager.QueueOrderView order = orders[i];
+            int queueIndex = order.queueIndex;
+
+            VisualElement orderBox = new VisualElement();
+            orderBox.style.width = 120;
+            orderBox.style.height = 76;
+            orderBox.style.backgroundColor = queueIndex == 0
+                ? new Color(0.84f, 0.95f, 0.84f, 1f)
+                : new Color(0.96f, 0.91f, 0.82f, 1f);
+            orderBox.style.marginRight = 8;
+            orderBox.style.marginBottom = 8;
+            orderBox.style.paddingLeft = 6;
+            orderBox.style.paddingTop = 6;
+            orderBox.style.borderLeftWidth = 2;
+            orderBox.style.borderRightWidth = 2;
+            orderBox.style.borderTopWidth = 2;
+            orderBox.style.borderBottomWidth = 2;
+            orderBox.style.borderLeftColor = new Color(0.78f, 0.65f, 0.48f, 1f);
+            orderBox.style.borderRightColor = new Color(0.78f, 0.65f, 0.48f, 1f);
+            orderBox.style.borderTopColor = new Color(0.90f, 0.81f, 0.63f, 1f);
+            orderBox.style.borderBottomColor = new Color(0.61f, 0.42f, 0.23f, 1f);
+
+            Label title = new Label($"Q{queueIndex}: {order.recipeName}");
+            title.style.fontSize = 11;
+            title.style.unityFontStyleAndWeight = FontStyle.Bold;
+            orderBox.Add(title);
+
+            Label meta = new Label($"{Mathf.CeilToInt(order.remainingTime)}s | +{order.rewardMoney}");
+            meta.style.fontSize = 10;
+            orderBox.Add(meta);
+
+            orderBox.RegisterCallback<ClickEvent>(_ => ShowServeDetail(queueIndex));
+            _recipeGrid.Add(orderBox);
+        }
+    }
+
+    private void ShowServeDetail(int queueIndex)
+    {
+        TryResolveRestaurantQueueManager();
+        if (_restaurantQueueManager == null)
+        {
+            SetServeStatus("No queue manager found.");
+            return;
+        }
+
+        if (!_restaurantQueueManager.TryGetOrderAtQueueIndex(queueIndex, out RecipeDefinition recipe, out float remainingTime) || recipe == null)
+        {
+            SetServeStatus("Order no longer available.");
+            PopulateServeGrid();
+            return;
+        }
+
+        _selectedServeQueueIndex = queueIndex;
+        _selectedServeRecipe = recipe;
+
+        if (_recipeBrowserView != null)
+            _recipeBrowserView.style.display = DisplayStyle.None;
+
+        if (_recipeDetailView != null)
+            _recipeDetailView.style.display = DisplayStyle.Flex;
+
+        if (_selectedRecipeName != null)
+            _selectedRecipeName.text = $"Serve Q{queueIndex}: {recipe.recipeName} ({Mathf.CeilToInt(remainingTime)}s)";
+
+        if (_selectedRecipeIcon != null)
+        {
+            if (recipe.result != null && recipe.result.icon != null)
+                _selectedRecipeIcon.style.backgroundImage = new StyleBackground(recipe.result.icon);
+            else
+                _selectedRecipeIcon.style.backgroundImage = StyleKeyword.None;
+        }
+
+        if (_requiredIngredientSlots != null)
+        {
+            _requiredIngredientSlots.Clear();
+
+            if (recipe.result != null)
+            {
+                VisualElement slot = new VisualElement();
+                slot.style.width = 48;
+                slot.style.height = 48;
+                slot.style.position = Position.Relative;
+                slot.style.backgroundColor = new Color(0.95f, 0.88f, 0.72f, 1f);
+
+                if (recipe.result.icon != null)
+                    slot.style.backgroundImage = new StyleBackground(recipe.result.icon);
+
+                int haveCount = CountItemInInventory(recipe.result);
+                Label count = new Label($"{haveCount}/1");
+                count.style.position = Position.Absolute;
+                count.style.right = 2;
+                count.style.bottom = 0;
+                count.style.fontSize = 10;
+                count.style.unityFontStyleAndWeight = FontStyle.Bold;
+                count.style.color = new Color(0.23f, 0.16f, 0.09f);
+                slot.Add(count);
+
+                _requiredIngredientSlots.Add(slot);
+            }
+        }
+
+        if (_cookRecipeButton != null)
+        {
+            _cookRecipeButton.text = "Serve";
+            _cookRecipeButton.SetEnabled(queueIndex == 0);
+        }
+
+        SetServeStatus(queueIndex == 0 ? "Ready to serve front customer." : "Only front customer (Q0) can be served.");
+    }
+
+    private void TryServeSelectedOrder()
+    {
+        TryResolveRestaurantQueueManager();
+        if (_restaurantQueueManager == null)
+        {
+            SetServeStatus("No queue manager found.");
+            return;
+        }
+
+        if (_selectedServeQueueIndex != 0)
+        {
+            SetServeStatus("Serve the front customer (Q0) first.");
+            return;
+        }
+
+        bool served = _restaurantQueueManager.TryServeFrontCustomerFromInventory(out string message);
+        SetServeStatus(message);
+
+        RefreshAllSlots();
+
+        if (served)
+        {
+            _selectedServeQueueIndex = -1;
+            _selectedServeRecipe = null;
+            ShowServeTab();
+        }
+        else if (_selectedServeRecipe != null)
+        {
+            ShowServeDetail(0);
+        }
+    }
+
+    private void TryResolveRestaurantQueueManager()
+    {
+        if (_restaurantQueueManager == null)
+            _restaurantQueueManager = FindFirstObjectByType<RestaurantNpcQueueManager>();
+    }
+
+    private void SetServeStatus(string message)
+    {
+        EnsureServeStatusLabel();
+        if (_serveStatusLabel == null)
+            return;
+
+        if (string.IsNullOrEmpty(message))
+        {
+            _serveStatusLabel.style.display = DisplayStyle.None;
+            _serveStatusLabel.text = string.Empty;
+            return;
+        }
+
+        _serveStatusLabel.text = message;
+        _serveStatusLabel.style.display = DisplayStyle.Flex;
     }
 
     private void ShowRecipeDetail(RecipeDefinition recipe)
@@ -1482,6 +2006,7 @@ public class InventoryController : MonoBehaviour
         RefreshInventorySlot(_draggedCookingInventoryIndex);
         PopulateCraftingInventoryFromRealData();
         RefreshCookingIngredientSlotVisual(ingredientSlotIndex);
+        MarkInventoryDirty();
 
         ResetCookingDragState();
         evt.StopPropagation();
@@ -1869,6 +2394,8 @@ public class InventoryController : MonoBehaviour
         for (int i = 0; i < _itemSlots.Length; i++)
             RefreshInventorySlot(i);
 
+        MarkInventoryDirty();
+
 
     }
 
@@ -2018,6 +2545,7 @@ public class InventoryController : MonoBehaviour
         recipe.Craft(ref _slotsData);
         RefreshAllSlots();
         OnRecipeCooked?.Invoke(recipe);
+        MarkInventoryDirty();
 
         message = $"Cooked {recipe.recipeName}!";
         return true;
@@ -2032,6 +2560,7 @@ public class InventoryController : MonoBehaviour
             return false;
 
         int toRemove = amount;
+        bool changed = false;
 
         // Remove from slots in order
         for (int i = 0; i < _slotsData.Length && toRemove > 0; i++)
@@ -2041,6 +2570,7 @@ public class InventoryController : MonoBehaviour
                 int removed = Mathf.Min(toRemove, _slotsData[i].amount);
                 _slotsData[i].amount -= removed;
                 toRemove -= removed;
+                changed = true;
 
                 if (_slotsData[i].amount <= 0)
                     _slotsData[i] = new ItemStack { item = null, amount = 0 };
@@ -2062,12 +2592,16 @@ public class InventoryController : MonoBehaviour
                     _hotbarData[i] = new ItemStack { item = null, amount = 0 };
                     RefreshHotbarSlot(i);
                     SyncExternalHotbarSlot(i);
+                    changed = true;
                 }
             }
         }
 
         // Sync hotbar display
         SyncExternalHotbarAll();
+
+        if (changed)
+            MarkInventoryDirty();
 
         return toRemove == 0;
     }

@@ -30,16 +30,25 @@ public class GlobalMoneyHUD : MonoBehaviour
     private void OnEnable()
     {
         MoneyManager.Instance.OnMoneyChanged += HandleMoneyChanged;
+        MoneyManager.Instance.OnDebtChanged += HandleDebtChanged;
         Refresh();
     }
 
     private void OnDisable()
     {
         if (MoneyManager.HasInstance)
+        {
             MoneyManager.Instance.OnMoneyChanged -= HandleMoneyChanged;
+            MoneyManager.Instance.OnDebtChanged -= HandleDebtChanged;
+        }
     }
 
     private void HandleMoneyChanged(int _)
+    {
+        Refresh();
+    }
+
+    private void HandleDebtChanged(int _)
     {
         Refresh();
     }
@@ -152,6 +161,11 @@ public class GlobalMoneyHUD : MonoBehaviour
         if (_moneyText == null)
             return;
 
-        _moneyText.text = $"{MoneyManager.Instance.CurrentMoney}";
+        int money = MoneyManager.Instance.CurrentMoney;
+        int debt = MoneyManager.Instance.CurrentDebt;
+
+        _moneyText.text = debt > 0
+            ? $"{money}  |  Debt: {debt}"
+            : $"{money}";
     }
 }
