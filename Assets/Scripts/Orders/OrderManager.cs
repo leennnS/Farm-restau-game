@@ -28,8 +28,8 @@ public class OrderManager : MonoBehaviour
     [SerializeField] private int maxActiveOrders = 3;
 
     [Header("Scene Filter")]
-    [SerializeField] private bool runOnlyInRestaurantScene = false;
-    [SerializeField] private string restaurantSceneName = "Restaurant";
+    [SerializeField] private bool runOnlyInRestaurantScene = true;
+    [SerializeField] private string restaurantSceneName = "RestaurantScene";
 
     [Header("Debug")]
     [SerializeField] private bool logOrderEvents = true;
