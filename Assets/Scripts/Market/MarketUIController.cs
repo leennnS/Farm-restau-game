@@ -9,6 +9,9 @@ public class MarketUIController : MonoBehaviour
     [Header("References")]
     [SerializeField] private UIDocument uiDocument;
     [SerializeField] private MarketInventoryBridge inventoryBridge;
+    [SerializeField] private PickupToastUIToolkit toastUI;
+    [SerializeField] private string zeroMoneyLoanHintMessage = "💸 No money? Press L to take a loan.";
+    [SerializeField] private float zeroMoneyLoanHintDuration = 6.0f;
 
     [Header("Items")]
     [FormerlySerializedAs("seedItems")]
@@ -65,6 +68,8 @@ public class MarketUIController : MonoBehaviour
     private MarketSectionType currentSection = MarketSectionType.Seeds;
     private bool isSectionLocked;
     private MarketSectionType lockedSection = MarketSectionType.Seeds;
+    private bool hasShownDebtHintThisOpen;
+    private Coroutine debtHintFallbackRoutine;
 
     public bool IsOpen => !marketRoot.ClassListContains("hidden");
 
@@ -77,6 +82,9 @@ public class MarketUIController : MonoBehaviour
     {
         if (uiDocument == null)
             uiDocument = GetComponent<UIDocument>();
+
+        if (toastUI == null)
+            toastUI = FindFirstObjectByType<PickupToastUIToolkit>();
 
         VisualElement root = uiDocument.rootVisualElement;
 
@@ -163,6 +171,11 @@ public class MarketUIController : MonoBehaviour
     {
         RefreshMoney();
         PopulateAllSections();
+
+        if (newAmount > 0)
+            hasShownDebtHintThisOpen = false;
+
+        TryShowDebtHintToast();
     }
 
     public void OpenSection(MarketSectionType section)
@@ -203,6 +216,7 @@ public class MarketUIController : MonoBehaviour
 
         marketSubtitle.text = GetSubtitle(currentSection);
         RefreshMoney();
+        TryShowDebtHintToast();
     }
 
     private void TrySwitchTab(MarketSectionType section)
@@ -237,6 +251,8 @@ public class MarketUIController : MonoBehaviour
     {
         marketRoot.AddToClassList("hidden");
         isSectionLocked = false;
+        hasShownDebtHintThisOpen = false;
+        StopDebtHintFallback();
         RefreshTabVisibility();
     }
 
@@ -244,7 +260,58 @@ public class MarketUIController : MonoBehaviour
     {
         marketRoot.AddToClassList("hidden");
         isSectionLocked = false;
+        hasShownDebtHintThisOpen = false;
+        StopDebtHintFallback();
         RefreshTabVisibility();
+    }
+
+    private void TryShowDebtHintToast()
+    {
+        if (!IsOpen || hasShownDebtHintThisOpen)
+            return;
+
+        if (MoneyManager.Instance.CurrentMoney > 0)
+            return;
+
+        if (toastUI == null)
+            toastUI = FindFirstObjectByType<PickupToastUIToolkit>();
+
+        if (toastUI != null)
+        {
+            toastUI.Show(zeroMoneyLoanHintMessage, zeroMoneyLoanHintDuration);
+        }
+        else
+        {
+            ShowDebtHintFallback();
+        }
+
+        hasShownDebtHintThisOpen = true;
+    }
+
+    private void ShowDebtHintFallback()
+    {
+        StopDebtHintFallback();
+        SetInteractionHint(zeroMoneyLoanHintMessage, true);
+        debtHintFallbackRoutine = StartCoroutine(HideDebtHintFallbackAfterDelay());
+    }
+
+    private System.Collections.IEnumerator HideDebtHintFallbackAfterDelay()
+    {
+        yield return new WaitForSeconds(zeroMoneyLoanHintDuration);
+
+        if (IsOpen)
+            SetInteractionHint(string.Empty, false);
+
+        debtHintFallbackRoutine = null;
+    }
+
+    private void StopDebtHintFallback()
+    {
+        if (debtHintFallbackRoutine == null)
+            return;
+
+        StopCoroutine(debtHintFallbackRoutine);
+        debtHintFallbackRoutine = null;
     }
 
     public void SetInteractionHint(string message, bool show)

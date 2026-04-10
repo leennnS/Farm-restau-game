@@ -51,6 +51,8 @@ public class DayNightCycleNice2D : MonoBehaviour
     [Tooltip("Real seconds for a full 24h cycle. 60 for testing (fast), 300+ for realistic")]
     [SerializeField] private float dayLengthSeconds = 60f;
     [SerializeField] private bool autoCreateGlobalClockHud = true;
+    [SerializeField] private string lightingSceneName = "FarmScene";
+    [SerializeField] private string[] stableIndoorSceneNames = { "RestaurantScene", "MarketScene" };
 
     [Range(0f, 1f)]
     [Tooltip("0 = midnight, 0.25 = 6AM, 0.5 = noon, 0.75 = 6PM")]
@@ -77,6 +79,7 @@ public class DayNightCycleNice2D : MonoBehaviour
     private bool _warnedInvalidDayLength;
     private float _nextDiskSaveTime;
     private bool _hasShownNightNotification = false; // Track if night notification was shown today
+    private Light2D _runtimeIndoorGlobalLight;
 
     private void OnEnable()
     {
@@ -92,14 +95,26 @@ public class DayNightCycleNice2D : MonoBehaviour
     {
         ResolveRuntimeReferences();
 
+        if (IsStableIndoorScene(scene.name))
+        {
+            ApplyIndoorLightingOverride();
+            return;
+        }
+
+        if (!IsLightingScene(scene.name))
+            return;
+
+        RestoreFarmLightingTargets();
+
         // CRITICAL FIX: Re-find lights after scene load
         // When transitioning scenes, old lights become null, breaking the Apply() method
         if (globalLight == null && mode != LoadSceneMode.Additive)
         {
-            globalLight = FindFirstObjectByType<Light2D>();
+            globalLight = FindSceneGlobalLight();
         }
 
         FitOverlayToCamera();
+        Apply();
     }
 
     private void ResolveRuntimeReferences()
@@ -171,7 +186,7 @@ public class DayNightCycleNice2D : MonoBehaviour
         if (autoCreateGlobalClockHud)
             EnsureGlobalClockHudExists();
 
-        if (globalLight == null) globalLight = FindFirstObjectByType<Light2D>();
+        if (globalLight == null) globalLight = FindSceneGlobalLight();
 
         if (lightColor == null || lightColor.colorKeys.Length == 0 ||
             lightIntensity == null || lightIntensity.length == 0 ||
@@ -369,12 +384,15 @@ public class DayNightCycleNice2D : MonoBehaviour
 
     private void LateUpdate()
     {
+        if (!IsLightingScene(SceneManager.GetActiveScene().name))
+            return;
+
         ResolveRuntimeReferences();
 
         // CRITICAL: Re-find global light if it becomes null (e.g., after scene transitions)
         if (globalLight == null)
         {
-            globalLight = FindFirstObjectByType<Light2D>();
+            globalLight = FindSceneGlobalLight();
         }
 
         // Position overlay in LateUpdate so it matches final camera position (after Cinemachine)
@@ -401,6 +419,9 @@ public class DayNightCycleNice2D : MonoBehaviour
 
     private void Apply()
     {
+        if (!IsLightingScene(SceneManager.GetActiveScene().name))
+            return;
+
         // Global light - handles both day and night coloring/brightness
         if (globalLight != null)
         {
@@ -455,6 +476,25 @@ public class DayNightCycleNice2D : MonoBehaviour
             // If perspective, just scale large enough to cover view
             nightOverlay.transform.localScale = Vector3.one * 100f;
         }
+    }
+
+    private bool IsLightingScene(string sceneName)
+    {
+        return string.Equals(sceneName, lightingSceneName, StringComparison.Ordinal);
+    }
+
+    private bool IsStableIndoorScene(string sceneName)
+    {
+        if (stableIndoorSceneNames == null || stableIndoorSceneNames.Length == 0)
+            return false;
+
+        for (int i = 0; i < stableIndoorSceneNames.Length; i++)
+        {
+            if (string.Equals(sceneName, stableIndoorSceneNames[i], StringComparison.Ordinal))
+                return true;
+        }
+
+        return false;
     }
 
     /// <summary>
@@ -598,7 +638,7 @@ public class DayNightCycleNice2D : MonoBehaviour
     /// </summary>
     public void RefreshLighting()
     {
-        globalLight = FindFirstObjectByType<Light2D>();
+        globalLight = FindSceneGlobalLight();
         if (globalLight != null)
         {
             Apply();
@@ -608,5 +648,117 @@ public class DayNightCycleNice2D : MonoBehaviour
         {
 
         }
+    }
+
+    private void ApplyIndoorLightingOverride()
+    {
+        EnsureIndoorNeutralGlobalLight();
+
+        if (nightOverlay != null)
+        {
+            Color c = nightOverlay.color;
+            nightOverlay.color = new Color(c.r, c.g, c.b, 0f);
+            nightOverlay.enabled = false;
+        }
+
+        if (moonLight != null)
+            moonLight.enabled = false;
+
+        globalLight = null;
+
+        Scene activeScene = SceneManager.GetActiveScene();
+        Light2D[] lights = FindObjectsByType<Light2D>(FindObjectsSortMode.None);
+        for (int i = 0; i < lights.Length; i++)
+        {
+            Light2D l = lights[i];
+            if (l == null)
+                continue;
+
+            if (l.gameObject.scene != activeScene)
+                continue;
+
+            if (l == _runtimeIndoorGlobalLight)
+                continue;
+
+            if (l.lightType != Light2D.LightType.Global)
+                l.enabled = false;
+        }
+    }
+
+    private void RestoreFarmLightingTargets()
+    {
+        if (nightOverlay != null)
+            nightOverlay.enabled = true;
+
+        if (moonLight == null)
+            moonLight = FindScenePointLightByName("MoonLight");
+
+        globalLight = FindSceneGlobalLight();
+    }
+
+    private Light2D FindSceneGlobalLight()
+    {
+        Scene activeScene = SceneManager.GetActiveScene();
+        Light2D[] lights = FindObjectsByType<Light2D>(FindObjectsSortMode.None);
+
+        for (int i = 0; i < lights.Length; i++)
+        {
+            Light2D l = lights[i];
+            if (l == null)
+                continue;
+
+            if (l.gameObject.scene != activeScene)
+                continue;
+
+            if (l.lightType == Light2D.LightType.Global)
+                return l;
+        }
+
+        return null;
+    }
+
+    private Light2D FindScenePointLightByName(string objectName)
+    {
+        Scene activeScene = SceneManager.GetActiveScene();
+        Light2D[] lights = FindObjectsByType<Light2D>(FindObjectsSortMode.None);
+
+        for (int i = 0; i < lights.Length; i++)
+        {
+            Light2D l = lights[i];
+            if (l == null)
+                continue;
+
+            if (l.gameObject.scene != activeScene)
+                continue;
+
+            if (!string.Equals(l.gameObject.name, objectName, StringComparison.Ordinal))
+                continue;
+
+            return l;
+        }
+
+        return null;
+    }
+
+    private void EnsureIndoorNeutralGlobalLight()
+    {
+        Scene activeScene = SceneManager.GetActiveScene();
+
+        if (_runtimeIndoorGlobalLight == null)
+        {
+            GameObject go = new GameObject("IndoorNeutralGlobalLight");
+            SceneManager.MoveGameObjectToScene(go, activeScene);
+            _runtimeIndoorGlobalLight = go.AddComponent<Light2D>();
+            _runtimeIndoorGlobalLight.lightType = Light2D.LightType.Global;
+            _runtimeIndoorGlobalLight.blendStyleIndex = 0;
+        }
+        else if (_runtimeIndoorGlobalLight.gameObject.scene != activeScene)
+        {
+            SceneManager.MoveGameObjectToScene(_runtimeIndoorGlobalLight.gameObject, activeScene);
+        }
+
+        _runtimeIndoorGlobalLight.color = Color.white;
+        _runtimeIndoorGlobalLight.intensity = 1f;
+        _runtimeIndoorGlobalLight.enabled = true;
     }
 }

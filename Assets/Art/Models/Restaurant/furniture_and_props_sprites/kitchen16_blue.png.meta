@@ -1,0 +1,6747 @@
+fileFormatVersion: 2
+guid: 2aa3c74a7b4790b46bcadef89028f74c
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 5277838472310426647
+    second: kitchen16_blue_0
+  - first:
+      213: -8949887024449092159
+    second: kitchen16_blue_1
+  - first:
+      213: -4995851037707434413
+    second: kitchen16_blue_2
+  - first:
+      213: 2234857741012628317
+    second: kitchen16_blue_3
+  - first:
+      213: -4363240689918115029
+    second: kitchen16_blue_4
+  - first:
+      213: 2222399241946453678
+    second: kitchen16_blue_5
+  - first:
+      213: -3289061239979702153
+    second: kitchen16_blue_6
+  - first:
+      213: -3309667084337255798
+    second: kitchen16_blue_7
+  - first:
+      213: -3843777095461340817
+    second: kitchen16_blue_8
+  - first:
+      213: 6761947039672833032
+    second: kitchen16_blue_9
+  - first:
+      213: 400794061504029053
+    second: kitchen16_blue_10
+  - first:
+      213: -8265384066465969757
+    second: kitchen16_blue_11
+  - first:
+      213: -2807104207972129327
+    second: kitchen16_blue_12
+  - first:
+      213: 3022687264098802672
+    second: kitchen16_blue_13
+  - first:
+      213: 4637131648283663410
+    second: kitchen16_blue_14
+  - first:
+      213: -4494039309337625329
+    second: kitchen16_blue_15
+  - first:
+      213: -3435369673165355735
+    second: kitchen16_blue_16
+  - first:
+      213: 6621686589945541279
+    second: kitchen16_blue_17
+  - first:
+      213: -4324354848186473005
+    second: kitchen16_blue_18
+  - first:
+      213: 7777707111217714919
+    second: kitchen16_blue_19
+  - first:
+      213: 1336202389279445563
+    second: kitchen16_blue_20
+  - first:
+      213: -8745598518144766619
+    second: kitchen16_blue_21
+  - first:
+      213: 7928090243892408995
+    second: kitchen16_blue_22
+  - first:
+      213: -8368596871939994237
+    second: kitchen16_blue_23
+  - first:
+      213: -5126382357749601052
+    second: kitchen16_blue_24
+  - first:
+      213: -51771560719954136
+    second: kitchen16_blue_25
+  - first:
+      213: 8105569831202213450
+    second: kitchen16_blue_26
+  - first:
+      213: 1783611057332560534
+    second: kitchen16_blue_27
+  - first:
+      213: -8560858971739381598
+    second: kitchen16_blue_28
+  - first:
+      213: -1898888092925404867
+    second: kitchen16_blue_29
+  - first:
+      213: -52361757994029654
+    second: kitchen16_blue_30
+  - first:
+      213: 1873634785991951390
+    second: kitchen16_blue_31
+  - first:
+      213: -248390034351919105
+    second: kitchen16_blue_32
+  - first:
+      213: 7739687755057659165
+    second: kitchen16_blue_33
+  - first:
+      213: 6873589149071248662
+    second: kitchen16_blue_34
+  - first:
+      213: -7307293919506251385
+    second: kitchen16_blue_35
+  - first:
+      213: 6908302846334051609
+    second: kitchen16_blue_36
+  - first:
+      213: -7722071571486082235
+    second: kitchen16_blue_37
+  - first:
+      213: 1947174668585518350
+    second: kitchen16_blue_38
+  - first:
+      213: 7166793190145232801
+    second: kitchen16_blue_39
+  - first:
+      213: -2507310319104524328
+    second: kitchen16_blue_40
+  - first:
+      213: -7026412910792814334
+    second: kitchen16_blue_41
+  - first:
+      213: 8661520806886228927
+    second: kitchen16_blue_42
+  - first:
+      213: 327207270716550793
+    second: kitchen16_blue_43
+  - first:
+      213: -581377817628787195
+    second: kitchen16_blue_44
+  - first:
+      213: -5610102760218172429
+    second: kitchen16_blue_45
+  - first:
+      213: 6835143435395276038
+    second: kitchen16_blue_46
+  - first:
+      213: 5310999064803966770
+    second: kitchen16_blue_47
+  - first:
+      213: 6040195960466895434
+    second: kitchen16_blue_48
+  - first:
+      213: -4994789147652094164
+    second: kitchen16_blue_49
+  - first:
+      213: 8823123578283039105
+    second: kitchen16_blue_50
+  - first:
+      213: -8077330815538626224
+    second: kitchen16_blue_51
+  - first:
+      213: -7388173952603575690
+    second: kitchen16_blue_52
+  - first:
+      213: 8935997299724214505
+    second: kitchen16_blue_53
+  - first:
+      213: -5455248675505653762
+    second: kitchen16_blue_54
+  - first:
+      213: -1288026918254403018
+    second: kitchen16_blue_55
+  - first:
+      213: 6284461008558286515
+    second: kitchen16_blue_56
+  - first:
+      213: 8622190131050487707
+    second: kitchen16_blue_57
+  - first:
+      213: 6515209114923559750
+    second: kitchen16_blue_58
+  - first:
+      213: 6223664489507146231
+    second: kitchen16_blue_59
+  - first:
+      213: -7987407362013924542
+    second: kitchen16_blue_60
+  - first:
+      213: 3417737165272660490
+    second: kitchen16_blue_61
+  - first:
+      213: 3296887017625519355
+    second: kitchen16_blue_62
+  - first:
+      213: 9047203245797650403
+    second: kitchen16_blue_63
+  - first:
+      213: 8082283893163883827
+    second: kitchen16_blue_64
+  - first:
+      213: -2938253945644900919
+    second: kitchen16_blue_65
+  - first:
+      213: 1133768277984574829
+    second: kitchen16_blue_66
+  - first:
+      213: -4880989367554952756
+    second: kitchen16_blue_67
+  - first:
+      213: -8316232463340704189
+    second: kitchen16_blue_68
+  - first:
+      213: -1854665176804768268
+    second: kitchen16_blue_69
+  - first:
+      213: -364544509397924181
+    second: kitchen16_blue_70
+  - first:
+      213: 1893010332727756478
+    second: kitchen16_blue_71
+  - first:
+      213: -4967507647570704263
+    second: kitchen16_blue_72
+  - first:
+      213: -7099065020614443599
+    second: kitchen16_blue_73
+  - first:
+      213: 2732218037500473581
+    second: kitchen16_blue_74
+  - first:
+      213: 7609057344115471765
+    second: kitchen16_blue_75
+  - first:
+      213: -6068777901063149039
+    second: kitchen16_blue_76
+  - first:
+      213: -6326505021072364654
+    second: kitchen16_blue_77
+  - first:
+      213: -4459117641136785188
+    second: kitchen16_blue_78
+  - first:
+      213: 2864955663470217462
+    second: kitchen16_blue_79
+  - first:
+      213: 8025377814996166234
+    second: kitchen16_blue_80
+  - first:
+      213: 6370999068770253271
+    second: kitchen16_blue_81
+  - first:
+      213: -2523973455825368943
+    second: kitchen16_blue_82
+  - first:
+      213: -265918356681394087
+    second: kitchen16_blue_83
+  - first:
+      213: 1886591364604300778
+    second: kitchen16_blue_84
+  - first:
+      213: 3774007255583833372
+    second: kitchen16_blue_85
+  - first:
+      213: 6530271294232765682
+    second: kitchen16_blue_86
+  - first:
+      213: 1780779474608671553
+    second: kitchen16_blue_87
+  - first:
+      213: 2675475433622182394
+    second: kitchen16_blue_88
+  - first:
+      213: 6407139217969230820
+    second: kitchen16_blue_89
+  - first:
+      213: -2026729080718234174
+    second: kitchen16_blue_90
+  - first:
+      213: 3605986325127459749
+    second: kitchen16_blue_91
+  - first:
+      213: -795215008545507079
+    second: kitchen16_blue_92
+  - first:
+      213: 7860995609306969228
+    second: kitchen16_blue_93
+  - first:
+      213: -9014306118428774986
+    second: kitchen16_blue_94
+  - first:
+      213: 3734766769691246564
+    second: kitchen16_blue_95
+  - first:
+      213: 1482874103558636567
+    second: kitchen16_blue_96
+  - first:
+      213: 8016406315959767850
+    second: kitchen16_blue_97
+  - first:
+      213: -6752392479846762335
+    second: kitchen16_blue_98
+  - first:
+      213: 9015465165712865295
+    second: kitchen16_blue_99
+  - first:
+      213: -3111199552391346808
+    second: kitchen16_blue_100
+  - first:
+      213: 9085566264341407512
+    second: kitchen16_blue_101
+  - first:
+      213: 4211126009176109653
+    second: kitchen16_blue_102
+  - first:
+      213: 6649931477914554214
+    second: kitchen16_blue_103
+  - first:
+      213: -4799191482026484468
+    second: kitchen16_blue_104
+  - first:
+      213: -228533002568278615
+    second: kitchen16_blue_105
+  - first:
+      213: 6116075959541186263
+    second: kitchen16_blue_106
+  - first:
+      213: -6592994732539543521
+    second: kitchen16_blue_107
+  - first:
+      213: 5389553620495312346
+    second: kitchen16_blue_108
+  - first:
+      213: 1982763562230912437
+    second: kitchen16_blue_109
+  - first:
+      213: 4179007089201149716
+    second: kitchen16_blue_110
+  - first:
+      213: 2891421639216017377
+    second: kitchen16_blue_111
+  - first:
+      213: -7339267775446734518
+    second: kitchen16_blue_112
+  - first:
+      213: 8794203807890866131
+    second: kitchen16_blue_113
+  - first:
+      213: 5317730249715064787
+    second: kitchen16_blue_114
+  - first:
+      213: 541903867331477592
+    second: kitchen16_blue_115
+  - first:
+      213: -3634658524558551143
+    second: kitchen16_blue_116
+  - first:
+      213: 878218721091969874
+    second: kitchen16_blue_117
+  - first:
+      213: -8772190561529779292
+    second: kitchen16_blue_118
+  - first:
+      213: -5428469146248695072
+    second: kitchen16_blue_119
+  - first:
+      213: 8818855651824351774
+    second: kitchen16_blue_120
+  - first:
+      213: -1469304709467013619
+    second: kitchen16_blue_121
+  - first:
+      213: -6003484353631484038
+    second: kitchen16_blue_122
+  - first:
+      213: 9179999450011065499
+    second: kitchen16_blue_123
+  - first:
+      213: -5759985469850831981
+    second: kitchen16_blue_124
+  - first:
+      213: 6645240373315656178
+    second: kitchen16_blue_125
+  - first:
+      213: 1808877350073124412
+    second: kitchen16_blue_126
+  - first:
+      213: 1395117066844062891
+    second: kitchen16_blue_127
+  - first:
+      213: 6144697811025273101
+    second: kitchen16_blue_128
+  - first:
+      213: -8921209339769776745
+    second: kitchen16_blue_129
+  - first:
+      213: 2455641148571953590
+    second: kitchen16_blue_130
+  - first:
+      213: 8665915689301394453
+    second: kitchen16_blue_131
+  - first:
+      213: -7943652046245936430
+    second: kitchen16_blue_132
+  - first:
+      213: 6573612571774840738
+    second: kitchen16_blue_133
+  - first:
+      213: -360640073051861756
+    second: kitchen16_blue_134
+  - first:
+      213: 6849696044426894349
+    second: kitchen16_blue_135
+  - first:
+      213: -4196612128401643437
+    second: kitchen16_blue_136
+  - first:
+      213: -5575506879649290375
+    second: kitchen16_blue_137
+  - first:
+      213: -2552487124761546619
+    second: kitchen16_blue_138
+  - first:
+      213: 3717984522836757862
+    second: kitchen16_blue_139
+  - first:
+      213: -1943149129942407936
+    second: kitchen16_blue_140
+  - first:
+      213: 7244796625084858739
+    second: kitchen16_blue_141
+  - first:
+      213: 7092459382465370172
+    second: kitchen16_blue_142
+  - first:
+      213: -6770273489168707857
+    second: kitchen16_blue_143
+  - first:
+      213: -9078253538577250197
+    second: kitchen16_blue_144
+  - first:
+      213: 3127854609281901214
+    second: kitchen16_blue_145
+  - first:
+      213: 4403050050964861501
+    second: kitchen16_blue_146
+  - first:
+      213: 9024930232838924468
+    second: kitchen16_blue_147
+  - first:
+      213: -5405515868102668938
+    second: kitchen16_blue_148
+  - first:
+      213: -4250659645482313701
+    second: kitchen16_blue_149
+  - first:
+      213: -7289239164487491914
+    second: kitchen16_blue_150
+  - first:
+      213: 7025941923299747501
+    second: kitchen16_blue_151
+  - first:
+      213: 8934147917629966852
+    second: kitchen16_blue_152
+  - first:
+      213: 6293144852730823045
+    second: kitchen16_blue_153
+  - first:
+      213: 2047876945563124418
+    second: kitchen16_blue_154
+  - first:
+      213: 4287469984409421759
+    second: kitchen16_blue_155
+  - first:
+      213: 403072908159931583
+    second: kitchen16_blue_156
+  - first:
+      213: 1299956253243868424
+    second: kitchen16_blue_157
+  - first:
+      213: -8313653440635845845
+    second: kitchen16_blue_158
+  - first:
+      213: -3823269923350967815
+    second: kitchen16_blue_159
+  - first:
+      213: -4856544296680231950
+    second: kitchen16_blue_160
+  - first:
+      213: -6979444458172523983
+    second: kitchen16_blue_161
+  - first:
+      213: -6071291600486661080
+    second: kitchen16_blue_162
+  - first:
+      213: -5182131187712983363
+    second: kitchen16_blue_163
+  - first:
+      213: 6854158593302060057
+    second: kitchen16_blue_164
+  - first:
+      213: -7446298140407274174
+    second: kitchen16_blue_165
+  - first:
+      213: -3709562249483700664
+    second: kitchen16_blue_166
+  - first:
+      213: -5546400538882667542
+    second: kitchen16_blue_167
+  - first:
+      213: 9081792958029546188
+    second: kitchen16_blue_168
+  - first:
+      213: -5113116676207583137
+    second: kitchen16_blue_169
+  - first:
+      213: -4361531393786257120
+    second: kitchen16_blue_170
+  - first:
+      213: 4118604087508259427
+    second: kitchen16_blue_171
+  - first:
+      213: -7765764902603727384
+    second: kitchen16_blue_172
+  - first:
+      213: 314265631600427715
+    second: kitchen16_blue_173
+  - first:
+      213: 6377967897918243114
+    second: kitchen16_blue_174
+  - first:
+      213: 2405358425010690354
+    second: kitchen16_blue_175
+  - first:
+      213: -7283194879381746972
+    second: kitchen16_blue_176
+  - first:
+      213: 7061187128319247909
+    second: kitchen16_blue_177
+  - first:
+      213: -4958056881175012510
+    second: kitchen16_blue_178
+  - first:
+      213: -6443649406483980814
+    second: kitchen16_blue_179
+  - first:
+      213: 1334881741903122310
+    second: kitchen16_blue_180
+  - first:
+      213: -608204412709348314
+    second: kitchen16_blue_181
+  - first:
+      213: -7593459456577659511
+    second: kitchen16_blue_182
+  - first:
+      213: 7550914730526301459
+    second: kitchen16_blue_183
+  - first:
+      213: 3718811971267181378
+    second: kitchen16_blue_184
+  - first:
+      213: 8770232980835870066
+    second: kitchen16_blue_185
+  - first:
+      213: -4579792257914990831
+    second: kitchen16_blue_186
+  - first:
+      213: 5231835418968412420
+    second: kitchen16_blue_187
+  - first:
+      213: -8705966325363921270
+    second: kitchen16_blue_188
+  - first:
+      213: -9071245331611894855
+    second: kitchen16_blue_189
+  - first:
+      213: -6014932440781094678
+    second: kitchen16_blue_190
+  - first:
+      213: -6156217342406135889
+    second: kitchen16_blue_191
+  - first:
+      213: 9022365995322904689
+    second: kitchen16_blue_192
+  - first:
+      213: -2257812320540861470
+    second: kitchen16_blue_193
+  - first:
+      213: 7319654664870690191
+    second: kitchen16_blue_194
+  - first:
+      213: 3197378083966563449
+    second: kitchen16_blue_195
+  - first:
+      213: 8848857842187169309
+    second: kitchen16_blue_196
+  - first:
+      213: 5263973225636054204
+    second: kitchen16_blue_197
+  - first:
+      213: -3406928121229309168
+    second: kitchen16_blue_198
+  - first:
+      213: -3565466848388133723
+    second: kitchen16_blue_199
+  - first:
+      213: 4764975685109318038
+    second: kitchen16_blue_200
+  - first:
+      213: -244375693711085169
+    second: kitchen16_blue_201
+  - first:
+      213: -6134310053673400058
+    second: kitchen16_blue_202
+  - first:
+      213: 5428538078833640655
+    second: kitchen16_blue_203
+  - first:
+      213: 4237599985885052000
+    second: kitchen16_blue_204
+  - first:
+      213: -1432885443353862426
+    second: kitchen16_blue_205
+  - first:
+      213: 5904730602600640998
+    second: kitchen16_blue_206
+  - first:
+      213: -4559542006662103325
+    second: kitchen16_blue_207
+  - first:
+      213: -670157565411288507
+    second: kitchen16_blue_208
+  - first:
+      213: -5744838293913252432
+    second: kitchen16_blue_209
+  - first:
+      213: -8084924468546079443
+    second: kitchen16_blue_210
+  - first:
+      213: 4905388131985462753
+    second: kitchen16_blue_211
+  - first:
+      213: -2036774870038295994
+    second: kitchen16_blue_212
+  - first:
+      213: -6122191241662804457
+    second: kitchen16_blue_213
+  - first:
+      213: 9012995584353088387
+    second: kitchen16_blue_214
+  - first:
+      213: -8449779888680939278
+    second: kitchen16_blue_215
+  - first:
+      213: -8042561966869582976
+    second: kitchen16_blue_216
+  - first:
+      213: -4634767872623094247
+    second: kitchen16_blue_217
+  - first:
+      213: 3670437929283716910
+    second: kitchen16_blue_218
+  - first:
+      213: 9140001840388456631
+    second: kitchen16_blue_219
+  - first:
+      213: 8530046918515941871
+    second: kitchen16_blue_220
+  - first:
+      213: 4143765952279574637
+    second: kitchen16_blue_221
+  - first:
+      213: -4278799723517846145
+    second: kitchen16_blue_222
+  - first:
+      213: -1767244351159128863
+    second: kitchen16_blue_223
+  - first:
+      213: 1393520509149894873
+    second: kitchen16_blue_224
+  - first:
+      213: -7911554010397769750
+    second: kitchen16_blue_225
+  - first:
+      213: -920418953538742159
+    second: kitchen16_blue_226
+  - first:
+      213: 1542501156958698905
+    second: kitchen16_blue_227
+  - first:
+      213: 228249999014158928
+    second: kitchen16_blue_228
+  - first:
+      213: -180725012473480115
+    second: kitchen16_blue_229
+  - first:
+      213: -4818541096413457918
+    second: kitchen16_blue_230
+  - first:
+      213: 8001604656010118743
+    second: kitchen16_blue_231
+  - first:
+      213: 5490130195011869698
+    second: kitchen16_blue_232
+  - first:
+      213: 2176080407995714126
+    second: kitchen16_blue_233
+  - first:
+      213: 8572741771406461964
+    second: kitchen16_blue_234
+  - first:
+      213: 990239020552643449
+    second: kitchen16_blue_235
+  - first:
+      213: 8264853444238628380
+    second: kitchen16_blue_236
+  - first:
+      213: -4605153771941075706
+    second: kitchen16_blue_237
+  - first:
+      213: 81656553442462847
+    second: kitchen16_blue_238
+  - first:
+      213: -7147379077073986044
+    second: kitchen16_blue_239
+  - first:
+      213: 9159164472905178802
+    second: kitchen16_blue_240
+  - first:
+      213: 6450212766228995449
+    second: kitchen16_blue_241
+  - first:
+      213: 2792328798121602846
+    second: kitchen16_blue_242
+  - first:
+      213: 24811214333168503
+    second: kitchen16_blue_243
+  - first:
+      213: 7930406340040246701
+    second: kitchen16_blue_244
+  - first:
+      213: 1769790732378970472
+    second: kitchen16_blue_245
+  - first:
+      213: 475127580417569374
+    second: kitchen16_blue_246
+  - first:
+      213: 2217893261090300200
+    second: kitchen16_blue_247
+  - first:
+      213: -2676053912184681864
+    second: kitchen16_blue_248
+  - first:
+      213: 8143941183449968499
+    second: kitchen16_blue_249
+  - first:
+      213: 1590970971156731836
+    second: kitchen16_blue_250
+  - first:
+      213: 1272906035642316737
+    second: kitchen16_blue_251
+  - first:
+      213: -3888763961370919749
+    second: kitchen16_blue_252
+  - first:
+      213: -2854518118395679903
+    second: kitchen16_blue_253
+  - first:
+      213: 8618019113917565430
+    second: kitchen16_blue_254
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: kitchen16_blue_0
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 735
+        width: 15
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 71c04fb9026ae3940800000000000000
+      internalID: 5277838472310426647
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_1
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 751
+        width: 15
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1c585d77b2d9bc380800000000000000
+      internalID: -8949887024449092159
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_2
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 735
+        width: 15
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3568eaa43fb2baab0800000000000000
+      internalID: -4995851037707434413
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_3
+      rect:
+        serializedVersion: 2
+        x: 33
+        y: 751
+        width: 15
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d53f690564fc30f10800000000000000
+      internalID: 2234857741012628317
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_4
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 751
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b2386efb5b7a273c0800000000000000
+      internalID: -4363240689918115029
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_5
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 751
+        width: 18
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ea6d055f55c87de10800000000000000
+      internalID: 2222399241946453678
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_6
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 751
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 778018a7a38ea52d0800000000000000
+      internalID: -3289061239979702153
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_7
+      rect:
+        serializedVersion: 2
+        x: 111
+        y: 751
+        width: 18
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a8a66497253b112d0800000000000000
+      internalID: -3309667084337255798
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_8
+      rect:
+        serializedVersion: 2
+        x: 134
+        y: 751
+        width: 20
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f697e3dc81928aac0800000000000000
+      internalID: -3843777095461340817
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_9
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 751
+        width: 24
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 80414b9910347dd50800000000000000
+      internalID: 6761947039672833032
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_10
+      rect:
+        serializedVersion: 2
+        x: 195
+        y: 734
+        width: 26
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d71a8005318ef8500800000000000000
+      internalID: 400794061504029053
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_11
+      rect:
+        serializedVersion: 2
+        x: 208
+        y: 751
+        width: 15
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3a94f12cbf47b4d80800000000000000
+      internalID: -8265384066465969757
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_12
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 751
+        width: 15
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1d5215478992b09d0800000000000000
+      internalID: -2807104207972129327
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_13
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 735
+        width: 15
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0fbd4b34d0eb2f920800000000000000
+      internalID: 3022687264098802672
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_14
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 735
+        width: 15
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 23c5ba06aa66a5040800000000000000
+      internalID: 4637131648283663410
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_15
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 736
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f0df9400f07f1a1c0800000000000000
+      internalID: -4494039309337625329
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_16
+      rect:
+        serializedVersion: 2
+        x: 54
+        y: 736
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 92544decb7d1350d0800000000000000
+      internalID: -3435369673165355735
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_17
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 734
+        width: 16
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f92fbafced4f4eb50800000000000000
+      internalID: 6621686589945541279
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_18
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 734
+        width: 18
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3d56b1f4d2eccf3c0800000000000000
+      internalID: -4324354848186473005
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_19
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 734
+        width: 16
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7e6592bd867ffeb60800000000000000
+      internalID: 7777707111217714919
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_20
+      rect:
+        serializedVersion: 2
+        x: 111
+        y: 734
+        width: 18
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b3297095ef42b8210800000000000000
+      internalID: 1336202389279445563
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_21
+      rect:
+        serializedVersion: 2
+        x: 134
+        y: 734
+        width: 20
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 56d6cc1eb7461a680800000000000000
+      internalID: -8745598518144766619
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_22
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 734
+        width: 24
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3a2727e621c360e60800000000000000
+      internalID: 7928090243892408995
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_23
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 726
+        width: 15
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 38d4293db75ccdb80800000000000000
+      internalID: -8368596871939994237
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_24
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 723
+        width: 15
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4ec6187086e6bd8b0800000000000000
+      internalID: -5126382357749601052
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_25
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 719
+        width: 10
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 82fc1d13a02184ff0800000000000000
+      internalID: -51771560719954136
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_26
+      rect:
+        serializedVersion: 2
+        x: 47
+        y: 687
+        width: 18
+        height: 45
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a4e4eeaf0d4cc7070800000000000000
+      internalID: 8105569831202213450
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_27
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 724
+        width: 15
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 69224c18ec8a0c810800000000000000
+      internalID: 1783611057332560534
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_28
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 725
+        width: 15
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2a022416f18b13980800000000000000
+      internalID: -8560858971739381598
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_29
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 559
+        width: 33
+        height: 162
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d3956f8175bc5a5e0800000000000000
+      internalID: -1898888092925404867
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_30
+      rect:
+        serializedVersion: 2
+        x: 39
+        y: 689
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aad63fe2249f54ff0800000000000000
+      internalID: -52361757994029654
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_31
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 687
+        width: 116
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e148dd139ec700a10800000000000000
+      internalID: 1873634785991951390
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_32
+      rect:
+        serializedVersion: 2
+        x: 191
+        y: 687
+        width: 18
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fffe4bc649a8d8cf0800000000000000
+      internalID: -248390034351919105
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_33
+      rect:
+        serializedVersion: 2
+        x: 208
+        y: 689
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d1df6a0b105e86b60800000000000000
+      internalID: 7739687755057659165
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_34
+      rect:
+        serializedVersion: 2
+        x: 223
+        y: 559
+        width: 33
+        height: 162
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 61d0f5ac9e4e36f50800000000000000
+      internalID: 6873589149071248662
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_35
+      rect:
+        serializedVersion: 2
+        x: 39
+        y: 673
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 781457a55e6479a90800000000000000
+      internalID: -7307293919506251385
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_36
+      rect:
+        serializedVersion: 2
+        x: 49
+        y: 673
+        width: 15
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 915af8446d83fdf50800000000000000
+      internalID: 6908302846334051609
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_37
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 673
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 54bfd6ba1d0b5d490800000000000000
+      internalID: -7722071571486082235
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_38
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 673
+        width: 16
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e05cda46b01c50b10800000000000000
+      internalID: 1947174668585518350
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_39
+      rect:
+        serializedVersion: 2
+        x: 95
+        y: 673
+        width: 10
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1af8b456f60957360800000000000000
+      internalID: 7166793190145232801
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_40
+      rect:
+        serializedVersion: 2
+        x: 104
+        y: 673
+        width: 16
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8df7a109c8e343dd0800000000000000
+      internalID: -2507310319104524328
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_41
+      rect:
+        serializedVersion: 2
+        x: 119
+        y: 673
+        width: 10
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 201d9f66faa2d7e90800000000000000
+      internalID: -7026412910792814334
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_42
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 673
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fb3cb1d7847e33870800000000000000
+      internalID: 8661520806886228927
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_43
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 673
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 98e2cf277497a8400800000000000000
+      internalID: 327207270716550793
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_44
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 673
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 50eb1f384f78ee7f0800000000000000
+      internalID: -581377817628787195
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_45
+      rect:
+        serializedVersion: 2
+        x: 152
+        y: 673
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3f3e1cf5349e422b0800000000000000
+      internalID: -5610102760218172429
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_46
+      rect:
+        serializedVersion: 2
+        x: 175
+        y: 673
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 60d14978dbe4bde50800000000000000
+      internalID: 6835143435395276038
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_47
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 673
+        width: 15
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 23f7214b28574b940800000000000000
+      internalID: 5310999064803966770
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_48
+      rect:
+        serializedVersion: 2
+        x: 208
+        y: 673
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a42f065493613d350800000000000000
+      internalID: 6040195960466895434
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_49
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 651
+        width: 16
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c278836dbb1feaab0800000000000000
+      internalID: -4994789147652094164
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_50
+      rect:
+        serializedVersion: 2
+        x: 49
+        y: 657
+        width: 16
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1891fe4c528027a70800000000000000
+      internalID: 8823123578283039105
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_51
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 657
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 05101863b6e87ef80800000000000000
+      internalID: -8077330815538626224
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_52
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 657
+        width: 16
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 67a25403feee77990800000000000000
+      internalID: -7388173952603575690
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_53
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 657
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9e069ebf23a030c70800000000000000
+      internalID: 8935997299724214505
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_54
+      rect:
+        serializedVersion: 2
+        x: 104
+        y: 657
+        width: 16
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef7b0179b301b44b0800000000000000
+      internalID: -5455248675505653762
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_55
+      rect:
+        serializedVersion: 2
+        x: 119
+        y: 657
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6322e449752002ee0800000000000000
+      internalID: -1288026918254403018
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_56
+      rect:
+        serializedVersion: 2
+        x: 127
+        y: 657
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3b6e8e3adf3e63750800000000000000
+      internalID: 6284461008558286515
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_57
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 657
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b9f942bed3c28a770800000000000000
+      internalID: 8622190131050487707
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_58
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 657
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 64be764cb2caa6a50800000000000000
+      internalID: 6515209114923559750
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_59
+      rect:
+        serializedVersion: 2
+        x: 152
+        y: 657
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7f9494af0e5ee5650800000000000000
+      internalID: 6223664489507146231
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_60
+      rect:
+        serializedVersion: 2
+        x: 175
+        y: 657
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 243f1d6c257072190800000000000000
+      internalID: -7987407362013924542
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_61
+      rect:
+        serializedVersion: 2
+        x: 191
+        y: 657
+        width: 16
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a0a3ab708dd3e6f20800000000000000
+      internalID: 3417737165272660490
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_62
+      rect:
+        serializedVersion: 2
+        x: 208
+        y: 652
+        width: 15
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bf48a2e5645e0cd20800000000000000
+      internalID: 3296887017625519355
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_63
+      rect:
+        serializedVersion: 2
+        x: 49
+        y: 641
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3efa78cfa6f1e8d70800000000000000
+      internalID: 9047203245797650403
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_64
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 641
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 33df4e9016a0a2070800000000000000
+      internalID: 8082283893163883827
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_65
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 641
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9cd12fd9a993937d0800000000000000
+      internalID: -2938253945644900919
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_66
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 641
+        width: 18
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d6d70eaed34fbbf00800000000000000
+      internalID: 1133768277984574829
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_67
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 641
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc1bd62e70e334cb0800000000000000
+      internalID: -4880989367554952756
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_68
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 641
+        width: 18
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 34e6109c2aec69c80800000000000000
+      internalID: -8316232463340704189
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_69
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 641
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4f5c34f19d7e246e0800000000000000
+      internalID: -1854665176804768268
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_70
+      rect:
+        serializedVersion: 2
+        x: 127
+        y: 641
+        width: 18
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ba6848c33b0e0faf0800000000000000
+      internalID: -364544509397924181
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_71
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 641
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eb6c1663ed2554a10800000000000000
+      internalID: 1893010332727756478
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_72
+      rect:
+        serializedVersion: 2
+        x: 151
+        y: 641
+        width: 18
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 978038f0d1edf0bb0800000000000000
+      internalID: -4967507647570704263
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_73
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 641
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1bdffd8e9fd0b7d90800000000000000
+      internalID: -7099065020614443599
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_74
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 641
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: de0712644d9cae520800000000000000
+      internalID: 2732218037500473581
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_75
+      rect:
+        serializedVersion: 2
+        x: 191
+        y: 641
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5957497075dc89960800000000000000
+      internalID: 7609057344115471765
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_76
+      rect:
+        serializedVersion: 2
+        x: 199
+        y: 641
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 11ae36a17ae57cba0800000000000000
+      internalID: -6068777901063149039
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_77
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 619
+        width: 16
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 29ba14dd33db338a0800000000000000
+      internalID: -6326505021072364654
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_78
+      rect:
+        serializedVersion: 2
+        x: 52
+        y: 625
+        width: 11
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cd83d5c71280e12c0800000000000000
+      internalID: -4459117641136785188
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_79
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 625
+        width: 13
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6f8c26a2ffd52c720800000000000000
+      internalID: 2864955663470217462
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_80
+      rect:
+        serializedVersion: 2
+        x: 92
+        y: 625
+        width: 20
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a56a52b3a9edf5f60800000000000000
+      internalID: 8025377814996166234
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_81
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 625
+        width: 20
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7d93566e5e55a6850800000000000000
+      internalID: 6370999068770253271
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_82
+      rect:
+        serializedVersion: 2
+        x: 131
+        y: 625
+        width: 13
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1988307b38b09fcd0800000000000000
+      internalID: -2523973455825368943
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_83
+      rect:
+        serializedVersion: 2
+        x: 143
+        y: 625
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 958ffbad9a44f4cf0800000000000000
+      internalID: -265918356681394087
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_84
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 625
+        width: 20
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aed0f8bb9d48e2a10800000000000000
+      internalID: 1886591364604300778
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_85
+      rect:
+        serializedVersion: 2
+        x: 169
+        y: 625
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c1d32d87a97ff5430800000000000000
+      internalID: 3774007255583833372
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_86
+      rect:
+        serializedVersion: 2
+        x: 193
+        y: 625
+        width: 11
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2f4acaba42f20aa50800000000000000
+      internalID: 6530271294232765682
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_87
+      rect:
+        serializedVersion: 2
+        x: 208
+        y: 621
+        width: 15
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 14b4b574f7996b810800000000000000
+      internalID: 1780779474608671553
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_88
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 609
+        width: 14
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: af9955a4bb2312520800000000000000
+      internalID: 2675475433622182394
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_89
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 609
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4e3b7891c2bbae850800000000000000
+      internalID: 6407139217969230820
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_90
+      rect:
+        serializedVersion: 2
+        x: 86
+        y: 609
+        width: 26
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2cde5df93ac9fd3e0800000000000000
+      internalID: -2026729080718234174
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_91
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 609
+        width: 26
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5a3732615790b0230800000000000000
+      internalID: 3605986325127459749
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_92
+      rect:
+        serializedVersion: 2
+        x: 137
+        y: 609
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9f8f597b924d6f4f0800000000000000
+      internalID: -795215008545507079
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_93
+      rect:
+        serializedVersion: 2
+        x: 147
+        y: 609
+        width: 26
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c84b5a97bddd71d60800000000000000
+      internalID: 7860995609306969228
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_94
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 609
+        width: 14
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6bd2c6a5850c6e280800000000000000
+      internalID: -9014306118428774986
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_95
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 593
+        width: 12
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4ef3162e69e84d330800000000000000
+      internalID: 3734766769691246564
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_96
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 593
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7140d3df32a349410800000000000000
+      internalID: 1482874103558636567
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_97
+      rect:
+        serializedVersion: 2
+        x: 87
+        y: 593
+        width: 50
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a23daf5521fff3f60800000000000000
+      internalID: 8016406315959767850
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_98
+      rect:
+        serializedVersion: 2
+        x: 136
+        y: 593
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1a8f6b6b0deaa42a0800000000000000
+      internalID: -6752392479846762335
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_99
+      rect:
+        serializedVersion: 2
+        x: 145
+        y: 593
+        width: 14
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f08393f5dcd5d1d70800000000000000
+      internalID: 9015465165712865295
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_100
+      rect:
+        serializedVersion: 2
+        x: 209
+        y: 593
+        width: 12
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8850c5ead7cc2d4d0800000000000000
+      internalID: -3111199552391346808
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_101
+      rect:
+        serializedVersion: 2
+        x: 33
+        y: 577
+        width: 15
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 817a759416a661e70800000000000000
+      internalID: 9085566264341407512
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_102
+      rect:
+        serializedVersion: 2
+        x: 49
+        y: 577
+        width: 15
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 552b9593bcce07a30800000000000000
+      internalID: 4211126009176109653
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_103
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 577
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 66f09c1427d494c50800000000000000
+      internalID: 6649931477914554214
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_104
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 577
+        width: 16
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c0d1bb836c8d56db0800000000000000
+      internalID: -4799191482026484468
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_105
+      rect:
+        serializedVersion: 2
+        x: 95
+        y: 577
+        width: 10
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9add67ae17614dcf0800000000000000
+      internalID: -228533002568278615
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_106
+      rect:
+        serializedVersion: 2
+        x: 104
+        y: 577
+        width: 16
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7de32cb4eaaa0e450800000000000000
+      internalID: 6116075959541186263
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_107
+      rect:
+        serializedVersion: 2
+        x: 119
+        y: 577
+        width: 10
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f1085f0d83af084a0800000000000000
+      internalID: -6592994732539543521
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_108
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 577
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ad52b87767a8bca40800000000000000
+      internalID: 5389553620495312346
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_109
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 577
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5b59c5864f0348b10800000000000000
+      internalID: 1982763562230912437
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_110
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 577
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4177ca96ec0def930800000000000000
+      internalID: 4179007089201149716
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_111
+      rect:
+        serializedVersion: 2
+        x: 152
+        y: 577
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1ef295559a4602820800000000000000
+      internalID: 2891421639216017377
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_112
+      rect:
+        serializedVersion: 2
+        x: 175
+        y: 577
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a49a605e7dea52a90800000000000000
+      internalID: -7339267775446734518
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_113
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 577
+        width: 15
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3dff8b305c94b0a70800000000000000
+      internalID: 8794203807890866131
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_114
+      rect:
+        serializedVersion: 2
+        x: 208
+        y: 577
+        width: 15
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3df9d91dc7f5cc940800000000000000
+      internalID: 5317730249715064787
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_115
+      rect:
+        serializedVersion: 2
+        x: 49
+        y: 561
+        width: 16
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 85004ba32ba358700800000000000000
+      internalID: 541903867331477592
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_116
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 561
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 99797d344591f8dc0800000000000000
+      internalID: -3634658524558551143
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_117
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 561
+        width: 16
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 253e8c9164f003c00800000000000000
+      internalID: 878218721091969874
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_118
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 561
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4ababfd492be24680800000000000000
+      internalID: -8772190561529779292
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_119
+      rect:
+        serializedVersion: 2
+        x: 104
+        y: 561
+        width: 16
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0e2bdaf92143aa4b0800000000000000
+      internalID: -5428469146248695072
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_120
+      rect:
+        serializedVersion: 2
+        x: 119
+        y: 561
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e1abf64bd7ed26a70800000000000000
+      internalID: 8818855651824351774
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_121
+      rect:
+        serializedVersion: 2
+        x: 127
+        y: 561
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d0ef865c62bfb9be0800000000000000
+      internalID: -1469304709467013619
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_122
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 561
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a770e27c9c65faca0800000000000000
+      internalID: -6003484353631484038
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_123
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 561
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b9cd030bcd8e56f70800000000000000
+      internalID: 9179999450011065499
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_124
+      rect:
+        serializedVersion: 2
+        x: 152
+        y: 561
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 393312e9bbb6010b0800000000000000
+      internalID: -5759985469850831981
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_125
+      rect:
+        serializedVersion: 2
+        x: 175
+        y: 561
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2f9509a59e2a83c50800000000000000
+      internalID: 6645240373315656178
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_126
+      rect:
+        serializedVersion: 2
+        x: 191
+        y: 561
+        width: 16
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c36cb55bd5c6a1910800000000000000
+      internalID: 1808877350073124412
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_127
+      rect:
+        serializedVersion: 2
+        x: 49
+        y: 545
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ba44355a4937c5310800000000000000
+      internalID: 1395117066844062891
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_128
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 545
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d0128466a1a564550800000000000000
+      internalID: 6144697811025273101
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_129
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 545
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 79510204f5f713480800000000000000
+      internalID: -8921209339769776745
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_130
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 545
+        width: 18
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6b9a6743d90341220800000000000000
+      internalID: 2455641148571953590
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_131
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 545
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5144b4ac764834870800000000000000
+      internalID: 8665915689301394453
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_132
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 545
+        width: 18
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2d2c43c1d8a72c190800000000000000
+      internalID: -7943652046245936430
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_133
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 545
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2af6ea73ec92a3b50800000000000000
+      internalID: 6573612571774840738
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_134
+      rect:
+        serializedVersion: 2
+        x: 127
+        y: 545
+        width: 18
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 40d09f9a3cfbefaf0800000000000000
+      internalID: -360640073051861756
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_135
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 545
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d0c967bd2420f0f50800000000000000
+      internalID: 6849696044426894349
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_136
+      rect:
+        serializedVersion: 2
+        x: 151
+        y: 545
+        width: 18
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 358268af083a2c5c0800000000000000
+      internalID: -4196612128401643437
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_137
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 545
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 977e1c38802df92b0800000000000000
+      internalID: -5575506879649290375
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_138
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 545
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 58074d2db7eb39cd0800000000000000
+      internalID: -2552487124761546619
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_139
+      rect:
+        serializedVersion: 2
+        x: 191
+        y: 545
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 66dc51c893fe89330800000000000000
+      internalID: 3717984522836757862
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_140
+      rect:
+        serializedVersion: 2
+        x: 199
+        y: 545
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0056c2c592c8805e0800000000000000
+      internalID: -1943149129942407936
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_141
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 495
+        width: 25
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 371c12c5520ba8460800000000000000
+      internalID: 7244796625084858739
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_142
+      rect:
+        serializedVersion: 2
+        x: 52
+        y: 529
+        width: 11
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c381cbb1b3a7d6260800000000000000
+      internalID: 7092459382465370172
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_143
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 529
+        width: 13
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: feecaddc1282b02a0800000000000000
+      internalID: -6770273489168707857
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_144
+      rect:
+        serializedVersion: 2
+        x: 92
+        y: 529
+        width: 20
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b688b2c5180930280800000000000000
+      internalID: -9078253538577250197
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_145
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 529
+        width: 20
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e92e05fe13f586b20800000000000000
+      internalID: 3127854609281901214
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_146
+      rect:
+        serializedVersion: 2
+        x: 131
+        y: 529
+        width: 13
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d32b60861b6ca1d30800000000000000
+      internalID: 4403050050964861501
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_147
+      rect:
+        serializedVersion: 2
+        x: 143
+        y: 529
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4b82c0b0b3efe3d70800000000000000
+      internalID: 9024930232838924468
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_148
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 529
+        width: 20
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 67dc00625ffbbf4b0800000000000000
+      internalID: -5405515868102668938
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_149
+      rect:
+        serializedVersion: 2
+        x: 169
+        y: 529
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b1850f9c29f9205c0800000000000000
+      internalID: -4250659645482313701
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_150
+      rect:
+        serializedVersion: 2
+        x: 193
+        y: 529
+        width: 11
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6be9bd5999b67da90800000000000000
+      internalID: -7289239164487491914
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_151
+      rect:
+        serializedVersion: 2
+        x: 231
+        y: 495
+        width: 25
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: da66ec644f8218160800000000000000
+      internalID: 7025941923299747501
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_152
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 513
+        width: 14
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 40a412922387cfb70800000000000000
+      internalID: 8934147917629966852
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_153
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 513
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 581491ba6edb55750800000000000000
+      internalID: 6293144852730823045
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_154
+      rect:
+        serializedVersion: 2
+        x: 86
+        y: 513
+        width: 26
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2c2800c5b358b6c10800000000000000
+      internalID: 2047876945563124418
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_155
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 513
+        width: 26
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fb78fdd1c37208b30800000000000000
+      internalID: 4287469984409421759
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_156
+      rect:
+        serializedVersion: 2
+        x: 137
+        y: 513
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fb4d475aca0089500800000000000000
+      internalID: 403072908159931583
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_157
+      rect:
+        serializedVersion: 2
+        x: 147
+        y: 513
+        width: 26
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 805062a235f5a0210800000000000000
+      internalID: 1299956253243868424
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_158
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 513
+        width: 14
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b23423d4e38ff9c80800000000000000
+      internalID: -8313653440635845845
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_159
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 497
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9f90b32e24401fac0800000000000000
+      internalID: -3823269923350967815
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_160
+      rect:
+        serializedVersion: 2
+        x: 87
+        y: 497
+        width: 50
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2fbec6871b61a9cb0800000000000000
+      internalID: -4856544296680231950
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_161
+      rect:
+        serializedVersion: 2
+        x: 136
+        y: 497
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 13ade057e38042f90800000000000000
+      internalID: -6979444458172523983
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_162
+      rect:
+        serializedVersion: 2
+        x: 145
+        y: 497
+        width: 14
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8240e29d4707ebba0800000000000000
+      internalID: -6071291600486661080
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_163
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 447
+        width: 33
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dbef4e0142f5518b0800000000000000
+      internalID: -5182131187712983363
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_164
+      rect:
+        serializedVersion: 2
+        x: 49
+        y: 481
+        width: 15
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 91cd5fbfcecde1f50800000000000000
+      internalID: 6854158593302060057
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_165
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 481
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2456f512b4f69a890800000000000000
+      internalID: -7446298140407274174
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_166
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 481
+        width: 16
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8463357c9ccf48cc0800000000000000
+      internalID: -3709562249483700664
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_167
+      rect:
+        serializedVersion: 2
+        x: 95
+        y: 481
+        width: 10
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aeb0dd1981a3703b0800000000000000
+      internalID: -5546400538882667542
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_168
+      rect:
+        serializedVersion: 2
+        x: 104
+        y: 481
+        width: 16
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc2cef2f392090e70800000000000000
+      internalID: 9081792958029546188
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_169
+      rect:
+        serializedVersion: 2
+        x: 119
+        y: 481
+        width: 10
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f506583397f8a09b0800000000000000
+      internalID: -5113116676207583137
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_170
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 481
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 021e7a44e4ab873c0800000000000000
+      internalID: -4361531393786257120
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_171
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 481
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 362d666a898382930800000000000000
+      internalID: 4118604087508259427
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_172
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 481
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8eddb1347f57a3490800000000000000
+      internalID: -7765764902603727384
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_173
+      rect:
+        serializedVersion: 2
+        x: 152
+        y: 481
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3c248a84dee7c5400800000000000000
+      internalID: 314265631600427715
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_174
+      rect:
+        serializedVersion: 2
+        x: 175
+        y: 481
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a210340e208138850800000000000000
+      internalID: 6377967897918243114
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_175
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 481
+        width: 15
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 23951405ebc816120800000000000000
+      internalID: 2405358425010690354
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_176
+      rect:
+        serializedVersion: 2
+        x: 223
+        y: 447
+        width: 33
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4eac18068d4ecea90800000000000000
+      internalID: -7283194879381746972
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_177
+      rect:
+        serializedVersion: 2
+        x: 49
+        y: 465
+        width: 16
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 526870c08406ef160800000000000000
+      internalID: 7061187128319247909
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_178
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 465
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 26bd1651981713bb0800000000000000
+      internalID: -4958056881175012510
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_179
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 465
+        width: 16
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2fd9d55310f8396a0800000000000000
+      internalID: -6443649406483980814
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_180
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 465
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 68f4a4b2fd3768210800000000000000
+      internalID: 1334881741903122310
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_181
+      rect:
+        serializedVersion: 2
+        x: 104
+        y: 465
+        width: 16
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 62c52ad1f493f87f0800000000000000
+      internalID: -608204412709348314
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_182
+      rect:
+        serializedVersion: 2
+        x: 119
+        y: 465
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 98d9b5a2bdc9e9690800000000000000
+      internalID: -7593459456577659511
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_183
+      rect:
+        serializedVersion: 2
+        x: 127
+        y: 465
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 31dd842e0fc3ac860800000000000000
+      internalID: 7550914730526301459
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_184
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 465
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 24bb9d5e8cfdb9330800000000000000
+      internalID: 3718811971267181378
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_185
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 465
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 275232ced6026b970800000000000000
+      internalID: 8770232980835870066
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_186
+      rect:
+        serializedVersion: 2
+        x: 152
+        y: 465
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 11f84e9c43f4170c0800000000000000
+      internalID: -4579792257914990831
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_187
+      rect:
+        serializedVersion: 2
+        x: 175
+        y: 465
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4015be618963b9840800000000000000
+      internalID: 5231835418968412420
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_188
+      rect:
+        serializedVersion: 2
+        x: 191
+        y: 465
+        width: 16
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a8eab26d0c13e2780800000000000000
+      internalID: -8705966325363921270
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_189
+      rect:
+        serializedVersion: 2
+        x: 49
+        y: 449
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9bb3ad2be667c1280800000000000000
+      internalID: -9071245331611894855
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_190
+      rect:
+        serializedVersion: 2
+        x: 56
+        y: 449
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ae0054740daa68ca0800000000000000
+      internalID: -6014932440781094678
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_191
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 449
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: faf68c1b1f8b09aa0800000000000000
+      internalID: -6156217342406135889
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_192
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 449
+        width: 18
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 17019c8f112e53d70800000000000000
+      internalID: 9022365995322904689
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_193
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 449
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2eb59a828a3aaa0e0800000000000000
+      internalID: -2257812320540861470
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_194
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 449
+        width: 18
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f8df522f223a49560800000000000000
+      internalID: 7319654664870690191
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_195
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 449
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 974327b4d6e5f5c20800000000000000
+      internalID: 3197378083966563449
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_196
+      rect:
+        serializedVersion: 2
+        x: 127
+        y: 449
+        width: 18
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d1eee7ff2557dca70800000000000000
+      internalID: 8848857842187169309
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_197
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 449
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cb4443d42c36d0940800000000000000
+      internalID: 5263973225636054204
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_198
+      rect:
+        serializedVersion: 2
+        x: 151
+        y: 449
+        width: 18
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 01b86d6ace828b0d0800000000000000
+      internalID: -3406928121229309168
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_199
+      rect:
+        serializedVersion: 2
+        x: 168
+        y: 449
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5acc463cacae48ec0800000000000000
+      internalID: -3565466848388133723
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_200
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 449
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6918052c328902240800000000000000
+      internalID: 4764975685109318038
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_201
+      rect:
+        serializedVersion: 2
+        x: 191
+        y: 449
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f817c90f99dcb9cf0800000000000000
+      internalID: -244375693711085169
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_202
+      rect:
+        serializedVersion: 2
+        x: 199
+        y: 449
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 60980b4d18d8edaa0800000000000000
+      internalID: -6134310053673400058
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_203
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 399
+        width: 49
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fc48f8efe9a065b40800000000000000
+      internalID: 5428538078833640655
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_204
+      rect:
+        serializedVersion: 2
+        x: 52
+        y: 433
+        width: 11
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 06cf0e24cbafeca30800000000000000
+      internalID: 4237599985885052000
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_205
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 433
+        width: 13
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6ee9011f74e5d1ce0800000000000000
+      internalID: -1432885443353862426
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_206
+      rect:
+        serializedVersion: 2
+        x: 92
+        y: 433
+        width: 20
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6e1b36ec231d1f150800000000000000
+      internalID: 5904730602600640998
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_207
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 433
+        width: 20
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3eefe62d3b049b0c0800000000000000
+      internalID: -4559542006662103325
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_208
+      rect:
+        serializedVersion: 2
+        x: 131
+        y: 433
+        width: 13
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 54a9e12be3f13b6f0800000000000000
+      internalID: -670157565411288507
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_209
+      rect:
+        serializedVersion: 2
+        x: 143
+        y: 433
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0bd4d37520c3640b0800000000000000
+      internalID: -5744838293913252432
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_210
+      rect:
+        serializedVersion: 2
+        x: 150
+        y: 433
+        width: 20
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d25727818049ccf80800000000000000
+      internalID: -8084924468546079443
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_211
+      rect:
+        serializedVersion: 2
+        x: 169
+        y: 433
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1e519642480731440800000000000000
+      internalID: 4905388131985462753
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_212
+      rect:
+        serializedVersion: 2
+        x: 193
+        y: 433
+        width: 11
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 64acce70c0cebb3e0800000000000000
+      internalID: -2036774870038295994
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_213
+      rect:
+        serializedVersion: 2
+        x: 207
+        y: 399
+        width: 49
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 71e4ea1a08b990ba0800000000000000
+      internalID: -6122191241662804457
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_214
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 417
+        width: 14
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 383b7872bb7941d70800000000000000
+      internalID: 9012995584353088387
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_215
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 417
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2f0dee8c5f95cba80800000000000000
+      internalID: -8449779888680939278
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_216
+      rect:
+        serializedVersion: 2
+        x: 86
+        y: 417
+        width: 26
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 08beba0a084136090800000000000000
+      internalID: -8042561966869582976
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_217
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 417
+        width: 26
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 91658e70d2ffdafb0800000000000000
+      internalID: -4634767872623094247
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_218
+      rect:
+        serializedVersion: 2
+        x: 137
+        y: 417
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e27831199d300f230800000000000000
+      internalID: 3670437929283716910
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_219
+      rect:
+        serializedVersion: 2
+        x: 147
+        y: 417
+        width: 26
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7b045ce7f3fc7de70800000000000000
+      internalID: 9140001840388456631
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_220
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 417
+        width: 14
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fe1ee8f6a70d06670800000000000000
+      internalID: 8530046918515941871
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_221
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 401
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d687bf1dd2d918930800000000000000
+      internalID: 4143765952279574637
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_222
+      rect:
+        serializedVersion: 2
+        x: 87
+        y: 401
+        width: 50
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f7dddae4256ae94c0800000000000000
+      internalID: -4278799723517846145
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_223
+      rect:
+        serializedVersion: 2
+        x: 136
+        y: 401
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1ec28d930ac7977e0800000000000000
+      internalID: -1767244351159128863
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_224
+      rect:
+        serializedVersion: 2
+        x: 145
+        y: 401
+        width: 14
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9d8d9171587c65310800000000000000
+      internalID: 1393520509149894873
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_225
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 351
+        width: 19
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aef7ce47b83843290800000000000000
+      internalID: -7911554010397769750
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_226
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 303
+        width: 18
+        height: 82
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 17859cd96d30a33f0800000000000000
+      internalID: -920418953538742159
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_227
+      rect:
+        serializedVersion: 2
+        x: 49
+        y: 303
+        width: 32
+        height: 82
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 99df62631a0186510800000000000000
+      internalID: 1542501156958698905
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_228
+      rect:
+        serializedVersion: 2
+        x: 95
+        y: 303
+        width: 18
+        height: 82
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 052e83f2a28ea2300800000000000000
+      internalID: 228249999014158928
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_229
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 303
+        width: 32
+        height: 82
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d4c7d750f8fed7df0800000000000000
+      internalID: -180725012473480115
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_230
+      rect:
+        serializedVersion: 2
+        x: 143
+        y: 303
+        width: 18
+        height: 82
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 20297ac076a112db0800000000000000
+      internalID: -4818541096413457918
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_231
+      rect:
+        serializedVersion: 2
+        x: 175
+        y: 303
+        width: 32
+        height: 82
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 75648925a096b0f60800000000000000
+      internalID: 8001604656010118743
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_232
+      rect:
+        serializedVersion: 2
+        x: 207
+        y: 303
+        width: 18
+        height: 82
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 20c145c035cd03c40800000000000000
+      internalID: 5490130195011869698
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_233
+      rect:
+        serializedVersion: 2
+        x: 237
+        y: 351
+        width: 19
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e4a85490a9df23e10800000000000000
+      internalID: 2176080407995714126
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_234
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 303
+        width: 20
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c0cc5d3883f78f670800000000000000
+      internalID: 8572741771406461964
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_235
+      rect:
+        serializedVersion: 2
+        x: 236
+        y: 303
+        width: 20
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 97365c684290ebd00800000000000000
+      internalID: 990239020552643449
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_236
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 273
+        width: 13
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c16d1802b68a2b270800000000000000
+      internalID: 8264853444238628380
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_237
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 273
+        width: 13
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 605e6672b053710c0800000000000000
+      internalID: -4605153771941075706
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_238
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 273
+        width: 13
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f7c4585e33a122100800000000000000
+      internalID: 81656553442462847
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_239
+      rect:
+        serializedVersion: 2
+        x: 113
+        y: 272
+        width: 15
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 40e12fb09986fcc90800000000000000
+      internalID: -7147379077073986044
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_240
+      rect:
+        serializedVersion: 2
+        x: 129
+        y: 272
+        width: 15
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2be14ee8f83eb1f70800000000000000
+      internalID: 9159164472905178802
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_241
+      rect:
+        serializedVersion: 2
+        x: 145
+        y: 272
+        width: 15
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 97dd4c01652c38950800000000000000
+      internalID: 6450212766228995449
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_242
+      rect:
+        serializedVersion: 2
+        x: 163
+        y: 271
+        width: 10
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e1fa12c5f3850c620800000000000000
+      internalID: 2792328798121602846
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_243
+      rect:
+        serializedVersion: 2
+        x: 179
+        y: 271
+        width: 10
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 77b46c00ba5285000800000000000000
+      internalID: 24811214333168503
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_244
+      rect:
+        serializedVersion: 2
+        x: 195
+        y: 271
+        width: 10
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: da5ca969c867e0e60800000000000000
+      internalID: 7930406340040246701
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_245
+      rect:
+        serializedVersion: 2
+        x: 211
+        y: 271
+        width: 11
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8691a3a5b4f8f8810800000000000000
+      internalID: 1769790732378970472
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_246
+      rect:
+        serializedVersion: 2
+        x: 228
+        y: 271
+        width: 7
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e52b7cd540ef79600800000000000000
+      internalID: 475127580417569374
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_247
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 271
+        width: 16
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 82125098b2a87ce10800000000000000
+      internalID: 2217893261090300200
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_248
+      rect:
+        serializedVersion: 2
+        x: 63
+        y: 0
+        width: 193
+        height: 271
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 87a007c252fbcdad0800000000000000
+      internalID: -2676053912184681864
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_249
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 256
+        width: 13
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 37fa53f9b57150170800000000000000
+      internalID: 8143941183449968499
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_250
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 256
+        width: 13
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cb751cf3ba3441610800000000000000
+      internalID: 1590970971156731836
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_251
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 256
+        width: 13
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1c739e69b454aa110800000000000000
+      internalID: 1272906035642316737
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_252
+      rect:
+        serializedVersion: 2
+        x: 113
+        y: 256
+        width: 15
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bbc352bd7c5580ac0800000000000000
+      internalID: -3888763961370919749
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_253
+      rect:
+        serializedVersion: 2
+        x: 129
+        y: 256
+        width: 15
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 16beb1c25e6b268d0800000000000000
+      internalID: -2854518118395679903
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: kitchen16_blue_254
+      rect:
+        serializedVersion: 2
+        x: 145
+        y: 256
+        width: 15
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6f9459059ba599770800000000000000
+      internalID: 8618019113917565430
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      kitchen16_blue_0: 5277838472310426647
+      kitchen16_blue_1: -8949887024449092159
+      kitchen16_blue_10: 400794061504029053
+      kitchen16_blue_100: -3111199552391346808
+      kitchen16_blue_101: 9085566264341407512
+      kitchen16_blue_102: 4211126009176109653
+      kitchen16_blue_103: 6649931477914554214
+      kitchen16_blue_104: -4799191482026484468
+      kitchen16_blue_105: -228533002568278615
+      kitchen16_blue_106: 6116075959541186263
+      kitchen16_blue_107: -6592994732539543521
+      kitchen16_blue_108: 5389553620495312346
+      kitchen16_blue_109: 1982763562230912437
+      kitchen16_blue_11: -8265384066465969757
+      kitchen16_blue_110: 4179007089201149716
+      kitchen16_blue_111: 2891421639216017377
+      kitchen16_blue_112: -7339267775446734518
+      kitchen16_blue_113: 8794203807890866131
+      kitchen16_blue_114: 5317730249715064787
+      kitchen16_blue_115: 541903867331477592
+      kitchen16_blue_116: -3634658524558551143
+      kitchen16_blue_117: 878218721091969874
+      kitchen16_blue_118: -8772190561529779292
+      kitchen16_blue_119: -5428469146248695072
+      kitchen16_blue_12: -2807104207972129327
+      kitchen16_blue_120: 8818855651824351774
+      kitchen16_blue_121: -1469304709467013619
+      kitchen16_blue_122: -6003484353631484038
+      kitchen16_blue_123: 9179999450011065499
+      kitchen16_blue_124: -5759985469850831981
+      kitchen16_blue_125: 6645240373315656178
+      kitchen16_blue_126: 1808877350073124412
+      kitchen16_blue_127: 1395117066844062891
+      kitchen16_blue_128: 6144697811025273101
+      kitchen16_blue_129: -8921209339769776745
+      kitchen16_blue_13: 3022687264098802672
+      kitchen16_blue_130: 2455641148571953590
+      kitchen16_blue_131: 8665915689301394453
+      kitchen16_blue_132: -7943652046245936430
+      kitchen16_blue_133: 6573612571774840738
+      kitchen16_blue_134: -360640073051861756
+      kitchen16_blue_135: 6849696044426894349
+      kitchen16_blue_136: -4196612128401643437
+      kitchen16_blue_137: -5575506879649290375
+      kitchen16_blue_138: -2552487124761546619
+      kitchen16_blue_139: 3717984522836757862
+      kitchen16_blue_14: 4637131648283663410
+      kitchen16_blue_140: -1943149129942407936
+      kitchen16_blue_141: 7244796625084858739
+      kitchen16_blue_142: 7092459382465370172
+      kitchen16_blue_143: -6770273489168707857
+      kitchen16_blue_144: -9078253538577250197
+      kitchen16_blue_145: 3127854609281901214
+      kitchen16_blue_146: 4403050050964861501
+      kitchen16_blue_147: 9024930232838924468
+      kitchen16_blue_148: -5405515868102668938
+      kitchen16_blue_149: -4250659645482313701
+      kitchen16_blue_15: -4494039309337625329
+      kitchen16_blue_150: -7289239164487491914
+      kitchen16_blue_151: 7025941923299747501
+      kitchen16_blue_152: 8934147917629966852
+      kitchen16_blue_153: 6293144852730823045
+      kitchen16_blue_154: 2047876945563124418
+      kitchen16_blue_155: 4287469984409421759
+      kitchen16_blue_156: 403072908159931583
+      kitchen16_blue_157: 1299956253243868424
+      kitchen16_blue_158: -8313653440635845845
+      kitchen16_blue_159: -3823269923350967815
+      kitchen16_blue_16: -3435369673165355735
+      kitchen16_blue_160: -4856544296680231950
+      kitchen16_blue_161: -6979444458172523983
+      kitchen16_blue_162: -6071291600486661080
+      kitchen16_blue_163: -5182131187712983363
+      kitchen16_blue_164: 6854158593302060057
+      kitchen16_blue_165: -7446298140407274174
+      kitchen16_blue_166: -3709562249483700664
+      kitchen16_blue_167: -5546400538882667542
+      kitchen16_blue_168: 9081792958029546188
+      kitchen16_blue_169: -5113116676207583137
+      kitchen16_blue_17: 6621686589945541279
+      kitchen16_blue_170: -4361531393786257120
+      kitchen16_blue_171: 4118604087508259427
+      kitchen16_blue_172: -7765764902603727384
+      kitchen16_blue_173: 314265631600427715
+      kitchen16_blue_174: 6377967897918243114
+      kitchen16_blue_175: 2405358425010690354
+      kitchen16_blue_176: -7283194879381746972
+      kitchen16_blue_177: 7061187128319247909
+      kitchen16_blue_178: -4958056881175012510
+      kitchen16_blue_179: -6443649406483980814
+      kitchen16_blue_18: -4324354848186473005
+      kitchen16_blue_180: 1334881741903122310
+      kitchen16_blue_181: -608204412709348314
+      kitchen16_blue_182: -7593459456577659511
+      kitchen16_blue_183: 7550914730526301459
+      kitchen16_blue_184: 3718811971267181378
+      kitchen16_blue_185: 8770232980835870066
+      kitchen16_blue_186: -4579792257914990831
+      kitchen16_blue_187: 5231835418968412420
+      kitchen16_blue_188: -8705966325363921270
+      kitchen16_blue_189: -9071245331611894855
+      kitchen16_blue_19: 7777707111217714919
+      kitchen16_blue_190: -6014932440781094678
+      kitchen16_blue_191: -6156217342406135889
+      kitchen16_blue_192: 9022365995322904689
+      kitchen16_blue_193: -2257812320540861470
+      kitchen16_blue_194: 7319654664870690191
+      kitchen16_blue_195: 3197378083966563449
+      kitchen16_blue_196: 8848857842187169309
+      kitchen16_blue_197: 5263973225636054204
+      kitchen16_blue_198: -3406928121229309168
+      kitchen16_blue_199: -3565466848388133723
+      kitchen16_blue_2: -4995851037707434413
+      kitchen16_blue_20: 1336202389279445563
+      kitchen16_blue_200: 4764975685109318038
+      kitchen16_blue_201: -244375693711085169
+      kitchen16_blue_202: -6134310053673400058
+      kitchen16_blue_203: 5428538078833640655
+      kitchen16_blue_204: 4237599985885052000
+      kitchen16_blue_205: -1432885443353862426
+      kitchen16_blue_206: 5904730602600640998
+      kitchen16_blue_207: -4559542006662103325
+      kitchen16_blue_208: -670157565411288507
+      kitchen16_blue_209: -5744838293913252432
+      kitchen16_blue_21: -8745598518144766619
+      kitchen16_blue_210: -8084924468546079443
+      kitchen16_blue_211: 4905388131985462753
+      kitchen16_blue_212: -2036774870038295994
+      kitchen16_blue_213: -6122191241662804457
+      kitchen16_blue_214: 9012995584353088387
+      kitchen16_blue_215: -8449779888680939278
+      kitchen16_blue_216: -8042561966869582976
+      kitchen16_blue_217: -4634767872623094247
+      kitchen16_blue_218: 3670437929283716910
+      kitchen16_blue_219: 9140001840388456631
+      kitchen16_blue_22: 7928090243892408995
+      kitchen16_blue_220: 8530046918515941871
+      kitchen16_blue_221: 4143765952279574637
+      kitchen16_blue_222: -4278799723517846145
+      kitchen16_blue_223: -1767244351159128863
+      kitchen16_blue_224: 1393520509149894873
+      kitchen16_blue_225: -7911554010397769750
+      kitchen16_blue_226: -920418953538742159
+      kitchen16_blue_227: 1542501156958698905
+      kitchen16_blue_228: 228249999014158928
+      kitchen16_blue_229: -180725012473480115
+      kitchen16_blue_23: -8368596871939994237
+      kitchen16_blue_230: -4818541096413457918
+      kitchen16_blue_231: 8001604656010118743
+      kitchen16_blue_232: 5490130195011869698
+      kitchen16_blue_233: 2176080407995714126
+      kitchen16_blue_234: 8572741771406461964
+      kitchen16_blue_235: 990239020552643449
+      kitchen16_blue_236: 8264853444238628380
+      kitchen16_blue_237: -4605153771941075706
+      kitchen16_blue_238: 81656553442462847
+      kitchen16_blue_239: -7147379077073986044
+      kitchen16_blue_24: -5126382357749601052
+      kitchen16_blue_240: 9159164472905178802
+      kitchen16_blue_241: 6450212766228995449
+      kitchen16_blue_242: 2792328798121602846
+      kitchen16_blue_243: 24811214333168503
+      kitchen16_blue_244: 7930406340040246701
+      kitchen16_blue_245: 1769790732378970472
+      kitchen16_blue_246: 475127580417569374
+      kitchen16_blue_247: 2217893261090300200
+      kitchen16_blue_248: -2676053912184681864
+      kitchen16_blue_249: 8143941183449968499
+      kitchen16_blue_25: -51771560719954136
+      kitchen16_blue_250: 1590970971156731836
+      kitchen16_blue_251: 1272906035642316737
+      kitchen16_blue_252: -3888763961370919749
+      kitchen16_blue_253: -2854518118395679903
+      kitchen16_blue_254: 8618019113917565430
+      kitchen16_blue_26: 8105569831202213450
+      kitchen16_blue_27: 1783611057332560534
+      kitchen16_blue_28: -8560858971739381598
+      kitchen16_blue_29: -1898888092925404867
+      kitchen16_blue_3: 2234857741012628317
+      kitchen16_blue_30: -52361757994029654
+      kitchen16_blue_31: 1873634785991951390
+      kitchen16_blue_32: -248390034351919105
+      kitchen16_blue_33: 7739687755057659165
+      kitchen16_blue_34: 6873589149071248662
+      kitchen16_blue_35: -7307293919506251385
+      kitchen16_blue_36: 6908302846334051609
+      kitchen16_blue_37: -7722071571486082235
+      kitchen16_blue_38: 1947174668585518350
+      kitchen16_blue_39: 7166793190145232801
+      kitchen16_blue_4: -4363240689918115029
+      kitchen16_blue_40: -2507310319104524328
+      kitchen16_blue_41: -7026412910792814334
+      kitchen16_blue_42: 8661520806886228927
+      kitchen16_blue_43: 327207270716550793
+      kitchen16_blue_44: -581377817628787195
+      kitchen16_blue_45: -5610102760218172429
+      kitchen16_blue_46: 6835143435395276038
+      kitchen16_blue_47: 5310999064803966770
+      kitchen16_blue_48: 6040195960466895434
+      kitchen16_blue_49: -4994789147652094164
+      kitchen16_blue_5: 2222399241946453678
+      kitchen16_blue_50: 8823123578283039105
+      kitchen16_blue_51: -8077330815538626224
+      kitchen16_blue_52: -7388173952603575690
+      kitchen16_blue_53: 8935997299724214505
+      kitchen16_blue_54: -5455248675505653762
+      kitchen16_blue_55: -1288026918254403018
+      kitchen16_blue_56: 6284461008558286515
+      kitchen16_blue_57: 8622190131050487707
+      kitchen16_blue_58: 6515209114923559750
+      kitchen16_blue_59: 6223664489507146231
+      kitchen16_blue_6: -3289061239979702153
+      kitchen16_blue_60: -7987407362013924542
+      kitchen16_blue_61: 3417737165272660490
+      kitchen16_blue_62: 3296887017625519355
+      kitchen16_blue_63: 9047203245797650403
+      kitchen16_blue_64: 8082283893163883827
+      kitchen16_blue_65: -2938253945644900919
+      kitchen16_blue_66: 1133768277984574829
+      kitchen16_blue_67: -4880989367554952756
+      kitchen16_blue_68: -8316232463340704189
+      kitchen16_blue_69: -1854665176804768268
+      kitchen16_blue_7: -3309667084337255798
+      kitchen16_blue_70: -364544509397924181
+      kitchen16_blue_71: 1893010332727756478
+      kitchen16_blue_72: -4967507647570704263
+      kitchen16_blue_73: -7099065020614443599
+      kitchen16_blue_74: 2732218037500473581
+      kitchen16_blue_75: 7609057344115471765
+      kitchen16_blue_76: -6068777901063149039
+      kitchen16_blue_77: -6326505021072364654
+      kitchen16_blue_78: -4459117641136785188
+      kitchen16_blue_79: 2864955663470217462
+      kitchen16_blue_8: -3843777095461340817
+      kitchen16_blue_80: 8025377814996166234
+      kitchen16_blue_81: 6370999068770253271
+      kitchen16_blue_82: -2523973455825368943
+      kitchen16_blue_83: -265918356681394087
+      kitchen16_blue_84: 1886591364604300778
+      kitchen16_blue_85: 3774007255583833372
+      kitchen16_blue_86: 6530271294232765682
+      kitchen16_blue_87: 1780779474608671553
+      kitchen16_blue_88: 2675475433622182394
+      kitchen16_blue_89: 6407139217969230820
+      kitchen16_blue_9: 6761947039672833032
+      kitchen16_blue_90: -2026729080718234174
+      kitchen16_blue_91: 3605986325127459749
+      kitchen16_blue_92: -795215008545507079
+      kitchen16_blue_93: 7860995609306969228
+      kitchen16_blue_94: -9014306118428774986
+      kitchen16_blue_95: 3734766769691246564
+      kitchen16_blue_96: 1482874103558636567
+      kitchen16_blue_97: 8016406315959767850
+      kitchen16_blue_98: -6752392479846762335
+      kitchen16_blue_99: 9015465165712865295
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

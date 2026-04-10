@@ -31,9 +31,6 @@ public class RestaurantNpcQueueManager : MonoBehaviour
     [SerializeField] private bool runOnlyInRestaurantScene = true;
     [SerializeField] private string restaurantSceneName = "RestaurantScene";
 
-    [Header("UI")]
-    [SerializeField] private RestaurantOrderPopupUI orderPopupUI;
-
     [Header("Order Timing")]
     [SerializeField] private bool assignOrdersToAllWaitingCustomers = true;
     [SerializeField] private float fallbackOrderTimeSeconds = 45f;
@@ -50,13 +47,11 @@ public class RestaurantNpcQueueManager : MonoBehaviour
     private InventoryController inventory;
     private float spawnTimer;
     private bool queueActive;
-    private bool hasWarnedPopupMissing;
     private bool hasWarnedInventoryMissing;
     private bool hasWarnedMissingNpcPrefab;
     private bool hasWarnedMissingSpawnPoint;
     private bool hasWarnedInvalidMaxActive;
     private RecipeDefinition pendingCookedRecipe;
-
     private NPCWalker frontNpcWithActiveOrder;
 
     public event System.Action<IReadOnlyList<QueueOrderView>> OnQueueOrdersChanged;
@@ -64,17 +59,11 @@ public class RestaurantNpcQueueManager : MonoBehaviour
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
-
-        if (orderPopupUI != null)
-            orderPopupUI.OnServePressed += TryServeFrontCustomer;
     }
 
     private void OnDisable()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
-
-        if (orderPopupUI != null)
-            orderPopupUI.OnServePressed -= TryServeFrontCustomer;
 
         if (inventory != null)
             inventory.OnRecipeCooked -= HandleRecipeCooked;
@@ -87,9 +76,6 @@ public class RestaurantNpcQueueManager : MonoBehaviour
         queueActive = IsSceneAllowed();
         spawnTimer = 0f;
         TryBindInventory();
-
-        if (orderPopupUI == null)
-            Debug.LogWarning("[RestaurantNpcQueueManager] Order popup UI is not assigned. Orders can be generated but popup will not display.");
 
         if (queueSpots == null || queueSpots.Length == 0)
             Debug.LogWarning("[RestaurantNpcQueueManager] Queue spots are not assigned. Assign Q0..Q5 in Inspector.");
@@ -253,7 +239,6 @@ public class RestaurantNpcQueueManager : MonoBehaviour
         {
             frontNpcWithActiveOrder = null;
             pendingCookedRecipe = null;
-            orderPopupUI?.Hide();
             return;
         }
 
@@ -277,23 +262,6 @@ public class RestaurantNpcQueueManager : MonoBehaviour
         }
 
         frontNpcWithActiveOrder = front;
-
-        if (orderPopupUI == null)
-        {
-            if (!hasWarnedPopupMissing)
-            {
-                hasWarnedPopupMissing = true;
-                Debug.LogWarning("[RestaurantNpcQueueManager] ShowOrder skipped because orderPopupUI is null.");
-            }
-        }
-        else
-        {
-            hasWarnedPopupMissing = false;
-        }
-
-        float remainingTime = GetRemainingTime(front, recipe);
-        bool canServeNow = pendingCookedRecipe != null && pendingCookedRecipe == recipe;
-        orderPopupUI?.ShowOrder(recipe, remainingTime, canServeNow);
 
         NotifyQueueOrdersChanged();
     }
@@ -388,9 +356,6 @@ public class RestaurantNpcQueueManager : MonoBehaviour
         npcOrders.Remove(npc);
         npcRemainingTimes.Remove(npc);
 
-        if (pendingCookedRecipe == recipe)
-            pendingCookedRecipe = null;
-
         if (frontNpcWithActiveOrder == npc)
             frontNpcWithActiveOrder = null;
 
@@ -398,11 +363,6 @@ public class RestaurantNpcQueueManager : MonoBehaviour
             npc.BeginLeavingQueue(queueIndex == 0);
 
         ReassignQueueSpots();
-
-        string status = deducted
-            ? $"Order timed out. -{penalty} money"
-            : "Order timed out";
-        orderPopupUI?.ShowServedMessage(status);
 
         if (logQueueEvents)
             Debug.Log($"[RestaurantNpcQueueManager] Q{queueIndex} timed out ({recipe.recipeName}). Penalty: {penalty}");
@@ -478,63 +438,62 @@ public class RestaurantNpcQueueManager : MonoBehaviour
             return;
 
         pendingCookedRecipe = cookedRecipe;
-
-        if (queue.Count == 0)
-        {
-            orderPopupUI?.ShowServedMessage($"{cookedRecipe.recipeName} is ready");
-            return;
-        }
-
-        NPCWalker front = queue[0];
-        if (front == null)
-            return;
-
-        if (!npcOrders.TryGetValue(front, out RecipeDefinition requestedRecipe) || requestedRecipe == null)
-            return;
-
-        if (requestedRecipe == cookedRecipe)
-        {
-            float remainingTime = GetRemainingTime(front, requestedRecipe);
-            orderPopupUI?.ShowOrder(requestedRecipe, remainingTime, true);
-
-            if (logQueueEvents)
-                Debug.Log($"[RestaurantNpcQueueManager] Cooked dish matches front order: {cookedRecipe.recipeName}. Waiting for manual serve.");
-
-            return;
-        }
-
-        orderPopupUI?.ShowServedMessage($"{cookedRecipe.recipeName} cooked. Wrong dish for front customer.");
-
-        if (logQueueEvents)
-            Debug.Log($"[RestaurantNpcQueueManager] Cooked dish {cookedRecipe.recipeName} does not match front order {requestedRecipe.recipeName}.");
     }
 
-    public void TryServeFrontCustomer()
+    public bool TryServeFrontCustomerFromInventory(out string message)
     {
+        message = string.Empty;
+
         if (queue.Count == 0)
-            return;
+        {
+            message = "No customers in queue.";
+            return false;
+        }
 
         NPCWalker front = queue[0];
         if (front == null)
-            return;
-
-        if (!npcOrders.TryGetValue(front, out RecipeDefinition requestedRecipe) || requestedRecipe == null)
-            return;
-
-        if (pendingCookedRecipe == null)
         {
-            orderPopupUI?.ShowServedMessage("No cooked dish ready to serve");
-            return;
+            message = "Front customer missing.";
+            return false;
         }
 
-        if (pendingCookedRecipe != requestedRecipe)
+        if (!npcOrders.TryGetValue(front, out RecipeDefinition requestedRecipe) || requestedRecipe == null)
         {
-            orderPopupUI?.ShowServedMessage("Wrong dish for front customer");
-            return;
+            message = "Front customer has no active order.";
+            return false;
+        }
+
+        if (inventory == null)
+            TryBindInventory();
+
+        if (inventory == null)
+        {
+            message = "Inventory not available.";
+            return false;
+        }
+
+        if (requestedRecipe.result == null)
+        {
+            message = "Ordered recipe has no result item configured.";
+            return false;
+        }
+
+        // Serve one dish per customer.
+        if (!inventory.TryRemoveItem(requestedRecipe.result, 1))
+        {
+            message = $"You need 1 {requestedRecipe.result.displayName} to serve.";
+            return false;
         }
 
         pendingCookedRecipe = null;
         ServeFrontNpc();
+        message = $"Served {requestedRecipe.recipeName}.";
+        return true;
+    }
+
+    public void TryServeFrontCustomer()
+    {
+        TryServeFrontCustomerFromInventory(out _);
     }
 
     private void ServeFrontNpc()
@@ -563,11 +522,6 @@ public class RestaurantNpcQueueManager : MonoBehaviour
             MoneyManager.Instance.AddMoney(servedRecipe.rewardMoney);
 
         ReassignQueueSpots();
-        if (servedRecipe != null)
-            orderPopupUI?.ShowServedMessage($"Served {servedRecipe.recipeName} (+{servedRecipe.rewardMoney})");
-        else
-            orderPopupUI?.ShowServedMessage("Order served");
-
         NotifyQueueOrdersChanged();
 
         if (logQueueEvents)
@@ -659,6 +613,44 @@ public class RestaurantNpcQueueManager : MonoBehaviour
         ReassignQueueSpots();
         EnsureFrontOrder();
         NotifyQueueOrdersChanged();
+    }
+
+    public bool TryGetFrontOrder(out RecipeDefinition recipe, out float remainingTime)
+    {
+        recipe = null;
+        remainingTime = 0f;
+
+        if (queue.Count == 0)
+            return false;
+
+        NPCWalker front = queue[0];
+        if (front == null)
+            return false;
+
+        if (!npcOrders.TryGetValue(front, out recipe) || recipe == null)
+            return false;
+
+        remainingTime = GetRemainingTime(front, recipe);
+        return true;
+    }
+
+    public bool TryGetOrderAtQueueIndex(int queueIndex, out RecipeDefinition recipe, out float remainingTime)
+    {
+        recipe = null;
+        remainingTime = 0f;
+
+        if (queueIndex < 0 || queueIndex >= queue.Count)
+            return false;
+
+        NPCWalker npc = queue[queueIndex];
+        if (npc == null)
+            return false;
+
+        if (!npcOrders.TryGetValue(npc, out recipe) || recipe == null)
+            return false;
+
+        remainingTime = GetRemainingTime(npc, recipe);
+        return true;
     }
 
     public void ForceSpawnNow()

@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Sugar
   m_EditorClassIdentifier: Assembly-CSharp::ItemDefinition
   displayName: 
-  icon: {fileID: 21300000, guid: c426c992373b24cc3883c5a23a361a83, type: 3}
+  icon: {fileID: -3413006870710782370, guid: 5879dc754149292478bedd9a37f9dd2e, type: 3}
   maxStack: 99

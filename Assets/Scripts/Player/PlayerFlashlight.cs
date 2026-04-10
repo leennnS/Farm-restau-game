@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Player-held flashlight that toggles with 'F' key.
@@ -18,33 +19,48 @@ public class PlayerFlashlight : MonoBehaviour
     [Header("Animation")]
     [SerializeField] private float fadeInDuration = 0.2f;
     [SerializeField] private float fadeOutDuration = 0.3f;
+    [SerializeField] private string allowedSceneName = "FarmScene";
 
-    private Light2D flashlight;
     private bool isFlashlightOn = false;
     private float currentIntensity = 0f;
     private float targetIntensity = 0f;
     private Vector2 lastDirection = Vector2.right; // Default direction
     private Light2D[] coneLights; // Array of lights forming a cone
     private const int CONE_LIGHT_COUNT = 5; // Number of lights in the cone
+    private bool isAllowedScene;
 
     private void Start()
     {
         SetupFlashlight();
+        RefreshSceneAllowance(SceneManager.GetActiveScene().name);
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        RefreshSceneAllowance(scene.name);
     }
 
     private void SetupFlashlight()
     {
         // Remove the old point light if it exists
-        flashlight = GetComponent<Light2D>();
-        if (flashlight != null)
+        Light2D existingLight = GetComponent<Light2D>();
+        if (existingLight != null)
         {
-            Destroy(flashlight);
+            Destroy(existingLight);
         }
 
         // Create an array of lights forming a cone shape
         coneLights = new Light2D[CONE_LIGHT_COUNT];
-        float coneAngle = 60f; // Total cone angle
-        float angleStep = coneAngle / (CONE_LIGHT_COUNT - 1);
 
         for (int i = 0; i < CONE_LIGHT_COUNT; i++)
         {
@@ -66,6 +82,13 @@ public class PlayerFlashlight : MonoBehaviour
 
     private void Update()
     {
+        if (!isAllowedScene)
+        {
+            ForceOffImmediate();
+
+            return;
+        }
+
         HandleInput();
         UpdatePlayerDirection();
         UpdateFlashlightIntensity();
@@ -121,15 +144,39 @@ public class PlayerFlashlight : MonoBehaviour
         float duration = targetIntensity > currentIntensity ? fadeInDuration : fadeOutDuration;
         currentIntensity = Mathf.Lerp(currentIntensity, targetIntensity, Time.deltaTime / duration);
 
+        ApplyConeIntensity(currentIntensity);
+    }
+
+    private void ApplyConeIntensity(float intensity)
+    {
         if (coneLights != null)
         {
             foreach (Light2D light in coneLights)
             {
                 if (light != null)
                 {
-                    light.intensity = currentIntensity / CONE_LIGHT_COUNT; // Divide by light count to prevent overlap brightness
+                    light.intensity = intensity / CONE_LIGHT_COUNT; // Divide by light count to prevent overlap brightness
                 }
             }
+        }
+    }
+
+    private void RefreshSceneAllowance(string sceneName)
+    {
+        isAllowedScene = string.Equals(sceneName, allowedSceneName, System.StringComparison.Ordinal);
+
+        if (!isAllowedScene)
+            ForceOffImmediate();
+    }
+
+    private void ForceOffImmediate()
+    {
+        if (!Mathf.Approximately(currentIntensity, 0f) || isFlashlightOn || !Mathf.Approximately(targetIntensity, 0f))
+        {
+            isFlashlightOn = false;
+            targetIntensity = 0f;
+            currentIntensity = 0f;
+            ApplyConeIntensity(0f);
         }
     }
 

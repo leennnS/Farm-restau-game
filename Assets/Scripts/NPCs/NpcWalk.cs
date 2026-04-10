@@ -12,6 +12,21 @@ public class NPCWalker : MonoBehaviour
 
     private Animator animator;
     private SpriteRenderer spriteRenderer;
+    private Vector2 lastFacingDirection = Vector2.left;
+    private bool hasMoveXParam;
+    private bool hasMoveYParam;
+    private bool hasHorizontalParam;
+    private bool hasVerticalParam;
+    private bool hasLastHorizontalParam;
+    private bool hasLastVerticalParam;
+    private bool hasReachedTurnPointParam;
+    private bool hasWalkUpState;
+    private bool hasWalkDownState;
+    private bool hasWalkLeftState;
+    private int walkUpStateHash;
+    private int walkDownStateHash;
+    private int walkLeftStateHash;
+    private int lastPlayedDirectionalStateHash;
 
     private RestaurantNpcQueueManager queueManager;
     private Transform assignedQueueSpot;
@@ -40,6 +55,7 @@ public class NPCWalker : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        CacheDirectionAnimatorParams();
 
         if (!managedByQueue)
             state = MovementState.ToTurnPoint;
@@ -137,6 +153,8 @@ public class NPCWalker : MonoBehaviour
                     break;
                 }
 
+                FaceTowards(turnPoint.position);
+
                 if (MoveTowards(turnPoint.position, stoppingDistance))
                 {
                     reachedTurnPoint = true;
@@ -216,6 +234,8 @@ public class NPCWalker : MonoBehaviour
         // STEP 1: Move DOWN to turn point
         if (!reachedTurnPoint)
         {
+            FaceTowards(turnPoint.position);
+
             if (MoveTowards(turnPoint.position, stoppingDistance))
             {
                 reachedTurnPoint = true;
@@ -228,6 +248,8 @@ public class NPCWalker : MonoBehaviour
         // STEP 2: Move LEFT to queue
         else if (!reachedQueue)
         {
+            FaceTowards(queuePoint.position);
+
             if (MoveTowards(queuePoint.position, stoppingDistance))
             {
                 reachedQueue = true;
@@ -278,20 +300,148 @@ public class NPCWalker : MonoBehaviour
 
     private void FaceLeft()
     {
-        if (spriteRenderer != null)
-            spriteRenderer.flipX = false;
+        ApplyFacingVisuals(Vector2.left);
     }
 
     private void FaceTowards(Vector3 targetPosition)
     {
-        if (spriteRenderer == null)
+        Vector2 delta = targetPosition - transform.position;
+        if (delta.sqrMagnitude <= 0.0001f)
             return;
 
-        float dx = targetPosition.x - transform.position.x;
-        if (Mathf.Abs(dx) < 0.01f)
+        Vector2 facing;
+        if (Mathf.Abs(delta.x) >= Mathf.Abs(delta.y))
+            facing = new Vector2(Mathf.Sign(delta.x), 0f);
+        else
+            facing = new Vector2(0f, Mathf.Sign(delta.y));
+
+        ApplyFacingVisuals(facing);
+    }
+
+    private void ApplyFacingVisuals(Vector2 facing)
+    {
+        if (facing.sqrMagnitude <= 0.0001f)
             return;
 
-        // This project's sprites face left when flipX is false.
-        spriteRenderer.flipX = dx > 0f;
+        lastFacingDirection = facing;
+
+        if (spriteRenderer != null && Mathf.Abs(facing.x) > 0.001f)
+        {
+            // This project's sprites face left when flipX is false.
+            spriteRenderer.flipX = facing.x > 0f;
+        }
+        else if (spriteRenderer != null && Mathf.Abs(facing.y) > 0.001f)
+        {
+            // Active NPC controller has no up/down directional clips,
+            // so keep a stable non-right-facing visual during vertical motion.
+            spriteRenderer.flipX = false;
+        }
+
+        if (animator == null)
+            return;
+
+        bool playedDirectionalState = TryPlayDirectionalState(facing);
+
+        if (!playedDirectionalState && hasReachedTurnPointParam)
+        {
+            // In this controller, ReachedTurnPoint drives WalkLeft vs WalkDown state.
+            // Keep it synced to current axis so vertical movement does not stay left-facing.
+            bool useHorizontalState = Mathf.Abs(facing.x) > Mathf.Abs(facing.y);
+            animator.SetBool("ReachedTurnPoint", useHorizontalState);
+        }
+
+        if (hasMoveXParam) animator.SetFloat("moveX", facing.x);
+        if (hasMoveYParam) animator.SetFloat("moveY", facing.y);
+
+        if (hasHorizontalParam) animator.SetFloat("horizontal", facing.x);
+        if (hasVerticalParam) animator.SetFloat("vertical", facing.y);
+
+        if (hasLastHorizontalParam) animator.SetFloat("lastHorizontal", facing.x);
+        if (hasLastVerticalParam) animator.SetFloat("lastVertical", facing.y);
+    }
+
+    private void CacheDirectionAnimatorParams()
+    {
+        if (animator == null)
+            return;
+
+        hasMoveXParam = HasAnimatorFloat("moveX");
+        hasMoveYParam = HasAnimatorFloat("moveY");
+        hasHorizontalParam = HasAnimatorFloat("horizontal");
+        hasVerticalParam = HasAnimatorFloat("vertical");
+        hasLastHorizontalParam = HasAnimatorFloat("lastHorizontal");
+        hasLastVerticalParam = HasAnimatorFloat("lastVertical");
+        hasReachedTurnPointParam = HasAnimatorBool("ReachedTurnPoint");
+
+        walkUpStateHash = Animator.StringToHash("Base Layer.WalkUp");
+        walkDownStateHash = Animator.StringToHash("Base Layer.WalkDown");
+        walkLeftStateHash = Animator.StringToHash("Base Layer.WalkLeft");
+
+        hasWalkUpState = animator.HasState(0, walkUpStateHash);
+        hasWalkDownState = animator.HasState(0, walkDownStateHash);
+        hasWalkLeftState = animator.HasState(0, walkLeftStateHash);
+    }
+
+    private bool TryPlayDirectionalState(Vector2 facing)
+    {
+        if (animator == null)
+            return false;
+
+        int desiredStateHash = 0;
+
+        if (Mathf.Abs(facing.y) > Mathf.Abs(facing.x))
+        {
+            if (facing.y > 0f && hasWalkUpState)
+                desiredStateHash = walkUpStateHash;
+            else if (facing.y < 0f && hasWalkDownState)
+                desiredStateHash = walkDownStateHash;
+        }
+        else if (hasWalkLeftState)
+        {
+            // Left clip is also used for right via flipX.
+            desiredStateHash = walkLeftStateHash;
+        }
+
+        if (desiredStateHash == 0)
+            return false;
+
+        if (desiredStateHash == lastPlayedDirectionalStateHash)
+            return true;
+
+        animator.Play(desiredStateHash, 0, 0f);
+        lastPlayedDirectionalStateHash = desiredStateHash;
+        return true;
+    }
+
+    private bool HasAnimatorFloat(string paramName)
+    {
+        if (animator == null)
+            return false;
+
+        AnimatorControllerParameter[] parameters = animator.parameters;
+        for (int i = 0; i < parameters.Length; i++)
+        {
+            AnimatorControllerParameter p = parameters[i];
+            if (p.type == AnimatorControllerParameterType.Float && p.name == paramName)
+                return true;
+        }
+
+        return false;
+    }
+
+    private bool HasAnimatorBool(string paramName)
+    {
+        if (animator == null)
+            return false;
+
+        AnimatorControllerParameter[] parameters = animator.parameters;
+        for (int i = 0; i < parameters.Length; i++)
+        {
+            AnimatorControllerParameter p = parameters[i];
+            if (p.type == AnimatorControllerParameterType.Bool && p.name == paramName)
+                return true;
+        }
+
+        return false;
     }
 }

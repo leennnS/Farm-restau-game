@@ -10,6 +10,10 @@ public class FarmingInputHandler : MonoBehaviour
     [SerializeField] private Camera mainCamera;
     [SerializeField] private PickupToastUIToolkit pickupToast;
 
+    [Header("Scene Filter")]
+    [SerializeField] private bool runOnlyInFarmScene = true;
+    [SerializeField] private string farmSceneName = "FarmScene";
+
     [Header("Tool keywords (lowercase)")]
     [SerializeField] private string hoeKeyword = "hoe";
     [SerializeField] private string wateringCanKeyword = "watering_can";
@@ -56,6 +60,9 @@ public class FarmingInputHandler : MonoBehaviour
 
     private void Update()
     {
+        if (!IsSceneAllowed())
+            return;
+
         //Debug.Log("[FarmingInputHandler] Update called");
         ReadHotbarKeys();
 
@@ -105,6 +112,12 @@ public class FarmingInputHandler : MonoBehaviour
 
     private void HandleLeftClick()
     {
+        if (!IsSceneAllowed())
+            return;
+
+        // Handle stale references when the player object persists across scenes.
+        ResolveReferences();
+
         Debug.Log("[FarmingInputHandler] HandleLeftClick START");
 
         if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
@@ -217,6 +230,21 @@ public class FarmingInputHandler : MonoBehaviour
                 TryPlant(world, selectedItem);
                 break;
         }
+    }
+
+    private bool IsSceneAllowed()
+    {
+        if (!runOnlyInFarmScene)
+            return true;
+
+        Scene active = SceneManager.GetActiveScene();
+        string activeName = active.name ?? string.Empty;
+        string expected = farmSceneName ?? string.Empty;
+
+        if (string.Equals(activeName, expected, System.StringComparison.OrdinalIgnoreCase))
+            return true;
+
+        return activeName.IndexOf("farm", System.StringComparison.OrdinalIgnoreCase) >= 0;
     }
     private void SpawnDebugCross(Vector3 pos, Color color)
     {
