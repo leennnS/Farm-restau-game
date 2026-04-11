@@ -7,5 +7,6 @@ public enum MarketSectionType
     FishAndSeafood = 5,
     MeatAndPoultry = 6,
     Drinks = 7,
-    BreadDairySweeteners = 8
+    BreadDairySweeteners = 8,
+    TreeSeeds = 9
 }

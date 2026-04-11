@@ -15,6 +15,13 @@ public class BoatMovement : MonoBehaviour
     [SerializeField] private bool rotateTowardMovement = false; // If true, boat rotates to face movement direction
     [SerializeField] private float rotationSpeed = 5f;
 
+    [Header("Sprite Changing")]
+    [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private Sprite rightSprite;
+    [SerializeField] private Sprite leftSprite;
+    [SerializeField] private Sprite upSprite;
+    [SerializeField] private Sprite downSprite;
+
     private Rigidbody2D boatRigidbody;
     private bool isMoving = false;
     private Vector2 currentDirection;
@@ -22,6 +29,11 @@ public class BoatMovement : MonoBehaviour
     private void Start()
     {
         boatRigidbody = GetComponent<Rigidbody2D>();
+        
+        // Get SpriteRenderer if not assigned
+        if (spriteRenderer == null)
+            spriteRenderer = GetComponent<SpriteRenderer>();
+            
         currentDirection = moveDirection.normalized;
 
         if (boatRigidbody == null)
@@ -36,6 +48,9 @@ public class BoatMovement : MonoBehaviour
         {
             // Move boat in the current direction
             boatRigidbody.linearVelocity = currentDirection * boatSpeed;
+
+            // Update sprite based on direction
+            UpdateBoatSprite();
 
             // Optional: Rotate boat to face movement direction
             if (rotateTowardMovement)
@@ -69,6 +84,46 @@ public class BoatMovement : MonoBehaviour
     public void SetSpeed(float newSpeed)
     {
         boatSpeed = newSpeed;
+    }
+
+    private void UpdateBoatSprite()
+    {
+        if (spriteRenderer == null)
+            return;
+
+        // Determine which sprite to use based on direction
+        if (Mathf.Abs(currentDirection.x) > Mathf.Abs(currentDirection.y))
+        {
+            // Moving more horizontally
+            if (currentDirection.x > 0)
+            {
+                // Moving right
+                if (rightSprite != null)
+                    spriteRenderer.sprite = rightSprite;
+            }
+            else if (currentDirection.x < 0)
+            {
+                // Moving left
+                if (leftSprite != null)
+                    spriteRenderer.sprite = leftSprite;
+            }
+        }
+        else
+        {
+            // Moving more vertically
+            if (currentDirection.y > 0)
+            {
+                // Moving up
+                if (upSprite != null)
+                    spriteRenderer.sprite = upSprite;
+            }
+            else if (currentDirection.y < 0)
+            {
+                // Moving down
+                if (downSprite != null)
+                    spriteRenderer.sprite = downSprite;
+            }
+        }
     }
 
     public bool IsMoving => isMoving;

@@ -188,6 +188,11 @@
     unity-text-align: middle-center;
 }
 
+.tree-seeds-button {
+    background-color: rgb(216, 237, 198);
+    border-color: rgb(120, 165, 85);
+}
+
 .category-button.active-tab {
     border-width: 4px;
     translate: 3px 0;
@@ -244,6 +249,11 @@
 .baking-dairy-theme {
     background-color: rgb(251, 243, 221);
     border-color: rgb(171, 139, 60);
+}
+
+.tree-seeds-theme {
+    background-color: rgb(236, 247, 228);
+    border-color: rgb(118, 163, 83);
 }
 
 .section-header {
@@ -369,6 +379,11 @@
 .item-card.baking-dairy-card {
     background-color: rgb(255, 250, 239);
     border-color: rgb(194, 154, 73);
+}
+
+.item-card.tree-seeds-card {
+    background-color: rgb(247, 255, 242);
+    border-color: rgb(138, 178, 103);
 }
 
 .item-icon {

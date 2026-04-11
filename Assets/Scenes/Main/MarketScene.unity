@@ -332,7 +332,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 3.5}
+  m_Size: {x: 0.64, y: 3.5}
   m_EdgeRadius: 0
 --- !u!4 &147306052
 Transform:
@@ -343,7 +343,7 @@ Transform:
   m_GameObject: {fileID: 147306049}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.11, y: -1.68, z: 0}
+  m_LocalPosition: {x: -10.41, y: -0.82, z: 0}
   m_LocalScale: {x: 6.26, y: 0.62, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -838,7 +838,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 3.5}
+  m_Size: {x: 0.63, y: 3.5}
   m_EdgeRadius: 0
 --- !u!4 &348164908
 Transform:
@@ -849,7 +849,7 @@ Transform:
   m_GameObject: {fileID: 348164905}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.11, y: 6.01, z: 0}
+  m_LocalPosition: {x: -10.45, y: 7.16, z: 0}
   m_LocalScale: {x: 6.26, y: 0.62, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1206,7 +1206,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 3.5}
+  m_Size: {x: 0.7, y: 3.5}
   m_EdgeRadius: 0
 --- !u!4 &462093124
 Transform:
@@ -1759,7 +1759,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 3.5}
+  m_Size: {x: 0.64, y: 3.5}
   m_EdgeRadius: 0
 --- !u!4 &562060521
 Transform:
@@ -1770,7 +1770,7 @@ Transform:
   m_GameObject: {fileID: 562060518}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.11, y: 5.68, z: 0}
+  m_LocalPosition: {x: -0.58, y: 6.81, z: 0}
   m_LocalScale: {x: 6.26, y: 0.62, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8031,7 +8031,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 3.5}
+  m_Size: {x: 0.64, y: 3.5}
   m_EdgeRadius: 0
 --- !u!4 &636384057
 Transform:
@@ -8042,7 +8042,7 @@ Transform:
   m_GameObject: {fileID: 636384054}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.35, y: 6.27, z: 0}
+  m_LocalPosition: {x: -5.45, y: 7.17, z: 0}
   m_LocalScale: {x: 6.26, y: 0.62, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9010,7 +9010,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 3.5}
+  m_Size: {x: 0.52, y: 3.5}
   m_EdgeRadius: 0
 --- !u!4 &995370190
 Transform:
@@ -9021,7 +9021,7 @@ Transform:
   m_GameObject: {fileID: 995370187}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.81, y: -1.25, z: 0}
+  m_LocalPosition: {x: -4.15, y: -0.55, z: 0}
   m_LocalScale: {x: 6.26, y: 0.62, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9105,7 +9105,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 3.5}
+  m_Size: {x: 0.64, y: 3.5}
   m_EdgeRadius: 0
 --- !u!4 &996689215
 Transform:
@@ -9116,7 +9116,7 @@ Transform:
   m_GameObject: {fileID: 996689212}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.97, y: 5.8, z: 0}
+  m_LocalPosition: {x: 4.35, y: 7.04, z: 0}
   m_LocalScale: {x: 6.26, y: 0.62, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10440,6 +10440,101 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1464759210
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1464759213}
+  - component: {fileID: 1464759212}
+  - component: {fileID: 1464759211}
+  m_Layer: 0
+  m_Name: GardeningMarketTrigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1464759211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1464759210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca1db9fcd7183d443a99d9c3a42d4ad9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GardeningMarketTrigger
+  marketUI: {fileID: 1544411702}
+  toastUI: {fileID: 0}
+  interactionKey: 101
+  interactionPrompt: Press E to browse tree seeds
+--- !u!61 &1464759212
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1464759210}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 6.06, y: 2.94}
+  m_EdgeRadius: 0
+--- !u!4 &1464759213
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1464759210}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 17.87, y: 3.52, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1492211849
 GameObject:
   m_ObjectHideFlags: 0
@@ -10563,6 +10658,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MarketUIController
   uiDocument: {fileID: 1544411703}
   inventoryBridge: {fileID: 1690621}
+  toastUI: {fileID: 0}
+  zeroMoneyLoanHintMessage: "\U0001F4B8 No money? Press L to take a loan."
+  zeroMoneyLoanHintDuration: 6
   seedsEntries:
   - itemName: Tomato seed
     icon: {fileID: -1257518098505440576, guid: c4557cba60ffb6d43835613eb998dcc8, type: 3}
@@ -10774,6 +10872,13 @@ MonoBehaviour:
     description: 
     available: 1
     itemDefinition: {fileID: 11400000, guid: 6e9e7b38e7fa6e2409f62b737e973a8b, type: 2}
+  treeSeedsEntries:
+  - itemName: Apple tree seeds
+    icon: {fileID: -1257518098505440576, guid: c4557cba60ffb6d43835613eb998dcc8, type: 3}
+    price: 20
+    description: 
+    available: 1
+    itemDefinition: {fileID: 11400000, guid: 16b47ca967a7e0d48bc7ba39da227dc7, type: 2}
   closeKey: 27
 --- !u!114 &1544411703
 MonoBehaviour:
@@ -11970,3 +12075,4 @@ SceneRoots:
   - {fileID: 1406012336}
   - {fileID: 656796191}
   - {fileID: 1417485309}
+  - {fileID: 1464759213}

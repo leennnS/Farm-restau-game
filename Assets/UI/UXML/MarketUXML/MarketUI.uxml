@@ -22,6 +22,7 @@
                             <ui:Button name="tab-meat-poultry" text="Meat &amp; Poultry" class="category-button meat-poultry-button"/>
                             <ui:Button name="tab-drinks" text="Drinks" class="category-button drinks-button"/>
                             <ui:Button name="tab-baking-dairy" text="Bread Dairy&#10;Sweeteners" class="category-button baking-dairy-button"/>
+                            <ui:Button name="tab-tree-seeds" text="Tree Seeds" class="category-button tree-seeds-button"/>
                         </ui:ScrollView>
                     </ui:VisualElement>
                     <ui:VisualElement class="section-stage">
@@ -86,6 +87,15 @@
                             </ui:VisualElement>
                             <ui:ScrollView name="scroll-baking-dairy" class="item-scroll">
                                 <ui:VisualElement name="grid-baking-dairy" class="items-grid"/>
+                            </ui:ScrollView>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="section-tree-seeds" class="section-panel tree-seeds-theme hidden">
+                            <ui:VisualElement class="section-header">
+                                <ui:Label text="Tree Seeds" class="section-title"/>
+                                <ui:Label text="Plant seeds for long-lasting trees." class="section-description"/>
+                            </ui:VisualElement>
+                            <ui:ScrollView name="scroll-tree-seeds" class="item-scroll">
+                                <ui:VisualElement name="grid-tree-seeds" class="items-grid"/>
                             </ui:ScrollView>
                         </ui:VisualElement>
                     </ui:VisualElement>

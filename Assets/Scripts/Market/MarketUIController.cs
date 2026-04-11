@@ -28,6 +28,7 @@ public class MarketUIController : MonoBehaviour
     [SerializeField] private MarketItemEntry[] drinksEntries;
     [FormerlySerializedAs("bakingDairyItems")]
     [SerializeField] private MarketItemEntry[] breadDairySweetenersEntries;
+    [SerializeField] private MarketItemEntry[] treeSeedsEntries;
 
     [Header("Input")]
     [SerializeField] private KeyCode closeKey = KeyCode.Escape;
@@ -45,6 +46,7 @@ public class MarketUIController : MonoBehaviour
     private Button meatPoultryTabButton;
     private Button drinksTabButton;
     private Button breadDairySweetenersTabButton;
+    private Button treeSeedsTabButton;
 
     private VisualElement seedsSection;
     private VisualElement toolsSection;
@@ -53,6 +55,7 @@ public class MarketUIController : MonoBehaviour
     private VisualElement meatPoultrySection;
     private VisualElement drinksSection;
     private VisualElement breadDairySweetenersSection;
+    private VisualElement treeSeedsSection;
 
     private VisualElement seedsGrid;
     private VisualElement toolsGrid;
@@ -61,6 +64,7 @@ public class MarketUIController : MonoBehaviour
     private VisualElement meatPoultryGrid;
     private VisualElement drinksGrid;
     private VisualElement breadDairySweetenersGrid;
+    private VisualElement treeSeedsGrid;
 
     private readonly Dictionary<MarketSectionType, VisualElement> sectionLookup = new();
     private readonly Dictionary<MarketSectionType, Button> tabLookup = new();
@@ -101,6 +105,7 @@ public class MarketUIController : MonoBehaviour
         meatPoultryTabButton = root.Q<Button>("tab-meat-poultry");
         drinksTabButton = root.Q<Button>("tab-drinks");
         breadDairySweetenersTabButton = root.Q<Button>("tab-baking-dairy");
+        treeSeedsTabButton = root.Q<Button>("tab-tree-seeds");
 
         seedsSection = root.Q<VisualElement>("section-seeds");
         toolsSection = root.Q<VisualElement>("section-tools");
@@ -109,6 +114,7 @@ public class MarketUIController : MonoBehaviour
         meatPoultrySection = root.Q<VisualElement>("section-meat-poultry");
         drinksSection = root.Q<VisualElement>("section-drinks");
         breadDairySweetenersSection = root.Q<VisualElement>("section-baking-dairy");
+        treeSeedsSection = root.Q<VisualElement>("section-tree-seeds");
 
         seedsGrid = root.Q<VisualElement>("grid-seeds");
         toolsGrid = root.Q<VisualElement>("grid-tools");
@@ -117,6 +123,7 @@ public class MarketUIController : MonoBehaviour
         meatPoultryGrid = root.Q<VisualElement>("grid-meat-poultry");
         drinksGrid = root.Q<VisualElement>("grid-drinks");
         breadDairySweetenersGrid = root.Q<VisualElement>("grid-baking-dairy");
+        treeSeedsGrid = root.Q<VisualElement>("grid-tree-seeds");
 
         sectionLookup[MarketSectionType.Seeds] = seedsSection;
         sectionLookup[MarketSectionType.Tools] = toolsSection;
@@ -125,6 +132,7 @@ public class MarketUIController : MonoBehaviour
         sectionLookup[MarketSectionType.MeatAndPoultry] = meatPoultrySection;
         sectionLookup[MarketSectionType.Drinks] = drinksSection;
         sectionLookup[MarketSectionType.BreadDairySweeteners] = breadDairySweetenersSection;
+        sectionLookup[MarketSectionType.TreeSeeds] = treeSeedsSection;
 
         tabLookup[MarketSectionType.Seeds] = seedsTabButton;
         tabLookup[MarketSectionType.Tools] = toolsTabButton;
@@ -133,6 +141,7 @@ public class MarketUIController : MonoBehaviour
         tabLookup[MarketSectionType.MeatAndPoultry] = meatPoultryTabButton;
         tabLookup[MarketSectionType.Drinks] = drinksTabButton;
         tabLookup[MarketSectionType.BreadDairySweeteners] = breadDairySweetenersTabButton;
+        tabLookup[MarketSectionType.TreeSeeds] = treeSeedsTabButton;
 
         closeButton.clicked += CloseMarket;
         seedsTabButton.clicked += () => TrySwitchTab(MarketSectionType.Seeds);
@@ -142,6 +151,7 @@ public class MarketUIController : MonoBehaviour
         meatPoultryTabButton.clicked += () => TrySwitchTab(MarketSectionType.MeatAndPoultry);
         drinksTabButton.clicked += () => TrySwitchTab(MarketSectionType.Drinks);
         breadDairySweetenersTabButton.clicked += () => TrySwitchTab(MarketSectionType.BreadDairySweeteners);
+        treeSeedsTabButton.clicked += () => TrySwitchTab(MarketSectionType.TreeSeeds);
 
         PopulateAllSections();
         RefreshMoney();
@@ -316,6 +326,9 @@ public class MarketUIController : MonoBehaviour
 
     public void SetInteractionHint(string message, bool show)
     {
+        if (interactionHint == null)
+            return;
+
         interactionHint.text = message;
 
         if (show)
@@ -335,6 +348,7 @@ public class MarketUIController : MonoBehaviour
             MarketSectionType.MeatAndPoultry => "Quality meat and poultry cuts.",
             MarketSectionType.Drinks => "Refreshing drinks and juices.",
             MarketSectionType.BreadDairySweeteners => "Bread, dairy, and sweeteners for your pantry.",
+            MarketSectionType.TreeSeeds => "Plant trees to grow over time.",
             _ => "Browse the market."
         };
     }
@@ -357,6 +371,7 @@ public class MarketUIController : MonoBehaviour
         PopulateSection(meatPoultryGrid, ResolveItemsForSection(MarketSectionType.MeatAndPoultry), MarketSectionType.MeatAndPoultry);
         PopulateSection(drinksGrid, ResolveItemsForSection(MarketSectionType.Drinks), MarketSectionType.Drinks);
         PopulateSection(breadDairySweetenersGrid, ResolveItemsForSection(MarketSectionType.BreadDairySweeteners), MarketSectionType.BreadDairySweeteners);
+        PopulateSection(treeSeedsGrid, ResolveItemsForSection(MarketSectionType.TreeSeeds), MarketSectionType.TreeSeeds);
     }
 
     private MarketItemEntry[] ResolveItemsForSection(MarketSectionType section)
@@ -368,6 +383,7 @@ public class MarketUIController : MonoBehaviour
             MarketSectionType.MeatAndPoultry => meatPoultryEntries,
             MarketSectionType.Drinks => drinksEntries,
             MarketSectionType.BreadDairySweeteners => breadDairySweetenersEntries,
+            MarketSectionType.TreeSeeds => treeSeedsEntries,
             _ => null
         };
     }
@@ -469,6 +485,7 @@ public class MarketUIController : MonoBehaviour
             MarketSectionType.MeatAndPoultry => "meat-poultry-card",
             MarketSectionType.Drinks => "drinks-card",
             MarketSectionType.BreadDairySweeteners => "baking-dairy-card",
+            MarketSectionType.TreeSeeds => "tree-seeds-card",
             _ => "seeds-card"
         };
     }
