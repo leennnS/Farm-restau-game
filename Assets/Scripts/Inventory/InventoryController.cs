@@ -272,7 +272,7 @@ public class InventoryController : MonoBehaviour
         _inventorySaveDirty = true;
     }
 
-    private void SaveInventoryData()
+    public void SaveInventoryData()
     {
         if (_slotsData == null || _hotbarData == null)
             return;
@@ -304,7 +304,7 @@ public class InventoryController : MonoBehaviour
         return result;
     }
 
-    private void LoadInventoryData()
+    public void LoadInventoryData()
     {
         if (!PlayerPrefs.HasKey(InventorySaveKey))
             return;
@@ -2642,6 +2642,39 @@ public class InventoryController : MonoBehaviour
 
         // Update the external hotbar display with the new sprite
         SetExternalHotbarSlot(slotIndex, newIcon, amount);
+    }
+
+    /// <summary>
+    /// Clear all inventory items (used for New Game)
+    /// </summary>
+    public void ClearAllItems()
+    {
+        if (_slotsData != null)
+        {
+            for (int i = 0; i < _slotsData.Length; i++)
+            {
+                _slotsData[i] = new ItemStack { item = null, amount = 0 };
+            }
+        }
+
+        if (_hotbarData != null)
+        {
+            for (int i = 0; i < _hotbarData.Length; i++)
+            {
+                _hotbarData[i] = new ItemStack { item = null, amount = 0 };
+            }
+        }
+
+        MarkInventoryDirty();
+        RefreshAllSlots();
+    }
+
+    /// <summary>
+    /// Load inventory data from save (public wrapper for GameManager)
+    /// </summary>
+    public void LoadPlayerInventory()
+    {
+        LoadInventoryData();
     }
 }
 

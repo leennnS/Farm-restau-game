@@ -6,7 +6,7 @@
             <ui:Label name="catchable-name-label" text="???"/>
         </ui:VisualElement>
         <ui:VisualElement name="tension-container">
-            <ui:Label text="LINE TENSION"/>
+            <ui:Label class="tension-label-title" text="LINE TENSION"/>
             <ui:ProgressBar name="tension-bar"/>
             <ui:Label name="tension-label" text="Tension: 0%"/>
         </ui:VisualElement>

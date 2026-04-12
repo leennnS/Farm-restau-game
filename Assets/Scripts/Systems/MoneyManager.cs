@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Global money system shared across all scenes.
@@ -70,9 +71,30 @@ public class MoneyManager : MonoBehaviour
         _instance = this;
         DontDestroyOnLoad(gameObject);
         LoadMoney();
+    }
 
-        if (autoCreateGlobalMoneyHud)
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // Create HUD when entering game scenes (not menu)
+        if (autoCreateGlobalMoneyHud && !IsMenuScene(scene.name))
+        {
             EnsureGlobalHudExists();
+        }
+    }
+
+    private bool IsMenuScene(string sceneName)
+    {
+        return sceneName.Equals("MAIN MENU", System.StringComparison.Ordinal);
     }
 
     private void EnsureGlobalHudExists()
@@ -164,6 +186,9 @@ public class MoneyManager : MonoBehaviour
     public void ResetToDefault()
     {
         SetMoney(Mathf.Max(0, defaultStartingMoney));
+        CurrentDebt = defaultStartingDebt;
+        SaveMoney();
+        OnDebtChanged?.Invoke(CurrentDebt);
     }
 
     public void SaveMoney()

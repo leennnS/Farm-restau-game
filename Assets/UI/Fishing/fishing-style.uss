@@ -61,7 +61,7 @@
     border-color: rgba(100, 150, 200, 0.5);
 }
 
-#tension-container Label:first-child {
+#tension-container .tension-label-title {
     color: rgb(200, 255, 200);
     font-size: 18px;
     margin-bottom: 10px;

@@ -361,6 +361,11 @@ public class DayNightCycleNice2D : MonoBehaviour
         s_persistentDay = currentDay;
     }
 
+    public void SaveTimeState()
+    {
+        SaveToDisk();
+    }
+
     private void SaveToDisk()
     {
         if (!persistAcrossSessions)
@@ -631,6 +636,34 @@ public class DayNightCycleNice2D : MonoBehaviour
         PlayerPrefs.Save();
         Apply();
 
+    }
+
+    /// <summary>
+    /// Public method to load time state from PlayerPrefs (called by GameManager)
+    /// </summary>
+    public void LoadTimeState()
+    {
+        if (!persistAcrossSessions)
+        {
+            TimeNormalized = startTimeNormalized;
+            return;
+        }
+
+        float savedTime = PlayerPrefs.GetFloat(SavedTimeKey, startTimeNormalized);
+        int savedDay = Mathf.Max(0, PlayerPrefs.GetInt(SavedDayKey, 0));
+
+        TimeNormalized = Mathf.Clamp01(savedTime);
+        currentDay = savedDay;
+        SavePersistentState();
+        Apply();
+    }
+
+    /// <summary>
+    /// Public method to reset to defaults (public wrapper for context menu Reset)
+    /// </summary>
+    public void ResetToDefault()
+    {
+        ResetToNewDay();
     }
 
     /// <summary>
