@@ -1,0 +1,455 @@
+fileFormatVersion: 2
+guid: 1bc17573334dc564d9bd6d7fb691a3cd
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -6883230983242780602
+    second: breakable-pots-anim-4-V3-10frames_0
+  - first:
+      213: 6919554347140815512
+    second: breakable-pots-anim-4-V3-10frames_1
+  - first:
+      213: 6395958350697405604
+    second: breakable-pots-anim-4-V3-10frames_2
+  - first:
+      213: -42037965726944085
+    second: breakable-pots-anim-4-V3-10frames_3
+  - first:
+      213: -606080177635665487
+    second: breakable-pots-anim-4-V3-10frames_4
+  - first:
+      213: -7834631027894304003
+    second: breakable-pots-anim-4-V3-10frames_5
+  - first:
+      213: 5735823559004923951
+    second: breakable-pots-anim-4-V3-10frames_6
+  - first:
+      213: -5547072835569830727
+    second: breakable-pots-anim-4-V3-10frames_7
+  - first:
+      213: 5867294338720629866
+    second: breakable-pots-anim-4-V3-10frames_8
+  - first:
+      213: -393298675492423266
+    second: breakable-pots-anim-4-V3-10frames_9
+  - first:
+      213: 961456086024453322
+    second: breakable-pots-anim-4-V3-10frames_10
+  - first:
+      213: -4203322841475057899
+    second: breakable-pots-anim-4-V3-10frames_11
+  - first:
+      213: 5358274316766536767
+    second: breakable-pots-anim-4-V3-10frames_12
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: breakable-pots-anim-4-V3-10frames_0
+      rect:
+        serializedVersion: 2
+        x: 36
+        y: 38
+        width: 24
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 640f9d0c3e9d970a0800000000000000
+      internalID: -6883230983242780602
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: breakable-pots-anim-4-V3-10frames_1
+      rect:
+        serializedVersion: 2
+        x: 39
+        y: 50
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 89a96517402370060800000000000000
+      internalID: 6919554347140815512
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: breakable-pots-anim-4-V3-10frames_2
+      rect:
+        serializedVersion: 2
+        x: 42
+        y: 49
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4ac13839b3203c850800000000000000
+      internalID: 6395958350697405604
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: breakable-pots-anim-4-V3-10frames_3
+      rect:
+        serializedVersion: 2
+        x: 47
+        y: 53
+        width: 10
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ba4f3c161b6aa6ff0800000000000000
+      internalID: -42037965726944085
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: breakable-pots-anim-4-V3-10frames_4
+      rect:
+        serializedVersion: 2
+        x: 130
+        y: 52
+        width: 9
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1b9de922a45c697f0800000000000000
+      internalID: -606080177635665487
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: breakable-pots-anim-4-V3-10frames_5
+      rect:
+        serializedVersion: 2
+        x: 133
+        y: 48
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: df24b1cf69cc54390800000000000000
+      internalID: -7834631027894304003
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: breakable-pots-anim-4-V3-10frames_6
+      rect:
+        serializedVersion: 2
+        x: 137
+        y: 45
+        width: 21
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f282ec0232db99f40800000000000000
+      internalID: 5735823559004923951
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: breakable-pots-anim-4-V3-10frames_7
+      rect:
+        serializedVersion: 2
+        x: 221
+        y: 54
+        width: 9
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9b434ac45a6d403b0800000000000000
+      internalID: -5547072835569830727
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: breakable-pots-anim-4-V3-10frames_8
+      rect:
+        serializedVersion: 2
+        x: 223
+        y: 36
+        width: 35
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a648a146d11dc6150800000000000000
+      internalID: 5867294338720629866
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: breakable-pots-anim-4-V3-10frames_9
+      rect:
+        serializedVersion: 2
+        x: 313
+        y: 52
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e9974ac30f8ba8af0800000000000000
+      internalID: -393298675492423266
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: breakable-pots-anim-4-V3-10frames_10
+      rect:
+        serializedVersion: 2
+        x: 319
+        y: 34
+        width: 522
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: accff9a5737c75d00800000000000000
+      internalID: 961456086024453322
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: breakable-pots-anim-4-V3-10frames_11
+      rect:
+        serializedVersion: 2
+        x: 129
+        y: 38
+        width: 16
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 517f795552ccaa5c0800000000000000
+      internalID: -4203322841475057899
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: breakable-pots-anim-4-V3-10frames_12
+      rect:
+        serializedVersion: 2
+        x: 142
+        y: 37
+        width: 10
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f34e7fb0a1a6c5a40800000000000000
+      internalID: 5358274316766536767
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      breakable-pots-anim-4-V3-10frames_0: -6883230983242780602
+      breakable-pots-anim-4-V3-10frames_1: 6919554347140815512
+      breakable-pots-anim-4-V3-10frames_10: 961456086024453322
+      breakable-pots-anim-4-V3-10frames_11: -4203322841475057899
+      breakable-pots-anim-4-V3-10frames_12: 5358274316766536767
+      breakable-pots-anim-4-V3-10frames_2: 6395958350697405604
+      breakable-pots-anim-4-V3-10frames_3: -42037965726944085
+      breakable-pots-anim-4-V3-10frames_4: -606080177635665487
+      breakable-pots-anim-4-V3-10frames_5: -7834631027894304003
+      breakable-pots-anim-4-V3-10frames_6: 5735823559004923951
+      breakable-pots-anim-4-V3-10frames_7: -5547072835569830727
+      breakable-pots-anim-4-V3-10frames_8: 5867294338720629866
+      breakable-pots-anim-4-V3-10frames_9: -393298675492423266
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

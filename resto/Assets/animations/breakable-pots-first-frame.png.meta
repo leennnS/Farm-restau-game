@@ -1,0 +1,1235 @@
+fileFormatVersion: 2
+guid: e794c797b239cba44ba747d963574843
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 9127292467701869481
+    second: breakable-pots-first-frame_0
+  - first:
+      213: 5122120298678143297
+    second: breakable-pots-first-frame_1
+  - first:
+      213: -4850584653471234393
+    second: breakable-pots-first-frame_2
+  - first:
+      213: -1545614783750604106
+    second: breakable-pots-first-frame_3
+  - first:
+      213: -6147986967710006754
+    second: breakable-pots-first-frame_4
+  - first:
+      213: 19873897923196073
+    second: breakable-pots-first-frame_5
+  - first:
+      213: -8384451635735197773
+    second: breakable-pots-first-frame_6
+  - first:
+      213: 7278671138156057648
+    second: breakable-pots-first-frame_7
+  - first:
+      213: -3444844262668457312
+    second: breakable-pots-first-frame_8
+  - first:
+      213: 1121405044160912960
+    second: breakable-pots-first-frame_9
+  - first:
+      213: 265518198994491044
+    second: breakable-pots-first-frame_10
+  - first:
+      213: -6079379990971459761
+    second: breakable-pots-first-frame_11
+  - first:
+      213: -4170401667184345115
+    second: breakable-pots-first-frame_12
+  - first:
+      213: -4697588268752251172
+    second: breakable-pots-first-frame_13
+  - first:
+      213: 8368888550898091071
+    second: breakable-pots-first-frame_14
+  - first:
+      213: 8865935707016775025
+    second: breakable-pots-first-frame_15
+  - first:
+      213: -7795832518462082404
+    second: breakable-pots-first-frame_16
+  - first:
+      213: 4255063091127497942
+    second: breakable-pots-first-frame_17
+  - first:
+      213: -3510224652642516339
+    second: breakable-pots-first-frame_18
+  - first:
+      213: -7532266367644234420
+    second: breakable-pots-first-frame_19
+  - first:
+      213: 4624324818984738159
+    second: breakable-pots-first-frame_20
+  - first:
+      213: -9002391079183278391
+    second: breakable-pots-first-frame_21
+  - first:
+      213: -8440040348588019941
+    second: breakable-pots-first-frame_22
+  - first:
+      213: -7849686881595830207
+    second: breakable-pots-first-frame_23
+  - first:
+      213: 1999972968423828009
+    second: breakable-pots-first-frame_24
+  - first:
+      213: 2639527640425409888
+    second: breakable-pots-first-frame_25
+  - first:
+      213: -9164072990346835010
+    second: breakable-pots-first-frame_26
+  - first:
+      213: 72211170632496909
+    second: breakable-pots-first-frame_27
+  - first:
+      213: 1339964530367908220
+    second: breakable-pots-first-frame_28
+  - first:
+      213: -2164046995831259466
+    second: breakable-pots-first-frame_29
+  - first:
+      213: 2921750675755523162
+    second: breakable-pots-first-frame_30
+  - first:
+      213: 4143098038919325584
+    second: breakable-pots-first-frame_31
+  - first:
+      213: 6385024874205528652
+    second: breakable-pots-first-frame_32
+  - first:
+      213: 6531665142797783128
+    second: breakable-pots-first-frame_33
+  - first:
+      213: -7579779343686078328
+    second: breakable-pots-first-frame_34
+  - first:
+      213: 2587809221340949104
+    second: breakable-pots-first-frame_35
+  - first:
+      213: 729588258242691679
+    second: breakable-pots-first-frame_36
+  - first:
+      213: -116675107312461044
+    second: breakable-pots-first-frame_37
+  - first:
+      213: 5616520494434065331
+    second: breakable-pots-first-frame_38
+  - first:
+      213: -1319879609134507100
+    second: breakable-pots-first-frame_39
+  - first:
+      213: 3545939057443145417
+    second: breakable-pots-first-frame_40
+  - first:
+      213: 3745701970214092990
+    second: breakable-pots-first-frame_41
+  - first:
+      213: 7520950446313063354
+    second: breakable-pots-first-frame_42
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: breakable-pots-first-frame_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 223
+        width: 33
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9abe7721428aaae70800000000000000
+      internalID: 9127292467701869481
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: breakable-pots-first-frame_1
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 194
+        width: 26
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1494783064d651740800000000000000
+      internalID: 5122120298678143297
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: breakable-pots-first-frame_2
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 194
+        width: 18
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7a6c2e805f24facb0800000000000000
+      internalID: -4850584653471234393
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: breakable-pots-first-frame_3
+      rect:
+        serializedVersion: 2
+        x: 133
+        y: 195
+        width: 22
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6baf3fe0b8fdc8ae0800000000000000
+      internalID: -1545614783750604106
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: breakable-pots-first-frame_4
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 202
+        width: 10
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e120ae12d66fdaaa0800000000000000
+      internalID: -6147986967710006754
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: breakable-pots-first-frame_5
+      rect:
+        serializedVersion: 2
+        x: 105
+        y: 198
+        width: 14
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9a4b302743b964000800000000000000
+      internalID: 19873897923196073
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: breakable-pots-first-frame_6
+      rect:
+        serializedVersion: 2
+        x: 169
+        y: 197
+        width: 14
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3b78f87f8a174ab80800000000000000
+      internalID: -8384451635735197773
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: breakable-pots-first-frame_7
+      rect:
+        serializedVersion: 2
+        x: 199
+        y: 196
+        width: 18
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0341eaa06d8030560800000000000000
+      internalID: 7278671138156057648
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: breakable-pots-first-frame_8
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 170
+        width: 11
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0aaaa1905647130d0800000000000000
+      internalID: -3444844262668457312
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: breakable-pots-first-frame_9
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 162
+        width: 26
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 04eda8a32f7009f00800000000000000
+      internalID: 1121405044160912960
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: breakable-pots-first-frame_10
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 162
+        width: 18
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4a6d77c256f4fa300800000000000000
+      internalID: 265518198994491044
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: breakable-pots-first-frame_11
+      rect:
+        serializedVersion: 2
+        x: 105
+        y: 166
+        width: 14
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f47578fab14b1aba0800000000000000
+      internalID: -6079379990971459761
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: breakable-pots-first-frame_12
+      rect:
+        serializedVersion: 2
+        x: 133
+        y: 163
+        width: 22
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5efb7c887c1cf16c0800000000000000
+      internalID: -4170401667184345115
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: breakable-pots-first-frame_13
+      rect:
+        serializedVersion: 2
+        x: 169
+        y: 165
+        width: 14
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cd6daf3cb50deceb0800000000000000
+      internalID: -4697588268752251172
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: breakable-pots-first-frame_14
+      rect:
+        serializedVersion: 2
+        x: 199
+        y: 164
+        width: 18
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f344d19fbc3442470800000000000000
+      internalID: 8368888550898091071
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: breakable-pots-first-frame_15
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 138
+        width: 11
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 175cf224d812a0b70800000000000000
+      internalID: 8865935707016775025
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: breakable-pots-first-frame_16
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 130
+        width: 26
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c92f0a8e0a3afc390800000000000000
+      internalID: -7795832518462082404
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: breakable-pots-first-frame_17
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 130
+        width: 18
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6d4b78b46550d0b30800000000000000
+      internalID: 4255063091127497942
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: breakable-pots-first-frame_18
+      rect:
+        serializedVersion: 2
+        x: 105
+        y: 134
+        width: 14
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d828c61c64d294fc0800000000000000
+      internalID: -3510224652642516339
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: breakable-pots-first-frame_19
+      rect:
+        serializedVersion: 2
+        x: 133
+        y: 131
+        width: 22
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c4d81f275a3087790800000000000000
+      internalID: -7532266367644234420
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: breakable-pots-first-frame_20
+      rect:
+        serializedVersion: 2
+        x: 169
+        y: 133
+        width: 14
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f6d9b911ce6ec2040800000000000000
+      internalID: 4624324818984738159
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: breakable-pots-first-frame_21
+      rect:
+        serializedVersion: 2
+        x: 199
+        y: 132
+        width: 18
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9ce922c9205111380800000000000000
+      internalID: -9002391079183278391
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: breakable-pots-first-frame_22
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 106
+        width: 11
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b1f627c2504feda80800000000000000
+      internalID: -8440040348588019941
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: breakable-pots-first-frame_23
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 98
+        width: 26
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 140df60ee5f401390800000000000000
+      internalID: -7849686881595830207
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: breakable-pots-first-frame_24
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 98
+        width: 18
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 92a294781d451cb10800000000000000
+      internalID: 1999972968423828009
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: breakable-pots-first-frame_25
+      rect:
+        serializedVersion: 2
+        x: 105
+        y: 102
+        width: 14
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 06da166776c71a420800000000000000
+      internalID: 2639527640425409888
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: breakable-pots-first-frame_26
+      rect:
+        serializedVersion: 2
+        x: 133
+        y: 99
+        width: 22
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ebb00aa2b2ca2d080800000000000000
+      internalID: -9164072990346835010
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: breakable-pots-first-frame_27
+      rect:
+        serializedVersion: 2
+        x: 169
+        y: 101
+        width: 14
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d077d565dab800100800000000000000
+      internalID: 72211170632496909
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: breakable-pots-first-frame_28
+      rect:
+        serializedVersion: 2
+        x: 199
+        y: 100
+        width: 18
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c79c33414a2889210800000000000000
+      internalID: 1339964530367908220
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: breakable-pots-first-frame_29
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 74
+        width: 11
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6bef93019b2c7f1e0800000000000000
+      internalID: -2164046995831259466
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: breakable-pots-first-frame_30
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 66
+        width: 26
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a5c5aae62c42c8820800000000000000
+      internalID: 2921750675755523162
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: breakable-pots-first-frame_31
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 66
+        width: 18
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 097676f17bd3f7930800000000000000
+      internalID: 4143098038919325584
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: breakable-pots-first-frame_32
+      rect:
+        serializedVersion: 2
+        x: 105
+        y: 70
+        width: 14
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c42cd053b4a2c9850800000000000000
+      internalID: 6385024874205528652
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: breakable-pots-first-frame_33
+      rect:
+        serializedVersion: 2
+        x: 133
+        y: 67
+        width: 22
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 850534457d225aa50800000000000000
+      internalID: 6531665142797783128
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: breakable-pots-first-frame_34
+      rect:
+        serializedVersion: 2
+        x: 169
+        y: 69
+        width: 14
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8807fb7a8d63fc690800000000000000
+      internalID: -7579779343686078328
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: breakable-pots-first-frame_35
+      rect:
+        serializedVersion: 2
+        x: 199
+        y: 68
+        width: 18
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 07ae188a6ceb9e320800000000000000
+      internalID: 2587809221340949104
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: breakable-pots-first-frame_36
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 42
+        width: 11
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f520ad4c7a4002a00800000000000000
+      internalID: 729588258242691679
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: breakable-pots-first-frame_37
+      rect:
+        serializedVersion: 2
+        x: 35
+        y: 34
+        width: 26
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c0b928aab9c716ef0800000000000000
+      internalID: -116675107312461044
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: breakable-pots-first-frame_38
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 34
+        width: 18
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3bb9170d1a3e1fd40800000000000000
+      internalID: 5616520494434065331
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: breakable-pots-first-frame_39
+      rect:
+        serializedVersion: 2
+        x: 105
+        y: 38
+        width: 14
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4ab914f0d78deade0800000000000000
+      internalID: -1319879609134507100
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: breakable-pots-first-frame_40
+      rect:
+        serializedVersion: 2
+        x: 133
+        y: 35
+        width: 22
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9c6051a19c4b53130800000000000000
+      internalID: 3545939057443145417
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: breakable-pots-first-frame_41
+      rect:
+        serializedVersion: 2
+        x: 169
+        y: 37
+        width: 14
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eb08719a8186bf330800000000000000
+      internalID: 3745701970214092990
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: breakable-pots-first-frame_42
+      rect:
+        serializedVersion: 2
+        x: 199
+        y: 36
+        width: 18
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ab34ecd4598cf5860800000000000000
+      internalID: 7520950446313063354
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      breakable-pots-first-frame_0: 9127292467701869481
+      breakable-pots-first-frame_1: 5122120298678143297
+      breakable-pots-first-frame_10: 265518198994491044
+      breakable-pots-first-frame_11: -6079379990971459761
+      breakable-pots-first-frame_12: -4170401667184345115
+      breakable-pots-first-frame_13: -4697588268752251172
+      breakable-pots-first-frame_14: 8368888550898091071
+      breakable-pots-first-frame_15: 8865935707016775025
+      breakable-pots-first-frame_16: -7795832518462082404
+      breakable-pots-first-frame_17: 4255063091127497942
+      breakable-pots-first-frame_18: -3510224652642516339
+      breakable-pots-first-frame_19: -7532266367644234420
+      breakable-pots-first-frame_2: -4850584653471234393
+      breakable-pots-first-frame_20: 4624324818984738159
+      breakable-pots-first-frame_21: -9002391079183278391
+      breakable-pots-first-frame_22: -8440040348588019941
+      breakable-pots-first-frame_23: -7849686881595830207
+      breakable-pots-first-frame_24: 1999972968423828009
+      breakable-pots-first-frame_25: 2639527640425409888
+      breakable-pots-first-frame_26: -9164072990346835010
+      breakable-pots-first-frame_27: 72211170632496909
+      breakable-pots-first-frame_28: 1339964530367908220
+      breakable-pots-first-frame_29: -2164046995831259466
+      breakable-pots-first-frame_3: -1545614783750604106
+      breakable-pots-first-frame_30: 2921750675755523162
+      breakable-pots-first-frame_31: 4143098038919325584
+      breakable-pots-first-frame_32: 6385024874205528652
+      breakable-pots-first-frame_33: 6531665142797783128
+      breakable-pots-first-frame_34: -7579779343686078328
+      breakable-pots-first-frame_35: 2587809221340949104
+      breakable-pots-first-frame_36: 729588258242691679
+      breakable-pots-first-frame_37: -116675107312461044
+      breakable-pots-first-frame_38: 5616520494434065331
+      breakable-pots-first-frame_39: -1319879609134507100
+      breakable-pots-first-frame_4: -6147986967710006754
+      breakable-pots-first-frame_40: 3545939057443145417
+      breakable-pots-first-frame_41: 3745701970214092990
+      breakable-pots-first-frame_42: 7520950446313063354
+      breakable-pots-first-frame_5: 19873897923196073
+      breakable-pots-first-frame_6: -8384451635735197773
+      breakable-pots-first-frame_7: 7278671138156057648
+      breakable-pots-first-frame_8: -3444844262668457312
+      breakable-pots-first-frame_9: 1121405044160912960
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

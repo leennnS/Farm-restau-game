@@ -1,0 +1,429 @@
+fileFormatVersion: 2
+guid: 2a7663e199543f94caf49ef1e0f5b7f3
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 1875841749543551276
+    second: windows1-_5_sunlight_0
+  - first:
+      213: -1613660494175667757
+    second: windows1-_5_sunlight_1
+  - first:
+      213: -5696177506197985274
+    second: windows1-_5_sunlight_2
+  - first:
+      213: -5221037104930264319
+    second: windows1-_5_sunlight_3
+  - first:
+      213: 5290288256778496365
+    second: windows1-_5_sunlight_4
+  - first:
+      213: 2585294128514549637
+    second: windows1-_5_sunlight_5
+  - first:
+      213: 5312505756977669960
+    second: windows1-_5_sunlight_6
+  - first:
+      213: -2006584306262676027
+    second: windows1-_5_sunlight_7
+  - first:
+      213: -1917328648894051616
+    second: windows1-_5_sunlight_8
+  - first:
+      213: -3302507516085971942
+    second: windows1-_5_sunlight_9
+  - first:
+      213: -8042662916214866660
+    second: windows1-_5_sunlight_10
+  - first:
+      213: 8729129242413698530
+    second: windows1-_5_sunlight_11
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: windows1-_5_sunlight_0
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 25
+        width: 11
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c210460f124580a10800000000000000
+      internalID: 1875841749543551276
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: windows1-_5_sunlight_1
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 16
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3d9f39084502b99e0800000000000000
+      internalID: -1613660494175667757
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: windows1-_5_sunlight_2
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 25
+        width: 11
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 608af7ddcbc13f0b0800000000000000
+      internalID: -5696177506197985274
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: windows1-_5_sunlight_3
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 16
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 10b6f715a662b87b0800000000000000
+      internalID: -5221037104930264319
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: windows1-_5_sunlight_4
+      rect:
+        serializedVersion: 2
+        x: 33
+        y: 25
+        width: 11
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d69e3b0f321ea6940800000000000000
+      internalID: 5290288256778496365
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: windows1-_5_sunlight_5
+      rect:
+        serializedVersion: 2
+        x: 33
+        y: 16
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 587430aff4fc0e320800000000000000
+      internalID: 2585294128514549637
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: windows1-_5_sunlight_6
+      rect:
+        serializedVersion: 2
+        x: 45
+        y: 25
+        width: 11
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8472fdfc6dfc9b940800000000000000
+      internalID: 5312505756977669960
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: windows1-_5_sunlight_7
+      rect:
+        serializedVersion: 2
+        x: 45
+        y: 16
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5cde65d643e2724e0800000000000000
+      internalID: -2006584306262676027
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: windows1-_5_sunlight_8
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 8
+        width: 11
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0ea8df490c74465e0800000000000000
+      internalID: -1917328648894051616
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: windows1-_5_sunlight_9
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 8
+        width: 11
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a1453ab59e22b22d0800000000000000
+      internalID: -3302507516085971942
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: windows1-_5_sunlight_10
+      rect:
+        serializedVersion: 2
+        x: 33
+        y: 8
+        width: 11
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c1d3ec680b8b26090800000000000000
+      internalID: -8042662916214866660
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: windows1-_5_sunlight_11
+      rect:
+        serializedVersion: 2
+        x: 45
+        y: 8
+        width: 11
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2ed0b8c0cc8142970800000000000000
+      internalID: 8729129242413698530
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      windows1-_5_sunlight_0: 1875841749543551276
+      windows1-_5_sunlight_1: -1613660494175667757
+      windows1-_5_sunlight_10: -8042662916214866660
+      windows1-_5_sunlight_11: 8729129242413698530
+      windows1-_5_sunlight_2: -5696177506197985274
+      windows1-_5_sunlight_3: -5221037104930264319
+      windows1-_5_sunlight_4: 5290288256778496365
+      windows1-_5_sunlight_5: 2585294128514549637
+      windows1-_5_sunlight_6: 5312505756977669960
+      windows1-_5_sunlight_7: -2006584306262676027
+      windows1-_5_sunlight_8: -1917328648894051616
+      windows1-_5_sunlight_9: -3302507516085971942
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
