@@ -1,0 +1,163 @@
+/* ======================
+   FISHING HOLD MECHANIC UI STYLES
+   ====================== */
+
+/* Main Hold Fishing Panel - Small centered UI */
+#fishing-hold-panel {
+    position: absolute;
+    width: 500px;
+    height: 600px;
+    left: 50%;
+    top: 50%;
+    margin-left: -250px;
+    margin-top: -300px;
+    background-color: rgba(10, 20, 40, 0.95);
+    border-width: 3px;
+    border-color: rgba(100, 150, 255, 0.8);
+    border-radius: 15px;
+    padding: 20px;
+    flex-direction: column;
+    display: none;
+    font-family: resource('Fonts & Materials/LegacyRuntime');
+    align-items: stretch;
+}
+
+.hold-panel * {
+    font-family: resource('Fonts & Materials/LegacyRuntime');
+}
+
+/* Header with fish name */
+.hold-header {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom-width: 2px;
+    border-bottom-color: rgba(100, 150, 200, 0.6);
+    height: 40px;
+}
+
+.fish-name {
+    color: rgb(100, 255, 150);
+    font-size: 24px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+}
+
+/* Main game area */
+.game-area {
+    flex-grow: 1;
+    background-color: rgba(30, 40, 60, 0.8);
+    border-radius: 10px;
+    margin-bottom: 15px;
+    border-width: 2px;
+    border-color: rgba(80, 120, 180, 0.6);
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    min-height: 250px;
+}
+
+.fish-container {
+    position: relative;
+    width: 90%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Moving fish target */
+.fish-target {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background-color: rgba(100, 150, 255, 0.4);
+    border-width: 2px;
+    border-color: rgba(100, 150, 255, 0.8);
+    border-radius: 8px;
+    align-items: center;
+    justify-content: center;
+    left: 50%;
+    top: 50%;
+    margin-left: -30px;
+    margin-top: -30px;
+}
+
+.fish-emoji {
+    font-size: 40px;
+    -unity-text-align: middle-center;
+    color: rgb(255, 255, 255);
+}
+
+/* Catch zone - player's zone */
+.catch-zone {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    background-color: rgba(255, 200, 100, 0.08);
+    border-width: 2px;
+    border-color: rgba(255, 200, 100, 0.6);
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    left: 50%;
+    top: 50%;
+    margin-left: -60px;
+    margin-top: -60px;
+}
+
+.catch-circle {
+    font-size: 70px;
+    color: rgba(255, 200, 100, 0.5);
+    -unity-text-align: middle-center;
+}
+
+/* Progress bar container */
+.progress-container {
+    flex-direction: column;
+    margin-bottom: 10px;
+    gap: 5px;
+    height: 80px;
+}
+
+.instruction {
+    color: rgb(255, 200, 100);
+    font-size: 16px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    margin-bottom: 5px;
+    height: 20px;
+}
+
+.hold-bar {
+    height: 30px;
+    background-color: rgba(50, 50, 80, 0.8);
+    border-width: 2px;
+    border-color: rgba(100, 150, 200, 0.6);
+    border-radius: 5px;
+}
+
+.hold-bar > #unity-progress-bar {
+    background-color: rgba(100, 200, 255, 0.8);
+    border-width: 0px;
+}
+
+.percentage {
+    color: rgb(200, 255, 200);
+    font-size: 14px;
+    -unity-text-align: middle-center;
+    -unity-font-style: bold;
+    height: 20px;
+}
+
+/* Status label */
+.status {
+    color: rgb(255, 150, 150);
+    font-size: 14px;
+    -unity-text-align: middle-center;
+    margin-top: 5px;
+    min-height: 20px;
+    height: 20px;
+}
+

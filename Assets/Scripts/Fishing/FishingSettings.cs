@@ -41,6 +41,14 @@ public class FishingSettings : ScriptableObject
     [SerializeField] public float successTensionMin = 0.0f; // ANYTHING GOES - almost guaranteed win
     [SerializeField] public float successTensionMax = 1.5f; // ANYTHING GOES - almost guaranteed win
 
+    [Header("Hold Mechanic Settings")]
+    [SerializeField] public float requiredHoldDuration = 2f; // How long to hold to catch (2 seconds - reduced from 2.5)
+    [SerializeField] public float fishMovementSpeed = 50f; // Slower movement (was 200)
+    [SerializeField] public float fishMovementRange = 150f; // How far fish moves from center
+    [SerializeField] public float catchableZoneRadius = 60f; // How close you need to be to catch
+    [SerializeField] public float holdUIPositionX = 0.5f; // 0-1 screen position (0.5 = center)
+    [SerializeField] public float holdUIPositionY = 0.5f; // 0-1 screen position (0.5 = center)
+
     [Header("Debug")]
     [SerializeField] public bool debugMode = false;
     [SerializeField] public bool skipBiteWait = false; // For testing

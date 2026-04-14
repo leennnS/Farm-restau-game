@@ -15,7 +15,7 @@ public class LakeFishingTrigger : MonoBehaviour
     [SerializeField] private FishingMiniGameController miniGameController;
 
     [Header("UI")]
-    [SerializeField] private FishingUIController fishingUIController;
+    [SerializeField] private FishingUIController_Hold fishingUIController; // NEW: Uses Hold mechanic UI
     private VisualElement promptElement;
     private UIDocument promptUIDocument;
 
@@ -36,6 +36,16 @@ public class LakeFishingTrigger : MonoBehaviour
         if (col != null)
         {
             col.isTrigger = true;
+        }
+
+        // Auto-find the FishingUIController_Hold if not assigned
+        if (fishingUIController == null)
+        {
+            fishingUIController = FindObjectOfType<FishingUIController_Hold>();
+            if (fishingUIController == null)
+            {
+                Debug.LogWarning("LakeFishingTrigger: Could not find FishingUIController_Hold in scene. Please assign it in the Inspector or add the component to the scene.");
+            }
         }
 
         // Find or create a prompt UI document
@@ -168,7 +178,7 @@ public class LakeFishingTrigger : MonoBehaviour
 
         if (fishingUIController == null)
         {
-            Debug.LogError("LakeFishingTrigger: FishingUIController not assigned!");
+            Debug.LogError("LakeFishingTrigger: FishingUIController_Hold not assigned and could not be found in scene! Add the FishingUIController_Hold component to a GameObject in the scene.");
             return;
         }
 
