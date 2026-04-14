@@ -67,5 +67,5 @@
         "*.sln": "*.csproj",
         "*.slnx": "*.csproj"
     },
-    "dotnet.defaultSolution": "Farm-restau-game.slnx"
+    "dotnet.defaultSolution": "SeniorProject.slnx"
 }
