@@ -1,0 +1,377 @@
+fileFormatVersion: 2
+guid: b28975eacf124a84991c3d80969c2d6b
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -6884446299032985647
+    second: doors-d2-closing-h_0
+  - first:
+      213: -5253162524588835251
+    second: doors-d2-closing-h_1
+  - first:
+      213: -7599076946902224124
+    second: doors-d2-closing-h_2
+  - first:
+      213: -2615993999088879295
+    second: doors-d2-closing-h_3
+  - first:
+      213: 4344317888828201109
+    second: doors-d2-closing-h_4
+  - first:
+      213: 2224636267546334467
+    second: doors-d2-closing-h_5
+  - first:
+      213: -6701726809507315923
+    second: doors-d2-closing-h_6
+  - first:
+      213: 6507332665896280405
+    second: doors-d2-closing-h_7
+  - first:
+      213: 8316092803417653126
+    second: doors-d2-closing-h_8
+  - first:
+      213: -4360315388569779742
+    second: doors-d2-closing-h_9
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: doors-d2-closing-h_0
+      rect:
+        serializedVersion: 2
+        x: 53
+        y: 40
+        width: 8
+        height: 112
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1dfd2eef0988570a0800000000000000
+      internalID: -6884446299032985647
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: doors-d2-closing-h_1
+      rect:
+        serializedVersion: 2
+        x: 213
+        y: 40
+        width: 10
+        height: 112
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d4efc7e24840917b0800000000000000
+      internalID: -5253162524588835251
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: doors-d2-closing-h_2
+      rect:
+        serializedVersion: 2
+        x: 373
+        y: 39
+        width: 20
+        height: 109
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 403780747c7aa8690800000000000000
+      internalID: -7599076946902224124
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: doors-d2-closing-h_3
+      rect:
+        serializedVersion: 2
+        x: 533
+        y: 38
+        width: 35
+        height: 100
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 149f0c5615f12bbd0800000000000000
+      internalID: -2615993999088879295
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: doors-d2-closing-h_4
+      rect:
+        serializedVersion: 2
+        x: 693
+        y: 38
+        width: 49
+        height: 89
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 598dafa4a1e1a4c30800000000000000
+      internalID: 4344317888828201109
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: doors-d2-closing-h_5
+      rect:
+        serializedVersion: 2
+        x: 853
+        y: 37
+        width: 52
+        height: 79
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 305dc8116ee7fde10800000000000000
+      internalID: 2224636267546334467
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: doors-d2-closing-h_6
+      rect:
+        serializedVersion: 2
+        x: 1013
+        y: 37
+        width: 54
+        height: 73
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d2fba9959feaef2a0800000000000000
+      internalID: -6701726809507315923
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: doors-d2-closing-h_7
+      rect:
+        serializedVersion: 2
+        x: 1173
+        y: 37
+        width: 54
+        height: 69
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5512b021590be4a50800000000000000
+      internalID: 6507332665896280405
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: doors-d2-closing-h_8
+      rect:
+        serializedVersion: 2
+        x: 1333
+        y: 37
+        width: 54
+        height: 70
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 68f34ea1852b86370800000000000000
+      internalID: 8316092803417653126
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: doors-d2-closing-h_9
+      rect:
+        serializedVersion: 2
+        x: 1493
+        y: 37
+        width: 54
+        height: 70
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2e101ab814c0d73c0800000000000000
+      internalID: -4360315388569779742
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      doors-d2-closing-h_0: -6884446299032985647
+      doors-d2-closing-h_1: -5253162524588835251
+      doors-d2-closing-h_2: -7599076946902224124
+      doors-d2-closing-h_3: -2615993999088879295
+      doors-d2-closing-h_4: 4344317888828201109
+      doors-d2-closing-h_5: 2224636267546334467
+      doors-d2-closing-h_6: -6701726809507315923
+      doors-d2-closing-h_7: 6507332665896280405
+      doors-d2-closing-h_8: 8316092803417653126
+      doors-d2-closing-h_9: -4360315388569779742
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
