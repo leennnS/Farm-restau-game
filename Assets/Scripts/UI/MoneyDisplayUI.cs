@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Displays global money on a UI Toolkit label.
@@ -12,6 +13,9 @@ public class MoneyDisplayUI : MonoBehaviour
     [SerializeField] private UIDocument uiDocument;
     [SerializeField] private string labelName = "money-value";
     [SerializeField] private string suffix = " G";
+
+    [Header("Scene Visibility")]
+    [SerializeField] private string introSceneName = "Intro";
 
     private Label _moneyLabel;
 
@@ -40,11 +44,15 @@ public class MoneyDisplayUI : MonoBehaviour
     private void OnEnable()
     {
         MoneyManager.Instance.OnMoneyChanged += HandleMoneyChanged;
+        SceneManager.sceneLoaded += HandleSceneLoaded;
+        RefreshVisibility();
         Refresh();
     }
 
     private void OnDisable()
     {
+        SceneManager.sceneLoaded -= HandleSceneLoaded;
+
         if (MoneyManager.HasInstance)
             MoneyManager.Instance.OnMoneyChanged -= HandleMoneyChanged;
     }
@@ -52,6 +60,20 @@ public class MoneyDisplayUI : MonoBehaviour
     private void HandleMoneyChanged(int _)
     {
         Refresh();
+    }
+
+    private void HandleSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        RefreshVisibility();
+    }
+
+    private void RefreshVisibility()
+    {
+        if (uiDocument == null)
+            return;
+
+        bool hideInIntro = SceneManager.GetActiveScene().name == introSceneName;
+        uiDocument.rootVisualElement.style.display = hideInIntro ? DisplayStyle.None : DisplayStyle.Flex;
     }
 
     public void Refresh()

@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Styled top-right money HUD that stays visible across scenes.
@@ -7,6 +8,9 @@ using UnityEngine.UI;
 /// </summary>
 public class GlobalMoneyHUD : MonoBehaviour
 {
+    [Header("Scene Visibility")]
+    [SerializeField] private string introSceneName = "Intro";
+
     [Header("Layout")]
     [SerializeField] private Vector2 topRightOffset = new Vector2(-24f, -24f);
     [SerializeField] private Vector2 panelSize = new Vector2(300f, 64f);
@@ -20,22 +24,28 @@ public class GlobalMoneyHUD : MonoBehaviour
     [SerializeField] private Color shadowColor = new Color(0f, 0f, 0f, 0.45f);
 
     private Text _moneyText;
+    private Canvas _hudCanvas;
 
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
         BuildHudIfNeeded();
+        RefreshSceneVisibility();
     }
 
     private void OnEnable()
     {
         MoneyManager.Instance.OnMoneyChanged += HandleMoneyChanged;
         MoneyManager.Instance.OnDebtChanged += HandleDebtChanged;
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        RefreshSceneVisibility();
         Refresh();
     }
 
     private void OnDisable()
     {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+
         if (MoneyManager.HasInstance)
         {
             MoneyManager.Instance.OnMoneyChanged -= HandleMoneyChanged;
@@ -79,6 +89,8 @@ public class GlobalMoneyHUD : MonoBehaviour
             group.blocksRaycasts = false;
             group.interactable = false;
         }
+
+        _hudCanvas = canvas;
 
         GameObject panelGo = new GameObject("MoneyPanel");
         panelGo.transform.SetParent(canvas.transform, false);
@@ -154,6 +166,23 @@ public class GlobalMoneyHUD : MonoBehaviour
         Shadow shadow = textGo.AddComponent<Shadow>();
         shadow.effectColor = shadowColor;
         shadow.effectDistance = new Vector2(2f, -2f);
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        RefreshSceneVisibility();
+    }
+
+    private void RefreshSceneVisibility()
+    {
+        if (_hudCanvas == null)
+            _hudCanvas = GetComponentInChildren<Canvas>(true);
+
+        if (_hudCanvas == null)
+            return;
+
+        bool hideInIntro = SceneManager.GetActiveScene().name == introSceneName;
+        _hudCanvas.enabled = !hideInIntro;
     }
 
     public void Refresh()

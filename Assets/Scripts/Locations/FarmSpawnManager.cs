@@ -16,6 +16,15 @@ public static class FarmSpawnManager
 
     private static void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        // Intro-to-farm flow is handled by SpawnManager. Do not override that spawn.
+        if (PlayerPrefs.GetInt("FromIntroScene", 0) == 1 || PlayerPrefs.GetInt("ForceShedDoorSpawnOnce", 0) == 1)
+        {
+            MarketReturnContext.PendingReturnToFarm = false;
+            RestaurantReturnContext.PendingReturnToFarm = false;
+            HouseExitTrigger.PendingReturnToFarm = false;
+            return;
+        }
+
         bool fromMarket = MarketReturnContext.PendingReturnToFarm;
         bool fromRestaurant = RestaurantReturnContext.PendingReturnToFarm;
         bool fromHouse = HouseExitTrigger.PendingReturnToFarm;
