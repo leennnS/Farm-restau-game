@@ -131,6 +131,12 @@ public class MarketExitTrigger : MonoBehaviour
         if (debugLogs)
             Debug.Log($"[MarketExitTrigger] Loading scene: {targetSceneName}");
 
+        // Returning from market should not use intro shed-door spawn.
+        PlayerPrefs.DeleteKey("FromIntroScene");
+        PlayerPrefs.DeleteKey("ForceShedDoorSpawnOnce");
+        PlayerPrefs.SetInt("ReturnToFarmFrom", 1); // 1 = Market
+        PlayerPrefs.Save();
+
         MarketReturnContext.PendingReturnToFarm = true;
         SceneManager.LoadScene(targetSceneName);
     }

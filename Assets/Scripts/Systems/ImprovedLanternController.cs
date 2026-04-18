@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using System.Collections;
+using TMPro;
 
 /// <summary>
 /// Improved lantern system with directional lighting.
@@ -20,6 +21,18 @@ public class ImprovedLanternController : MonoBehaviour
 
     [SerializeField]
     private float pickupDistance = 2f;
+
+    [SerializeField]
+    private PickupToastUIToolkit toastUI;
+
+    [SerializeField]
+    private string pickupPromptTemplate = "Press {0} to pick up lantern";
+
+    [SerializeField]
+    private float pickupPromptRepeatDelay = 1.2f;
+
+    [SerializeField]
+    private Vector3 pickupPromptOffset = new Vector3(0f, 1.1f, 0f);
 
     [SerializeField]
     private float lightFollowDistance = 0.5f;
@@ -54,6 +67,10 @@ public class ImprovedLanternController : MonoBehaviour
     private Transform playerTransform;
     private CharacterController2D playerController;
     private Collider2D lanternCollider;
+    private bool wasPlayerInPickupRange = false;
+    private float nextPickupPromptTime = 0f;
+    private GameObject pickupHintObject;
+    private TextMeshPro pickupHintText;
 
     private static ImprovedLanternController _instance;
 
@@ -81,6 +98,9 @@ public class ImprovedLanternController : MonoBehaviour
         if (lanternSprite == null)
             lanternSprite = GetComponentInChildren<SpriteRenderer>();
 
+        if (toastUI == null)
+            toastUI = FindFirstObjectByType<PickupToastUIToolkit>();
+
         lanternCollider = GetComponent<Collider2D>();
 
         // Create light anchor if doesn't exist
@@ -100,6 +120,8 @@ public class ImprovedLanternController : MonoBehaviour
 
         // Start dark and unlit
         SetLanternLit(false);
+
+        CreatePickupHintIfNeeded();
 
         Debug.Log("[Lantern] Initialized at position: " + transform.position);
     }
@@ -158,13 +180,85 @@ public class ImprovedLanternController : MonoBehaviour
             if (player != null)
             {
                 float distance = Vector3.Distance(transform.position, player.transform.position);
+                bool isPlayerInPickupRange = distance < pickupDistance;
 
-                if (distance < pickupDistance && Input.GetKeyDown(pickupKey))
+                if (isPlayerInPickupRange)
                 {
-                    PickUpLantern(player.transform, player);
+                    ShowPickupHintText();
+
+                    if (!wasPlayerInPickupRange || Time.time >= nextPickupPromptTime)
+                    {
+                        ShowPickupPrompt();
+                    }
+
+                    if (Input.GetKeyDown(pickupKey))
+                    {
+                        PickUpLantern(player.transform, player);
+                    }
                 }
+                else
+                {
+                    HidePickupHintText();
+                }
+
+                wasPlayerInPickupRange = isPlayerInPickupRange;
+            }
+            else
+            {
+                wasPlayerInPickupRange = false;
+                HidePickupHintText();
             }
         }
+    }
+
+    private void ShowPickupPrompt()
+    {
+        if (toastUI == null)
+            return;
+
+        toastUI.Show(string.Format(pickupPromptTemplate, pickupKey));
+        nextPickupPromptTime = Time.time + pickupPromptRepeatDelay;
+    }
+
+    private void CreatePickupHintIfNeeded()
+    {
+        if (pickupHintObject != null)
+            return;
+
+        pickupHintObject = new GameObject("LanternPickupHint");
+        pickupHintObject.transform.SetParent(transform);
+        pickupHintObject.transform.localPosition = pickupPromptOffset;
+
+        pickupHintText = pickupHintObject.AddComponent<TextMeshPro>();
+        pickupHintText.text = string.Format(pickupPromptTemplate, pickupKey);
+        pickupHintText.fontSize = 3f;
+        pickupHintText.alignment = TextAlignmentOptions.Center;
+        pickupHintText.color = Color.white;
+        pickupHintText.outlineWidth = 0.2f;
+        pickupHintText.outlineColor = Color.black;
+
+        pickupHintObject.SetActive(false);
+    }
+
+    private void ShowPickupHintText()
+    {
+        if (toastUI != null)
+            return;
+
+        if (pickupHintObject == null)
+            CreatePickupHintIfNeeded();
+
+        if (pickupHintText != null)
+            pickupHintText.text = string.Format(pickupPromptTemplate, pickupKey);
+
+        if (pickupHintObject != null)
+            pickupHintObject.SetActive(true);
+    }
+
+    private void HidePickupHintText()
+    {
+        if (pickupHintObject != null)
+            pickupHintObject.SetActive(false);
     }
 
     /// <summary>
@@ -191,6 +285,8 @@ public class ImprovedLanternController : MonoBehaviour
     public void PickUpLantern(Transform player, CharacterController2D controller)
     {
         isHeldByPlayer = true;
+        wasPlayerInPickupRange = false;
+        HidePickupHintText();
         playerTransform = player;
         playerController = controller;
 
@@ -211,6 +307,8 @@ public class ImprovedLanternController : MonoBehaviour
     public void DropLantern()
     {
         isHeldByPlayer = false;
+        wasPlayerInPickupRange = false;
+        HidePickupHintText();
         playerTransform = null;
         playerController = null;
 

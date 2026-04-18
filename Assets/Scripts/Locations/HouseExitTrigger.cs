@@ -129,12 +129,10 @@ public class HouseExitTrigger : MonoBehaviour
         if (player == null)
             yield break;
 
-        // Reset player scale before loading farm scene
-        DontDestroyOnLoad ddol = player.GetComponent<DontDestroyOnLoad>();
-        if (ddol != null)
-            ddol.RestoreOriginalScale();
-        else
-            player.transform.localScale = new Vector3(1f, 1f, 1f);
+        PlayerPrefs.DeleteKey("FromIntroScene");
+        PlayerPrefs.DeleteKey("ForceShedDoorSpawnOnce");
+        PlayerPrefs.SetInt("ReturnToFarmFrom", 3); // 3 = House
+        PlayerPrefs.Save();
 
         PendingReturnToFarm = true;
         // Load target scene

@@ -26,9 +26,13 @@ public class IntroNarrativeController : MonoBehaviour
     private Coroutine typewriterCoroutine;
     private string[] openingLines = new string[]
     {
-        "You wake in front of your old shed.",
-        "The farm is silent.",
-        "Everything feels... forgotten."
+         "Cold wood presses against your back.",
+        "You wake up in the old shed, alone.",
+        "For a moment, you do not remember how you got here.",
+        "Someone must have carried you inside during the night.",
+        "Your head feels heavy. The room is dark. Too dark.",
+        "You need light.",
+        "Take the lantern and search the room."
     };
 
     private void Start()

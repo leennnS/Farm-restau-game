@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using TMPro;
 
 /// <summary>
 /// Interactable note object in the world.
@@ -20,12 +21,22 @@ public class NoteInteraction : MonoBehaviour
     [SerializeField]
     private LetterPanel letterPanel;
 
+    [SerializeField]
+    private KeyCode interactionKey = KeyCode.E;
+
+    [SerializeField]
+    private string proximityPromptTemplate = "Press {0} to read the note";
+
+    [SerializeField]
+    private Vector3 proximityHintOffset = new Vector3(0f, 1.1f, 0f);
+
     private bool isPlayerNearby = false;
     private bool noteHasBeenRead = false;
     private bool isDiscoverable = false;
 
     private CharacterController2D player;
-    private Canvas proximityHintCanvas;
+    private GameObject proximityHintObject;
+    private TextMeshPro proximityHintText;
 
     public bool IsPlayerNearby => isPlayerNearby;
     public bool NoteHasBeenRead => noteHasBeenRead;
@@ -80,6 +91,12 @@ public class NoteInteraction : MonoBehaviour
                     ReadNote();
                 }
             }
+
+            // Keyboard interaction prompt/action
+            if (isPlayerNearby && Input.GetKeyDown(interactionKey))
+            {
+                ReadNote();
+            }
         }
     }
 
@@ -113,6 +130,8 @@ public class NoteInteraction : MonoBehaviour
     private void ReadNote()
     {
         Debug.Log("[Note] Note opened!");
+
+        HideProximityHint();
 
         if (letterPanel != null)
         {
@@ -165,19 +184,45 @@ public class NoteInteraction : MonoBehaviour
 
     private void CreateProximityHint()
     {
-        // Create a simple UI hint (will be controlled separately)
-        Debug.Log("[Note] Proximity hint system ready");
+        if (proximityHintObject != null)
+            return;
+
+        proximityHintObject = new GameObject("NoteProximityHint");
+        proximityHintObject.transform.SetParent(transform, false);
+        proximityHintObject.transform.localPosition = proximityHintOffset;
+
+        proximityHintText = proximityHintObject.AddComponent<TextMeshPro>();
+        proximityHintText.text = string.Format(proximityPromptTemplate, interactionKey.ToString().ToUpper());
+        proximityHintText.alignment = TextAlignmentOptions.Center;
+        proximityHintText.fontSize = 2.5f;
+        proximityHintText.color = new Color(1f, 0.97f, 0.85f, 1f);
+        proximityHintText.outlineWidth = 0.2f;
+        proximityHintText.outlineColor = new Color(0f, 0f, 0f, 0.8f);
+        proximityHintText.enableWordWrapping = false;
+        proximityHintText.sortingOrder = 250;
+
+        proximityHintObject.SetActive(false);
+        Debug.Log("[Note] Proximity hint created");
     }
 
     private void ShowProximityHint()
     {
-        // Show hint UI
-        Debug.Log("[Note] Showing proximity hint: Click to read the note");
+        if (proximityHintObject != null)
+        {
+            proximityHintText.text = string.Format(proximityPromptTemplate, interactionKey.ToString().ToUpper());
+            proximityHintObject.SetActive(true);
+        }
+
+        Debug.Log($"[Note] Showing proximity hint: {string.Format(proximityPromptTemplate, interactionKey.ToString().ToUpper())}");
     }
 
     private void HideProximityHint()
     {
-        // Hide hint UI
+        if (proximityHintObject != null)
+        {
+            proximityHintObject.SetActive(false);
+        }
+
         Debug.Log("[Note] Hiding proximity hint");
     }
 

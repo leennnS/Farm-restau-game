@@ -189,6 +189,13 @@ public class NarrativeManagerEnhanced : MonoBehaviour
             Debug.Log("[NarrativeManager] Player unfrozen, transitioning to farm...");
         }
 
+        // One-shot intro spawn at shed door when entering Farm.
+        PlayerPrefs.DeleteKey("ReturnToFarmFrom");
+        PlayerPrefs.DeleteKey("SkipSpawnManagerOnce");
+        PlayerPrefs.SetInt("FromIntroScene", 1);
+        PlayerPrefs.SetInt("ForceShedDoorSpawnOnce", 1);
+        PlayerPrefs.Save();
+
         Debug.Log($"[NarrativeManager] Transitioning to {sceneToLoadAfter}");
         SceneManager.LoadScene(sceneToLoadAfter);
     }

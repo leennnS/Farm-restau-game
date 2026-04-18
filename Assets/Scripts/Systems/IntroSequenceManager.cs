@@ -180,6 +180,8 @@ public class IntroSequenceManager : MonoBehaviour
 
         // Keep the intro flag for FarmScene SpawnManager to consume.
         // SpawnManager clears it after placing the player at ShedDoorSpawnPoint.
+        PlayerPrefs.DeleteKey("ReturnToFarmFrom");
+        PlayerPrefs.DeleteKey("SkipSpawnManagerOnce");
         PlayerPrefs.SetInt("FromIntroScene", 1);
         PlayerPrefs.SetInt("ForceShedDoorSpawnOnce", 1);
         PlayerPrefs.Save();

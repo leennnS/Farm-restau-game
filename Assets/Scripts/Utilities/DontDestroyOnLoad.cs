@@ -4,6 +4,10 @@ using UnityEngine.SceneManagement;
 public class DontDestroyOnLoad : MonoBehaviour
 {
     private static DontDestroyOnLoad instance;
+    [SerializeField] private string marketSceneName = "MarketScene";
+    [SerializeField] private Vector3 marketSceneScale = new Vector3(4f, 4f, 1f);
+    [SerializeField] private string houseSceneName = "HouseInteriorLITEDEMO";
+
     private Vector3 originalScale; // Store original player scale
 
     private void Awake()
@@ -34,6 +38,19 @@ public class DontDestroyOnLoad : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        if (scene.name == marketSceneName)
+        {
+            transform.localScale = marketSceneScale;
+            return;
+        }
+
+        if (scene.name == houseSceneName)
+        {
+            transform.localScale = new Vector3(2f, 2f, 1f);
+            return;
+        }
+
+        RestoreOriginalScale();
     }
 
     public void RestoreOriginalScale()
