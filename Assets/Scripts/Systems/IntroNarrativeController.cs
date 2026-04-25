@@ -24,6 +24,10 @@ public class IntroNarrativeController : MonoBehaviour
     private CanvasGroup narrativeCanvasGroup;
 
     private Coroutine typewriterCoroutine;
+    private bool isOpeningPlaying;
+    private bool isTypingLine;
+    private bool skipLineRequested;
+    private bool advanceLineRequested;
     private string[] openingLines = new string[]
     {
          "Cold wood presses against your back.",
@@ -54,10 +58,33 @@ public class IntroNarrativeController : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (!isOpeningPlaying)
+            return;
+
+        bool advancePressed = Input.GetKeyDown(KeyCode.Space) ||
+                             Input.GetMouseButtonDown(0) ||
+                             Input.GetKeyDown(KeyCode.Return) ||
+                             Input.GetKeyDown(KeyCode.KeypadEnter);
+
+        if (!advancePressed)
+            return;
+
+        if (isTypingLine)
+            skipLineRequested = true;
+        else
+            advanceLineRequested = true;
+    }
+
     public IEnumerator PlayOpening()
     {
         if (narrativeText == null)
             yield break;
+
+        isOpeningPlaying = true;
+        skipLineRequested = false;
+        advanceLineRequested = false;
 
         // Fade in canvas
         if (narrativeCanvasGroup != null)
@@ -71,7 +98,7 @@ public class IntroNarrativeController : MonoBehaviour
         foreach (string line in openingLines)
         {
             yield return StartCoroutine(TypewriteLine(line));
-            yield return new WaitForSeconds(1.2f);
+            yield return StartCoroutine(WaitForEnterOrDelay(1.2f));
         }
 
         // Fade out
@@ -81,6 +108,7 @@ public class IntroNarrativeController : MonoBehaviour
         }
 
         narrativeText.text = "";
+        isOpeningPlaying = false;
     }
 
     public void ShowHint(string hintText)
@@ -116,11 +144,40 @@ public class IntroNarrativeController : MonoBehaviour
     private IEnumerator TypewriteLine(string text)
     {
         narrativeText.text = "";
+        isTypingLine = true;
+        skipLineRequested = false;
 
         foreach (char character in text)
         {
+            if (skipLineRequested)
+            {
+                narrativeText.text = text;
+                break;
+            }
+
             narrativeText.text += character;
             yield return new WaitForSeconds(typewriterSpeed);
+        }
+
+        isTypingLine = false;
+        skipLineRequested = false;
+    }
+
+    private IEnumerator WaitForEnterOrDelay(float delay)
+    {
+        float elapsed = 0f;
+        advanceLineRequested = false;
+
+        while (elapsed < delay)
+        {
+            if (advanceLineRequested)
+            {
+                advanceLineRequested = false;
+                yield break;
+            }
+
+            elapsed += Time.deltaTime;
+            yield return null;
         }
     }
 

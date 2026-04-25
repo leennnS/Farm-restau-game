@@ -28,7 +28,7 @@ public class NarrativeManagerEnhanced : MonoBehaviour
         "Light floods the darkness.",
         "You can see clearly now.",
         "It's time to face the day.",
-        "Press Space or Click to continue outside..."
+        "Press Space, Enter, or Click to continue outside..."
     };
 
     [SerializeField]
@@ -77,8 +77,12 @@ public class NarrativeManagerEnhanced : MonoBehaviour
 
     private void Update()
     {
-        // During wake-up phase: Space/Click to advance narrative
-        if (!lanternPhaseActive && (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)))
+        // During wake-up phase: Space/Enter/Click to advance narrative
+        if (!lanternPhaseActive &&
+            (Input.GetKeyDown(KeyCode.Space) ||
+             Input.GetKeyDown(KeyCode.Return) ||
+             Input.GetKeyDown(KeyCode.KeypadEnter) ||
+             Input.GetMouseButtonDown(0)))
         {
             HandleNarrativeInput();
         }
@@ -90,8 +94,12 @@ public class NarrativeManagerEnhanced : MonoBehaviour
             lanternPhaseActive = false;
         }
 
-        // After all narrative: Space/Click to transition
-        if (allNarrativeComplete && (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)))
+        // After all narrative: Space/Enter/Click to transition
+        if (allNarrativeComplete &&
+            (Input.GetKeyDown(KeyCode.Space) ||
+             Input.GetKeyDown(KeyCode.Return) ||
+             Input.GetKeyDown(KeyCode.KeypadEnter) ||
+             Input.GetMouseButtonDown(0)))
         {
             TransitionToNextScene();
         }
@@ -173,7 +181,11 @@ public class NarrativeManagerEnhanced : MonoBehaviour
             // Wait for player to advance (except on last sentence)
             if (i < lanternLitNarrative.Length - 1)
             {
-                yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0));
+                yield return new WaitUntil(() =>
+                    Input.GetKeyDown(KeyCode.Space) ||
+                    Input.GetKeyDown(KeyCode.Return) ||
+                    Input.GetKeyDown(KeyCode.KeypadEnter) ||
+                    Input.GetMouseButtonDown(0));
             }
         }
 
@@ -194,6 +206,9 @@ public class NarrativeManagerEnhanced : MonoBehaviour
         PlayerPrefs.DeleteKey("SkipSpawnManagerOnce");
         PlayerPrefs.SetInt("FromIntroScene", 1);
         PlayerPrefs.SetInt("ForceShedDoorSpawnOnce", 1);
+        PlayerPrefs.DeleteKey("FarmTutorialStarted");
+        PlayerPrefs.DeleteKey("FarmTutorialCompleted");
+        PlayerPrefs.SetInt("PendingFarmTutorial", 1);
         PlayerPrefs.Save();
 
         Debug.Log($"[NarrativeManager] Transitioning to {sceneToLoadAfter}");

@@ -64,6 +64,10 @@ public class StarterToolsChest : MonoBehaviour
     private bool _isOpen;
     private bool _isLooted;
 
+    public bool IsOpen => _isOpen;
+    public bool IsLooted => _isLooted;
+    public event Action LootCollected;
+
     private void Awake()
     {
         AutoResolveReferences();
@@ -224,6 +228,8 @@ public class StarterToolsChest : MonoBehaviour
     private void MarkLooted()
     {
         _isLooted = true;
+
+        LootCollected?.Invoke();
 
         if (rememberOpenedState)
         {

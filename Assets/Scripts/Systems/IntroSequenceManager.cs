@@ -184,6 +184,9 @@ public class IntroSequenceManager : MonoBehaviour
         PlayerPrefs.DeleteKey("SkipSpawnManagerOnce");
         PlayerPrefs.SetInt("FromIntroScene", 1);
         PlayerPrefs.SetInt("ForceShedDoorSpawnOnce", 1);
+        PlayerPrefs.DeleteKey("FarmTutorialStarted");
+        PlayerPrefs.DeleteKey("FarmTutorialCompleted");
+        PlayerPrefs.SetInt("PendingFarmTutorial", 1);
         PlayerPrefs.Save();
 
         // Load farm scene

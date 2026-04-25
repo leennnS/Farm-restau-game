@@ -1,326 +1,206 @@
-using UnityEngine;
-using UnityEngine.UIElements;
-using System;
 using System.Collections;
+using UnityEngine;
 
 /// <summary>
-/// NEW: Manages the fishing mini-game UI with HOLD MECHANIC.
-/// Shows a small panel with a moving fish that player must hold to catch.
+/// Orchestrates fishing mini-game flow:
+/// - input handling
+/// - gameplay logic updates
+/// - UI rendering
+/// - result resolution and rewards
 /// </summary>
-[RequireComponent(typeof(UIDocument))]
+[RequireComponent(typeof(FishingMiniGameView))]
+[RequireComponent(typeof(FishingBarMiniGameLogic))]
 public class FishingUIController_Hold : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private FishingMiniGameController miniGameController;
-    [SerializeField] private OrderListHUD orderListHUD;
+    [SerializeField] private FishingMiniGameView fishingView;
+    [SerializeField] private FishingBarMiniGameLogic miniGameLogic;
 
-    [Header("Settings")]
-    [SerializeField] private FishingSettings fishingSettings;
+    [Header("Session")]
+    [SerializeField] private float resultDisplaySeconds = 1.8f;
+    [SerializeField] private KeyCode holdInputKey = KeyCode.Space;
+    [SerializeField] private bool mouseHoldAlsoReels = true;
 
-    // UI References
-    private UIDocument uiDocument;
-    private VisualElement root;
-    private VisualElement holdPanel;
+    private bool _uiActive;
+    private bool _resultResolved;
+    private CatchableDefinition _currentCatchable;
 
-    // Hold mechanic UI elements
-    private VisualElement fishTarget;
-    private VisualElement catchZone;
-    private ProgressBar holdProgressBar;
-    private Label holdPercentageLabel;
-    private Label statusLabel;
-    private Label catchableNameLabel;
-
-    // State
-    private bool isUIActive = false;
-    private bool inputEnabled = false;
-    private bool fishInZone = false; // Track if fish is in catch zone
-
-    private void Start()
+    private void Awake()
     {
-        InitializeUI();
-        SubscribeToEvents();
+        if (fishingView == null)
+            fishingView = GetComponent<FishingMiniGameView>();
+
+        if (miniGameLogic == null)
+            miniGameLogic = GetComponent<FishingBarMiniGameLogic>();
     }
 
-    private void InitializeUI()
+    private void OnEnable()
     {
-        uiDocument = GetComponent<UIDocument>();
-        if (uiDocument == null)
+        if (miniGameLogic != null)
         {
-            Debug.LogError("FishingUIController_Hold: No UIDocument found!");
-            return;
+            miniGameLogic.OnStateChanged += HandleStateChanged;
+            miniGameLogic.OnMiniGameFinished += HandleMiniGameFinished;
         }
 
-        root = uiDocument.rootVisualElement;
-        if (root == null)
-        {
-            Debug.LogError("FishingUIController_Hold: Could not get root visual element!");
-            return;
-        }
-
-        // Find the hold panel and its elements
-        holdPanel = root.Q<VisualElement>("fishing-hold-panel");
-        fishTarget = root.Q<VisualElement>("fish-target");
-        catchZone = root.Q<VisualElement>("catch-zone");
-        holdProgressBar = root.Q<ProgressBar>("hold-progress");
-        holdPercentageLabel = root.Q<Label>("hold-percentage");
-        statusLabel = root.Q<Label>("status-label");
-        catchableNameLabel = root.Q<Label>("catchable-name-label");
-
-        // Initial state: hide fishing UI
-        if (holdPanel != null)
-            holdPanel.style.display = DisplayStyle.None;
-
-        Debug.Log("[FishingUIController_Hold] UI initialized successfully!");
-    }
-
-    private void SubscribeToEvents()
-    {
-        if (miniGameController == null)
-        {
-            Debug.LogError("FishingUIController_Hold: MiniGameController not assigned!");
-            return;
-        }
-
-        miniGameController.OnFishPositionChanged += HandleFishPositionChanged;
-        miniGameController.OnHoldProgressChanged += HandleHoldProgressChanged;
-        miniGameController.OnCatchComplete += HandleCatchComplete;
-    }
-
-    private void OnDestroy()
-    {
         if (miniGameController != null)
-        {
-            miniGameController.OnFishPositionChanged -= HandleFishPositionChanged;
-            miniGameController.OnHoldProgressChanged -= HandleHoldProgressChanged;
-            miniGameController.OnCatchComplete -= HandleCatchComplete;
-        }
+            miniGameController.OnCatchComplete += HandleExternalCatchComplete;
     }
 
-    /// <summary>
-    /// Opens the fishing UI and starts the mini-game.
-    /// </summary>
+    private void OnDisable()
+    {
+        if (miniGameLogic != null)
+        {
+            miniGameLogic.OnStateChanged -= HandleStateChanged;
+            miniGameLogic.OnMiniGameFinished -= HandleMiniGameFinished;
+        }
+
+        if (miniGameController != null)
+            miniGameController.OnCatchComplete -= HandleExternalCatchComplete;
+    }
+
     public void OpenFishingUI(LakeZoneDefinition zone = null)
     {
-        if (isUIActive)
+        if (_uiActive)
             return;
 
-        isUIActive = true;
-        inputEnabled = true;
-
-        if (holdPanel != null)
+        if (miniGameController == null || miniGameLogic == null || fishingView == null || !fishingView.IsReady)
         {
-            holdPanel.style.display = DisplayStyle.Flex;
+            Debug.LogError("[FishingUIController_Hold] Missing required references for fishing mini-game.");
+            return;
         }
 
-        // Update fish name
-        if (miniGameController != null)
-        {
-            miniGameController.StartFishing(zone);
-            CatchableDefinition catchable = miniGameController.GetCurrentCatchable();
-            if (catchable != null && catchableNameLabel != null)
-            {
-                catchableNameLabel.text = catchable.catchableName;
-            }
-        }
+        _uiActive = true;
+        _resultResolved = false;
 
-        // Initialize UI
-        if (holdProgressBar != null)
-            holdProgressBar.value = 0f;
-        if (holdPercentageLabel != null)
-            holdPercentageLabel.text = "0%";
-        if (statusLabel != null)
-            statusLabel.text = "Hold SPACEBAR when fish enters the circle!";
+        miniGameController.StartFishing(zone);
+        _currentCatchable = miniGameController.GetCurrentCatchable();
+
+        fishingView.Show();
+        fishingView.SetFishName(_currentCatchable != null ? _currentCatchable.catchableName : "Unknown Fish");
+        fishingView.SetRarityText(BuildRarityText(_currentCatchable));
+        fishingView.SetInputHint("Hold SPACE to move hook right. Release to drift left.");
+        fishingView.SetStatus("Keep the fish inside the hook zone.", new Color(0.95f, 0.91f, 0.82f));
+
+        float difficulty = _currentCatchable != null ? _currentCatchable.difficultyScore : 0.5f;
+        miniGameLogic.Begin(difficulty);
     }
 
-    /// <summary>
-    /// Closes the fishing UI and returns to the game world.
-    /// </summary>
     public void CloseFishingUI()
     {
-        if (!isUIActive)
+        if (!_uiActive)
             return;
 
-        isUIActive = false;
-        inputEnabled = false;
+        _uiActive = false;
+        _resultResolved = false;
+        _currentCatchable = null;
 
-        if (holdPanel != null)
-        {
-            holdPanel.style.display = DisplayStyle.None;
-        }
+        if (miniGameLogic != null)
+            miniGameLogic.Stop();
+
+        if (fishingView != null)
+            fishingView.Hide();
     }
 
     private void Update()
     {
-        if (!isUIActive || !inputEnabled)
+        if (!_uiActive || _resultResolved || miniGameLogic == null)
             return;
 
-        // Update mini-game state
-        miniGameController.UpdateFishing();
+        bool holding = Input.GetKey(holdInputKey);
+        if (mouseHoldAlsoReels)
+            holding = holding || Input.GetMouseButton(0);
 
-        // Handle hold input
-        if (Input.GetKeyDown(KeyCode.Space))
+        miniGameLogic.SetHolding(holding);
+        miniGameLogic.Tick(Time.deltaTime);
+    }
+
+    private void HandleStateChanged(FishingBarSnapshot snapshot)
+    {
+        if (!_uiActive || fishingView == null)
+            return;
+
+        fishingView.RenderSnapshot(snapshot);
+
+        if (snapshot.warning)
         {
-            miniGameController.OnPlayerInput_Hold();
+            fishingView.SetStatus("Line tension is critical!", new Color(1f, 0.62f, 0.45f));
         }
-        else if (Input.GetKeyUp(KeyCode.Space))
+        else if (snapshot.fishInsideZone)
         {
-            miniGameController.OnPlayerInput_ReleaseHold();
+            fishingView.SetStatus("Nice control. Keep it steady.", new Color(0.72f, 0.96f, 0.72f));
+        }
+        else
+        {
+            fishingView.SetStatus("Track the fish with your hook zone.", new Color(0.93f, 0.91f, 0.8f));
         }
     }
 
-    /// <summary>
-    /// Event handler: Fish position changed
-    /// </summary>
-    private void HandleFishPositionChanged(Vector2 position)
+    private void HandleMiniGameFinished(bool success, bool perfect)
     {
-        if (fishTarget == null)
+        if (_resultResolved)
             return;
 
-        // Position is normalized (-1 to 1 range)
-        // Translate fish based on normalized movement
-        // Scale movement to visible area bounds
-        float translateX = position.x * 100f; // ±100 pixels horizontal movement
-        float translateY = position.y * 80f;  // ±80 pixels vertical movement
+        _resultResolved = true;
 
-        // Use translate for smooth movement from centered origin
-        fishTarget.style.translate = new Translate(new Length(translateX, LengthUnit.Pixel), new Length(translateY, LengthUnit.Pixel));
+        if (success)
+            GrantCatchToInventory();
 
-        // Check if fish is in catch zone
-        float distanceToFish = Mathf.Sqrt(position.x * position.x + position.y * position.y);
-        fishInZone = distanceToFish < 0.55f; // Same as in controller
+        FishingResultType resultType = success ? FishingResultType.Success : FishingResultType.Escaped;
+        miniGameController.CompleteCatch(resultType);
 
-        // Update visual feedback based on fish position
-        if (statusLabel != null && !inputEnabled)
+        if (fishingView != null)
         {
-            if (fishInZone)
-            {
-                statusLabel.text = "FISH IN ZONE! HOLD NOW!";
-                statusLabel.style.color = new Color(0f, 1f, 0f);
-            }
+            string message;
+            if (success && perfect)
+                message = "Perfect Catch!";
+            else if (success)
+                message = "Caught!";
             else
-            {
-                statusLabel.text = "Move fish into the circle!";
-                statusLabel.style.color = new Color(1f, 1f, 0.7f);
-            }
+                message = "The fish escaped";
+
+            fishingView.ShowResult(message, success, perfect);
+            fishingView.SetStatus(message, success ? new Color(0.72f, 0.98f, 0.72f) : new Color(1f, 0.65f, 0.52f));
         }
+
+        StartCoroutine(CloseAfterDelay(resultDisplaySeconds));
     }
 
-    /// <summary>
-    /// Event handler: Hold progress changed (0-1)
-    /// </summary>
-    private void HandleHoldProgressChanged(float progress)
+    private void HandleExternalCatchComplete(FishingResultType result)
     {
-        if (holdProgressBar != null)
-        {
-            holdProgressBar.value = progress;
-        }
+        if (!_uiActive)
+            return;
 
-        if (holdPercentageLabel != null)
-        {
-            holdPercentageLabel.text = $"{(progress * 100f):F0}%";
-        }
-
-        // Update status based on progress
-        if (statusLabel != null && progress > 0)
-        {
-            if (progress < 0.33f)
-            {
-                statusLabel.text = "Getting closer...";
-                statusLabel.style.color = new Color(1f, 1f, 0.5f);
-            }
-            else if (progress < 0.66f)
-            {
-                statusLabel.text = "Almost there! Hold tight!";
-                statusLabel.style.color = new Color(1f, 1f, 0.3f);
-            }
-            else if (progress < 1f)
-            {
-                statusLabel.text = "KEEP HOLDING! You got this!";
-                statusLabel.style.color = new Color(0.5f, 1f, 0.5f);
-            }
-        }
+        // If another system completes catch, close gracefully.
+        if (!_resultResolved)
+            StartCoroutine(CloseAfterDelay(resultDisplaySeconds));
     }
 
-    /// <summary>
-    /// Event handler: Catch complete (success or failure)
-    /// </summary>
-    private void HandleCatchComplete(FishingResultType result)
+    private void GrantCatchToInventory()
     {
-        inputEnabled = false;
+        if (_currentCatchable == null || _currentCatchable.inventoryItem == null)
+            return;
 
-        HandleCatchResult(result);
+        if (!InventoryController.HasInstance)
+            return;
+
+        bool added = InventoryController.Instance.TryAdd(_currentCatchable.inventoryItem, 1);
+        if (!added)
+            Debug.LogWarning($"[FishingUIController_Hold] Inventory full. Could not add {_currentCatchable.catchableName}.");
     }
 
-    private void HandleCatchResult(FishingResultType result)
+    private static string BuildRarityText(CatchableDefinition catchable)
     {
-        string resultText = "";
-        string statusText = "";
-        Color statusColor = Color.white;
+        if (catchable == null)
+            return "Rarity: Unknown";
 
-        switch (result)
-        {
-            case FishingResultType.Success:
-                resultText = "✓ CAUGHT!";
-                statusText = "Success! You caught it!";
-                statusColor = new Color(0.5f, 1f, 0.5f, 1f); // Green
-
-                // Add catch to inventory
-                if (miniGameController != null)
-                {
-                    CatchableDefinition catchable = miniGameController.GetCurrentCatchable();
-                    if (catchable != null && catchable.inventoryItem != null)
-                    {
-                        bool success = InventoryController.Instance.TryAdd(catchable.inventoryItem, 1);
-                        if (success)
-                        {
-                            Debug.Log($"[FishingUI] Added {catchable.catchableName} to inventory!");
-                        }
-                        else
-                        {
-                            Debug.LogWarning($"[FishingUI] Inventory full! Could not add {catchable.catchableName}");
-                        }
-                    }
-                }
-                break;
-
-            case FishingResultType.MissedBite:
-                resultText = "✗ MISSED!";
-                statusText = "Fish got away - missed the reaction window!";
-                statusColor = new Color(1f, 0.5f, 0.5f, 1f); // Red
-                break;
-
-            case FishingResultType.LineBroke:
-                resultText = "✗ LINE BROKE!";
-                statusText = "The line snapped under pressure!";
-                statusColor = new Color(1f, 0.5f, 0.5f, 1f); // Red
-                break;
-
-            case FishingResultType.Escaped:
-                resultText = "✗ ESCAPED!";
-                statusText = "The fish got away!";
-                statusColor = new Color(1f, 0.7f, 0.5f, 1f); // Orange
-                break;
-
-            case FishingResultType.TooMuchTension:
-                resultText = "✗ TENSION!";
-                statusText = "Too much tension on the line!";
-                statusColor = new Color(1f, 0.5f, 0.5f, 1f); // Red
-                break;
-        }
-
-        if (statusLabel != null)
-        {
-            statusLabel.text = statusText;
-            statusLabel.style.color = statusColor;
-        }
-
-        // Close UI after delay
-        StartCoroutine(CloseUIAfterDelay(2f));
+        return $"Rarity: {catchable.rarity}";
     }
 
-    private IEnumerator CloseUIAfterDelay(float delay)
+    private IEnumerator CloseAfterDelay(float delay)
     {
-        yield return new WaitForSeconds(delay);
+        float clamped = Mathf.Max(0.1f, delay);
+        yield return new WaitForSeconds(clamped);
         CloseFishingUI();
     }
 }

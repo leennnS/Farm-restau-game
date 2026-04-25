@@ -109,6 +109,9 @@ public class FishingUIController : MonoBehaviour
         resultDescriptionLabel = root.Q<Label>("result-description-label");
         continueButton = root.Q<Button>("continue-button");
 
+        ConfigureFittedImage(catchableImage);
+        ConfigureFittedImage(resultCatchableImage);
+
         // Setup button listeners
         if (biteReelButton != null)
         {
@@ -145,6 +148,14 @@ public class FishingUIController : MonoBehaviour
         miniGameController.OnBiteOccurred += HandleBiteOccurred;
         miniGameController.OnTensionChanged += HandleTensionChanged;
         miniGameController.OnCatchComplete += HandleCatchComplete;
+    }
+
+    private static void ConfigureFittedImage(Image image)
+    {
+        if (image == null)
+            return;
+
+        image.scaleMode = ScaleMode.ScaleToFit;
     }
 
     private void OnDestroy()

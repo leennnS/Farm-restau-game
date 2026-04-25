@@ -275,6 +275,7 @@
     flex-grow: 1;
 }
 
+#catchable-image,
 .creature-image {
     width: 150px;
     height: 150px;
@@ -282,6 +283,7 @@
     border-radius: 8px;
     border-width: 2px;
     border-color: rgba(100, 200, 150, 0.4);
+    background-size: contain;
 }
 
 #reel-controls {
@@ -426,6 +428,7 @@
     border-width: 3px;
     border-color: rgba(150, 200, 255, 0.4);
     margin: 20px 0;
+    background-size: contain;
 }
 
 #result-description-label {
@@ -610,6 +613,7 @@
         font-size: 14px;
     }
 
+    #result-catchable-image,
     .result-catchable-image {
         width: 150px;
         height: 150px;

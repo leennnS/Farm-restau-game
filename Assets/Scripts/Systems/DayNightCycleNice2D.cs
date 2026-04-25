@@ -51,6 +51,7 @@ public class DayNightCycleNice2D : MonoBehaviour
     [Tooltip("Real seconds for a full 24h cycle. 60 for testing (fast), 300+ for realistic")]
     [SerializeField] private float dayLengthSeconds = 60f;
     [SerializeField] private bool autoCreateGlobalClockHud = true;
+    [SerializeField] private bool autoCreateNextDayButtonHud = true;
     [SerializeField] private string lightingSceneName = "FarmScene";
     [SerializeField] private string[] stableIndoorSceneNames = { "RestaurantScene", "MarketScene" };
 
@@ -80,6 +81,7 @@ public class DayNightCycleNice2D : MonoBehaviour
     private float _nextDiskSaveTime;
     private bool _hasShownNightNotification = false; // Track if night notification was shown today
     private Light2D _runtimeIndoorGlobalLight;
+    private bool _manualTimePaused;
 
     private void OnEnable()
     {
@@ -186,6 +188,9 @@ public class DayNightCycleNice2D : MonoBehaviour
         if (autoCreateGlobalClockHud)
             EnsureGlobalClockHudExists();
 
+        if (autoCreateNextDayButtonHud)
+            EnsureGlobalNextDayButtonExists();
+
         if (globalLight == null) globalLight = FindSceneGlobalLight();
 
         if (lightColor == null || lightColor.colorKeys.Length == 0 ||
@@ -224,6 +229,16 @@ public class DayNightCycleNice2D : MonoBehaviour
 
         GameObject hudGo = new GameObject("GlobalClockHUD");
         hudGo.AddComponent<GlobalClockHUD>();
+    }
+
+    private void EnsureGlobalNextDayButtonExists()
+    {
+        GlobalNextDayButtonHUD existingButton = FindFirstObjectByType<GlobalNextDayButtonHUD>();
+        if (existingButton != null)
+            return;
+
+        GameObject buttonGo = new GameObject("GlobalNextDayButtonHUD");
+        buttonGo.AddComponent<GlobalNextDayButtonHUD>();
     }
 
     private void InitializeDefaultGradients()
@@ -319,6 +334,12 @@ public class DayNightCycleNice2D : MonoBehaviour
             }
 
             dayLengthSeconds = 60f;
+        }
+
+        if (_manualTimePaused)
+        {
+            Apply();
+            return;
         }
 
         lastTimeNormalized = TimeNormalized;
@@ -622,6 +643,41 @@ public class DayNightCycleNice2D : MonoBehaviour
     }
 
     public int GetHour24() => Mathf.FloorToInt(TimeNormalized * 24f) % 24;
+
+    public bool IsTimeManuallyPaused => _manualTimePaused;
+
+    public void SetManualTimePaused(bool paused)
+    {
+        _manualTimePaused = paused;
+    }
+
+    public void ToggleManualTimePaused()
+    {
+        _manualTimePaused = !_manualTimePaused;
+
+        if (toastUI != null)
+            toastUI.Show(_manualTimePaused ? "Day progression paused" : "Day progression resumed", 2.1f);
+    }
+
+    /// <summary>
+    /// Advances immediately to the start of a new day and notifies all day-dependent systems.
+    /// Intended for explicit player actions (e.g., sleep/skip button).
+    /// </summary>
+    public void AdvanceToNextDay()
+    {
+        currentDay++;
+        TimeNormalized = startTimeNormalized;
+        _hasShownNightNotification = false;
+
+        OnDayAdvanced?.Invoke();
+
+        Apply();
+        SavePersistentState();
+        SaveToDisk();
+
+        if (toastUI != null)
+            toastUI.Show($"Day {currentDay + 1} has begun", 2.6f);
+    }
 
     /// <summary>
     /// Reset the day/night cycle to a fresh new day. Call this when starting a new game.

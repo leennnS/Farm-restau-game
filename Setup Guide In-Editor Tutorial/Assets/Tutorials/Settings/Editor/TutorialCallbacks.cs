@@ -130,11 +130,11 @@ public class TutorialCallbacks : ScriptableObject
     public void EnableGameObject(string objectName)
     {
         Debug.Log("EnableGameObject ran. Looking for: " + objectName);
-        GameObject objectToEnable = GameObject.FindGameObjectWithTag(objectName);
+        GameObject objectToEnable = GameObject.Find(objectName);
 
         if (objectToEnable != null)
         {
-            objectToEnable.SetActive(false);
+            objectToEnable.SetActive(true);
             Debug.Log($"GameObject '{objectName}' has been enabled.");
         }
         else
@@ -143,30 +143,30 @@ public class TutorialCallbacks : ScriptableObject
         }
     }
 
-public void EnableChildObjects(string objectTag)
-{
-    // Find the object with the specified tag
-    GameObject objectToEnable = GameObject.FindGameObjectWithTag(objectTag);
-
-    if (objectToEnable != null)
+    public void EnableChildObjects(string objectTag)
     {
-        // Iterate through all the child objects and enable them
-        foreach (Transform child in objectToEnable.transform)
+        // Find the object with the specified tag
+        GameObject objectToEnable = GameObject.FindGameObjectWithTag(objectTag);
+
+        if (objectToEnable != null)
         {
-            child.gameObject.SetActive(true);
+            // Iterate through all the child objects and enable them
+            foreach (Transform child in objectToEnable.transform)
+            {
+                child.gameObject.SetActive(true);
+            }
         }
+
     }
 
-}
-
-public void FrameObjectWithTag(string objectTag)
-{
-    // Find the object with the specified tag
-    GameObject objectToFrame = GameObject.FindGameObjectWithTag(objectTag);
-
-    if (objectToFrame != null)
+    public void FrameObjectWithTag(string objectTag)
     {
-        Selection.activeGameObject = objectToFrame;
+        // Find the object with the specified tag
+        GameObject objectToFrame = GameObject.FindGameObjectWithTag(objectTag);
+
+        if (objectToFrame != null)
+        {
+            Selection.activeGameObject = objectToFrame;
 
             // Get the active Scene view
             SceneView sceneView = SceneView.lastActiveSceneView;
@@ -181,12 +181,12 @@ public void FrameObjectWithTag(string objectTag)
             {
                 Debug.Log("No active Scene view found.");
             }
+        }
+        else
+        {
+            Debug.LogWarning($"GameObject with tag '{objectTag}' not found. Unable to frame object.");
+        }
     }
-    else
-    {
-        Debug.LogWarning($"GameObject with tag '{objectTag}' not found. Unable to frame object.");
-    }
-}
 
     // Camera Enable/Disable functions using Transform to find child camera and child listener
     // Added by VB with help from UAI
@@ -304,7 +304,7 @@ public void FrameObjectWithTag(string objectTag)
             Debug.LogError($"Error in CustomizeProjectWindowLayout: {e.Message}\nStack Trace: {e.StackTrace}");
         }
     }
-    
+
     public void SetProjectBrowserToTwoColumnMode()
     {
         System.Type projectBrowserType = typeof(Editor).Assembly.GetType("UnityEditor.ProjectBrowser");

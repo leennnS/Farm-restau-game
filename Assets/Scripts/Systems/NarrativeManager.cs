@@ -18,7 +18,7 @@ public class NarrativeManager : MonoBehaviour
         "The sun rises over the horizon...",
         "You wake up in front of your old shed.",
         "It's time to start your new life.",
-        "Press Space or Click to continue..."
+        "Press Space, Enter, or Click to continue..."
     };
 
     [SerializeField]
@@ -49,8 +49,11 @@ public class NarrativeManager : MonoBehaviour
 
     private void Update()
     {
-        // Check for Space or Mouse Click input
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
+        // Check for Space, Enter, or Mouse Click input
+        if (Input.GetKeyDown(KeyCode.Space) ||
+            Input.GetKeyDown(KeyCode.Return) ||
+            Input.GetKeyDown(KeyCode.KeypadEnter) ||
+            Input.GetMouseButtonDown(0))
         {
             HandleInput();
         }
@@ -122,6 +125,9 @@ public class NarrativeManager : MonoBehaviour
         PlayerPrefs.DeleteKey("SkipSpawnManagerOnce");
         PlayerPrefs.SetInt("FromIntroScene", 1);
         PlayerPrefs.SetInt("ForceShedDoorSpawnOnce", 1);
+        PlayerPrefs.DeleteKey("FarmTutorialStarted");
+        PlayerPrefs.DeleteKey("FarmTutorialCompleted");
+        PlayerPrefs.SetInt("PendingFarmTutorial", 1);
         PlayerPrefs.Save();
 
         Debug.Log($"[NarrativeManager] Transitioning to {sceneToLoadAfter}");
