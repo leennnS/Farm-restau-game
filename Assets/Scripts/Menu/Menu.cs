@@ -1,5 +1,7 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 /// <summary>
 /// Main menu controller - handles New Game, Continue, Options, and Quit
@@ -19,6 +21,8 @@ public class Menu : MonoBehaviour
 
     private void Awake()
     {
+        AutoResolvePanelReferences();
+
         // Try to get AudioSource, create if doesn't exist
         _audioSource = GetComponent<AudioSource>();
         if (_audioSource == null)
@@ -110,10 +114,32 @@ public class Menu : MonoBehaviour
     /// </summary>
     public void OpenOptions()
     {
-        if (mainMenuPanel != null)
+        AutoResolvePanelReferences();
+
+        if (optionsPanel == null)
+        {
+            Debug.LogError("[Menu] Cannot open options: optionsPanel is not assigned in the inspector.");
+            return;
+        }
+
+        bool optionsNestedUnderMainMenu = IsOptionsNestedUnderMainMenu();
+
+        // If Options is a child of Main Menu, disabling Main Menu would hide Options too.
+        if (!optionsNestedUnderMainMenu && mainMenuPanel != null)
             mainMenuPanel.SetActive(false);
-        if (optionsPanel != null)
-            optionsPanel.SetActive(true);
+
+        optionsPanel.SetActive(true);
+        optionsPanel.transform.SetAsLastSibling();
+
+        CanvasGroup optionsGroup = optionsPanel.GetComponent<CanvasGroup>();
+        if (optionsGroup != null)
+        {
+            optionsGroup.alpha = 1f;
+            optionsGroup.interactable = true;
+            optionsGroup.blocksRaycasts = true;
+        }
+
+        Debug.Log($"[Menu] OpenOptions -> mainMenuPanel:{(mainMenuPanel != null ? mainMenuPanel.name : "null")} activeSelf={(mainMenuPanel != null && mainMenuPanel.activeSelf)} | optionsPanel:{optionsPanel.name} activeSelf={optionsPanel.activeSelf}");
     }
 
     /// <summary>
@@ -122,10 +148,71 @@ public class Menu : MonoBehaviour
     public void CloseOptions()
     {
         PlayButtonSound();
+        AutoResolvePanelReferences();
+
+        if (optionsPanel == null)
+        {
+            Debug.LogError("[Menu] Cannot close options: optionsPanel is not assigned in the inspector.");
+            return;
+        }
+
+        bool optionsNestedUnderMainMenu = IsOptionsNestedUnderMainMenu();
+
         if (optionsPanel != null)
             optionsPanel.SetActive(false);
-        if (mainMenuPanel != null)
+
+        if (!optionsNestedUnderMainMenu && mainMenuPanel != null)
             mainMenuPanel.SetActive(true);
+    }
+
+    private void AutoResolvePanelReferences()
+    {
+        if (mainMenuPanel == null || mainMenuPanel.GetComponent<Button>() != null)
+        {
+            GameObject resolvedMain = FindPanelOnAnyCanvas("Menu");
+            if (resolvedMain != null)
+                mainMenuPanel = resolvedMain;
+        }
+
+        if (optionsPanel == null || optionsPanel.GetComponent<Button>() != null)
+        {
+            GameObject resolvedOptions = FindPanelOnAnyCanvas("Options");
+            if (resolvedOptions != null)
+                optionsPanel = resolvedOptions;
+        }
+    }
+
+    private static GameObject FindPanelOnAnyCanvas(string panelName)
+    {
+        Canvas[] canvases = FindObjectsByType<Canvas>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        foreach (Canvas canvas in canvases)
+        {
+            RectTransform[] rects = canvas.GetComponentsInChildren<RectTransform>(true);
+            foreach (RectTransform rect in rects)
+            {
+                GameObject go = rect.gameObject;
+                if (go == null || go == canvas.gameObject)
+                    continue;
+
+                if (!string.Equals(go.name, panelName, StringComparison.OrdinalIgnoreCase))
+                    continue;
+
+                if (go.GetComponent<Button>() != null)
+                    continue;
+
+                return go;
+            }
+        }
+
+        return null;
+    }
+
+    private bool IsOptionsNestedUnderMainMenu()
+    {
+        if (mainMenuPanel == null || optionsPanel == null)
+            return false;
+
+        return optionsPanel.transform.IsChildOf(mainMenuPanel.transform);
     }
 
     /// <summary>

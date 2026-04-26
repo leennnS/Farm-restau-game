@@ -18,6 +18,10 @@ public class FishingBarMiniGameLogic : MonoBehaviour
     [SerializeField] private float zoneMoveSpeed = 0.68f;
     [SerializeField] private float zonePullBackSpeed = 0.48f;
     [SerializeField] private float zoneWidth = 0.18f;
+    [SerializeField] private float holdMoveBoostMultiplier = 1.25f;
+
+    [Header("Accessibility Tuning")]
+    [SerializeField] private float fishSpeedMultiplier = 0.85f;
 
     [Header("Progress Rules")]
     [SerializeField] private float catchFillRate = 0.42f;
@@ -111,7 +115,7 @@ public class FishingBarMiniGameLogic : MonoBehaviour
         if (_nextFishTurnTimer <= 0f)
             ResetFishVelocity();
 
-        float jitter = UnityEngine.Random.Range(-fishJitterStrength, fishJitterStrength) * (0.7f + _difficulty);
+        float jitter = UnityEngine.Random.Range(-fishJitterStrength, fishJitterStrength) * (0.7f + _difficulty) * fishSpeedMultiplier;
         _fishPos += (_fishVel + jitter) * dt;
 
         if (_fishPos <= 0f)
@@ -128,7 +132,7 @@ public class FishingBarMiniGameLogic : MonoBehaviour
 
     private void UpdateZone(float dt)
     {
-        float move = _holding ? zoneMoveSpeed : -zonePullBackSpeed;
+        float move = _holding ? zoneMoveSpeed * holdMoveBoostMultiplier : -zonePullBackSpeed;
         _zoneCenter = Mathf.Clamp01(_zoneCenter + move * dt);
     }
 
@@ -154,7 +158,7 @@ public class FishingBarMiniGameLogic : MonoBehaviour
 
     private void ResetFishVelocity()
     {
-        float speed = UnityEngine.Random.Range(fishSpeedMin, fishSpeedMax) * (0.75f + _difficulty * 0.7f);
+        float speed = UnityEngine.Random.Range(fishSpeedMin, fishSpeedMax) * (0.75f + _difficulty * 0.7f) * fishSpeedMultiplier;
         _fishVel = UnityEngine.Random.value < 0.5f ? -speed : speed;
         _nextFishTurnTimer = UnityEngine.Random.Range(fishDirectionChangeMin, fishDirectionChangeMax);
     }
