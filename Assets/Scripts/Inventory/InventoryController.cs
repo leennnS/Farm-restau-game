@@ -32,7 +32,7 @@ public class InventoryController : MonoBehaviour
     // ---------- NEW: Inventory ----------
     [Header("Inventory")]
     [SerializeField] private int inventorySize = 36;
-    [SerializeField, Range(0.8f, 2.0f)] private float inventoryUiScale = 1.25f;
+    [SerializeField, Range(0.8f, 2.0f)] private float inventoryUiScale = 1.1f;
     [SerializeField] private bool autoScaleByDevice = true;
     [SerializeField] private float referenceDpi = 96f;
     [SerializeField, Range(1.0f, 1.8f)] private float maxAutoScaleMultiplier = 1.45f;
