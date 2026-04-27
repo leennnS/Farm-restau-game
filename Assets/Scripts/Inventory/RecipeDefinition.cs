@@ -10,10 +10,10 @@ public struct ItemStack
 
 public enum RecipeCategory
 {
-    BreakfastBakery,
-    MainDish,
-    SoupsDrinks,
-    Dessert
+    Breakfast,
+    MainDishes,
+    BakeryDesserts,
+    DrinksSmoothies
 }
 
 /// <summary>

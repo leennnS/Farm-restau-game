@@ -5,6 +5,8 @@ using UnityEngine.UIElements;
 [RequireComponent(typeof(UIDocument))]
 public class HotBarHUDController : MonoBehaviour
 {
+    private static HotBarHUDController _instance;
+
     private UIDocument _uiDocument;
     private VisualElement _root;
     private VisualElement[] _slots;
@@ -13,6 +15,15 @@ public class HotBarHUDController : MonoBehaviour
 
     private void Awake()
     {
+        if (_instance != null && _instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        _instance = this;
+        DontDestroyOnLoad(gameObject);
+
         _uiDocument = GetComponent<UIDocument>();
         if (_uiDocument == null)
         {
@@ -31,6 +42,12 @@ public class HotBarHUDController : MonoBehaviour
 
         // Ensure hotbar is visible at startup
         SetVisible(true);
+    }
+
+    private void OnDestroy()
+    {
+        if (_instance == this)
+            _instance = null;
     }
 
     private void CacheSlots()

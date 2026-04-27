@@ -4,6 +4,8 @@ using UnityEngine.UIElements;
 [RequireComponent(typeof(UIDocument))]
 public class HotBarController : MonoBehaviour
 {
+    private static HotBarController _instance;
+
     private const int HotbarSize = 12;
 
     private UIDocument _doc;
@@ -13,6 +15,15 @@ public class HotBarController : MonoBehaviour
 
     private void Awake()
     {
+        if (_instance != null && _instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        _instance = this;
+        DontDestroyOnLoad(gameObject);
+
         _doc = GetComponent<UIDocument>();
         _root = _doc.rootVisualElement;
 
@@ -21,6 +32,12 @@ public class HotBarController : MonoBehaviour
 
         CacheSlots();
         ClearAll();
+    }
+
+    private void OnDestroy()
+    {
+        if (_instance == this)
+            _instance = null;
     }
 
     private void CacheSlots()

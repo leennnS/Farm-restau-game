@@ -56,6 +56,13 @@ public class InventoryController : MonoBehaviour
     private ItemStack[] _cookingRecipeSlotData;
     private VisualElement[] _cookingIngredientSlotElements;
 
+    private struct CookingSourceSlot
+    {
+        public bool fromHotbar;
+        public int slotIndex;
+    }
+
+    private readonly List<CookingSourceSlot> _cookingSourceSlots = new List<CookingSourceSlot>(HotbarSize + 36);
     private int _draggedCookingInventoryIndex = -1;
     private bool _isDraggingFromCookingInventory = false;
 
@@ -63,6 +70,7 @@ public class InventoryController : MonoBehaviour
     private VisualElement _playerCard;
     private UIDocument _uiDocument;
     private VisualElement _root;
+    private VisualElement _boundRootForCallbacks;
     private bool _isOpen;
     private bool _isCookingOnlyMode;
 
@@ -110,7 +118,8 @@ public class InventoryController : MonoBehaviour
     private VisualElement _craftingInventoryGrid;
 
     private RecipeDefinition _selectedRecipe;
-    private RecipeCategory _currentRecipeCategory = RecipeCategory.BreakfastBakery;
+    private RecipeCategory _currentRecipeCategory = RecipeCategory.Breakfast;
+    private bool _restaurantRecipeAutoLoadAttempted;
     private bool _isServeMode;
     private int _selectedServeQueueIndex = -1;
     private RecipeDefinition _selectedServeRecipe;
@@ -189,10 +198,7 @@ public class InventoryController : MonoBehaviour
         var loadingContainer = _root.Q<VisualElement>("cookingLoadingContainer");
 
         TryResolveHotbarHUD();
-        CacheUI();
-        ApplyInventoryUiScale();
-        CacheInventorySlots();
-        BindUI();
+        RebindInventoryUIIfNeeded(forceRebindCallbacks: true);
 
         _slotsData = new ItemStack[inventorySize];
         _hotbarData = new ItemStack[HotbarSize];
@@ -218,6 +224,8 @@ public class InventoryController : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        // Retry recipe coverage when entering Restaurant scene from a persistent inventory singleton.
+        _restaurantRecipeAutoLoadAttempted = false;
         StartCoroutine(RebindAfterSceneLoad());
     }
 
@@ -225,6 +233,9 @@ public class InventoryController : MonoBehaviour
     {
         // Let scene UI documents initialize first.
         yield return null;
+
+        // Rebind inventory UI references if UI Toolkit rebuilt the runtime panel.
+        RebindInventoryUIIfNeeded(forceRebindCallbacks: false);
 
         // Force re-resolve to scene-local HUD instances.
         _hotbarHUD = null;
@@ -238,6 +249,32 @@ public class InventoryController : MonoBehaviour
 
         // Re-apply interaction state so hidden inventory cannot intercept clicks.
         SetOpen(_isOpen);
+    }
+
+    private void RebindInventoryUIIfNeeded(bool forceRebindCallbacks)
+    {
+        if (_uiDocument == null)
+            _uiDocument = GetComponent<UIDocument>();
+
+        if (_uiDocument == null)
+            return;
+
+        VisualElement newRoot = _uiDocument.rootVisualElement;
+        if (newRoot == null)
+            return;
+
+        bool rootChanged = !ReferenceEquals(_root, newRoot);
+        _root = newRoot;
+
+        CacheUI();
+        ApplyInventoryUiScale();
+        CacheInventorySlots();
+
+        if (forceRebindCallbacks || rootChanged || !ReferenceEquals(_boundRootForCallbacks, _root))
+        {
+            BindUI();
+            _boundRootForCallbacks = _root;
+        }
     }
 
     private void Update()
@@ -775,16 +812,16 @@ public class InventoryController : MonoBehaviour
         // Populate map display
         PopulateMapDisplay();
         if (_tabBreakfastButton != null)
-            _tabBreakfastButton.clicked += () => ShowRecipeCategory(RecipeCategory.BreakfastBakery);
+            _tabBreakfastButton.clicked += () => ShowRecipeCategory(RecipeCategory.Breakfast);
 
         if (_tabMainDishButton != null)
-            _tabMainDishButton.clicked += () => ShowRecipeCategory(RecipeCategory.MainDish);
+            _tabMainDishButton.clicked += () => ShowRecipeCategory(RecipeCategory.MainDishes);
 
         if (_tabDrinksButton != null)
-            _tabDrinksButton.clicked += () => ShowRecipeCategory(RecipeCategory.SoupsDrinks);
+            _tabDrinksButton.clicked += () => ShowRecipeCategory(RecipeCategory.DrinksSmoothies);
 
         if (_tabDessertButton != null)
-            _tabDessertButton.clicked += () => ShowRecipeCategory(RecipeCategory.Dessert);
+            _tabDessertButton.clicked += () => ShowRecipeCategory(RecipeCategory.BakeryDesserts);
 
         if (_tabServeButton != null)
             _tabServeButton.clicked += ShowServeTab;
@@ -1177,7 +1214,7 @@ public class InventoryController : MonoBehaviour
         else
         {
             // From inventory to hotbar
-            CopyInventoryToHotbar(_draggedSlotIndex, targetSlotIndex);
+            MoveInventoryToHotbar(_draggedSlotIndex, targetSlotIndex);
         }
 
         ResetDragState();
@@ -1291,7 +1328,7 @@ public class InventoryController : MonoBehaviour
         MarkInventoryDirty();
     }
 
-    private void CopyInventoryToHotbar(int inventoryIndex, int hotbarIndex)
+    private void MoveInventoryToHotbar(int inventoryIndex, int hotbarIndex)
     {
         if (inventoryIndex < 0 || inventoryIndex >= _slotsData.Length) return;
         if (hotbarIndex < 0 || hotbarIndex >= _hotbarData.Length) return;
@@ -1320,6 +1357,10 @@ public class InventoryController : MonoBehaviour
             amount = source.amount // Transfer full stack amount
         };
 
+        // MOVE operation: clear source inventory slot.
+        _slotsData[inventoryIndex] = new ItemStack { item = null, amount = 0 };
+
+        RefreshInventorySlot(inventoryIndex);
         RefreshHotbarSlot(hotbarIndex);
         SyncExternalHotbarSlot(hotbarIndex);
         MarkInventoryDirty();
@@ -1333,12 +1374,19 @@ public class InventoryController : MonoBehaviour
         var source = _hotbarData[hotbarIndex];
         if (source.item == null || source.amount <= 0) return;
 
-        // Check if this item already exists in inventory
+        // Prefer merging into existing stack if present.
         for (int i = 0; i < _slotsData.Length; i++)
         {
             if (_slotsData[i].item == source.item)
             {
-                return; // Item already in inventory, don't add again
+                _slotsData[i].amount += source.amount;
+                _hotbarData[hotbarIndex] = new ItemStack { item = null, amount = 0 };
+
+                RefreshInventorySlot(i);
+                RefreshHotbarSlot(hotbarIndex);
+                SyncExternalHotbarSlot(hotbarIndex);
+                MarkInventoryDirty();
+                return;
             }
         }
 
@@ -1416,6 +1464,7 @@ public class InventoryController : MonoBehaviour
     // ==================== CRAFTING SYSTEM ====================
     private void ShowRecipeCategory(RecipeCategory category)
     {
+        EnsureRestaurantRecipeCoverageIfNeeded();
         _isServeMode = false;
         _currentRecipeCategory = category;
         Debug.Log($"Switching to recipe category: {category}");
@@ -1452,16 +1501,16 @@ public class InventoryController : MonoBehaviour
 
         switch (_currentRecipeCategory)
         {
-            case RecipeCategory.BreakfastBakery:
+            case RecipeCategory.Breakfast:
                 _tabBreakfastButton?.AddToClassList("active-category-tab");
                 break;
-            case RecipeCategory.MainDish:
+            case RecipeCategory.MainDishes:
                 _tabMainDishButton?.AddToClassList("active-category-tab");
                 break;
-            case RecipeCategory.SoupsDrinks:
+            case RecipeCategory.DrinksSmoothies:
                 _tabDrinksButton?.AddToClassList("active-category-tab");
                 break;
-            case RecipeCategory.Dessert:
+            case RecipeCategory.BakeryDesserts:
                 _tabDessertButton?.AddToClassList("active-category-tab");
                 break;
         }
@@ -1498,6 +1547,8 @@ public class InventoryController : MonoBehaviour
     }
     private void PopulateRecipeGrid()
     {
+        EnsureRestaurantRecipeCoverageIfNeeded();
+
         if (_isServeMode)
         {
             PopulateServeGrid();
@@ -1713,10 +1764,16 @@ public class InventoryController : MonoBehaviour
         if (_cookRecipeButton != null)
         {
             _cookRecipeButton.text = "Serve";
-            _cookRecipeButton.SetEnabled(queueIndex == 0);
+            bool hasDishReady = recipe.result != null && CountItemInInventory(recipe.result) > 0;
+            _cookRecipeButton.SetEnabled(queueIndex == 0 && hasDishReady);
         }
 
-        SetServeStatus(queueIndex == 0 ? "Ready to serve front customer." : "Only front customer (Q0) can be served.");
+        if (queueIndex != 0)
+            SetServeStatus("Only front customer (Q0) can be served.");
+        else if (recipe.result != null && CountItemInInventory(recipe.result) <= 0)
+            SetServeStatus($"Missing dish: {recipe.result.displayName}.");
+        else
+            SetServeStatus("Ready to serve front customer.");
     }
 
     private void TryServeSelectedOrder()
@@ -1731,6 +1788,18 @@ public class InventoryController : MonoBehaviour
         if (_selectedServeQueueIndex != 0)
         {
             SetServeStatus("Serve the front customer (Q0) first.");
+            return;
+        }
+
+        if (_selectedServeRecipe == null || _selectedServeRecipe.result == null)
+        {
+            SetServeStatus("Select a valid front-customer order first.");
+            return;
+        }
+
+        if (CountItemInInventory(_selectedServeRecipe.result) <= 0)
+        {
+            SetServeStatus($"Missing dish: {_selectedServeRecipe.result.displayName}.");
             return;
         }
 
@@ -1886,14 +1955,22 @@ public class InventoryController : MonoBehaviour
 
     private void PopulateCraftingInventoryFromRealData()
     {
-        if (_craftingInventoryGrid == null || _slotsData == null)
+        if (_craftingInventoryGrid == null || _slotsData == null || _hotbarData == null)
             return;
 
         _craftingInventoryGrid.Clear();
+        _cookingSourceSlots.Clear();
+
+        for (int i = 0; i < _hotbarData.Length; i++)
+            _cookingSourceSlots.Add(new CookingSourceSlot { fromHotbar = true, slotIndex = i });
 
         for (int i = 0; i < _slotsData.Length; i++)
+            _cookingSourceSlots.Add(new CookingSourceSlot { fromHotbar = false, slotIndex = i });
+
+        for (int i = 0; i < _cookingSourceSlots.Count; i++)
         {
-            int inventoryIndex = i;
+            int sourceIndex = i;
+            CookingSourceSlot source = _cookingSourceSlots[sourceIndex];
 
             VisualElement slot = new VisualElement();
             slot.style.width = 36;
@@ -1912,7 +1989,7 @@ public class InventoryController : MonoBehaviour
             slot.style.position = Position.Relative;
             slot.pickingMode = PickingMode.Position;
 
-            var stack = _slotsData[i];
+            ItemStack stack = source.fromHotbar ? _hotbarData[source.slotIndex] : _slotsData[source.slotIndex];
 
             if (stack.item != null && stack.amount > 0)
             {
@@ -1928,22 +2005,28 @@ public class InventoryController : MonoBehaviour
                 countLabel.style.color = new Color(0.23f, 0.16f, 0.09f);
                 slot.Add(countLabel);
 
-                slot.RegisterCallback<MouseDownEvent>(evt => OnCookingInventorySlotMouseDown(inventoryIndex, slot, evt));
+                slot.RegisterCallback<MouseDownEvent>(evt => OnCookingInventorySlotMouseDown(sourceIndex, slot, evt));
             }
 
             _craftingInventoryGrid.Add(slot);
         }
     }
 
-    private void OnCookingInventorySlotMouseDown(int inventoryIndex, VisualElement slotElement, MouseDownEvent evt)
+    private void OnCookingInventorySlotMouseDown(int sourceIndex, VisualElement slotElement, MouseDownEvent evt)
     {
-        if (_slotsData == null || inventoryIndex < 0 || inventoryIndex >= _slotsData.Length)
+        if (_slotsData == null || _hotbarData == null)
             return;
 
-        if (_slotsData[inventoryIndex].item == null || _slotsData[inventoryIndex].amount <= 0)
+        if (sourceIndex < 0 || sourceIndex >= _cookingSourceSlots.Count)
             return;
 
-        _draggedCookingInventoryIndex = inventoryIndex;
+        CookingSourceSlot source = _cookingSourceSlots[sourceIndex];
+        ItemStack sourceStack = source.fromHotbar ? _hotbarData[source.slotIndex] : _slotsData[source.slotIndex];
+
+        if (sourceStack.item == null || sourceStack.amount <= 0)
+            return;
+
+        _draggedCookingInventoryIndex = sourceIndex;
         _isDraggingFromCookingInventory = true;
 
         if (slotElement != null)
@@ -1957,7 +2040,7 @@ public class InventoryController : MonoBehaviour
         if (!_isDraggingFromCookingInventory || _draggedCookingInventoryIndex < 0)
             return;
 
-        if (_slotsData == null || _cookingRecipeSlotData == null || _selectedRecipe == null)
+        if (_slotsData == null || _hotbarData == null || _cookingRecipeSlotData == null || _selectedRecipe == null)
             return;
 
         if (_selectedRecipe.ingredients == null)
@@ -1966,7 +2049,15 @@ public class InventoryController : MonoBehaviour
         if (ingredientSlotIndex < 0 || ingredientSlotIndex >= _selectedRecipe.ingredients.Length)
             return;
 
-        var draggedStack = _slotsData[_draggedCookingInventoryIndex];
+        if (_draggedCookingInventoryIndex >= _cookingSourceSlots.Count)
+        {
+            ResetCookingDragState();
+            return;
+        }
+
+        CookingSourceSlot source = _cookingSourceSlots[_draggedCookingInventoryIndex];
+        ItemStack draggedStack = source.fromHotbar ? _hotbarData[source.slotIndex] : _slotsData[source.slotIndex];
+
         if (draggedStack.item == null || draggedStack.amount <= 0)
         {
             ResetCookingDragState();
@@ -1994,16 +2085,30 @@ public class InventoryController : MonoBehaviour
             return;
         }
 
-        // Remove 1 from inventory
-        _slotsData[_draggedCookingInventoryIndex].amount -= 1;
-        if (_slotsData[_draggedCookingInventoryIndex].amount <= 0)
-            _slotsData[_draggedCookingInventoryIndex] = new ItemStack { item = null, amount = 0 };
+        // Remove 1 from the exact source used in cooking UI (hotbar or inventory).
+        draggedStack.amount -= 1;
+        if (draggedStack.amount <= 0)
+            draggedStack = new ItemStack { item = null, amount = 0 };
+
+        if (source.fromHotbar)
+            _hotbarData[source.slotIndex] = draggedStack;
+        else
+            _slotsData[source.slotIndex] = draggedStack;
 
         // Add 1 to recipe slot
         _cookingRecipeSlotData[ingredientSlotIndex].item = requiredIngredient.item;
         _cookingRecipeSlotData[ingredientSlotIndex].amount += 1;
 
-        RefreshInventorySlot(_draggedCookingInventoryIndex);
+        if (source.fromHotbar)
+        {
+            RefreshHotbarSlot(source.slotIndex);
+            SyncExternalHotbarSlot(source.slotIndex);
+        }
+        else
+        {
+            RefreshInventorySlot(source.slotIndex);
+        }
+
         PopulateCraftingInventoryFromRealData();
         RefreshCookingIngredientSlotVisual(ingredientSlotIndex);
         MarkInventoryDirty();
@@ -2288,6 +2393,8 @@ public class InventoryController : MonoBehaviour
     }
     private void PopulateCraftingRecipes()
     {
+        EnsureRestaurantRecipeCoverageIfNeeded();
+
         if (_craftingPage == null || recipes == null || recipes.Length == 0)
             return;
 
@@ -2452,6 +2559,8 @@ public class InventoryController : MonoBehaviour
 
     public RecipeDefinition[] GetMenuRecipes()
     {
+        EnsureRestaurantRecipeCoverageIfNeeded();
+
         if (recipes == null || recipes.Length == 0)
             return Array.Empty<RecipeDefinition>();
 
@@ -2478,6 +2587,8 @@ public class InventoryController : MonoBehaviour
 
     public RecipeDefinition[] GetMenuRecipesByCategory(RecipeCategory category)
     {
+        EnsureRestaurantRecipeCoverageIfNeeded();
+
         if (recipes == null || recipes.Length == 0)
             return Array.Empty<RecipeDefinition>();
 
@@ -2518,6 +2629,74 @@ public class InventoryController : MonoBehaviour
             return null;
 
         return menu[UnityEngine.Random.Range(0, menu.Length)];
+    }
+
+    private void EnsureRestaurantRecipeCoverageIfNeeded()
+    {
+        if (_restaurantRecipeAutoLoadAttempted)
+            return;
+
+        string sceneName = SceneManager.GetActiveScene().name ?? string.Empty;
+        if (sceneName.IndexOf("restaurant", StringComparison.OrdinalIgnoreCase) < 0)
+            return;
+
+        // If Bakery/Desserts already has data, nothing to repair.
+        if (HasRecipeCategory(RecipeCategory.BakeryDesserts))
+        {
+            _restaurantRecipeAutoLoadAttempted = true;
+            return;
+        }
+
+#if UNITY_EDITOR
+        string[] recipeGuids = UnityEditor.AssetDatabase.FindAssets("t:RecipeDefinition", new[] { "Assets/Items/RecipeDefinition" });
+        if (recipeGuids != null && recipeGuids.Length > 0)
+        {
+            List<RecipeDefinition> merged = new List<RecipeDefinition>(recipeGuids.Length + (recipes != null ? recipes.Length : 0));
+            HashSet<RecipeDefinition> seen = new HashSet<RecipeDefinition>();
+
+            if (recipes != null)
+            {
+                for (int i = 0; i < recipes.Length; i++)
+                {
+                    RecipeDefinition existing = recipes[i];
+                    if (existing == null || !seen.Add(existing))
+                        continue;
+
+                    merged.Add(existing);
+                }
+            }
+
+            for (int i = 0; i < recipeGuids.Length; i++)
+            {
+                string path = UnityEditor.AssetDatabase.GUIDToAssetPath(recipeGuids[i]);
+                RecipeDefinition found = UnityEditor.AssetDatabase.LoadAssetAtPath<RecipeDefinition>(path);
+                if (found == null || !seen.Add(found))
+                    continue;
+
+                merged.Add(found);
+            }
+
+            recipes = merged.ToArray();
+            RebuildItemLookupFromKnownItems();
+        }
+#endif
+
+        _restaurantRecipeAutoLoadAttempted = true;
+    }
+
+    private bool HasRecipeCategory(RecipeCategory category)
+    {
+        if (recipes == null || recipes.Length == 0)
+            return false;
+
+        for (int i = 0; i < recipes.Length; i++)
+        {
+            RecipeDefinition recipe = recipes[i];
+            if (recipe != null && recipe.category == category)
+                return true;
+        }
+
+        return false;
     }
 
     public bool TryCookRecipeFromExternalUI(RecipeDefinition recipe, out string message)
