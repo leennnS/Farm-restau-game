@@ -334,8 +334,9 @@ public class DayNightCycleNice2D : MonoBehaviour
 
         }
 
-        // Show "turn on flashlight" notification at dusk (~6 PM, 0.75)
-        if (TimeNormalized >= 0.75f && !_hasShownNightNotification)
+        // Show flashlight hint only in the farm lighting scene.
+        // Day/night simulation can continue globally, but this toast is farm-specific.
+        if (IsLightingScene(SceneManager.GetActiveScene().name) && TimeNormalized >= 0.75f && !_hasShownNightNotification)
         {
             _hasShownNightNotification = true;
             if (toastUI != null)

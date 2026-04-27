@@ -519,6 +519,10 @@
     opacity: 0.45;
 }
 
+.buy-button-unaffordable {
+    opacity: 0.6;
+}
+
 .interaction-hint {
     position: absolute;
     left: 50%;

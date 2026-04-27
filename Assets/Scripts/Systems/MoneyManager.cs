@@ -28,6 +28,13 @@ public class MoneyManager : MonoBehaviour
     [SerializeField] private KeyCode repayLoanKey = KeyCode.R;
     [SerializeField] private int debugRepayAmount = 500;
 
+    [Header("Loan Hint")]
+    [SerializeField] private bool showZeroMoneyLoanHint = true;
+    [SerializeField] private string zeroMoneyLoanHintMessage = "No money? Press L to take a loan.";
+    [SerializeField] private float zeroMoneyLoanHintDuration = 5f;
+
+    private bool _hasShownZeroMoneyHint;
+
     public static MoneyManager Instance
     {
         get
@@ -123,6 +130,7 @@ public class MoneyManager : MonoBehaviour
         CurrentMoney += amount;
         SaveMoney();
         OnMoneyChanged?.Invoke(CurrentMoney);
+        HandleZeroMoneyLoanHint();
     }
 
     public bool SpendMoney(int amount)
@@ -136,6 +144,7 @@ public class MoneyManager : MonoBehaviour
         CurrentMoney -= amount;
         SaveMoney();
         OnMoneyChanged?.Invoke(CurrentMoney);
+        HandleZeroMoneyLoanHint();
         return true;
     }
 
@@ -144,6 +153,7 @@ public class MoneyManager : MonoBehaviour
         CurrentMoney = Mathf.Max(0, amount);
         SaveMoney();
         OnMoneyChanged?.Invoke(CurrentMoney);
+        HandleZeroMoneyLoanHint();
     }
 
     public bool CanTakeLoan(int amount)
@@ -165,6 +175,7 @@ public class MoneyManager : MonoBehaviour
         SaveMoney();
         OnDebtChanged?.Invoke(CurrentDebt);
         OnMoneyChanged?.Invoke(CurrentMoney);
+        HandleZeroMoneyLoanHint();
         return true;
     }
 
@@ -180,6 +191,7 @@ public class MoneyManager : MonoBehaviour
         SaveMoney();
         OnDebtChanged?.Invoke(CurrentDebt);
         OnMoneyChanged?.Invoke(CurrentMoney);
+        HandleZeroMoneyLoanHint();
         return paid;
     }
 
@@ -216,6 +228,28 @@ public class MoneyManager : MonoBehaviour
 
         OnMoneyChanged?.Invoke(CurrentMoney);
         OnDebtChanged?.Invoke(CurrentDebt);
+        HandleZeroMoneyLoanHint();
+    }
+
+    private void HandleZeroMoneyLoanHint()
+    {
+        if (!showZeroMoneyLoanHint)
+            return;
+
+        if (CurrentMoney > 0)
+        {
+            _hasShownZeroMoneyHint = false;
+            return;
+        }
+
+        if (_hasShownZeroMoneyHint)
+            return;
+
+        PickupToastUIToolkit toast = FindFirstObjectByType<PickupToastUIToolkit>();
+        if (toast != null)
+            toast.Show(zeroMoneyLoanHintMessage, zeroMoneyLoanHintDuration);
+
+        _hasShownZeroMoneyHint = true;
     }
 
     private void OnApplicationPause(bool pauseStatus)

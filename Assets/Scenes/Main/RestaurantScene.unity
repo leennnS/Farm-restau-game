@@ -680,7 +680,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 329843f924c56594687af1dc36020a51, type: 2}
+  - {fileID: 2100000, guid: 9feffd8437705104b96464b69474a178, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -7684,12 +7684,15 @@ MonoBehaviour:
   - {fileID: 1705287048}
   - {fileID: 766606410}
   - {fileID: 203455064}
-  npcPrefab: {fileID: 5342501835947366394, guid: 15f0427735ed1f6498ca1f2b7d985e38, type: 3}
+  npcPrefab: {fileID: 0}
+  npcPrefabs:
+  - {fileID: 5342501835947366394, guid: 15f0427735ed1f6498ca1f2b7d985e38, type: 3}
+  - {fileID: -9200125954248554313, guid: b6fbd9863f60a224584d00c693dd5104, type: 3}
+  - {fileID: 6944809938196758150, guid: d7325182a1301f5438f08dd656be8347, type: 3}
   npcSpawnPoint: {fileID: 1804683395}
   npcTurnPoint: {fileID: 2040396541}
   npcExitPoint: {fileID: 1804683395}
-  spawnIntervalSeconds: 120
-  maxActiveNpcs: 1
+  respawnDelaySeconds: 60
   spawnFirstNpcImmediately: 1
   runOnlyInRestaurantScene: 1
   restaurantSceneName: RestaurantScene
@@ -14157,7 +14160,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2040396541}
-  - component: {fileID: 2040396540}
   m_Layer: 0
   m_Name: TurnPoint
   m_TagString: Untagged
@@ -14165,18 +14167,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2040396540
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2040396539}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 928f0955f3f80294490bef597425231b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TurnLeftNPC
 --- !u!4 &2040396541
 Transform:
   m_ObjectHideFlags: 0
