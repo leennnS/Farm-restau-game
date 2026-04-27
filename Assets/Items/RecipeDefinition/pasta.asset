@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RecipeDefinition
   category: 1
   recipeName: Pasta
-  result: {fileID: 0}
+  result: {fileID: 11400000, guid: 740e37ccad04b764f9b2911b21e5d51b, type: 2}
   resultAmount: 1
   recipeIcon: {fileID: -7719260066235554890, guid: a71abd2fa22ff7845bd75496aaecc143, type: 3}
   ingredients:
