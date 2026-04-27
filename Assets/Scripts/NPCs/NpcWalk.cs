@@ -23,9 +23,15 @@ public class NPCWalker : MonoBehaviour
     private bool hasWalkUpState;
     private bool hasWalkDownState;
     private bool hasWalkLeftState;
+    private bool hasWalkUpStateLower;
+    private bool hasWalkDownStateLower;
+    private bool hasWalkLeftStateLower;
     private int walkUpStateHash;
     private int walkDownStateHash;
     private int walkLeftStateHash;
+    private int walkUpStateHashLower;
+    private int walkDownStateHashLower;
+    private int walkLeftStateHashLower;
     private int lastPlayedDirectionalStateHash;
 
     private RestaurantNpcQueueManager queueManager;
@@ -153,13 +159,15 @@ public class NPCWalker : MonoBehaviour
                     break;
                 }
 
-                FaceTowards(turnPoint.position);
+                // Keep entry lane consistent: move vertically first, then horizontal.
+                Vector3 turnVerticalTarget = new Vector3(transform.position.x, turnPoint.position.y, transform.position.z);
+                FaceTowards(turnVerticalTarget);
 
-                if (MoveTowards(turnPoint.position, stoppingDistance))
+                if (MoveTowards(turnVerticalTarget, stoppingDistance))
                 {
                     reachedTurnPoint = true;
 
-                    if (animator != null)
+                    if (animator != null && hasReachedTurnPointParam)
                         animator.SetBool("ReachedTurnPoint", true);
 
                     FaceLeft();
@@ -231,12 +239,13 @@ public class NPCWalker : MonoBehaviour
             return;
         }
 
-        // STEP 1: Move DOWN to turn point
+        // STEP 1: Move DOWN to turn point (keep X fixed so NPC does not turn early)
         if (!reachedTurnPoint)
         {
-            FaceTowards(turnPoint.position);
+            Vector3 verticalTarget = new Vector3(transform.position.x, turnPoint.position.y, transform.position.z);
+            FaceTowards(verticalTarget);
 
-            if (MoveTowards(turnPoint.position, stoppingDistance))
+            if (MoveTowards(verticalTarget, stoppingDistance))
             {
                 reachedTurnPoint = true;
 
@@ -245,12 +254,13 @@ public class NPCWalker : MonoBehaviour
             }
         }
 
-        // STEP 2: Move LEFT to queue
+        // STEP 2: Move horizontally to queue after reaching turn point
         else if (!reachedQueue)
         {
-            FaceTowards(queuePoint.position);
+            Vector3 horizontalTarget = new Vector3(queuePoint.position.x, transform.position.y, transform.position.z);
+            FaceTowards(horizontalTarget);
 
-            if (MoveTowards(queuePoint.position, stoppingDistance))
+            if (MoveTowards(horizontalTarget, stoppingDistance))
             {
                 reachedQueue = true;
 
@@ -376,10 +386,16 @@ public class NPCWalker : MonoBehaviour
         walkUpStateHash = Animator.StringToHash("Base Layer.WalkUp");
         walkDownStateHash = Animator.StringToHash("Base Layer.WalkDown");
         walkLeftStateHash = Animator.StringToHash("Base Layer.WalkLeft");
+        walkUpStateHashLower = Animator.StringToHash("Base Layer.walk_up");
+        walkDownStateHashLower = Animator.StringToHash("Base Layer.walk_down");
+        walkLeftStateHashLower = Animator.StringToHash("Base Layer.walk_left");
 
         hasWalkUpState = animator.HasState(0, walkUpStateHash);
         hasWalkDownState = animator.HasState(0, walkDownStateHash);
         hasWalkLeftState = animator.HasState(0, walkLeftStateHash);
+        hasWalkUpStateLower = animator.HasState(0, walkUpStateHashLower);
+        hasWalkDownStateLower = animator.HasState(0, walkDownStateHashLower);
+        hasWalkLeftStateLower = animator.HasState(0, walkLeftStateHashLower);
     }
 
     private bool TryPlayDirectionalState(Vector2 facing)
@@ -393,13 +409,22 @@ public class NPCWalker : MonoBehaviour
         {
             if (facing.y > 0f && hasWalkUpState)
                 desiredStateHash = walkUpStateHash;
+            else if (facing.y > 0f && hasWalkUpStateLower)
+                desiredStateHash = walkUpStateHashLower;
             else if (facing.y < 0f && hasWalkDownState)
                 desiredStateHash = walkDownStateHash;
+            else if (facing.y < 0f && hasWalkDownStateLower)
+                desiredStateHash = walkDownStateHashLower;
         }
         else if (hasWalkLeftState)
         {
             // Left clip is also used for right via flipX.
             desiredStateHash = walkLeftStateHash;
+        }
+        else if (hasWalkLeftStateLower)
+        {
+            // Left clip is also used for right via flipX.
+            desiredStateHash = walkLeftStateHashLower;
         }
 
         if (desiredStateHash == 0)
