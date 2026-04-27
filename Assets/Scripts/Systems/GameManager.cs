@@ -107,8 +107,8 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.SetInt(GameStateKey, 1);
         PlayerPrefs.Save();
 
-        // Load the main game scene
-        SceneManager.LoadScene("FarmScene");
+        // Load the intro scene (which transitions to FarmScene when complete)
+        SceneManager.LoadScene("Intro");
     }
 
     /// <summary>

@@ -64,6 +64,10 @@ public class StarterToolsChest : MonoBehaviour
     private bool _isOpen;
     private bool _isLooted;
 
+    public bool IsOpen => _isOpen;
+    public bool IsLooted => _isLooted;
+    public event Action LootCollected;
+
     private void Awake()
     {
         AutoResolveReferences();
@@ -85,6 +89,8 @@ public class StarterToolsChest : MonoBehaviour
 
     private void Update()
     {
+        ResolveRuntimeReferences();
+
         if (_isOpening)
             return;
 
@@ -115,6 +121,8 @@ public class StarterToolsChest : MonoBehaviour
         _isOpening = true;
         _isOpen = true;
 
+        ResolveRuntimeReferences();
+
         ApplyAnimatorState(true);
         yield return new WaitForSeconds(openToFirstRewardDelay);
 
@@ -130,6 +138,8 @@ public class StarterToolsChest : MonoBehaviour
                 continue;
 
             validRewardCount++;
+
+            ResolveRuntimeReferences();
 
             targetPos = playerTransform != null ? playerTransform.position : targetPos;
 
@@ -169,8 +179,16 @@ public class StarterToolsChest : MonoBehaviour
 
     private bool TryGrantReward(RewardEntry reward)
     {
-        if (inventoryController == null)
+        if (reward == null || reward.item == null || reward.amount <= 0)
             return false;
+
+        ResolveRuntimeReferences();
+
+        if (inventoryController == null)
+        {
+            Debug.LogWarning($"[StarterToolsChest] InventoryController missing when granting '{reward.item.displayName}'.");
+            return false;
+        }
 
         bool added = inventoryController.TryAdd(reward.item, reward.amount);
         if (added)
@@ -210,6 +228,8 @@ public class StarterToolsChest : MonoBehaviour
     private void MarkLooted()
     {
         _isLooted = true;
+
+        LootCollected?.Invoke();
 
         if (rememberOpenedState)
         {
@@ -317,17 +337,52 @@ public class StarterToolsChest : MonoBehaviour
             chestSpriteRenderer = GetComponent<SpriteRenderer>();
 
         if (playerTransform == null)
-        {
-            GameObject player = GameObject.FindGameObjectWithTag(playerTag);
-            if (player != null)
-                playerTransform = player.transform;
-        }
+            playerTransform = FindClosestPlayerTransform();
 
         if (inventoryController == null)
             inventoryController = FindFirstObjectByType<InventoryController>();
 
         if (pickupToast == null)
             pickupToast = FindFirstObjectByType<PickupToastUIToolkit>();
+    }
+
+    private void ResolveRuntimeReferences()
+    {
+        Transform resolvedPlayer = FindClosestPlayerTransform();
+        if (resolvedPlayer != null)
+            playerTransform = resolvedPlayer;
+
+        if (inventoryController == null)
+            inventoryController = FindFirstObjectByType<InventoryController>();
+
+        if (pickupToast == null)
+            pickupToast = FindFirstObjectByType<PickupToastUIToolkit>();
+    }
+
+    private Transform FindClosestPlayerTransform()
+    {
+        GameObject[] players = GameObject.FindGameObjectsWithTag(playerTag);
+        if (players == null || players.Length == 0)
+            return null;
+
+        Transform closest = null;
+        float bestDist = float.MaxValue;
+
+        for (int i = 0; i < players.Length; i++)
+        {
+            GameObject p = players[i];
+            if (p == null || !p.activeInHierarchy)
+                continue;
+
+            float d = (p.transform.position - transform.position).sqrMagnitude;
+            if (d < bestDist)
+            {
+                bestDist = d;
+                closest = p.transform;
+            }
+        }
+
+        return closest;
     }
 
     private void OnTriggerEnter2D(Collider2D other)

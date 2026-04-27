@@ -1,0 +1,68 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/Fishing/fishing-hold-style.uss" />
+
+        <ui:VisualElement name="fishing-root" class="fishing-root">
+        <ui:VisualElement name="fishing-hold-panel" class="fishing-panel fishing-panel-hidden">
+            <ui:VisualElement name="track-art" class="track-art" />
+            <ui:VisualElement name="panel-trim" class="panel-trim" />
+
+            <ui:VisualElement name="panel-header" class="panel-header">
+                <ui:VisualElement class="header-left">
+                    <ui:VisualElement name="hook-icon" class="small-icon hook-icon">
+                        <ui:Label name="hook-icon-label" text="⚓" class="icon-glyph" />
+                    </ui:VisualElement>
+                    <ui:Label text="Lake Fishing" class="header-title" />
+                </ui:VisualElement>
+
+                <ui:VisualElement class="header-right">
+                    <ui:Label name="catchable-name-label" text="Unknown Catch" class="fish-name" />
+                    <ui:Label name="rarity-label" text="Rarity: Common" class="rarity-chip" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+
+            <ui:VisualElement class="panel-content-row">
+                <ui:VisualElement class="track-stack">
+                    <ui:VisualElement name="fish-track" class="fish-track">
+                        <ui:VisualElement class="water-strip" />
+                        <ui:VisualElement class="water-bubble bubble-a" />
+                        <ui:VisualElement class="water-bubble bubble-b" />
+                        <ui:VisualElement class="water-bubble bubble-c" />
+                        <ui:VisualElement name="catch-zone" class="catch-zone" />
+                        <ui:VisualElement name="fish-target" class="fish-target">
+                            <ui:Label name="fish-glyph-label" text="🐟" class="fish-glyph" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+
+                    <ui:VisualElement class="meter-block">
+                        <ui:VisualElement class="meter-label-row">
+                            <ui:Label text="Catch" class="meter-label" />
+                            <ui:Label text="Line" class="meter-label" />
+                        </ui:VisualElement>
+
+                        <ui:VisualElement class="meter-row">
+                            <ui:VisualElement class="meter-bg catch-meter-bg">
+                                <ui:VisualElement name="catch-fill" class="meter-fill catch-fill" />
+                            </ui:VisualElement>
+
+                            <ui:VisualElement class="meter-bg tension-meter-bg">
+                                <ui:VisualElement name="tension-fill" class="meter-fill tension-fill" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+
+                <ui:VisualElement class="side-column">
+                    <ui:VisualElement name="bobber-icon" class="small-icon bobber-icon">
+                        <ui:Label name="bobber-icon-label" text="🎣" class="icon-glyph" />
+                    </ui:VisualElement>
+                    <ui:Label name="input-hint" text="Hold SPACE to move hook right" class="input-hint" />
+                    <ui:Label name="status-label" text="Keep the fish inside the hook zone." class="status-label" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+
+            <ui:VisualElement name="result-chip" class="result-chip">
+                <ui:Label name="result-text" text="Caught!" class="result-text" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

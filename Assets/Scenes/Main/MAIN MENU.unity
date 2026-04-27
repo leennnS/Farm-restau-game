@@ -4342,8 +4342,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efb4a6cc8762b434cae6307cc6cd2ae2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainMenuPanel: {fileID: 60464203}
-  optionsPanel: {fileID: 1025118226}
+  mainMenuPanel: {fileID: 1717931332}
+  optionsPanel: {fileID: 1794947874}
   continueButton: {fileID: 674192599}
   buttonClickSound: {fileID: 8300000, guid: 9d3bd7d6051343f47abd6b9f639130c1, type: 3}
   buttonClickVolume: 0.7

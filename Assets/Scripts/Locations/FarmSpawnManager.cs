@@ -8,6 +8,9 @@ using Unity.Cinemachine;
 /// </summary>
 public static class FarmSpawnManager
 {
+    private const string ReturnToFarmFromKey = "ReturnToFarmFrom";
+    private const string SkipSpawnManagerOnceKey = "SkipSpawnManagerOnce";
+
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     static void Init()
     {
@@ -16,15 +19,52 @@ public static class FarmSpawnManager
 
     private static void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        bool fromMarket = MarketReturnContext.PendingReturnToFarm;
-        bool fromRestaurant = RestaurantReturnContext.PendingReturnToFarm;
-        bool fromHouse = HouseExitTrigger.PendingReturnToFarm;
+        int returnSource = PlayerPrefs.GetInt(ReturnToFarmFromKey, 0); // 0 None, 1 Market, 2 Restaurant, 3 House
+
+        bool fromMarket = returnSource == 1 || MarketReturnContext.PendingReturnToFarm;
+        bool fromRestaurant = returnSource == 2 || RestaurantReturnContext.PendingReturnToFarm;
+        bool fromHouse = returnSource == 3 || HouseExitTrigger.PendingReturnToFarm;
+
+        bool introSpawnRequested = PlayerPrefs.GetInt("ForceShedDoorSpawnOnce", 0) == 1;
+        bool legacyFromIntro = PlayerPrefs.GetInt("FromIntroScene", 0) == 1;
+
+        // If we're explicitly returning from an interior, that spawn should always win over intro shed spawn.
+        if (fromMarket || fromRestaurant || fromHouse)
+        {
+            if (introSpawnRequested || legacyFromIntro)
+            {
+                PlayerPrefs.DeleteKey("FromIntroScene");
+                PlayerPrefs.DeleteKey("ForceShedDoorSpawnOnce");
+                PlayerPrefs.Save();
+            }
+        }
+        // Intro-to-farm flow is handled by SpawnManager only when no interior return is pending.
+        else if (introSpawnRequested)
+        {
+            MarketReturnContext.PendingReturnToFarm = false;
+            RestaurantReturnContext.PendingReturnToFarm = false;
+            HouseExitTrigger.PendingReturnToFarm = false;
+            return;
+        }
+        else if (legacyFromIntro)
+        {
+            // Legacy marker can be left by older intro scripts; clear it to avoid stale behavior.
+            PlayerPrefs.DeleteKey("FromIntroScene");
+            PlayerPrefs.Save();
+        }
+
         if (!fromMarket && !fromRestaurant && !fromHouse)
             return;
 
         MarketReturnContext.PendingReturnToFarm = false;
         RestaurantReturnContext.PendingReturnToFarm = false;
         HouseExitTrigger.PendingReturnToFarm = false;
+
+        // SpawnManager runs later in scene Start and can override this return position.
+        // Mark one-shot skip so the return spawn selected here remains final.
+        PlayerPrefs.SetInt(SkipSpawnManagerOnceKey, 1);
+        PlayerPrefs.DeleteKey(ReturnToFarmFromKey);
+        PlayerPrefs.Save();
 
         GameObject player = GameObject.FindWithTag("Player");
         if (player == null)
@@ -92,7 +132,8 @@ public static class FarmSpawnManager
 
         RebindCameraToPlayer(player.transform);
 
-        Debug.Log($"[FarmSpawnManager] Market return restored in scene '{scene.name}' at {player.transform.position} scale={player.transform.localScale}");
+        string sourceName = fromRestaurant ? "Restaurant" : fromHouse ? "House" : "Market";
+        Debug.Log($"[FarmSpawnManager] Restored return from {sourceName} in scene '{scene.name}' at {player.transform.position} scale={player.transform.localScale}");
     }
 
     private static void RebindCameraToPlayer(Transform playerTransform)

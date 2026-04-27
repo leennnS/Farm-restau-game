@@ -33,10 +33,21 @@ public class FishingMiniGameController : MonoBehaviour
     private float nextBehaviorChangeTime = 0f;
     private float currentCreaturePullForce = 0f;
 
+    // Hold mechanic tracking
+    private float fishXPosition = 0f; // -1 to 1 (normalized position)
+    private float fishYPosition = 0f; // -1 to 1 (normalized position)
+    private float holdTimer = 0f; // Time player has been holding
+    private bool isPlayerHolding = false;
+    private bool useHoldMechanic = true; // NEW: Toggle between tension and hold modes
+
     // Events
     public event Action OnBiteOccurred;
     public event Action<float> OnTensionChanged; // Listener receives current tension (0-1)
     public event Action<FishingResultType> OnCatchComplete; // Success or failure
+
+    // NEW EVENTS for hold mechanic
+    public event Action<Vector2> OnFishPositionChanged; // Sends fish position (x, y) from -1 to 1
+    public event Action<float> OnHoldProgressChanged; // Sends hold progress (0-1)
 
     private void Awake()
     {
@@ -72,7 +83,7 @@ public class FishingMiniGameController : MonoBehaviour
         DebugLog($"Starting fishing session. Catchable: {currentCatchable.catchableName}");
 
         // Reset state
-        currentState = FishingState.Casting;
+        currentState = useHoldMechanic ? FishingState.Catching : FishingState.Casting;
         stateTimer = 0f;
         currentTension = 0f;
         playerReactedToBite = false;
@@ -80,6 +91,17 @@ public class FishingMiniGameController : MonoBehaviour
         catchPhaseTimer = 0f;
         creatureBehaviorTimer = 0f;
         lowTensionTimer = 0f;
+
+        // Reset hold mechanic
+        fishXPosition = 0f;
+        fishYPosition = 0f;
+        holdTimer = 0f;
+        isPlayerHolding = false;
+
+        if (useHoldMechanic)
+        {
+            catchPhaseDuration = fishingSettings.requiredHoldDuration;
+        }
 
         OnTensionChanged?.Invoke(currentTension);
     }
@@ -95,39 +117,114 @@ public class FishingMiniGameController : MonoBehaviour
         stateTimer += Time.deltaTime;
         creatureBehaviorTimer += Time.deltaTime;
 
-        switch (currentState)
+        if (useHoldMechanic)
         {
-            case FishingState.Casting:
-                UpdateCastingPhase();
-                break;
+            UpdateHoldMechanic();
+        }
+        else
+        {
+            switch (currentState)
+            {
+                case FishingState.Casting:
+                    UpdateCastingPhase();
+                    break;
 
-            case FishingState.Anticipating:
-                UpdateAnticipationPhase();
-                break;
+                case FishingState.Anticipating:
+                    UpdateAnticipationPhase();
+                    break;
 
-            case FishingState.Biting:
-                UpdateBitingPhase();
-                break;
+                case FishingState.Biting:
+                    UpdateBitingPhase();
+                    break;
 
-            case FishingState.Catching:
-                UpdateCatchingPhase();
-                break;
+                case FishingState.Catching:
+                    UpdateCatchingPhase();
+                    break;
 
-            case FishingState.Complete:
-                // Handled by external controller
-                break;
+                case FishingState.Complete:
+                    // Handled by external controller
+                    break;
+            }
+
+            // Continuous tension decay (line relaxes over time)
+            if (currentState == FishingState.Catching && !playerIsReeling)
+            {
+                // Harder fish decay slower - player must reel more to manage tension
+                float scaledDecayRate = fishingSettings.tensionDecayRate * (1f - currentCatchable.difficultyScore * 0.5f);
+                float scaledMinTension = fishingSettings.minTensionThreshold * (0.5f + currentCatchable.difficultyScore * 0.5f);
+
+                currentTension = Mathf.Max(scaledMinTension, currentTension - scaledDecayRate * Time.deltaTime);
+                OnTensionChanged?.Invoke(currentTension);
+            }
+        }
+    }
+
+    /// <summary>
+    /// NEW: Update logic for hold-based fishing mechanic.
+    /// Player must hold button while fish position enters catch zone.
+    /// </summary>
+    private void UpdateHoldMechanic()
+    {
+        // Update fish position (move around)
+        UpdateFishPosition();
+
+        // Check if player is holding and fish is in catch zone
+        float distanceToFish = Mathf.Sqrt(fishXPosition * fishXPosition + fishYPosition * fishYPosition);
+        float catchZoneSize = 0.55f; // INCREASED: Much larger catch zone (was 0.3)
+        bool fishInCatchZone = distanceToFish < catchZoneSize;
+
+        if (isPlayerHolding && fishInCatchZone)
+        {
+            // Player is holding and fish is catchable
+            holdTimer += Time.deltaTime;
+            OnHoldProgressChanged?.Invoke(Mathf.Clamp01(holdTimer / fishingSettings.requiredHoldDuration));
+
+            // Check for success
+            if (holdTimer >= fishingSettings.requiredHoldDuration)
+            {
+                DebugLog("Successfully caught fish with hold mechanic!");
+                CompleteCatch(FishingResultType.Success);
+            }
+        }
+        else if (!isPlayerHolding)
+        {
+            // Player released - reset hold timer (slower decay for more forgiving gameplay)
+            holdTimer = Mathf.Max(0, holdTimer - Time.deltaTime * 0.5f);
+            OnHoldProgressChanged?.Invoke(Mathf.Clamp01(holdTimer / fishingSettings.requiredHoldDuration));
+        }
+        else
+        {
+            // Fish escaped catch zone - lose progress slowly
+            holdTimer = Mathf.Max(0, holdTimer - Time.deltaTime * 1.5f);
+            OnHoldProgressChanged?.Invoke(Mathf.Clamp01(holdTimer / fishingSettings.requiredHoldDuration));
+        }
+    }
+
+    /// <summary>
+    /// NEW: Update fish position to move around the screen.
+    /// </summary>
+    private void UpdateFishPosition()
+    {
+        // Make fish move in a slow, smooth wave pattern
+        float movementSpeed = fishingSettings.fishMovementSpeed * 0.003f; // SLOWER movement
+        float movementRange = 0.7f; // Max distance from center (increased from ~0.75)
+
+        fishXPosition = Mathf.Sin(creatureBehaviorTimer * movementSpeed) * movementRange;
+        fishYPosition = Mathf.Cos(creatureBehaviorTimer * movementSpeed * 0.8f) * (movementRange * 0.6f);
+
+        // Add gentle random drift (but not too much)
+        if (creatureBehaviorTimer >= nextBehaviorChangeTime)
+        {
+            fishXPosition += UnityEngine.Random.Range(-0.05f, 0.05f) * (1f + currentCatchable.difficultyScore);
+            fishYPosition += UnityEngine.Random.Range(-0.05f, 0.05f) * (1f + currentCatchable.difficultyScore);
+            nextBehaviorChangeTime = creatureBehaviorTimer + UnityEngine.Random.Range(1f, 3f); // SLOWER changes
         }
 
-        // Continuous tension decay (line relaxes over time)
-        if (currentState == FishingState.Catching && !playerIsReeling)
-        {
-            // Harder fish decay slower - player must reel more to manage tension
-            float scaledDecayRate = fishingSettings.tensionDecayRate * (1f - currentCatchable.difficultyScore * 0.5f);
-            float scaledMinTension = fishingSettings.minTensionThreshold * (0.5f + currentCatchable.difficultyScore * 0.5f);
+        // Clamp to stay in bounds
+        fishXPosition = Mathf.Clamp(fishXPosition, -0.8f, 0.8f);
+        fishYPosition = Mathf.Clamp(fishYPosition, -0.6f, 0.6f);
 
-            currentTension = Mathf.Max(scaledMinTension, currentTension - scaledDecayRate * Time.deltaTime);
-            OnTensionChanged?.Invoke(currentTension);
-        }
+        OnFishPositionChanged?.Invoke(new Vector2(fishXPosition, fishYPosition));
     }
 
     private void UpdateCastingPhase()
@@ -328,6 +425,34 @@ public class FishingMiniGameController : MonoBehaviour
         {
             playerIsReeling = false;
             DebugLog("Player released reel input.");
+        }
+
+        // NEW: For hold mechanic
+        if (useHoldMechanic)
+        {
+            isPlayerHolding = false;
+        }
+    }
+
+    /// <summary>
+    /// NEW: Called when player holds down button (hold mechanic).
+    /// </summary>
+    public void OnPlayerInput_Hold()
+    {
+        if (useHoldMechanic && currentState == FishingState.Catching)
+        {
+            isPlayerHolding = true;
+        }
+    }
+
+    /// <summary>
+    /// NEW: Called when player releases hold button (hold mechanic).
+    /// </summary>
+    public void OnPlayerInput_ReleaseHold()
+    {
+        if (useHoldMechanic)
+        {
+            isPlayerHolding = false;
         }
     }
 

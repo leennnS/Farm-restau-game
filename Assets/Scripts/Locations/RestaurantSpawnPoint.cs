@@ -126,6 +126,12 @@ public class RestaurantSpawnPoint : MonoBehaviour
         var player = GameObject.FindWithTag("Player");
         if (player == null) yield break;
 
+        // Returning from restaurant should not use intro shed-door spawn.
+        PlayerPrefs.DeleteKey("FromIntroScene");
+        PlayerPrefs.DeleteKey("ForceShedDoorSpawnOnce");
+        PlayerPrefs.SetInt("ReturnToFarmFrom", 2); // 2 = Restaurant
+        PlayerPrefs.Save();
+
         RestaurantReturnContext.PendingReturnToFarm = true;
         SceneManager.LoadScene(targetSceneName);
     }
