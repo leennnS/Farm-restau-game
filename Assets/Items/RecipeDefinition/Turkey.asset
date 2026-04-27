@@ -10,19 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c8c83571b017d0e4fbe853a4bc8c0955, type: 3}
-  m_Name: Turkey
+  m_Name: turkey
   m_EditorClassIdentifier: Assembly-CSharp::RecipeDefinition
   category: 1
-  recipeName: Turkey
+  recipeName: Turkey Plate
   result: {fileID: 11400000, guid: 672c687cf8a018f40a866054b58cd0b1, type: 2}
   resultAmount: 1
-  recipeIcon: {fileID: 970728593850392761, guid: d993ff1bc38f35b46b11913d47717af1, type: 3}
+  recipeIcon: {fileID: -3556854030753022168, guid: af8710523015fce42aeebd149116b475, type: 3}
   ingredients:
-  - item: {fileID: 11400000, guid: 65ee0be473cd218439617b7b80b5d67f, type: 2}
-    amount: 2
+  - item: {fileID: 11400000, guid: bc5389c53c54de04396efc683a3cf229, type: 2}
+    amount: 1
   - item: {fileID: 11400000, guid: 6e9e7b38e7fa6e2409f62b737e973a8b, type: 2}
     amount: 1
+  - item: {fileID: 11400000, guid: ed44036c4adfa614ebe27835c2388b50, type: 2}
+    amount: 1
   rewardMoney: 35
-  orderPreparationTime: 40
+  orderPreparationTime: 75
   usePenalty: 1
   penaltyMoney: 5

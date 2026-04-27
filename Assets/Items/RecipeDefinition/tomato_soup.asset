@@ -10,23 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c8c83571b017d0e4fbe853a4bc8c0955, type: 3}
-  m_Name: green_salad
+  m_Name: tomato_soup
   m_EditorClassIdentifier: Assembly-CSharp::RecipeDefinition
-  category: 1
-  recipeName: Green Salad
-  result: {fileID: 11400000, guid: 06618c7b1d96f204095185636e54f6db, type: 2}
+  category: 3
+  recipeName: Tomato Soup
+  result: {fileID: 11400000, guid: 60d674755cd4e764e966933fca4c6d24, type: 2}
   resultAmount: 1
-  recipeIcon: {fileID: -7261686266728499057, guid: ea344f9ec1ba48c4196c8bc29afd6295, type: 3}
+  recipeIcon: {fileID: -787161600930856747, guid: 9ea318e07948e5a4e8a4fe4672233fdd, type: 3}
   ingredients:
   - item: {fileID: 11400000, guid: 7272295af404e0143a748b7df4e0cefa, type: 2}
     amount: 1
-  - item: {fileID: 11400000, guid: 71a9e37efb2984d489cac73ba111123b, type: 2}
-    amount: 1
   - item: {fileID: 11400000, guid: 6e9e7b38e7fa6e2409f62b737e973a8b, type: 2}
     amount: 1
-  - item: {fileID: 11400000, guid: 064354d567e63b2428406b79c773cb94, type: 2}
-    amount: 1
-  rewardMoney: 25
+  rewardMoney: 20
   orderPreparationTime: 75
   usePenalty: 1
   penaltyMoney: 3

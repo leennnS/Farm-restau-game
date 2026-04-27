@@ -10,25 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c8c83571b017d0e4fbe853a4bc8c0955, type: 3}
-  m_Name: StrawberryBananaDrink
+  m_Name: strawberry_smootie
   m_EditorClassIdentifier: Assembly-CSharp::RecipeDefinition
-  category: 2
-  recipeName: Strawberry Banana Drink
-  result: {fileID: 11400000, guid: d231fb9bd124c1843bb3df58679f7f56, type: 2}
+  category: 3
+  recipeName: Strawberry Smootie
+  result: {fileID: 11400000, guid: 534b2c12ea2671b46ab8c8a45525592c, type: 2}
   resultAmount: 1
-  recipeIcon: {fileID: -4828183127974847392, guid: d993ff1bc38f35b46b11913d47717af1, type: 3}
+  recipeIcon: {fileID: -1964723373753683867, guid: 8d3c35329643a7a4a854b689e7807d60, type: 3}
   ingredients:
   - item: {fileID: 11400000, guid: a620fcc93877474419d638aa32a00b77, type: 2}
     amount: 2
-  - item: {fileID: 11400000, guid: d1473749e9a5ea546a8405f16e79d37a, type: 2}
-    amount: 2
-  - item: {fileID: 11400000, guid: 3d55403e972bcc94197c6b3c110d1379, type: 2}
+  - item: {fileID: 11400000, guid: 02d2e448d97d74a4f8f98671d42aafe1, type: 2}
     amount: 1
   - item: {fileID: 11400000, guid: a75f459dfd23bb340a0da81168120a50, type: 2}
     amount: 1
-  - item: {fileID: 11400000, guid: 1a0feff7f0937ed45b12828e0788ae88, type: 2}
-    amount: 3
-  rewardMoney: 10
-  orderPreparationTime: 40
+  rewardMoney: 25
+  orderPreparationTime: 75
   usePenalty: 1
   penaltyMoney: 5

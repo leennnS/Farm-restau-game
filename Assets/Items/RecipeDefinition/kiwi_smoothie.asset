@@ -10,21 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c8c83571b017d0e4fbe853a4bc8c0955, type: 3}
-  m_Name: strawberry_cake
+  m_Name: kiwi_smoothie
   m_EditorClassIdentifier: Assembly-CSharp::RecipeDefinition
-  category: 2
-  recipeName: Strawberry Cake
-  result: {fileID: 11400000, guid: 20415ec81b8147f498ab6546b7652b8b, type: 2}
+  category: 3
+  recipeName: Kiwi Smoothie
+  result: {fileID: 11400000, guid: 5667d94980af969458727109efdd53ee, type: 2}
   resultAmount: 1
-  recipeIcon: {fileID: 7570780318538206031, guid: f1ebe979aff72ab49b8ebae36c1a9e3d, type: 3}
+  recipeIcon: {fileID: 6317637777399690026, guid: 6f98726892b20d34c86df46ab55f7605, type: 3}
   ingredients:
-  - item: {fileID: 11400000, guid: a620fcc93877474419d638aa32a00b77, type: 2}
+  - item: {fileID: 11400000, guid: 1a0feff7f0937ed45b12828e0788ae88, type: 2}
     amount: 1
-  - item: {fileID: 11400000, guid: 1c578b9448f4f824f886bfa28b10a019, type: 2}
+  - item: {fileID: 11400000, guid: 08a08c391d002584692886e06f656b84, type: 2}
+    amount: 2
+  - item: {fileID: 11400000, guid: 02d2e448d97d74a4f8f98671d42aafe1, type: 2}
     amount: 1
-  - item: {fileID: 11400000, guid: b195f71b30c9b3b4e9b5efd4ee78a405, type: 2}
-    amount: 1
-  rewardMoney: 30
+  rewardMoney: 25
   orderPreparationTime: 75
   usePenalty: 1
   penaltyMoney: 5

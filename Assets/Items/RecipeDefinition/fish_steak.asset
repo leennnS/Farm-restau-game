@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c8c83571b017d0e4fbe853a4bc8c0955, type: 3}
-  m_Name: strawberry_cake
+  m_Name: fish_steak
   m_EditorClassIdentifier: Assembly-CSharp::RecipeDefinition
-  category: 2
-  recipeName: Strawberry Cake
-  result: {fileID: 11400000, guid: 20415ec81b8147f498ab6546b7652b8b, type: 2}
+  category: 1
+  recipeName: Fish Steak
+  result: {fileID: 11400000, guid: 385d35be70e590443abc0eeaffa6acfe, type: 2}
   resultAmount: 1
-  recipeIcon: {fileID: 7570780318538206031, guid: f1ebe979aff72ab49b8ebae36c1a9e3d, type: 3}
+  recipeIcon: {fileID: 21300000, guid: a1a5e23bba6eb4bb199f63ad13182e00, type: 3}
   ingredients:
-  - item: {fileID: 11400000, guid: a620fcc93877474419d638aa32a00b77, type: 2}
+  - item: {fileID: 11400000, guid: 9bada64d49290f942ba9e02b7d9a489d, type: 2}
     amount: 1
-  - item: {fileID: 11400000, guid: 1c578b9448f4f824f886bfa28b10a019, type: 2}
+  - item: {fileID: 11400000, guid: 6e9e7b38e7fa6e2409f62b737e973a8b, type: 2}
     amount: 1
-  - item: {fileID: 11400000, guid: b195f71b30c9b3b4e9b5efd4ee78a405, type: 2}
+  - item: {fileID: 11400000, guid: 026a948720989044ea1ff64f9768448f, type: 2}
     amount: 1
   rewardMoney: 30
   orderPreparationTime: 75

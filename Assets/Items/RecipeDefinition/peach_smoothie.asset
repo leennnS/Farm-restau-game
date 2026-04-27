@@ -10,23 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c8c83571b017d0e4fbe853a4bc8c0955, type: 3}
-  m_Name: YogurtBowl
+  m_Name: peach_smoothie
   m_EditorClassIdentifier: Assembly-CSharp::RecipeDefinition
   category: 3
-  recipeName: Yogurt Bowl
-  result: {fileID: 11400000, guid: c1cafbed1442c144690b71415867abf9, type: 2}
+  recipeName: Peach Smoothie
+  result: {fileID: 11400000, guid: d2e79ec2eee6c24438082a9ca57c7d70, type: 2}
   resultAmount: 1
-  recipeIcon: {fileID: 4342470352663424322, guid: d993ff1bc38f35b46b11913d47717af1, type: 3}
+  recipeIcon: {fileID: 5288324837906308781, guid: 7f337dbc01779bf4a8eec88ae8914d58, type: 3}
   ingredients:
+  - item: {fileID: 11400000, guid: 6a68276888350c7499f283b3c0cbcacb, type: 2}
+    amount: 1
   - item: {fileID: 11400000, guid: 02d2e448d97d74a4f8f98671d42aafe1, type: 2}
     amount: 1
-  - item: {fileID: 11400000, guid: 602e6db3a6c1a514fa7988e0460390f0, type: 2}
+  - item: {fileID: 11400000, guid: 1a0feff7f0937ed45b12828e0788ae88, type: 2}
     amount: 1
-  - item: {fileID: 11400000, guid: a620fcc93877474419d638aa32a00b77, type: 2}
-    amount: 2
-  - item: {fileID: 11400000, guid: 6a68276888350c7499f283b3c0cbcacb, type: 2}
-    amount: 2
-  rewardMoney: 7
-  orderPreparationTime: 40
+  rewardMoney: 23
+  orderPreparationTime: 75
   usePenalty: 1
-  penaltyMoney: 5
+  penaltyMoney: 3

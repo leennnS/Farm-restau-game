@@ -10,23 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c8c83571b017d0e4fbe853a4bc8c0955, type: 3}
-  m_Name: Chicken_Stew
+  m_Name: chicken_stew
   m_EditorClassIdentifier: Assembly-CSharp::RecipeDefinition
-  category: 2
+  category: 1
   recipeName: Chicken Stew
   result: {fileID: 11400000, guid: 14cc068fdabc6614b863ffca0e4325f0, type: 2}
   resultAmount: 1
-  recipeIcon: {fileID: 5362735838549604449, guid: d4cf88200baca584781ec03e6a238114, type: 3}
+  recipeIcon: {fileID: -4563212568176735412, guid: c256403521cfbb046940729819bb9a12, type: 3}
   ingredients:
   - item: {fileID: 11400000, guid: 65ee0be473cd218439617b7b80b5d67f, type: 2}
     amount: 1
   - item: {fileID: 11400000, guid: 6e9e7b38e7fa6e2409f62b737e973a8b, type: 2}
     amount: 1
-  - item: {fileID: 11400000, guid: 7272295af404e0143a748b7df4e0cefa, type: 2}
+  - item: {fileID: 11400000, guid: ed44036c4adfa614ebe27835c2388b50, type: 2}
     amount: 1
   - item: {fileID: 11400000, guid: 214bddc6a76fba846ac3c20ad9571c30, type: 2}
     amount: 1
-  rewardMoney: 35
-  orderPreparationTime: 40
+  rewardMoney: 30
+  orderPreparationTime: 75
   usePenalty: 1
   penaltyMoney: 5

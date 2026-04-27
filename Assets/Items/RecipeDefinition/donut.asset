@@ -10,21 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c8c83571b017d0e4fbe853a4bc8c0955, type: 3}
-  m_Name: TomatoSoup
+  m_Name: donut
   m_EditorClassIdentifier: Assembly-CSharp::RecipeDefinition
   category: 2
-  recipeName: Tomato Soup
-  result: {fileID: 11400000, guid: 60d674755cd4e764e966933fca4c6d24, type: 2}
+  recipeName: Donut
+  result: {fileID: 11400000, guid: 2079b8b6bd1f4e94fbe1b327a2c04282, type: 2}
   resultAmount: 1
-  recipeIcon: {fileID: -1927492595884392752, guid: d993ff1bc38f35b46b11913d47717af1, type: 3}
+  recipeIcon: {fileID: 1352961961597019730, guid: bd4771598caf1624fba23e7af2ca0642, type: 3}
   ingredients:
-  - item: {fileID: 11400000, guid: 7272295af404e0143a748b7df4e0cefa, type: 2}
-    amount: 2
-  - item: {fileID: 11400000, guid: 6e9e7b38e7fa6e2409f62b737e973a8b, type: 2}
+  - item: {fileID: 11400000, guid: 1c578b9448f4f824f886bfa28b10a019, type: 2}
     amount: 1
-  - item: {fileID: 11400000, guid: 3d55403e972bcc94197c6b3c110d1379, type: 2}
+  - item: {fileID: 11400000, guid: b195f71b30c9b3b4e9b5efd4ee78a405, type: 2}
     amount: 1
-  rewardMoney: 6
-  orderPreparationTime: 40
+  - item: {fileID: 11400000, guid: a75f459dfd23bb340a0da81168120a50, type: 2}
+    amount: 1
+  rewardMoney: 30
+  orderPreparationTime: 75
   usePenalty: 1
   penaltyMoney: 5

@@ -10,27 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c8c83571b017d0e4fbe853a4bc8c0955, type: 3}
-  m_Name: Fruit Bowl
+  m_Name: fruit_bowl
   m_EditorClassIdentifier: Assembly-CSharp::RecipeDefinition
-  category: 3
+  category: 2
   recipeName: Fruit Bowl
   result: {fileID: 11400000, guid: 4520622e9e8c849499ffe7930f1e48b9, type: 2}
   resultAmount: 1
   recipeIcon: {fileID: 5403796535987371163, guid: 1a42a856198d2464f986a10f67785b19, type: 3}
   ingredients:
-  - item: {fileID: 11400000, guid: 34fc6a4eb64545d4d88e76326d214d73, type: 2}
-    amount: 1
   - item: {fileID: 11400000, guid: d1473749e9a5ea546a8405f16e79d37a, type: 2}
-    amount: 2
-  - item: {fileID: 11400000, guid: d8b445a84887aa5449f8c29f6c9eb2ff, type: 2}
-    amount: 5
-  - item: {fileID: 11400000, guid: 29bcbe781edccdf4ab588761d20a7203, type: 2}
-    amount: 2
-  - item: {fileID: 11400000, guid: 43c6401779b67b34495740bbef20857f, type: 2}
     amount: 1
-  - item: {fileID: 11400000, guid: 602e6db3a6c1a514fa7988e0460390f0, type: 2}
+  - item: {fileID: 11400000, guid: a620fcc93877474419d638aa32a00b77, type: 2}
     amount: 1
-  rewardMoney: 25
-  orderPreparationTime: 40
+  - item: {fileID: 11400000, guid: f9987af22b477f444ad08b4a753e1d15, type: 2}
+    amount: 1
+  rewardMoney: 22
+  orderPreparationTime: 75
   usePenalty: 1
   penaltyMoney: 5

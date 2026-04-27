@@ -10,21 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c8c83571b017d0e4fbe853a4bc8c0955, type: 3}
-  m_Name: BerrySmoothie
+  m_Name: fruit_tart
   m_EditorClassIdentifier: Assembly-CSharp::RecipeDefinition
   category: 2
-  recipeName: Berry Smoothie
-  result: {fileID: 11400000, guid: 0618521598d08f44d9dfb98ee30cceb4, type: 2}
+  recipeName: Fruit Tart
+  result: {fileID: 11400000, guid: ae02eaa01fded3a42bf6c379a0fae158, type: 2}
   resultAmount: 1
-  recipeIcon: {fileID: -5908479232087478183, guid: d993ff1bc38f35b46b11913d47717af1, type: 3}
+  recipeIcon: {fileID: -5819295673971252435, guid: 99a5262c6313aeb4e9a0164c5783e2da, type: 3}
   ingredients:
   - item: {fileID: 11400000, guid: d8b445a84887aa5449f8c29f6c9eb2ff, type: 2}
     amount: 1
-  - item: {fileID: 11400000, guid: 3d55403e972bcc94197c6b3c110d1379, type: 2}
+  - item: {fileID: 11400000, guid: a620fcc93877474419d638aa32a00b77, type: 2}
     amount: 1
-  - item: {fileID: 11400000, guid: 1a0feff7f0937ed45b12828e0788ae88, type: 2}
-    amount: 3
-  rewardMoney: 5
-  orderPreparationTime: 40
+  - item: {fileID: 11400000, guid: 1c578b9448f4f824f886bfa28b10a019, type: 2}
+    amount: 1
+  rewardMoney: 30
+  orderPreparationTime: 75
   usePenalty: 1
-  penaltyMoney: 0
+  penaltyMoney: 5
