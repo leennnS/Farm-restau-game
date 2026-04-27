@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d1e90db75a22bd44b53036bc18de6e1, type: 3}
-  m_Name: Yogurt_Bowl
+  m_Name: yogurt_bowl
   m_EditorClassIdentifier: Assembly-CSharp::ItemDefinition
   displayName: Yogurt Bowl
-  icon: {fileID: 4342470352663424322, guid: d993ff1bc38f35b46b11913d47717af1, type: 3}
+  icon: {fileID: 5372295986368352399, guid: 598bde6118d551c4a9e8fb1ac8961af2, type: 3}
   maxStack: 99

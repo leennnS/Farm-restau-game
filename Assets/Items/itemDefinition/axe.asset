@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d1e90db75a22bd44b53036bc18de6e1, type: 3}
   m_Name: axe
   m_EditorClassIdentifier: Assembly-CSharp::ItemDefinition
-  displayName: 
+  displayName: Axe
   icon: {fileID: 8959118705387878318, guid: 9392944197999ac46a550f16d7229177, type: 3}
   maxStack: 1

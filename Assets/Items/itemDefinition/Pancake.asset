@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d1e90db75a22bd44b53036bc18de6e1, type: 3}
-  m_Name: Pancake
+  m_Name: pancake
   m_EditorClassIdentifier: Assembly-CSharp::ItemDefinition
   displayName: Pancake
-  icon: {fileID: 4606890849922471843, guid: d993ff1bc38f35b46b11913d47717af1, type: 3}
+  icon: {fileID: 2255580716522117994, guid: 4587026166f46bd4586f0171d74c22b0, type: 3}
   maxStack: 99

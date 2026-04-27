@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d1e90db75a22bd44b53036bc18de6e1, type: 3}
-  m_Name: Green_salad
+  m_Name: green_salad
   m_EditorClassIdentifier: Assembly-CSharp::ItemDefinition
   displayName: Green Salad
-  icon: {fileID: 8285215595028396028, guid: d4cf88200baca584781ec03e6a238114, type: 3}
+  icon: {fileID: -7261686266728499057, guid: ea344f9ec1ba48c4196c8bc29afd6295, type: 3}
   maxStack: 99

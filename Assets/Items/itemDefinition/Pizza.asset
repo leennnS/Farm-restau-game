@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d1e90db75a22bd44b53036bc18de6e1, type: 3}
-  m_Name: Pizza
+  m_Name: pizza
   m_EditorClassIdentifier: Assembly-CSharp::ItemDefinition
   displayName: Pizza
-  icon: {fileID: 6691926348039923862, guid: d993ff1bc38f35b46b11913d47717af1, type: 3}
+  icon: {fileID: -6444940296795206775, guid: 2dc08ca7f8e262e43b4152850f909382, type: 3}
   maxStack: 99

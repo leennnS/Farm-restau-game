@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d1e90db75a22bd44b53036bc18de6e1, type: 3}
   m_Name: hand
   m_EditorClassIdentifier: Assembly-CSharp::ItemDefinition
-  displayName: 
+  displayName: Hand
   icon: {fileID: -5570732165761005781, guid: b162d5b66a053da4cbd7425236367a04, type: 3}
   maxStack: 99

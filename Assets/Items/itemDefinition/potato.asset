@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d1e90db75a22bd44b53036bc18de6e1, type: 3}
   m_Name: potato
   m_EditorClassIdentifier: Assembly-CSharp::ItemDefinition
-  displayName: 
+  displayName: Potato
   icon: {fileID: -5661783315169486296, guid: 585629c2e1fd9dc4da96c1f10347ea86, type: 3}
   maxStack: 99

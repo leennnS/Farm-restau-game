@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d1e90db75a22bd44b53036bc18de6e1, type: 3}
   m_Name: watering_can
   m_EditorClassIdentifier: Assembly-CSharp::ItemDefinition
-  displayName: 
+  displayName: Watering Can
   icon: {fileID: 949185140388405158, guid: 2deffbfe15da3634f8be5682c392fb33, type: 3}
   maxStack: 99

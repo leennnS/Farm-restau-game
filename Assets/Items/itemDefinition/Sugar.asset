@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d1e90db75a22bd44b53036bc18de6e1, type: 3}
-  m_Name: Sugar
+  m_Name: sugar
   m_EditorClassIdentifier: Assembly-CSharp::ItemDefinition
-  displayName: 
+  displayName: Sugar
   icon: {fileID: -3413006870710782370, guid: 5879dc754149292478bedd9a37f9dd2e, type: 3}
   maxStack: 99

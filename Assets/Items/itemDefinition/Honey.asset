@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d1e90db75a22bd44b53036bc18de6e1, type: 3}
-  m_Name: Honey
+  m_Name: honey
   m_EditorClassIdentifier: Assembly-CSharp::ItemDefinition
   displayName: Honey
   icon: {fileID: 21300000, guid: 2fae0e1ac747f47648811811d0b34bfb, type: 3}

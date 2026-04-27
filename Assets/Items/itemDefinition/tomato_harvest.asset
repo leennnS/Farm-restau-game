@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d1e90db75a22bd44b53036bc18de6e1, type: 3}
   m_Name: tomato_harvest
   m_EditorClassIdentifier: Assembly-CSharp::ItemDefinition
-  displayName: 
+  displayName: Tomato
   icon: {fileID: -8113185096396602001, guid: dd35980045698fd45a98bccd9abe245b, type: 3}
   maxStack: 99
