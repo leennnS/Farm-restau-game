@@ -18,13 +18,13 @@ public class RestaurantNpcQueueManager : MonoBehaviour
 
     [Header("NPC Setup")]
     [SerializeField] private NPCWalker npcPrefab;
+    [SerializeField] private NPCWalker[] npcPrefabs;
     [SerializeField] private Transform npcSpawnPoint;
     [SerializeField] private Transform npcTurnPoint;
     [SerializeField] private Transform npcExitPoint;
 
     [Header("Spawning")]
-    [SerializeField] private float spawnIntervalSeconds = 120f;
-    [SerializeField] private int maxActiveNpcs = 1;
+    [SerializeField] private float respawnDelaySeconds = 60f;
     [SerializeField] private bool spawnFirstNpcImmediately = true;
 
     [Header("Scene Trigger")]
@@ -40,19 +40,22 @@ public class RestaurantNpcQueueManager : MonoBehaviour
     [Header("Debug")]
     [SerializeField] private bool logQueueEvents = true;
 
-    private readonly List<NPCWalker> queue = new List<NPCWalker>();
+    private readonly List<NPCWalker> queue = new List<NPCWalker>(1);
+    private readonly HashSet<NPCWalker> activeManagedNpcs = new HashSet<NPCWalker>();
     private readonly Dictionary<NPCWalker, RecipeDefinition> npcOrders = new Dictionary<NPCWalker, RecipeDefinition>();
     private readonly Dictionary<NPCWalker, float> npcRemainingTimes = new Dictionary<NPCWalker, float>();
 
     private InventoryController inventory;
-    private float spawnTimer;
+    private float respawnTimer;
     private bool queueActive;
+    private bool waitingForNextNpcSpawn;
     private bool hasWarnedInventoryMissing;
     private bool hasWarnedMissingNpcPrefab;
     private bool hasWarnedMissingSpawnPoint;
-    private bool hasWarnedInvalidMaxActive;
+    private bool hasWarnedLegacyNpcPrefabIgnored;
     private RecipeDefinition pendingCookedRecipe;
     private NPCWalker frontNpcWithActiveOrder;
+    private int nextNpcPrefabIndex;
 
     public event System.Action<IReadOnlyList<QueueOrderView>> OnQueueOrdersChanged;
 
@@ -69,12 +72,14 @@ public class RestaurantNpcQueueManager : MonoBehaviour
             inventory.OnRecipeCooked -= HandleRecipeCooked;
 
         inventory = null;
+        activeManagedNpcs.Clear();
     }
 
     private void Start()
     {
         queueActive = IsSceneAllowed();
-        spawnTimer = 0f;
+        respawnTimer = 0f;
+        waitingForNextNpcSpawn = false;
         TryBindInventory();
 
         if (queueSpots == null || queueSpots.Length == 0)
@@ -85,9 +90,13 @@ public class RestaurantNpcQueueManager : MonoBehaviour
         if (npcTurnPoint == null)
             Debug.LogWarning("[RestaurantNpcQueueManager] NPC Turn Point is not assigned. NPCs will walk straight to the queue slot.");
 
-        // Spawn first customer immediately if requested.
-        if (queueActive && spawnFirstNpcImmediately)
-            SpawnNpcIntoQueue();
+        if (queueActive)
+        {
+            if (spawnFirstNpcImmediately)
+                SpawnNextNpc();
+            else
+                ScheduleNextNpcSpawn();
+        }
 
         NotifyQueueOrdersChanged();
     }
@@ -105,17 +114,14 @@ public class RestaurantNpcQueueManager : MonoBehaviour
         EnsureOrdersForWaitingNpcs();
         TickOrderTimers(Time.deltaTime);
         EnsureFrontOrder();
-        TickSpawner(Time.deltaTime);
+        TickRespawnTimer(Time.deltaTime);
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         queueActive = IsSceneAllowed();
-        if (queueActive)
-        {
-            TryBindInventory();
-            EnsureFrontOrder();
-        }
+        if (queueActive && queue.Count == 0 && !HasAnyActiveNpc())
+            ScheduleNextNpcSpawn();
     }
 
     private bool IsSceneAllowed()
@@ -158,17 +164,14 @@ public class RestaurantNpcQueueManager : MonoBehaviour
         }
     }
 
-    private void TickSpawner(float deltaTime)
+    private void TickRespawnTimer(float deltaTime)
     {
-        if (npcPrefab == null || npcSpawnPoint == null)
-        {
-            if (npcPrefab == null && !hasWarnedMissingNpcPrefab)
-            {
-                hasWarnedMissingNpcPrefab = true;
-                Debug.LogWarning("[RestaurantNpcQueueManager] NPC Prefab is not assigned.");
-            }
+        if (!waitingForNextNpcSpawn || queue.Count > 0 || HasAnyActiveNpc())
+            return;
 
-            if (npcSpawnPoint == null && !hasWarnedMissingSpawnPoint)
+        if (npcSpawnPoint == null)
+        {
+            if (!hasWarnedMissingSpawnPoint)
             {
                 hasWarnedMissingSpawnPoint = true;
                 Debug.LogWarning("[RestaurantNpcQueueManager] NPC Spawn Point is not assigned.");
@@ -177,60 +180,143 @@ public class RestaurantNpcQueueManager : MonoBehaviour
             return;
         }
 
-        hasWarnedMissingNpcPrefab = false;
         hasWarnedMissingSpawnPoint = false;
+        respawnTimer += deltaTime;
+
+        if (respawnTimer < respawnDelaySeconds)
+            return;
+
+        respawnTimer = 0f;
+        if (SpawnNextNpc())
+            waitingForNextNpcSpawn = false;
+    }
+
+    private bool SpawnNextNpc()
+    {
+        if (queue.Count > 0 || HasAnyActiveNpc())
+            return false;
+
+        if (queueSpots == null || queueSpots.Length == 0)
+            return false;
+
+        NPCWalker prefab = GetNextNpcPrefab();
+        if (prefab == null)
+        {
+            if (!hasWarnedMissingNpcPrefab)
+            {
+                hasWarnedMissingNpcPrefab = true;
+                Debug.LogWarning("[RestaurantNpcQueueManager] No NPC prefabs are assigned.");
+            }
+
+            ScheduleNextNpcSpawn();
+            return false;
+        }
+
+        hasWarnedMissingNpcPrefab = false;
+
+        Transform slot = queueSpots[0];
+        if (slot == null)
+        {
+            Debug.LogWarning("[RestaurantNpcQueueManager] Queue spot Q0 is null. Assign Q0..Q5 in Inspector.");
+            ScheduleNextNpcSpawn();
+            return false;
+        }
+
+        if (npcSpawnPoint == null)
+        {
+            if (!hasWarnedMissingSpawnPoint)
+            {
+                hasWarnedMissingSpawnPoint = true;
+                Debug.LogWarning("[RestaurantNpcQueueManager] NPC Spawn Point is not assigned.");
+            }
+
+            ScheduleNextNpcSpawn();
+            return false;
+        }
+
+        NPCWalker npc = Instantiate(prefab, npcSpawnPoint.position, Quaternion.identity);
+        npc.ConfigureForQueue(this, slot, npcExitPoint, npcTurnPoint);
+
+        queue.Add(npc);
+        activeManagedNpcs.Add(npc);
+
+        if (logQueueEvents)
+            Debug.Log($"[RestaurantNpcQueueManager] Spawned NPC into slot Q0 using prefab {prefab.name}");
+
+        NotifyQueueOrdersChanged();
+        EnsureFrontOrder();
+        return true;
+    }
+
+    private NPCWalker GetNextNpcPrefab()
+    {
+        bool hasNpcPrefabArray = npcPrefabs != null && npcPrefabs.Length > 0;
+        if (hasNpcPrefabArray)
+        {
+            for (int i = 0; i < npcPrefabs.Length; i++)
+            {
+                int index = (nextNpcPrefabIndex + i) % npcPrefabs.Length;
+                NPCWalker prefab = npcPrefabs[index];
+                if (prefab == null)
+                    continue;
+
+                nextNpcPrefabIndex = (index + 1) % npcPrefabs.Length;
+                return prefab;
+            }
+
+            // Array is configured, so legacy single prefab is intentionally ignored.
+            if (npcPrefab != null && !hasWarnedLegacyNpcPrefabIgnored)
+            {
+                hasWarnedLegacyNpcPrefabIgnored = true;
+                Debug.Log("[RestaurantNpcQueueManager] npcPrefabs array is configured. Legacy npcPrefab field is ignored.");
+            }
+
+            return null;
+        }
+
+        return npcPrefab;
+    }
+
+    private bool HasAnyActiveNpc()
+    {
+        activeManagedNpcs.RemoveWhere(npc => npc == null);
+        return activeManagedNpcs.Count > 0;
+    }
+
+    private void SpawnNpcIntoQueue(NPCWalker prefab)
+    {
+        if (prefab == null || npcSpawnPoint == null)
+            return;
+
+        if (queue.Count > 0)
+            return;
 
         if (queueSpots == null || queueSpots.Length == 0)
             return;
 
-        if (maxActiveNpcs <= 0)
-        {
-            if (!hasWarnedInvalidMaxActive)
-            {
-                hasWarnedInvalidMaxActive = true;
-                Debug.LogWarning("[RestaurantNpcQueueManager] Max Active NPCs is 0 or less. Increase it to spawn customers.");
-            }
-
-            return;
-        }
-
-        hasWarnedInvalidMaxActive = false;
-
-        if (queue.Count >= Mathf.Min(maxActiveNpcs, queueSpots.Length))
-            return;
-
-        spawnTimer += deltaTime;
-
-        if (spawnTimer < spawnIntervalSeconds)
-            return;
-
-        spawnTimer = 0f;
-        SpawnNpcIntoQueue();
-    }
-
-    private void SpawnNpcIntoQueue()
-    {
-        int targetSlot = queue.Count;
-        if (targetSlot >= queueSpots.Length)
-            return;
-
-        Transform slot = queueSpots[targetSlot];
+        Transform slot = queueSpots[0];
         if (slot == null)
         {
-            Debug.LogWarning("[RestaurantNpcQueueManager] Queue spot is null. Assign Q0..Q5 in Inspector.");
+            Debug.LogWarning("[RestaurantNpcQueueManager] Queue spot Q0 is null. Assign Q0..Q5 in Inspector.");
             return;
         }
 
-        NPCWalker npc = Instantiate(npcPrefab, npcSpawnPoint.position, Quaternion.identity);
+        NPCWalker npc = Instantiate(prefab, npcSpawnPoint.position, Quaternion.identity);
         npc.ConfigureForQueue(this, slot, npcExitPoint, npcTurnPoint);
 
         queue.Add(npc);
 
         if (logQueueEvents)
-            Debug.Log($"[RestaurantNpcQueueManager] Spawned NPC into slot Q{targetSlot}");
+            Debug.Log($"[RestaurantNpcQueueManager] Spawned NPC into slot Q0 using prefab {prefab.name}");
 
         NotifyQueueOrdersChanged();
         EnsureFrontOrder();
+    }
+
+    private void ScheduleNextNpcSpawn()
+    {
+        waitingForNextNpcSpawn = true;
+        respawnTimer = 0f;
     }
 
     private void EnsureFrontOrder()
@@ -551,6 +637,8 @@ public class RestaurantNpcQueueManager : MonoBehaviour
 
     private void CleanupQueueReferences()
     {
+        activeManagedNpcs.RemoveWhere(npc => npc == null);
+
         for (int i = queue.Count - 1; i >= 0; i--)
         {
             if (queue[i] != null)
@@ -603,6 +691,7 @@ public class RestaurantNpcQueueManager : MonoBehaviour
         if (npc == null)
             return;
 
+        activeManagedNpcs.Remove(npc);
         queue.Remove(npc);
         npcOrders.Remove(npc);
         npcRemainingTimes.Remove(npc);
@@ -613,6 +702,9 @@ public class RestaurantNpcQueueManager : MonoBehaviour
         ReassignQueueSpots();
         EnsureFrontOrder();
         NotifyQueueOrdersChanged();
+
+        if (queue.Count == 0)
+            ScheduleNextNpcSpawn();
     }
 
     public bool TryGetFrontOrder(out RecipeDefinition recipe, out float remainingTime)
@@ -655,7 +747,8 @@ public class RestaurantNpcQueueManager : MonoBehaviour
 
     public void ForceSpawnNow()
     {
-        spawnTimer = spawnIntervalSeconds;
+        waitingForNextNpcSpawn = true;
+        respawnTimer = respawnDelaySeconds;
     }
 
     public IReadOnlyList<QueueOrderView> GetQueueOrders()
