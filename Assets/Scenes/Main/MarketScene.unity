@@ -322,7 +322,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 2.7711334}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -332,7 +332,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.64, y: 3.5}
+  m_Size: {x: 0.64, y: 9.4312}
   m_EdgeRadius: 0
 --- !u!4 &147306052
 Transform:
@@ -828,7 +828,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 1.7501905}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -838,7 +838,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.63, y: 3.5}
+  m_Size: {x: 0.63, y: 10.889692}
   m_EdgeRadius: 0
 --- !u!4 &348164908
 Transform:
@@ -1196,7 +1196,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 4.2296247}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -1206,7 +1206,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.7, y: 3.5}
+  m_Size: {x: 0.7, y: 9.820129}
   m_EdgeRadius: 0
 --- !u!4 &462093124
 Transform:
@@ -1749,7 +1749,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 1.9446545}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -1759,7 +1759,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.64, y: 3.5}
+  m_Size: {x: 0.64, y: 10.306293}
   m_EdgeRadius: 0
 --- !u!4 &562060521
 Transform:
@@ -8021,7 +8021,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 1.5071076}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -8031,7 +8031,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.64, y: 3.5}
+  m_Size: {x: 0.64, y: 10.597994}
   m_EdgeRadius: 0
 --- !u!4 &636384057
 Transform:
@@ -9000,7 +9000,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 2.3335867}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -9010,7 +9010,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.52, y: 3.5}
+  m_Size: {x: 0.52, y: 8.167173}
   m_EdgeRadius: 0
 --- !u!4 &995370190
 Transform:
@@ -9095,7 +9095,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 2.1391225}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -9105,7 +9105,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.64, y: 3.5}
+  m_Size: {x: 0.64, y: 10.306294}
   m_EdgeRadius: 0
 --- !u!4 &996689215
 Transform:
@@ -10660,11 +10660,12 @@ MonoBehaviour:
   inventoryBridge: {fileID: 1690621}
   toastUI: {fileID: 0}
   zeroMoneyLoanHintMessage: "\U0001F4B8 No money? Press L to take a loan."
-  zeroMoneyLoanHintDuration: 6
+  zeroMoneyLoanHintDuration: 3
   seedsEntries:
   - itemName: Tomato seed
     icon: {fileID: -1257518098505440576, guid: c4557cba60ffb6d43835613eb998dcc8, type: 3}
     price: 1
+    quantity: 1
     description: 
     available: 1
     itemDefinition: {fileID: 11400000, guid: 1fe4385980a5bd1429b19a686572f2f9, type: 2}
@@ -10672,18 +10673,21 @@ MonoBehaviour:
   - itemName: Axe
     icon: {fileID: 6674386295937086461, guid: 263141e9e40b44546a59daec410a3c90, type: 3}
     price: 3
+    quantity: 1
     description: 
     available: 1
     itemDefinition: {fileID: 11400000, guid: 4051753341b46134cb66b186244eaef0, type: 2}
   - itemName: Hoe
     icon: {fileID: 2255215609454398309, guid: b162d5b66a053da4cbd7425236367a04, type: 3}
     price: 5
+    quantity: 1
     description: 
     available: 1
     itemDefinition: {fileID: 11400000, guid: 590c1cdd907e9e342bb2118c2c3f4dd1, type: 2}
   - itemName: Bucket
     icon: {fileID: 949185140388405158, guid: 2deffbfe15da3634f8be5682c392fb33, type: 3}
     price: 4
+    quantity: 1
     description: 
     available: 1
     itemDefinition: {fileID: 11400000, guid: 590c1cdd907e9e342bb2118c2c3f4dd1, type: 2}
@@ -10691,108 +10695,126 @@ MonoBehaviour:
   - itemName: Banana
     icon: {fileID: 21300000, guid: 50e0347d981414d189ff77217bc6e69c, type: 3}
     price: 2
+    quantity: 3
     description: 
     available: 1
     itemDefinition: {fileID: 11400000, guid: d1473749e9a5ea546a8405f16e79d37a, type: 2}
   - itemName: Avocado
     icon: {fileID: 21300000, guid: 0b97d02305ef74e7ea0cb413d9cc158a, type: 3}
     price: 3
+    quantity: 3
     description: 
     available: 1
     itemDefinition: {fileID: 11400000, guid: 34fc6a4eb64545d4d88e76326d214d73, type: 2}
   - itemName: Blueberry
     icon: {fileID: 21300000, guid: 26b4d8692c5e74d17bd9dc28bcbe961b, type: 3}
     price: 3
+    quantity: 3
     description: 
     available: 1
     itemDefinition: {fileID: 11400000, guid: d8b445a84887aa5449f8c29f6c9eb2ff, type: 2}
   - itemName: Broccoli
     icon: {fileID: 21300000, guid: bfbf8b6c3b15547df885053bd2807cdd, type: 3}
     price: 2
+    quantity: 3
     description: 
     available: 1
     itemDefinition: {fileID: 11400000, guid: 0a96eea240a4f8945927f96f7bbb8058, type: 2}
   - itemName: Carrot
     icon: {fileID: 21300000, guid: 1fbdfb9bf6c2e4397a1d62eed589ec1f, type: 3}
     price: 2
+    quantity: 3
     description: 
     available: 1
     itemDefinition: {fileID: 11400000, guid: 214bddc6a76fba846ac3c20ad9571c30, type: 2}
   - itemName: Lemon
     icon: {fileID: 21300000, guid: f6d5f58465fff456eb84bd071b3134b9, type: 3}
     price: 2
+    quantity: 3
     description: 
     available: 1
     itemDefinition: {fileID: 11400000, guid: 026a948720989044ea1ff64f9768448f, type: 2}
   - itemName: Pepper
     icon: {fileID: 21300000, guid: 0e3588bd6507d4164b8cf749ed372de5, type: 3}
     price: 2
+    quantity: 3
     description: 
     available: 1
     itemDefinition: {fileID: 11400000, guid: a4864ced25d569845ac4e24d6b8b03a8, type: 2}
   - itemName: Pear
     icon: {fileID: 21300000, guid: 31740551f69654fb7bc2a39c35d57d9c, type: 3}
     price: 2
+    quantity: 3
     description: 
     available: 1
     itemDefinition: {fileID: 11400000, guid: b455b25f8d47c774890905a9726fa45c, type: 2}
   - itemName: Peach
     icon: {fileID: 21300000, guid: c549cabc0e9504b56a64b9171d8962bc, type: 3}
     price: 2
+    quantity: 3
     description: 
     available: 1
     itemDefinition: {fileID: 11400000, guid: 6a68276888350c7499f283b3c0cbcacb, type: 2}
   - itemName: Tomato
     icon: {fileID: 21300000, guid: bb7faf4c850ef48cdb33c2bd17737619, type: 3}
     price: 2
+    quantity: 3
     description: 
     available: 1
     itemDefinition: {fileID: 11400000, guid: 7272295af404e0143a748b7df4e0cefa, type: 2}
   - itemName: Kiwi
     icon: {fileID: 21300000, guid: cc8eede50ee1f49efa314de75e5506e3, type: 3}
     price: 2
+    quantity: 3
     description: 
     available: 1
     itemDefinition: {fileID: 11400000, guid: 08a08c391d002584692886e06f656b84, type: 2}
   - itemName: Cucumber
     icon: {fileID: 21300000, guid: 76e54cc89c69d4cc0aacf00ba224b504, type: 3}
     price: 2
+    quantity: 3
     description: 
     available: 1
     itemDefinition: {fileID: 11400000, guid: 71a9e37efb2984d489cac73ba111123b, type: 2}
   - itemName: Pineapple
     icon: {fileID: 21300000, guid: a2e86a433aa8b49018db7c80923744bd, type: 3}
     price: 2
+    quantity: 3
     description: 
     available: 1
     itemDefinition: {fileID: 11400000, guid: edc3bcaaa54acf24ebff2a34afea676a, type: 2}
   - itemName: Potato
     icon: {fileID: 21300000, guid: 44994881295ab4b1084896d685432eff, type: 3}
     price: 2
+    quantity: 3
     description: 
     available: 1
     itemDefinition: {fileID: 11400000, guid: ed44036c4adfa614ebe27835c2388b50, type: 2}
   - itemName: 'Salat '
     icon: {fileID: 21300000, guid: 3e87be51823d846949ed08c33c74b463, type: 3}
     price: 2
+    quantity: 3
     description: 
     available: 1
     itemDefinition: {fileID: 11400000, guid: 064354d567e63b2428406b79c773cb94, type: 2}
   - itemName: Strawberry
     icon: {fileID: 21300000, guid: b72023ef6c5c54ebb94ee8c520cfe2e9, type: 3}
     price: 3
+    quantity: 3
     description: 
     available: 1
     itemDefinition: {fileID: 11400000, guid: a620fcc93877474419d638aa32a00b77, type: 2}
   - itemName: Watermelon
     icon: {fileID: 21300000, guid: 458b96fa7bc9e4c409f9b7f0b8bb2630, type: 3}
     price: 2
+    quantity: 3
     description: 
     available: 1
     itemDefinition: {fileID: 11400000, guid: 43c6401779b67b34495740bbef20857f, type: 2}
   - itemName: Orange
     icon: {fileID: 21300000, guid: 6fc31519aded24a839c1af9e163b6c01, type: 3}
     price: 2
+    quantity: 3
     description: 
     available: 1
     itemDefinition: {fileID: 11400000, guid: 29bcbe781edccdf4ab588761d20a7203, type: 2}
@@ -10800,6 +10822,7 @@ MonoBehaviour:
   - itemName: Fish
     icon: {fileID: 21300000, guid: 711c10851768e431d943e3aea6a5f9fd, type: 3}
     price: 8
+    quantity: 3
     description: 
     available: 1
     itemDefinition: {fileID: 11400000, guid: 9bada64d49290f942ba9e02b7d9a489d, type: 2}
@@ -10807,19 +10830,29 @@ MonoBehaviour:
   - itemName: Chicken Thighs
     icon: {fileID: 21300000, guid: f89a4c1fde78944dcb14ead5d40721bc, type: 3}
     price: 7
+    quantity: 5
     description: 
     available: 1
     itemDefinition: {fileID: 11400000, guid: 65ee0be473cd218439617b7b80b5d67f, type: 2}
   - itemName: Meat
     icon: {fileID: 21300000, guid: 394fa39b4219b4a49a9b64ee3bf35481, type: 3}
     price: 8
+    quantity: 5
     description: 
     available: 1
     itemDefinition: {fileID: 11400000, guid: b8c9acb334f073543a8deacd5e92bfb2, type: 2}
+  - itemName: Chicken Turkey
+    icon: {fileID: -2611066569630722106, guid: 90807f8803bc40c42a0592b385c224de, type: 3}
+    price: 5
+    quantity: 1
+    description: 
+    available: 1
+    itemDefinition: {fileID: 11400000, guid: bc5389c53c54de04396efc683a3cf229, type: 2}
   drinksEntries:
   - itemName: Water
     icon: {fileID: 21300000, guid: f27b8794232ef48a399fdfa75bcc1569, type: 3}
     price: 1
+    quantity: 1
     description: 
     available: 1
     itemDefinition: {fileID: 11400000, guid: 3d55403e972bcc94197c6b3c110d1379, type: 2}
@@ -10827,55 +10860,78 @@ MonoBehaviour:
   - itemName: Flour
     icon: {fileID: 9132784678072903462, guid: 689e7063b815d204c9468939cb348916, type: 3}
     price: 4
+    quantity: 1
     description: 
     available: 1
     itemDefinition: {fileID: 11400000, guid: 1c578b9448f4f824f886bfa28b10a019, type: 2}
   - itemName: Milk
     icon: {fileID: 21300000, guid: 23d916487f41d4333b22bd60bc91a000, type: 3}
     price: 3
+    quantity: 5
     description: 
     available: 1
     itemDefinition: {fileID: 11400000, guid: 02d2e448d97d74a4f8f98671d42aafe1, type: 2}
   - itemName: Cheese
     icon: {fileID: 21300000, guid: 3ba5a88a0508a488a85c30169a8e18de, type: 3}
     price: 6
+    quantity: 5
     description: 
     available: 1
     itemDefinition: {fileID: 11400000, guid: 5f68a53d4493660479d60eed3cd46abe, type: 2}
   - itemName: Butter
     icon: {fileID: 21300000, guid: b70944d5db9ae4c80b01034b6d3d91bf, type: 3}
     price: 7
+    quantity: 5
     description: 
     available: 1
     itemDefinition: {fileID: 11400000, guid: e9a24d7d7dccc0848baac69df049050e, type: 2}
   - itemName: Honey
     icon: {fileID: 21300000, guid: 2fae0e1ac747f47648811811d0b34bfb, type: 3}
     price: 8
+    quantity: 10
     description: 
     available: 1
     itemDefinition: {fileID: 11400000, guid: 602e6db3a6c1a514fa7988e0460390f0, type: 2}
   - itemName: Chocolate
     icon: {fileID: 21300000, guid: 6abcc03757a494181bcd2f733079582b, type: 3}
     price: 3
+    quantity: 5
     description: 
     available: 1
     itemDefinition: {fileID: 11400000, guid: d701864ab178d384f929598c692602ee, type: 2}
   - itemName: Sugar
     icon: {fileID: -3413006870710782370, guid: 5879dc754149292478bedd9a37f9dd2e, type: 3}
     price: 3
+    quantity: 15
     description: 
     available: 1
     itemDefinition: {fileID: 11400000, guid: a75f459dfd23bb340a0da81168120a50, type: 2}
   - itemName: Salt
     icon: {fileID: 21300000, guid: c426c992373b24cc3883c5a23a361a83, type: 3}
     price: 3
+    quantity: 15
     description: 
     available: 1
     itemDefinition: {fileID: 11400000, guid: 6e9e7b38e7fa6e2409f62b737e973a8b, type: 2}
+  - itemName: Bread
+    icon: {fileID: 21300000, guid: d0f2ca00017af45a59e0ccc1e81d226f, type: 3}
+    price: 5
+    quantity: 5
+    description: 
+    available: 1
+    itemDefinition: {fileID: 11400000, guid: 52922ed0ebc7a62428cd24867153b080, type: 2}
+  - itemName: Oil
+    icon: {fileID: 21300000, guid: 52c12fab9ce564f0792ee7745720dfaa, type: 3}
+    price: 5
+    quantity: 5
+    description: 
+    available: 1
+    itemDefinition: {fileID: 11400000, guid: 31dda1c7065110d429a83744ba6cbcda, type: 2}
   treeSeedsEntries:
   - itemName: Apple tree seeds
     icon: {fileID: -1257518098505440576, guid: c4557cba60ffb6d43835613eb998dcc8, type: 3}
     price: 20
+    quantity: 1
     description: 
     available: 1
     itemDefinition: {fileID: 11400000, guid: 16b47ca967a7e0d48bc7ba39da227dc7, type: 2}
