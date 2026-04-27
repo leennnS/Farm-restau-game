@@ -13,20 +13,23 @@ public class MarketInventoryBridge : MonoBehaviour
             Debug.LogError("[MarketInventoryBridge] InventoryController not found in scene!");
     }
 
-    public void ReceivePurchase(MarketItemEntry item, int amount)
+    public bool TryReceivePurchase(MarketItemEntry item, int amount, out string message)
     {
+        message = string.Empty;
         Debug.Log($"[MarketInventoryBridge] Purchased: {item.itemName} x{amount}");
 
         if (inventoryController == null)
         {
             Debug.LogError("[MarketInventoryBridge] Cannot add item - InventoryController not found!");
-            return;
+            message = "Inventory not found.";
+            return false;
         }
 
         if (item.itemDefinition == null)
         {
             Debug.LogError($"[MarketInventoryBridge] MarketItemEntry '{item.itemName}' has no ItemDefinition assigned!");
-            return;
+            message = $"{item.itemName} is not configured correctly.";
+            return false;
         }
 
         // Add the item to the real inventory
@@ -35,10 +38,12 @@ public class MarketInventoryBridge : MonoBehaviour
         if (success)
         {
             Debug.Log($"[MarketInventoryBridge] Successfully added {item.itemName} x{amount} to inventory!");
+            message = $"Purchased {item.itemName} x{amount}.";
+            return true;
         }
-        else
-        {
-            Debug.LogWarning($"[MarketInventoryBridge] Failed to add {item.itemName} x{amount} - inventory may be full!");
-        }
+
+        Debug.LogWarning($"[MarketInventoryBridge] Failed to add {item.itemName} x{amount} - inventory may be full!");
+        message = $"Inventory full. Could not add {item.itemName}.";
+        return false;
     }
 }

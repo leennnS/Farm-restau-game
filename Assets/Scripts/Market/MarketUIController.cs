@@ -463,8 +463,10 @@ public class MarketUIController : MonoBehaviour
         };
         buyButton.AddToClassList("buy-button");
 
+        // price is already the total for the configured bundle quantity
         bool canAfford = MoneyManager.Instance.CanAfford(item.price);
-        buyButton.SetEnabled(canAfford);
+        if (!canAfford)
+            buyButton.AddToClassList("buy-button-unaffordable");
 
         card.Add(icon);
         card.Add(nameLabel);
@@ -492,19 +494,46 @@ public class MarketUIController : MonoBehaviour
 
     private void TryBuy(MarketItemEntry item)
     {
-        if (!MoneyManager.Instance.SpendMoney(item.price))
+        int quantity = GetPurchaseQuantity(item);
+        // price is already the total for the configured bundle quantity
+        int totalPrice = item.price;
+
+        if (!MoneyManager.Instance.SpendMoney(totalPrice))
         {
             marketSubtitle.text = "Not enough coins.";
             return;
         }
 
-        if (inventoryBridge != null)
-            inventoryBridge.ReceivePurchase(item, 1);
-        else
+        if (inventoryBridge == null)
+        {
+            MoneyManager.Instance.AddMoney(totalPrice);
+            marketSubtitle.text = "Shop inventory bridge is missing.";
+            RefreshMoney();
+            PopulateAllSections();
+            return;
+        }
 
+        bool success = inventoryBridge.TryReceivePurchase(item, quantity, out string message);
+        if (!success)
+        {
+            // Keep money and inventory transaction in sync.
+            MoneyManager.Instance.AddMoney(totalPrice);
+            marketSubtitle.text = string.IsNullOrEmpty(message) ? "Purchase failed." : message;
+            RefreshMoney();
+            PopulateAllSections();
+            return;
+        }
 
-            marketSubtitle.text = $"Purchased {item.itemName}.";
+        marketSubtitle.text = string.IsNullOrEmpty(message) ? $"Purchased {item.itemName} x{quantity}." : message;
         RefreshMoney();
         PopulateAllSections();
+    }
+
+    private int GetPurchaseQuantity(MarketItemEntry item)
+    {
+        if (item == null)
+            return 1;
+
+        return Mathf.Max(1, item.quantity);
     }
 }
