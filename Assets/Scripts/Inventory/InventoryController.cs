@@ -151,11 +151,6 @@ public class InventoryController : MonoBehaviour
     private Button _exitButton;
     private Button _quitButton;
 
-    private float _masterVolumeNormalized = 0.8f;
-    private float _musicVolumeNormalized = 0.7f;
-    private float _sfxVolumeNormalized = 0.8f;
-    private readonly Dictionary<AudioSource, float> _baseAudioSourceVolumes = new Dictionary<AudioSource, float>();
-
     // ---------- NEW: slot UI refs ----------
     private VisualElement[] _itemSlots; // itemSlot01..itemSlot36
     private VisualElement[] _hotbarSlots; // hotbarSlot01..hotbarSlot12
@@ -235,11 +230,14 @@ public class InventoryController : MonoBehaviour
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
+        AudioSettingsManager.Instance.SettingsChanged += HandleAudioSettingsChanged;
     }
 
     private void OnDisable()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
+        if (AudioSettingsManager.HasInstance)
+            AudioSettingsManager.Instance.SettingsChanged -= HandleAudioSettingsChanged;
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -269,7 +267,7 @@ public class InventoryController : MonoBehaviour
 
         // Re-apply interaction state so hidden inventory cannot intercept clicks.
         SetOpen(_isOpen, playSound: false);
-        ApplyAudioVolumes();
+        SyncAudioSettingsFromSliders();
     }
 
     private void RebindInventoryUIIfNeeded(bool forceRebindCallbacks)
@@ -900,13 +898,13 @@ public class InventoryController : MonoBehaviour
 
         // Settings controls
         if (_masterVolumeSlider != null)
-            _masterVolumeSlider.RegisterValueChangedCallback(evt => OnMasterVolumeChanged(evt.newValue));
+            _masterVolumeSlider.RegisterValueChangedCallback(OnMasterVolumeSliderChanged);
 
         if (_musicVolumeSlider != null)
-            _musicVolumeSlider.RegisterValueChangedCallback(evt => OnMusicVolumeChanged(evt.newValue));
+            _musicVolumeSlider.RegisterValueChangedCallback(OnMusicVolumeSliderChanged);
 
         if (_sfxVolumeSlider != null)
-            _sfxVolumeSlider.RegisterValueChangedCallback(evt => OnSFXVolumeChanged(evt.newValue));
+            _sfxVolumeSlider.RegisterValueChangedCallback(OnSFXVolumeSliderChanged);
 
         SyncAudioSettingsFromSliders();
 
@@ -991,6 +989,7 @@ public class InventoryController : MonoBehaviour
         ShowPage(_settingsPage, _toolsPage, _mapPage, _craftingPage);
         SetFooterVisible(true);
         UpdateActiveTopTab(_tabSettingsButton);
+        SyncAudioSettingsFromSliders();
     }
 
     private void ShowPage(VisualElement show, VisualElement hide1, VisualElement hide2, VisualElement hide3)
@@ -1007,8 +1006,7 @@ public class InventoryController : MonoBehaviour
         if (_masterVolumeLabel != null)
             _masterVolumeLabel.text = ((int)value).ToString();
 
-        _masterVolumeNormalized = Mathf.Clamp01(value / 100f);
-        ApplyAudioVolumes();
+        AudioSettingsManager.Instance.SetMasterVolumeNormalized(value / 100f);
     }
 
     private void OnMusicVolumeChanged(float value)
@@ -1016,8 +1014,7 @@ public class InventoryController : MonoBehaviour
         if (_musicVolumeLabel != null)
             _musicVolumeLabel.text = ((int)value).ToString();
 
-        _musicVolumeNormalized = Mathf.Clamp01(value / 100f);
-        ApplyAudioVolumes();
+        AudioSettingsManager.Instance.SetMusicVolumeNormalized(value / 100f);
     }
 
     private void OnSFXVolumeChanged(float value)
@@ -1025,59 +1022,35 @@ public class InventoryController : MonoBehaviour
         if (_sfxVolumeLabel != null)
             _sfxVolumeLabel.text = ((int)value).ToString();
 
-        _sfxVolumeNormalized = Mathf.Clamp01(value / 100f);
-        ApplyAudioVolumes();
+        AudioSettingsManager.Instance.SetSfxVolumeNormalized(value / 100f);
     }
 
     private void SyncAudioSettingsFromSliders()
     {
+        AudioSettingsManager audioSettings = AudioSettingsManager.Instance;
+
         if (_masterVolumeSlider != null)
-            OnMasterVolumeChanged(_masterVolumeSlider.value);
+            _masterVolumeSlider.SetValueWithoutNotify(audioSettings.MasterVolumeNormalized * 100f);
 
         if (_musicVolumeSlider != null)
-            OnMusicVolumeChanged(_musicVolumeSlider.value);
+            _musicVolumeSlider.SetValueWithoutNotify(audioSettings.MusicVolumeNormalized * 100f);
 
         if (_sfxVolumeSlider != null)
-            OnSFXVolumeChanged(_sfxVolumeSlider.value);
+            _sfxVolumeSlider.SetValueWithoutNotify(audioSettings.SfxVolumeNormalized * 100f);
+
+        if (_masterVolumeLabel != null)
+            _masterVolumeLabel.text = Mathf.RoundToInt(audioSettings.MasterVolumeNormalized * 100f).ToString();
+
+        if (_musicVolumeLabel != null)
+            _musicVolumeLabel.text = Mathf.RoundToInt(audioSettings.MusicVolumeNormalized * 100f).ToString();
+
+        if (_sfxVolumeLabel != null)
+            _sfxVolumeLabel.text = Mathf.RoundToInt(audioSettings.SfxVolumeNormalized * 100f).ToString();
     }
 
-    private void ApplyAudioVolumes()
+    private void HandleAudioSettingsChanged()
     {
-        AudioSource[] sources = FindObjectsByType<AudioSource>(FindObjectsInactive.Include, FindObjectsSortMode.None);
-
-        for (int i = 0; i < sources.Length; i++)
-        {
-            AudioSource source = sources[i];
-            if (source == null)
-                continue;
-
-            if (!_baseAudioSourceVolumes.ContainsKey(source))
-                _baseAudioSourceVolumes[source] = source.volume;
-
-            float baseVolume = _baseAudioSourceVolumes[source];
-            float channelMultiplier = IsMusicSource(source) ? _musicVolumeNormalized : _sfxVolumeNormalized;
-            source.volume = Mathf.Clamp01(baseVolume * channelMultiplier * _masterVolumeNormalized);
-        }
-    }
-
-    private static bool IsMusicSource(AudioSource source)
-    {
-        if (source == null)
-            return false;
-
-        MonoBehaviour[] behaviours = source.GetComponents<MonoBehaviour>();
-        for (int i = 0; i < behaviours.Length; i++)
-        {
-            MonoBehaviour behaviour = behaviours[i];
-            if (behaviour == null)
-                continue;
-
-            string typeName = behaviour.GetType().Name;
-            if (typeName.IndexOf("Music", StringComparison.OrdinalIgnoreCase) >= 0)
-                return true;
-        }
-
-        return false;
+        SyncAudioSettingsFromSliders();
     }
 
     private void ExitToMenu()
@@ -1661,6 +1634,9 @@ public class InventoryController : MonoBehaviour
     {
         StopCookingLoopSound();
 
+        if (AudioSettingsManager.HasInstance)
+            AudioSettingsManager.Instance.SettingsChanged -= HandleAudioSettingsChanged;
+
         if (_closeButton != null) _closeButton.clicked -= Close;
 
         if (_tabToolsButton != null) _tabToolsButton.clicked -= ShowTools;
@@ -1670,11 +1646,11 @@ public class InventoryController : MonoBehaviour
         if (_tabServeButton != null) _tabServeButton.clicked -= ShowServeTab;
 
         if (_masterVolumeSlider != null)
-            _masterVolumeSlider.UnregisterValueChangedCallback(evt => OnMasterVolumeChanged(evt.newValue));
+            _masterVolumeSlider.UnregisterValueChangedCallback(OnMasterVolumeSliderChanged);
         if (_musicVolumeSlider != null)
-            _musicVolumeSlider.UnregisterValueChangedCallback(evt => OnMusicVolumeChanged(evt.newValue));
+            _musicVolumeSlider.UnregisterValueChangedCallback(OnMusicVolumeSliderChanged);
         if (_sfxVolumeSlider != null)
-            _sfxVolumeSlider.UnregisterValueChangedCallback(evt => OnSFXVolumeChanged(evt.newValue));
+            _sfxVolumeSlider.UnregisterValueChangedCallback(OnSFXVolumeSliderChanged);
 
         if (_exitButton != null)
             _exitButton.clicked -= ExitToMenu;
@@ -1683,6 +1659,21 @@ public class InventoryController : MonoBehaviour
 
         if (_cookRecipeButton != null)
             _cookRecipeButton.clicked -= OnCookOrServePressed;
+    }
+
+    private void OnMasterVolumeSliderChanged(ChangeEvent<float> evt)
+    {
+        OnMasterVolumeChanged(evt.newValue);
+    }
+
+    private void OnMusicVolumeSliderChanged(ChangeEvent<float> evt)
+    {
+        OnMusicVolumeChanged(evt.newValue);
+    }
+
+    private void OnSFXVolumeSliderChanged(ChangeEvent<float> evt)
+    {
+        OnSFXVolumeChanged(evt.newValue);
     }
 
     // ==================== CRAFTING SYSTEM ====================

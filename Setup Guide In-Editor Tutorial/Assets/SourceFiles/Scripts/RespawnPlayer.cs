@@ -7,7 +7,7 @@ namespace StarterAssets
     public class RespawnPlayer : MonoBehaviour
     {
         [Tooltip("The Y position threshold at which the player will respawn.")]
-        public float yThreshold = -5f; 
+        public float yThreshold = -5f;
 
         private Vector3 _startingPosition;
 
@@ -22,25 +22,25 @@ namespace StarterAssets
 
 
         private void Start()
-{
-    // Save the starting position and rotation
-    _startingPosition = transform.position;
-    _startingRotation = transform.rotation;
+        {
+            // Save the starting position and rotation
+            _startingPosition = transform.position;
+            _startingRotation = transform.rotation;
 
-    // Get the CharacterController reference
-    _characterController = GetComponent<CharacterController>();
-    if (_characterController == null)
-    {
-        Debug.LogError("CharacterController component is required for RespawnPlayer script!");
-    }
+            // Get the CharacterController reference
+            _characterController = GetComponent<CharacterController>();
+            if (_characterController == null)
+            {
+                Debug.LogError("CharacterController component is required for RespawnPlayer script!");
+            }
 
-    // Get ThirdPersonController reference
-    _thirdPersonController = GetComponent<ThirdPersonController>();
-    if (_thirdPersonController == null)
-    {
-        Debug.LogError("ThirdPersonController component is required for RespawnPlayer!");
-    }
-}
+            // Get ThirdPersonController reference
+            _thirdPersonController = GetComponent<ThirdPersonController>();
+            if (_thirdPersonController == null)
+            {
+                Debug.LogError("ThirdPersonController component is required for RespawnPlayer!");
+            }
+        }
 
         private void Update()
         {
@@ -52,34 +52,34 @@ namespace StarterAssets
         }
 
         private void Respawn()
-{
-    // Disable the CharacterController so we can manually adjust position
-    if (_characterController != null)
-    {
-        _characterController.enabled = false; // Disable to reset position/rotation correctly
-    }
+        {
+            // Disable the CharacterController so we can manually adjust position
+            if (_characterController != null)
+            {
+                _characterController.enabled = false; // Disable to reset position/rotation correctly
+            }
 
-    // Reset the player's position and rotation
-    transform.position = _startingPosition;
-    transform.rotation = Quaternion.Euler(0f, 90f, 0f); // Reset player Y rotation to 90 degrees
+            // Reset the player's position and rotation
+            transform.position = _startingPosition;
+            transform.rotation = Quaternion.Euler(0f, 90f, 0f); // Reset player Y rotation to 90 degrees
 
-    // Reset the CharacterController's vertical velocity to ensure the robot doesn't keep falling
-    if (_characterController != null)
-    {
-        _characterController.enabled = true; // Enable it back after resetting position
-        ResetVerticalVelocity();
-    }
+            // Reset the CharacterController's vertical velocity to ensure the robot doesn't keep falling
+            if (_characterController != null)
+            {
+                _characterController.enabled = true; // Enable it back after resetting position
+                ResetVerticalVelocity();
+            }
 
-    // Reset the camera's rotation
-    ThirdPersonController thirdPersonController = GetComponent<ThirdPersonController>();
-    if (thirdPersonController != null)
-    {
-        thirdPersonController.ResetCameraRotation(90f); // Reset camera's Y rotation to 90 degrees
-    }
+            // Reset the camera's rotation
+            ThirdPersonController thirdPersonController = GetComponent<ThirdPersonController>();
+            if (thirdPersonController != null)
+            {
+                thirdPersonController.ResetCameraRotation(90f); // Reset camera's Y rotation to 90 degrees
+            }
 
-    AudioSource.PlayClipAtPoint(respawnSound, transform.position);
+            AudioSettingsManager.PlaySfxAtPoint(respawnSound, transform.position);
 
-}
+        }
 
         private void ResetVerticalVelocity()
         {

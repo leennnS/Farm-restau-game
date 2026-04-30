@@ -15,8 +15,12 @@ public class Menu : MonoBehaviour
     [Header("Audio")]
     [SerializeField] private AudioClip buttonClickSound;
     [SerializeField] private float buttonClickVolume = 0.7f;
+    [SerializeField] private Slider masterVolumeSlider;
+    [SerializeField] private Slider musicVolumeSlider;
+    [SerializeField] private Slider sfxVolumeSlider;
 
     private AudioSource _audioSource;
+    private bool _syncingVolumeControls;
 
     private void Awake()
     {
@@ -27,20 +31,45 @@ public class Menu : MonoBehaviour
             _audioSource = gameObject.AddComponent<AudioSource>();
         }
 
+        _audioSource.playOnAwake = false;
+        _audioSource.loop = false;
+        _audioSource.spatialBlend = 0f;
+
         ResolvePanels();
+        ResolveVolumeControls();
+
+        if (AudioSettingsManager.HasInstance)
+            AudioSettingsManager.Instance.RefreshAudioSource(_audioSource);
     }
 
     private void Start()
     {
         ResolvePanels();
+        ResolveVolumeControls();
 
         if (IsValidPanelTarget(optionsPanel))
             optionsPanel.SetActive(false);
         else if (optionsPanel != null)
             Debug.LogWarning("[Menu] optionsPanel currently points to a non-panel object. Skipping auto-hide.");
 
+        BindAudioSettings();
+        SyncVolumeControlsFromSettings();
+
         // Update Continue button visibility based on whether save exists
         UpdateContinueButtonState();
+    }
+
+    private void OnEnable()
+    {
+        AudioSettingsManager.Instance.SettingsChanged += SyncVolumeControlsFromSettings;
+    }
+
+    private void OnDisable()
+    {
+        if (AudioSettingsManager.HasInstance)
+            AudioSettingsManager.Instance.SettingsChanged -= SyncVolumeControlsFromSettings;
+
+        UnbindAudioSettings();
     }
 
     /// <summary>
@@ -97,6 +126,7 @@ public class Menu : MonoBehaviour
     public void ToggleOptions()
     {
         ResolvePanels();
+        ResolveVolumeControls();
 
         if (!IsValidPanelTarget(optionsPanel))
         {
@@ -106,6 +136,9 @@ public class Menu : MonoBehaviour
 
         bool nextActive = !optionsPanel.activeSelf;
         optionsPanel.SetActive(nextActive);
+
+        if (nextActive)
+            SyncVolumeControlsFromSettings();
 
         if (nextActive)
             optionsPanel.transform.SetAsLastSibling();
@@ -140,11 +173,13 @@ public class Menu : MonoBehaviour
     public void OpenOptions()
     {
         ResolvePanels();
+        ResolveVolumeControls();
 
         if (IsValidPanelTarget(optionsPanel))
         {
             optionsPanel.SetActive(true);
             optionsPanel.transform.SetAsLastSibling();
+            SyncVolumeControlsFromSettings();
         }
 
         if (mainMenuPanel != null)
@@ -172,8 +207,132 @@ public class Menu : MonoBehaviour
     {
         if (_audioSource != null && buttonClickSound != null)
         {
+            if (AudioSettingsManager.HasInstance)
+                AudioSettingsManager.Instance.RefreshAudioSource(_audioSource);
+
             _audioSource.PlayOneShot(buttonClickSound, buttonClickVolume);
         }
+    }
+
+    private void BindAudioSettings()
+    {
+        if (masterVolumeSlider != null)
+            masterVolumeSlider.onValueChanged.AddListener(OnMasterVolumeSliderChanged);
+
+        if (musicVolumeSlider != null)
+            musicVolumeSlider.onValueChanged.AddListener(OnMusicVolumeSliderChanged);
+
+        if (sfxVolumeSlider != null)
+            sfxVolumeSlider.onValueChanged.AddListener(OnSfxVolumeSliderChanged);
+    }
+
+    private void UnbindAudioSettings()
+    {
+        if (masterVolumeSlider != null)
+            masterVolumeSlider.onValueChanged.RemoveListener(OnMasterVolumeSliderChanged);
+
+        if (musicVolumeSlider != null)
+            musicVolumeSlider.onValueChanged.RemoveListener(OnMusicVolumeSliderChanged);
+
+        if (sfxVolumeSlider != null)
+            sfxVolumeSlider.onValueChanged.RemoveListener(OnSfxVolumeSliderChanged);
+    }
+
+    private void ResolveVolumeControls()
+    {
+        if (!IsValidPanelTarget(optionsPanel))
+            return;
+
+        Transform optionsRoot = optionsPanel.transform;
+
+        if (masterVolumeSlider == null)
+            masterVolumeSlider = FindSlider(optionsRoot, "Sound (1)", "Sound");
+
+        if (musicVolumeSlider == null)
+            musicVolumeSlider = FindSlider(optionsRoot, "Music");
+
+        if (sfxVolumeSlider == null)
+            sfxVolumeSlider = FindSlider(optionsRoot, "Sound", "Sound (1)");
+    }
+
+    private void SyncVolumeControlsFromSettings()
+    {
+        if (!AudioSettingsManager.HasInstance)
+            return;
+
+        _syncingVolumeControls = true;
+
+        if (masterVolumeSlider != null)
+            masterVolumeSlider.SetValueWithoutNotify(AudioSettingsManager.Instance.MasterVolumeNormalized * 100f);
+
+        if (musicVolumeSlider != null)
+            musicVolumeSlider.SetValueWithoutNotify(AudioSettingsManager.Instance.MusicVolumeNormalized * 100f);
+
+        if (sfxVolumeSlider != null)
+            sfxVolumeSlider.SetValueWithoutNotify(AudioSettingsManager.Instance.SfxVolumeNormalized * 100f);
+
+        _syncingVolumeControls = false;
+    }
+
+    private void OnMasterVolumeSliderChanged(float value)
+    {
+        if (_syncingVolumeControls)
+            return;
+
+        AudioSettingsManager.Instance.SetMasterVolumeNormalized(value / 100f);
+    }
+
+    private void OnMusicVolumeSliderChanged(float value)
+    {
+        if (_syncingVolumeControls)
+            return;
+
+        AudioSettingsManager.Instance.SetMusicVolumeNormalized(value / 100f);
+    }
+
+    private void OnSfxVolumeSliderChanged(float value)
+    {
+        if (_syncingVolumeControls)
+            return;
+
+        AudioSettingsManager.Instance.SetSfxVolumeNormalized(value / 100f);
+    }
+
+    private Slider FindSlider(Transform root, params string[] possibleNames)
+    {
+        if (root == null || possibleNames == null || possibleNames.Length == 0)
+            return null;
+
+        for (int i = 0; i < possibleNames.Length; i++)
+        {
+            Transform match = FindInHierarchy(root, possibleNames[i]);
+            if (match == null)
+                continue;
+
+            Slider slider = match.GetComponent<Slider>();
+            if (slider != null)
+                return slider;
+        }
+
+        return null;
+    }
+
+    private Transform FindInHierarchy(Transform current, string targetName)
+    {
+        if (current == null || string.IsNullOrEmpty(targetName))
+            return null;
+
+        if (string.Equals(current.name, targetName, System.StringComparison.OrdinalIgnoreCase))
+            return current;
+
+        for (int i = 0; i < current.childCount; i++)
+        {
+            Transform found = FindInHierarchy(current.GetChild(i), targetName);
+            if (found != null)
+                return found;
+        }
+
+        return null;
     }
 
     private void ResolvePanels()

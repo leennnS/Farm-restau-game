@@ -19,6 +19,9 @@ public class MainMenuBackgroundMusic : MonoBehaviour
         }
 
         ConfigureAudioSource();
+
+        if (AudioSettingsManager.HasInstance)
+            AudioSettingsManager.Instance.RefreshAudioSource(_audioSource);
     }
 
     private void Start()
@@ -60,6 +63,9 @@ public class MainMenuBackgroundMusic : MonoBehaviour
             return;
 
         _audioSource.clip = backgroundMusic;
+
+        if (AudioSettingsManager.HasInstance)
+            AudioSettingsManager.Instance.RefreshAudioSource(_audioSource);
 
         if (!_audioSource.isPlaying)
             _audioSource.Play();
