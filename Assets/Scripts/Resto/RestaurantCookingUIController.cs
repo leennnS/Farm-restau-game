@@ -53,9 +53,9 @@ public class RestaurantCookingUIController : MonoBehaviour
         }
 
         if (inventory.IsCookingOnlyModeOpen)
-            inventory.CloseCookingOnlyMode();
+            inventory.CloseCookingOnlyMode(true);
         else
-            inventory.OpenCookingOnlyMode();
+            inventory.OpenCookingOnlyMode(true);
     }
 
     private bool IsSceneAllowed()

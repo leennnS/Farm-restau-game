@@ -33,6 +33,12 @@ public class MarketUIController : MonoBehaviour
     [Header("Input")]
     [SerializeField] private KeyCode closeKey = KeyCode.Escape;
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip openMarketSound;
+    [SerializeField] private AudioClip closeMarketSound;
+
+    private AudioSource _audioSource;
+
     private VisualElement marketRoot;
     private Label marketSubtitle;
     private Label moneyValue;
@@ -89,6 +95,8 @@ public class MarketUIController : MonoBehaviour
 
         if (toastUI == null)
             toastUI = FindFirstObjectByType<PickupToastUIToolkit>();
+
+        EnsureAudioSource();
 
         VisualElement root = uiDocument.rootVisualElement;
 
@@ -195,6 +203,7 @@ public class MarketUIController : MonoBehaviour
 
     public void OpenSection(MarketSectionType section, bool lockToSingleSection)
     {
+        bool wasOpen = IsOpen;
         currentSection = NormalizeSection(section);
 
         if (lockToSingleSection)
@@ -204,6 +213,9 @@ public class MarketUIController : MonoBehaviour
         }
 
         marketRoot.RemoveFromClassList("hidden");
+
+        if (!wasOpen)
+            PlayOpenSound();
         SetInteractionHint(string.Empty, false);
 
         foreach (KeyValuePair<MarketSectionType, VisualElement> pair in sectionLookup)
@@ -259,6 +271,7 @@ public class MarketUIController : MonoBehaviour
 
     public void CloseMarket()
     {
+        PlayCloseSound();
         marketRoot.AddToClassList("hidden");
         isSectionLocked = false;
         hasShownDebtHintThisOpen = false;
@@ -322,6 +335,35 @@ public class MarketUIController : MonoBehaviour
 
         StopCoroutine(debtHintFallbackRoutine);
         debtHintFallbackRoutine = null;
+    }
+
+    private void EnsureAudioSource()
+    {
+        if (_audioSource == null)
+            _audioSource = GetComponent<AudioSource>();
+
+        if (_audioSource == null)
+            _audioSource = gameObject.AddComponent<AudioSource>();
+
+        _audioSource.playOnAwake = false;
+        _audioSource.loop = false;
+        _audioSource.spatialBlend = 0f;
+    }
+
+    private void PlayOpenSound()
+    {
+        if (_audioSource == null || openMarketSound == null)
+            return;
+
+        _audioSource.PlayOneShot(openMarketSound);
+    }
+
+    private void PlayCloseSound()
+    {
+        if (_audioSource == null || closeMarketSound == null)
+            return;
+
+        _audioSource.PlayOneShot(closeMarketSound);
     }
 
     public void SetInteractionHint(string message, bool show)

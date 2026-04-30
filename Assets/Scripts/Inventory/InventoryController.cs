@@ -25,6 +25,17 @@ public class InventoryController : MonoBehaviour
     [Header("Start State")]
     [SerializeField] private bool startOpen = false;
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip openInventorySound;
+    [SerializeField] private AudioClip closeInventorySound;
+    [SerializeField] private AudioClip moveItemSound;
+
+    [Header("Cooking Audio")]
+    [SerializeField] private AudioClip openCookingSound;
+    [SerializeField] private AudioClip closeCookingSound;
+    [SerializeField] private AudioClip serveSound;
+    [SerializeField] private AudioClip cookingLoopSound;
+
     [Header("Debug")]
     [SerializeField] private bool debugSlotClicks = false;
     private VisualElement _inventoryRootElement;
@@ -73,6 +84,8 @@ public class InventoryController : MonoBehaviour
     private VisualElement _boundRootForCallbacks;
     private bool _isOpen;
     private bool _isCookingOnlyMode;
+    private AudioSource _audioSource;
+    private bool _isCookingLoopPlaying;
 
     // Hotbar HUD reference (supports either controller script)
     private HotBarHUDController _hotbarHUD;
@@ -184,6 +197,8 @@ public class InventoryController : MonoBehaviour
         // Keep this inventory object across scene loads
         DontDestroyOnLoad(gameObject);
 
+        EnsureAudioSource();
+
         var loadedStyleSheet = cookingStyleSheet;
 
         // Backward-compatible fallback in case the inspector field is not assigned yet.
@@ -207,7 +222,7 @@ public class InventoryController : MonoBehaviour
         LoadInventoryData();
         RefreshAllSlots();
 
-        SetOpen(startOpen);
+        SetOpen(startOpen, playSound: false);
         ShowTools();
         SyncExternalHotbarAll();
     }
@@ -248,7 +263,7 @@ public class InventoryController : MonoBehaviour
         RefreshAllSlots();
 
         // Re-apply interaction state so hidden inventory cannot intercept clicks.
-        SetOpen(_isOpen);
+        SetOpen(_isOpen, playSound: false);
     }
 
     private void RebindInventoryUIIfNeeded(bool forceRebindCallbacks)
@@ -484,16 +499,32 @@ public class InventoryController : MonoBehaviour
 
     public void OpenCookingOnlyMode()
     {
+        OpenCookingOnlyMode(false);
+    }
+
+    public void OpenCookingOnlyMode(bool playSound)
+    {
         _isCookingOnlyMode = true;
         ApplyCookingOnlyLayout();
-        SetOpen(true);
+        SetOpen(true, playSound: false);
+
+        if (playSound)
+            PlayInventorySound(openCookingSound);
     }
 
     public void CloseCookingOnlyMode()
     {
+        CloseCookingOnlyMode(false);
+    }
+
+    public void CloseCookingOnlyMode(bool playSound)
+    {
         _isCookingOnlyMode = false;
         RestoreDefaultLayout();
-        SetOpen(false);
+        SetOpen(false, playSound: false);
+
+        if (playSound)
+            PlayInventorySound(closeCookingSound);
     }
 
     private void ApplyCookingOnlyLayout()
@@ -534,8 +565,9 @@ public class InventoryController : MonoBehaviour
             ShowTools();
     }
 
-    private void SetOpen(bool open)
+    private void SetOpen(bool open, bool playSound = true)
     {
+        bool stateChanged = _isOpen != open;
         _isOpen = open;
 
         TryResolveHotbarHUD();
@@ -561,6 +593,72 @@ public class InventoryController : MonoBehaviour
             _root.pickingMode = PickingMode.Ignore;
         else if (_root != null)
             _root.pickingMode = PickingMode.Position;
+
+        if (!stateChanged || !playSound)
+            return;
+
+        if (open)
+            PlayInventorySound(openInventorySound);
+        else
+            PlayInventorySound(closeInventorySound);
+    }
+
+    private void EnsureAudioSource()
+    {
+        if (_audioSource == null)
+            _audioSource = GetComponent<AudioSource>();
+
+        if (_audioSource == null)
+            _audioSource = gameObject.AddComponent<AudioSource>();
+
+        _audioSource.playOnAwake = false;
+        _audioSource.loop = false;
+        _audioSource.spatialBlend = 0f;
+    }
+
+    private void PlayInventorySound(AudioClip clip)
+    {
+        if (_audioSource == null || clip == null)
+            return;
+
+        _audioSource.PlayOneShot(clip);
+    }
+
+    private void PlayMoveItemSound()
+    {
+        PlayInventorySound(moveItemSound);
+    }
+
+    private void PlayServeSound()
+    {
+        PlayInventorySound(serveSound);
+    }
+
+    private void StartCookingLoopSound()
+    {
+        if (_isCookingLoopPlaying || _audioSource == null || cookingLoopSound == null)
+            return;
+
+        _audioSource.clip = cookingLoopSound;
+        _audioSource.loop = true;
+        _audioSource.Play();
+        _isCookingLoopPlaying = true;
+    }
+
+    private void StopCookingLoopSound()
+    {
+        if (!_isCookingLoopPlaying || _audioSource == null)
+            return;
+
+        if (_audioSource.clip == cookingLoopSound)
+            _audioSource.Stop();
+
+        _audioSource.loop = false;
+
+        if (_audioSource.clip == cookingLoopSound)
+            _audioSource.clip = null;
+
+        _isCookingLoopPlaying = false;
     }
 
 
@@ -867,7 +965,10 @@ public class InventoryController : MonoBehaviour
     private void OnCookOrServePressed()
     {
         if (_isServeMode)
+        {
+            PlayServeSound();
             TryServeSelectedOrder();
+        }
         else
             CookSelectedRecipe();
     }
@@ -1282,6 +1383,7 @@ public class InventoryController : MonoBehaviour
         RefreshSlot(source);
         RefreshSlot(target);
         MarkInventoryDirty();
+        PlayMoveItemSound();
     }
 
     private void SwapHotbarSlots(int source, int target)
@@ -1298,6 +1400,7 @@ public class InventoryController : MonoBehaviour
         SyncExternalHotbarSlot(source);
         SyncExternalHotbarSlot(target);
         MarkInventoryDirty();
+        PlayMoveItemSound();
     }
 
     private void SwapInventoryAndHotbar(int slotIndex, int otherIndex, bool draggedFromInventory)
@@ -1326,6 +1429,7 @@ public class InventoryController : MonoBehaviour
         }
 
         MarkInventoryDirty();
+        PlayMoveItemSound();
     }
 
     private void MoveInventoryToHotbar(int inventoryIndex, int hotbarIndex)
@@ -1364,6 +1468,7 @@ public class InventoryController : MonoBehaviour
         RefreshHotbarSlot(hotbarIndex);
         SyncExternalHotbarSlot(hotbarIndex);
         MarkInventoryDirty();
+        PlayMoveItemSound();
     }
 
     private void MoveHotbarToInventory(int hotbarIndex, int inventoryIndex)
@@ -1386,6 +1491,7 @@ public class InventoryController : MonoBehaviour
                 RefreshHotbarSlot(hotbarIndex);
                 SyncExternalHotbarSlot(hotbarIndex);
                 MarkInventoryDirty();
+                PlayMoveItemSound();
                 return;
             }
         }
@@ -1410,6 +1516,7 @@ public class InventoryController : MonoBehaviour
         RefreshHotbarSlot(hotbarIndex);
         SyncExternalHotbarSlot(hotbarIndex);
         MarkInventoryDirty();
+        PlayMoveItemSound();
     }
 
     private void ResetDragState()
@@ -1437,6 +1544,8 @@ public class InventoryController : MonoBehaviour
 
     private void OnDestroy()
     {
+        StopCookingLoopSound();
+
         if (_closeButton != null) _closeButton.clicked -= Close;
 
         if (_tabToolsButton != null) _tabToolsButton.clicked -= ShowTools;
@@ -2293,6 +2402,7 @@ public class InventoryController : MonoBehaviour
     private System.Collections.IEnumerator AnimateCookingProcess()
     {
         _isCooking = true;
+        StartCookingLoopSound();
 
         if (_cookRecipeButton != null)
             _cookRecipeButton.SetEnabled(false);
@@ -2364,6 +2474,7 @@ public class InventoryController : MonoBehaviour
             _backToRecipesButton.SetEnabled(true);
 
         _isCooking = false;
+        StopCookingLoopSound();
 
         if (cookedSuccessfully)
             OnRecipeCooked?.Invoke(_selectedRecipe);

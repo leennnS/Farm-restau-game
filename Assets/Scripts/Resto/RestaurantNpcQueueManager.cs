@@ -40,6 +40,15 @@ public class RestaurantNpcQueueManager : MonoBehaviour
     [Header("Debug")]
     [SerializeField] private bool logQueueEvents = true;
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip orderSound;
+    [SerializeField] private AudioClip timerLoopSound;
+    [SerializeField] private AudioClip failureSound;
+
+    private AudioSource _audioSource;
+    private AudioSource _sfxAudioSource;
+    private bool _isTimerLoopPlaying;
+
     private readonly List<NPCWalker> queue = new List<NPCWalker>(1);
     private readonly HashSet<NPCWalker> activeManagedNpcs = new HashSet<NPCWalker>();
     private readonly Dictionary<NPCWalker, RecipeDefinition> npcOrders = new Dictionary<NPCWalker, RecipeDefinition>();
@@ -66,6 +75,7 @@ public class RestaurantNpcQueueManager : MonoBehaviour
 
     private void OnDisable()
     {
+        StopTimerLoopSound();
         SceneManager.sceneLoaded -= OnSceneLoaded;
 
         if (inventory != null)
@@ -80,6 +90,7 @@ public class RestaurantNpcQueueManager : MonoBehaviour
         queueActive = IsSceneAllowed();
         respawnTimer = 0f;
         waitingForNextNpcSpawn = false;
+        EnsureAudioSource();
         TryBindInventory();
 
         if (queueSpots == null || queueSpots.Length == 0)
@@ -389,7 +400,13 @@ public class RestaurantNpcQueueManager : MonoBehaviour
     private void TickOrderTimers(float deltaTime)
     {
         if (npcRemainingTimes.Count == 0)
+        {
+            StopTimerLoopSound();
             return;
+        }
+
+        if (npcRemainingTimes.Count > 0)
+            StartTimerLoopSound();
 
         bool changed = false;
 
@@ -428,6 +445,9 @@ public class RestaurantNpcQueueManager : MonoBehaviour
 
     private void HandleOrderTimedOut(NPCWalker npc, RecipeDefinition recipe, int queueIndex)
     {
+        StopTimerLoopSound();
+        PlayFailureSound();
+
         int penalty = CalculateTimeoutPenalty(recipe);
         bool deducted = false;
 
@@ -461,6 +481,7 @@ public class RestaurantNpcQueueManager : MonoBehaviour
 
         npcOrders[npc] = recipe;
         npcRemainingTimes[npc] = GetInitialOrderTime(recipe);
+        PlayOrderSound();
     }
 
     private float GetInitialOrderTime(RecipeDefinition recipe)
@@ -614,6 +635,84 @@ public class RestaurantNpcQueueManager : MonoBehaviour
             Debug.Log("[RestaurantNpcQueueManager] Front NPC served, queue advanced.");
 
         EnsureFrontOrder();
+    }
+
+    private void EnsureAudioSource()
+    {
+        if (_audioSource == null)
+            _audioSource = GetComponent<AudioSource>();
+
+        if (_audioSource == null)
+            _audioSource = gameObject.AddComponent<AudioSource>();
+
+        if (_sfxAudioSource == null)
+        {
+            AudioSource[] sources = GetComponents<AudioSource>();
+            for (int i = 0; i < sources.Length; i++)
+            {
+                if (sources[i] != _audioSource)
+                {
+                    _sfxAudioSource = sources[i];
+                    break;
+                }
+            }
+
+            if (_sfxAudioSource == null)
+                _sfxAudioSource = gameObject.AddComponent<AudioSource>();
+        }
+
+        _audioSource.playOnAwake = false;
+        _audioSource.loop = false;
+        _audioSource.spatialBlend = 0f;
+
+        _sfxAudioSource.playOnAwake = false;
+        _sfxAudioSource.loop = false;
+        _sfxAudioSource.spatialBlend = 0f;
+    }
+
+    private void PlayOrderSound()
+    {
+        AudioSource source = _sfxAudioSource != null ? _sfxAudioSource : _audioSource;
+        if (source == null || orderSound == null)
+            return;
+
+        source.PlayOneShot(orderSound);
+    }
+
+    private void PlayFailureSound()
+    {
+        AudioSource source = _sfxAudioSource != null ? _sfxAudioSource : _audioSource;
+        if (source == null || failureSound == null)
+            return;
+
+        source.PlayOneShot(failureSound);
+    }
+
+    private void StartTimerLoopSound()
+    {
+        if (_isTimerLoopPlaying || _audioSource == null || timerLoopSound == null)
+            return;
+
+        _audioSource.clip = timerLoopSound;
+        _audioSource.loop = true;
+        _audioSource.Play();
+        _isTimerLoopPlaying = true;
+    }
+
+    private void StopTimerLoopSound()
+    {
+        if (!_isTimerLoopPlaying || _audioSource == null)
+            return;
+
+        if (_audioSource.clip == timerLoopSound)
+            _audioSource.Stop();
+
+        _audioSource.loop = false;
+
+        if (_audioSource.clip == timerLoopSound)
+            _audioSource.clip = null;
+
+        _isTimerLoopPlaying = false;
     }
 
     private void ReassignQueueSpots()

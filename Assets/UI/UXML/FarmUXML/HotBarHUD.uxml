@@ -11,40 +11,28 @@
         <ui:VisualElement name="hotbarContainer" style="flex-direction: column; align-items: center; justify-content: center; padding: 20px; background-color: rgb(228, 183, 122); border-left-color: rgb(139, 90, 43); border-right-color: rgb(139, 90, 43); border-top-color: rgb(192, 138, 74); border-bottom-color: rgb(107, 63, 26); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px;">
             <ui:VisualElement name="hotbarSlots" style="flex-direction: row; gap: 12px;">
                 <ui:VisualElement name="hotbarSlot01" style="width: 80px; height: 80px; background-color: rgb(242, 228, 199); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60); background-image: none; flex-direction: column; align-items: center; justify-content: center;">
-                    <ui:Label text="1" style="font-size: 24px; color: rgb(58, 42, 24); unity-font-style: bold;"/>
                 </ui:VisualElement>
                 <ui:VisualElement name="hotbarSlot02" style="width: 80px; height: 80px; background-color: rgb(242, 228, 199); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60); flex-direction: column; align-items: center; justify-content: center;">
-                    <ui:Label text="2" style="font-size: 24px; color: rgb(58, 42, 24); unity-font-style: bold;"/>
                 </ui:VisualElement>
                 <ui:VisualElement name="hotbarSlot03" style="width: 80px; height: 80px; background-color: rgb(242, 228, 199); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60); flex-direction: column; align-items: center; justify-content: center;">
-                    <ui:Label text="3" style="font-size: 24px; color: rgb(58, 42, 24); unity-font-style: bold;"/>
                 </ui:VisualElement>
                 <ui:VisualElement name="hotbarSlot04" style="width: 80px; height: 80px; background-color: rgb(242, 228, 199); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60); flex-direction: column; align-items: center; justify-content: center;">
-                    <ui:Label text="4" style="font-size: 24px; color: rgb(58, 42, 24); unity-font-style: bold;"/>
                 </ui:VisualElement>
                 <ui:VisualElement name="hotbarSlot05" style="width: 80px; height: 80px; background-color: rgb(242, 228, 199); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60); flex-direction: column; align-items: center; justify-content: center;">
-                    <ui:Label text="5" style="font-size: 24px; color: rgb(58, 42, 24); unity-font-style: bold;"/>
                 </ui:VisualElement>
                 <ui:VisualElement name="hotbarSlot06" style="width: 80px; height: 80px; background-color: rgb(242, 228, 199); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60); flex-direction: column; align-items: center; justify-content: center;">
-                    <ui:Label text="6" style="font-size: 24px; color: rgb(58, 42, 24); unity-font-style: bold;"/>
                 </ui:VisualElement>
                 <ui:VisualElement name="hotbarSlot07" style="width: 80px; height: 80px; background-color: rgb(242, 228, 199); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60); flex-direction: column; align-items: center; justify-content: center;">
-                    <ui:Label text="7" style="font-size: 24px; color: rgb(58, 42, 24); unity-font-style: bold;"/>
                 </ui:VisualElement>
                 <ui:VisualElement name="hotbarSlot08" style="width: 80px; height: 80px; background-color: rgb(242, 228, 199); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60); flex-direction: column; align-items: center; justify-content: center;">
-                    <ui:Label text="8" style="font-size: 24px; color: rgb(58, 42, 24); unity-font-style: bold;"/>
                 </ui:VisualElement>
                 <ui:VisualElement name="hotbarSlot09" style="width: 80px; height: 80px; background-color: rgb(242, 228, 199); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60); flex-direction: column; align-items: center; justify-content: center;">
-                    <ui:Label text="9" style="font-size: 24px; color: rgb(58, 42, 24); unity-font-style: bold;"/>
                 </ui:VisualElement>
                 <ui:VisualElement name="hotbarSlot10" style="width: 80px; height: 80px; background-color: rgb(242, 228, 199); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60); flex-direction: column; align-items: center; justify-content: center;">
-                    <ui:Label text="10" style="font-size: 24px; color: rgb(58, 42, 24); unity-font-style: bold;"/>
                 </ui:VisualElement>
                 <ui:VisualElement name="hotbarSlot11" style="width: 80px; height: 80px; background-color: rgb(242, 228, 199); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60); flex-direction: column; align-items: center; justify-content: center;">
-                    <ui:Label text="11" style="font-size: 24px; color: rgb(58, 42, 24); unity-font-style: bold;"/>
                 </ui:VisualElement>
                 <ui:VisualElement name="hotbarSlot12" style="width: 80px; height: 80px; background-color: rgb(242, 228, 199); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60); flex-direction: column; align-items: center; justify-content: center;">
-                    <ui:Label text="12" style="font-size: 24px; color: rgb(58, 42, 24); unity-font-style: bold;"/>
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>

@@ -9541,6 +9541,9 @@ MonoBehaviour:
   timeoutPenaltyPercent: 0.5
   minimumTimeoutPenalty: 10
   logQueueEvents: 1
+  orderSound: {fileID: 8300000, guid: 460b45d77002cf14ca239ff7fe1a4b2d, type: 3}
+  timerLoopSound: {fileID: 8300000, guid: 21b7bc19cc3a580478ee518b18ae8b0b, type: 3}
+  failureSound: {fileID: 8300000, guid: 9ac51dad9fe8f6646adb2e4f3e5023a6, type: 3}
 --- !u!4 &908987321
 Transform:
   m_ObjectHideFlags: 0

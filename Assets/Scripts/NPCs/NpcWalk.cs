@@ -7,6 +7,9 @@ public class NPCWalker : MonoBehaviour
     public Transform queuePoint;
     public float stoppingDistance = 0.05f;
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip walkSound;
+
     private bool reachedTurnPoint = false;
     private bool reachedQueue = false;
 
@@ -33,6 +36,8 @@ public class NPCWalker : MonoBehaviour
     private int walkDownStateHashLower;
     private int walkLeftStateHashLower;
     private int lastPlayedDirectionalStateHash;
+    private AudioSource _audioSource;
+    private bool _isWalkSoundPlaying;
 
     private RestaurantNpcQueueManager queueManager;
     private Transform assignedQueueSpot;
@@ -61,6 +66,7 @@ public class NPCWalker : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        EnsureAudioSource();
         CacheDirectionAnimatorParams();
 
         if (!managedByQueue)
@@ -290,10 +296,45 @@ public class NPCWalker : MonoBehaviour
         if (distance <= stopDistance)
         {
             transform.position = new Vector3(targetPosition.x, targetPosition.y, transform.position.z);
+            StopWalkSound();
             return true;
         }
 
+        PlayWalkSound();
         return false;
+    }
+
+    private void EnsureAudioSource()
+    {
+        if (_audioSource == null)
+            _audioSource = GetComponent<AudioSource>();
+
+        if (_audioSource == null)
+            _audioSource = gameObject.AddComponent<AudioSource>();
+
+        _audioSource.playOnAwake = false;
+        _audioSource.loop = true;
+        _audioSource.spatialBlend = 0f;
+    }
+
+    private void PlayWalkSound()
+    {
+        if (_isWalkSoundPlaying || _audioSource == null || walkSound == null)
+            return;
+
+        _audioSource.clip = walkSound;
+        _audioSource.Play();
+        _isWalkSoundPlaying = true;
+    }
+
+    private void StopWalkSound()
+    {
+        if (!_isWalkSoundPlaying || _audioSource == null)
+            return;
+
+        _audioSource.Stop();
+        _audioSource.clip = null;
+        _isWalkSoundPlaying = false;
     }
 
     private void PauseAnimator()

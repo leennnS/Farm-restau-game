@@ -14,6 +14,7 @@ public class GlobalMoneyHUD : MonoBehaviour
     [Header("Layout")]
     [SerializeField] private Vector2 topRightOffset = new Vector2(-24f, -24f);
     [SerializeField] private Vector2 panelSize = new Vector2(300f, 64f);
+    [SerializeField] private float maxPanelWidth = 560f;
 
     [Header("Style")]
     [SerializeField] private int fontSize = 28;
@@ -25,6 +26,8 @@ public class GlobalMoneyHUD : MonoBehaviour
 
     private Text _moneyText;
     private Canvas _hudCanvas;
+    private RectTransform _panelRect;
+    private LayoutElement _textLayout;
 
     private void Awake()
     {
@@ -101,6 +104,7 @@ public class GlobalMoneyHUD : MonoBehaviour
         panelRt.pivot = new Vector2(1f, 1f);
         panelRt.anchoredPosition = topRightOffset;
         panelRt.sizeDelta = panelSize;
+        _panelRect = panelRt;
 
         Image panelImage = panelGo.AddComponent<Image>();
         panelImage.color = panelColor;
@@ -154,6 +158,7 @@ public class GlobalMoneyHUD : MonoBehaviour
         LayoutElement textLayout = textGo.AddComponent<LayoutElement>();
         textLayout.preferredWidth = panelSize.x - 84f;
         textLayout.preferredHeight = 42f;
+        _textLayout = textLayout;
 
         _moneyText = textGo.AddComponent<Text>();
         _moneyText.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
@@ -162,6 +167,11 @@ public class GlobalMoneyHUD : MonoBehaviour
         _moneyText.alignment = TextAnchor.MiddleLeft;
         _moneyText.color = textColor;
         _moneyText.raycastTarget = false;
+        _moneyText.horizontalOverflow = HorizontalWrapMode.Overflow;
+        _moneyText.verticalOverflow = VerticalWrapMode.Overflow;
+        _moneyText.resizeTextForBestFit = true;
+        _moneyText.resizeTextMaxSize = fontSize;
+        _moneyText.resizeTextMinSize = Mathf.Max(12, fontSize / 2);
 
         Shadow shadow = textGo.AddComponent<Shadow>();
         shadow.effectColor = shadowColor;
@@ -196,5 +206,19 @@ public class GlobalMoneyHUD : MonoBehaviour
         _moneyText.text = debt > 0
             ? $"{money}  |  Debt: {debt}"
             : $"{money}";
+
+        if (_textLayout != null)
+        {
+            float minTextWidth = panelSize.x - 84f;
+            float preferredTextWidth = Mathf.Ceil(_moneyText.preferredWidth) + 8f;
+            _textLayout.preferredWidth = Mathf.Max(minTextWidth, preferredTextWidth);
+        }
+
+        if (_panelRect != null)
+        {
+            float desiredPanelWidth = 76f + (_textLayout != null ? _textLayout.preferredWidth : (panelSize.x - 84f));
+            float clampedWidth = Mathf.Clamp(desiredPanelWidth, panelSize.x, Mathf.Max(panelSize.x, maxPanelWidth));
+            _panelRect.sizeDelta = new Vector2(clampedWidth, panelSize.y);
+        }
     }
 }

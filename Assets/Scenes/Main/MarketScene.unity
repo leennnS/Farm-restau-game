@@ -10936,6 +10936,8 @@ MonoBehaviour:
     available: 1
     itemDefinition: {fileID: 11400000, guid: 16b47ca967a7e0d48bc7ba39da227dc7, type: 2}
   closeKey: 27
+  openMarketSound: {fileID: 8300000, guid: 1e478d363e55fbf42a73842a3e163f61, type: 3}
+  closeMarketSound: {fileID: 8300000, guid: 79fadad8cfb644142a88fb6ca16cdfde, type: 3}
 --- !u!114 &1544411703
 MonoBehaviour:
   m_ObjectHideFlags: 0

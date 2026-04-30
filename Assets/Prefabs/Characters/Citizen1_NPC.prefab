@@ -132,6 +132,7 @@ MonoBehaviour:
   turnPoint: {fileID: 0}
   queuePoint: {fileID: 0}
   stoppingDistance: 0.05
+  walkSound: {fileID: 8300000, guid: 2639c04ac33ec7d4ca8aa503aab874e3, type: 3}
 --- !u!61 &4313477471409597627
 BoxCollider2D:
   m_ObjectHideFlags: 0
