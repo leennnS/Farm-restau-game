@@ -165,13 +165,10 @@ public class MoneyManager : MonoBehaviour
         if (amount <= 0)
             return false;
 
-        int effectiveDebtCap = GetEffectiveDebtCap();
+        if (CurrentMoney == 0)
+            return true;
 
-        // Exception keeps zero-money players eligible to take loans, but still honors debt cap.
-        if (CurrentMoney <= 0)
-            return CurrentDebt < effectiveDebtCap && CurrentDebt + amount <= effectiveDebtCap;
-
-        return CurrentDebt + amount <= effectiveDebtCap;
+        return CurrentDebt < 1000;
     }
 
     public bool TakeLoan(int amount)
@@ -352,19 +349,7 @@ public class MoneyManager : MonoBehaviour
 
         if (Input.GetKeyDown(takeLoanKey))
         {
-            // If player has debt and some money available, prefer repaying; otherwise try to take a loan.
-            if (CurrentDebt > 0 && CurrentMoney > 0)
-            {
-                int paid = RepayDebt(debugRepayAmount);
-                if (paid <= 0)
-                    Debug.Log($"[MoneyManager] Repay failed. Requested={debugRepayAmount}, Money={CurrentMoney}, Debt={CurrentDebt}");
-            }
-            else
-            {
-                bool success = TakeLoan(debugLoanAmount);
-                if (!success)
-                    Debug.Log($"[MoneyManager] Loan denied. Requested={debugLoanAmount}, CurrentDebt={CurrentDebt}, MaxLoan={maxLoanAmount}");
-            }
+            TakeLoan(debugLoanAmount);
         }
 
         if (Input.GetKeyDown(repayLoanKey))
