@@ -4,7 +4,6 @@
     <ui:VisualElement name="inventoryShell" style="width: 820px; position: relative;">
         <ui:VisualElement name="inventoryTabs" style="flex-direction: row; gap: 4px; margin-left: 12px; margin-bottom: -2px; height: 42px; align-items: flex-end;">
             <ui:Button name="tabToolsButton" tooltip="Inventory" class="top-tab active-top-tab" style="background-image: url(&quot;project://database/Assets/Art/Models/Farm/InventoryIcons/sprout.png?fileID=2800000&amp;guid=fcf461b16c4d1854a90e415ee4a4dd7a&amp;type=3#sprout&quot;);" />
-            <ui:Button name="tabMapButton" tooltip="Map" class="top-tab" style="background-image: url(&quot;project://database/Assets/Art/Sprites/treasure-map.png?fileID=2800000&amp;guid=8c51cb2da6ed9e34bb4064cded81d6ca&amp;type=3#treasure-map&quot;);" />
             <ui:Button name="tabCraftingButton" tooltip="Crafting" class="top-tab" style="background-image: url(&quot;project://database/Assets/Art/Models/Farm/InventoryIcons/chef.png?fileID=2800000&amp;guid=4e9ff1eb3a15b1c4a9250d071b56d496&amp;type=3#chef&quot;);" />
             <ui:Button name="tabSettingsButton" tooltip="Settings" class="top-tab" style="background-image: url(&quot;project://database/Assets/Art/Sprites/cogwheel.png?fileID=2800000&amp;guid=56a62a677ee29354c8af0689dfd1e769&amp;type=3#cogwheel&quot;);" />
         </ui:VisualElement>
@@ -164,20 +163,7 @@
                     </ui:VisualElement>
                 </ui:VisualElement>
             </ui:VisualElement>
- <ui:VisualElement name="inventoryFooter" style="flex-direction: row; justify-content: space-between; align-items: flex-start; margin-top: 4px; height: 0;">
-    <ui:VisualElement name="playerCard" style="flex-direction: row; gap: 10px; position: relative; bottom: 95px;">
-            <ui:VisualElement name="playerPortrait" style="width: 66px; height: 110px; background-color: rgb(211, 225, 242); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(138, 166, 200); border-right-color: rgb(138, 166, 200); border-top-color: rgb(180, 203, 230); border-bottom-color: rgb(110, 133, 166); background-size: contain; background-position: center; background-repeat: no-repeat; background-image: url(&quot;project://database/Assets/Art/Sprites/character.asset?fileID=21300000&amp;guid=6fef61d159497d04c93e26bb5b6fe459&amp;type=2#character&quot;);"/>
-        <ui:VisualElement name="playerDetails" style="flex-direction: column; gap: 6px; align-self: flex-start;">
-            <ui:Label name="playerName" text="Name" style="font-size: 15px; color: rgb(58, 42, 24); unity-font-style: bold; bottom: 15px;" />
-            <ui:VisualElement name="playerItems" style="flex-direction: row; gap: 7px;">
-                <ui:VisualElement name="playerItem01" style="width: 33px; height: 33px; background-color: rgb(242, 228, 199); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);" />
-                <ui:VisualElement name="playerItem02" style="width: 33px; height: 33px; background-color: rgb(242, 228, 199); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);" />
-                <ui:VisualElement name="playerItem03" style="width: 33px; height: 33px; background-color: rgb(242, 228, 199); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);" />
-                <ui:VisualElement name="playerItem04" style="width: 33px; height: 33px; background-color: rgb(242, 228, 199); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);" />
-            </ui:VisualElement>
-        </ui:VisualElement>
-    </ui:VisualElement>
-
+ <ui:VisualElement name="inventoryFooter" style="flex-direction: row; justify-content: flex-end; align-items: flex-start; margin-top: 4px; height: 0;">
     <ui:VisualElement name="trashSlot" style="width: 46px; height: 46px; background-color: rgb(214, 168, 107); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(122, 78, 42); border-right-color: rgb(122, 78, 42); border-top-color: rgb(183, 126, 62); border-bottom-color: rgb(92, 58, 27); bottom: 110px; background-image: url(&quot;project://database/Assets/Art/Sprites/trash.png?fileID=2800000&amp;guid=7d8ca0912fff70642b3fe4a54fa60369&amp;type=3#trash&quot;);" />
 </ui:VisualElement>
         </ui:VisualElement>

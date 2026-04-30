@@ -151,6 +151,11 @@ public class InventoryController : MonoBehaviour
     private Button _exitButton;
     private Button _quitButton;
 
+    private float _masterVolumeNormalized = 0.8f;
+    private float _musicVolumeNormalized = 0.7f;
+    private float _sfxVolumeNormalized = 0.8f;
+    private readonly Dictionary<AudioSource, float> _baseAudioSourceVolumes = new Dictionary<AudioSource, float>();
+
     // ---------- NEW: slot UI refs ----------
     private VisualElement[] _itemSlots; // itemSlot01..itemSlot36
     private VisualElement[] _hotbarSlots; // hotbarSlot01..hotbarSlot12
@@ -264,6 +269,7 @@ public class InventoryController : MonoBehaviour
 
         // Re-apply interaction state so hidden inventory cannot intercept clicks.
         SetOpen(_isOpen, playSound: false);
+        ApplyAudioVolumes();
     }
 
     private void RebindInventoryUIIfNeeded(bool forceRebindCallbacks)
@@ -555,7 +561,7 @@ public class InventoryController : MonoBehaviour
             _tabToolsButton.style.display = DisplayStyle.Flex;
 
         if (_tabMapButton != null)
-            _tabMapButton.style.display = DisplayStyle.Flex;
+            _tabMapButton.style.display = DisplayStyle.None;
 
         if (_tabSettingsButton != null)
             _tabSettingsButton.style.display = DisplayStyle.Flex;
@@ -687,6 +693,9 @@ public class InventoryController : MonoBehaviour
         _tabMapButton = _root.Q<Button>("tabMapButton");
         _tabCraftingButton = _root.Q<Button>("tabCraftingButton");
         _tabSettingsButton = _root.Q<Button>("tabSettingsButton");
+
+        if (_tabMapButton != null)
+            _tabMapButton.style.display = DisplayStyle.None;
 
         // Pages
         _toolsPage = _root.Q<VisualElement>("toolsPage");
@@ -899,6 +908,8 @@ public class InventoryController : MonoBehaviour
         if (_sfxVolumeSlider != null)
             _sfxVolumeSlider.RegisterValueChangedCallback(evt => OnSFXVolumeChanged(evt.newValue));
 
+        SyncAudioSettingsFromSliders();
+
         if (_exitButton != null)
             _exitButton.clicked += ExitToMenu;
 
@@ -995,28 +1006,130 @@ public class InventoryController : MonoBehaviour
     {
         if (_masterVolumeLabel != null)
             _masterVolumeLabel.text = ((int)value).ToString();
-        // TODO: Apply master volume to AudioListener
+
+        _masterVolumeNormalized = Mathf.Clamp01(value / 100f);
+        ApplyAudioVolumes();
     }
 
     private void OnMusicVolumeChanged(float value)
     {
         if (_musicVolumeLabel != null)
             _musicVolumeLabel.text = ((int)value).ToString();
-        // TODO: Apply music volume to music source
+
+        _musicVolumeNormalized = Mathf.Clamp01(value / 100f);
+        ApplyAudioVolumes();
     }
 
     private void OnSFXVolumeChanged(float value)
     {
         if (_sfxVolumeLabel != null)
             _sfxVolumeLabel.text = ((int)value).ToString();
-        // TODO: Apply SFX volume to SFX source
+
+        _sfxVolumeNormalized = Mathf.Clamp01(value / 100f);
+        ApplyAudioVolumes();
+    }
+
+    private void SyncAudioSettingsFromSliders()
+    {
+        if (_masterVolumeSlider != null)
+            OnMasterVolumeChanged(_masterVolumeSlider.value);
+
+        if (_musicVolumeSlider != null)
+            OnMusicVolumeChanged(_musicVolumeSlider.value);
+
+        if (_sfxVolumeSlider != null)
+            OnSFXVolumeChanged(_sfxVolumeSlider.value);
+    }
+
+    private void ApplyAudioVolumes()
+    {
+        AudioSource[] sources = FindObjectsByType<AudioSource>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+
+        for (int i = 0; i < sources.Length; i++)
+        {
+            AudioSource source = sources[i];
+            if (source == null)
+                continue;
+
+            if (!_baseAudioSourceVolumes.ContainsKey(source))
+                _baseAudioSourceVolumes[source] = source.volume;
+
+            float baseVolume = _baseAudioSourceVolumes[source];
+            float channelMultiplier = IsMusicSource(source) ? _musicVolumeNormalized : _sfxVolumeNormalized;
+            source.volume = Mathf.Clamp01(baseVolume * channelMultiplier * _masterVolumeNormalized);
+        }
+    }
+
+    private static bool IsMusicSource(AudioSource source)
+    {
+        if (source == null)
+            return false;
+
+        MonoBehaviour[] behaviours = source.GetComponents<MonoBehaviour>();
+        for (int i = 0; i < behaviours.Length; i++)
+        {
+            MonoBehaviour behaviour = behaviours[i];
+            if (behaviour == null)
+                continue;
+
+            string typeName = behaviour.GetType().Name;
+            if (typeName.IndexOf("Music", StringComparison.OrdinalIgnoreCase) >= 0)
+                return true;
+        }
+
+        return false;
     }
 
     private void ExitToMenu()
     {
-        Debug.Log("Exiting to menu...");
-        // TODO: Load main menu scene
-        // SceneManager.LoadScene("MainMenu");
+        StopCookingLoopSound();
+        SaveInventoryData();
+        SetOpen(false, playSound: false);
+
+        CleanupGameplaySystemsForMainMenu();
+        SceneManager.LoadScene("MAIN MENU", LoadSceneMode.Single);
+    }
+
+    private void CleanupGameplaySystemsForMainMenu()
+    {
+        Time.timeScale = 1f;
+
+        DestroyPersistentObjects<InventoryController>();
+        DestroyPersistentObjects<HotBarController>();
+        DestroyPersistentObjects<HotBarHUDController>();
+        DestroyPersistentObjects<MoneyManager>();
+        DestroyPersistentObjects<GameManager>();
+        DestroyPersistentObjects<DayNightCycleNice2D>();
+        DestroyPersistentObjects<GlobalMoneyHUD>();
+        DestroyPersistentObjects<GlobalClockHUD>();
+        DestroyPersistentObjects<GlobalNextDayButtonHUD>();
+        DestroyPersistentObjects<ClockHUDController>();
+        DestroyPersistentObjects<OrderListHUD>();
+        DestroyPersistentObjects<LanternController>();
+        DestroyPersistentObjects<ImprovedLanternController>();
+        DestroyPersistentObjects<RestaurantCookingUIController>();
+        DestroyPersistentObjects<CameraFollowFix>();
+    }
+
+    private static void DestroyPersistentObjects<T>() where T : MonoBehaviour
+    {
+        T[] instances = FindObjectsByType<T>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        if (instances == null)
+            return;
+
+        for (int i = 0; i < instances.Length; i++)
+        {
+            T instance = instances[i];
+            if (instance == null)
+                continue;
+
+            GameObject target = instance.gameObject;
+            if (target == null)
+                continue;
+
+            target.SetActive(false);
+            Destroy(target);
+        }
     }
 
     private void QuitGame()
@@ -2916,9 +3029,6 @@ public class InventoryController : MonoBehaviour
 
     private void SetFooterVisible(bool visible)
     {
-        if (_playerCard != null)
-            _playerCard.style.display = visible ? DisplayStyle.Flex : DisplayStyle.None;
-
         if (_trashSlot != null)
             _trashSlot.style.display = visible ? DisplayStyle.Flex : DisplayStyle.None;
     }
