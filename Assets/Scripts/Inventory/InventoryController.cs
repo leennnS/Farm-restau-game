@@ -506,6 +506,7 @@ public class InventoryController : MonoBehaviour
     {
         _isCookingOnlyMode = true;
         ApplyCookingOnlyLayout();
+        ApplyInventoryUiScale();
         SetOpen(true, playSound: false);
 
         if (playSound)
@@ -521,6 +522,7 @@ public class InventoryController : MonoBehaviour
     {
         _isCookingOnlyMode = false;
         RestoreDefaultLayout();
+        ApplyInventoryUiScale();
         SetOpen(false, playSound: false);
 
         if (playSound)
@@ -2658,11 +2660,24 @@ public class InventoryController : MonoBehaviour
         if (item == null || _slotsData == null) return 0;
 
         int total = 0;
+
+        // Count from main inventory
         foreach (var slot in _slotsData)
         {
             if (slot.item == item)
                 total += slot.amount;
         }
+
+        // Count from hotbar
+        if (_hotbarData != null)
+        {
+            foreach (var slot in _hotbarData)
+            {
+                if (slot.item == item)
+                    total += slot.amount;
+            }
+        }
+
         return total;
     }
 
@@ -2852,7 +2867,7 @@ public class InventoryController : MonoBehaviour
         int toRemove = amount;
         bool changed = false;
 
-        // Remove from slots in order
+        // Remove from main inventory slots first
         for (int i = 0; i < _slotsData.Length && toRemove > 0; i++)
         {
             if (_slotsData[i].item == item && _slotsData[i].amount > 0)
@@ -2869,20 +2884,23 @@ public class InventoryController : MonoBehaviour
             }
         }
 
-        // Check if item still exists in inventory
-        int itemCountLeft = CountItemInInventory(item);
-
-        // If item is completely gone from inventory, remove from hotbar too
-        if (itemCountLeft <= 0)
+        // Remove from hotbar if still need to remove items
+        if (toRemove > 0 && _hotbarData != null)
         {
-            for (int i = 0; i < _hotbarData.Length; i++)
+            for (int i = 0; i < _hotbarData.Length && toRemove > 0; i++)
             {
-                if (_hotbarData[i].item == item)
+                if (_hotbarData[i].item == item && _hotbarData[i].amount > 0)
                 {
-                    _hotbarData[i] = new ItemStack { item = null, amount = 0 };
+                    int removed = Mathf.Min(toRemove, _hotbarData[i].amount);
+                    _hotbarData[i].amount -= removed;
+                    toRemove -= removed;
+                    changed = true;
+
+                    if (_hotbarData[i].amount <= 0)
+                        _hotbarData[i] = new ItemStack { item = null, amount = 0 };
+
                     RefreshHotbarSlot(i);
                     SyncExternalHotbarSlot(i);
-                    changed = true;
                 }
             }
         }
