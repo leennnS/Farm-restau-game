@@ -9116,6 +9116,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 943278452}
+  - component: {fileID: 943278453}
   m_Layer: 0
   m_Name: MarketMusicController
   m_TagString: Untagged
@@ -9138,6 +9139,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1089046512}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &943278453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 943278451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 078ec2e68f8721a46a397167491b8157, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MarketMusicController
+  marketMusic: {fileID: 8300000, guid: 7aa16f87c00898047a32fefa8acc9886, type: 3}
 --- !u!1 &995370187
 GameObject:
   m_ObjectHideFlags: 0
@@ -10033,7 +10047,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1238516261}
   - component: {fileID: 1238516260}
-  - component: {fileID: 1238516262}
   m_Layer: 0
   m_Name: MarketSpawnPoint
   m_TagString: Untagged
@@ -10069,19 +10082,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 509491179}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1238516262
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1238516259}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 078ec2e68f8721a46a397167491b8157, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MarketMusicController
-  marketMusic: {fileID: 8300000, guid: 7aa16f87c00898047a32fefa8acc9886, type: 3}
 --- !u!1 &1246296503
 GameObject:
   m_ObjectHideFlags: 0
