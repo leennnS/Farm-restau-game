@@ -36,20 +36,6 @@ public static class CollisionFixerOnLoad
             rb.interpolation = RigidbodyInterpolation2D.Interpolate;
         }
 
-        // Ensure all Collider2D under Grid are non-trigger at runtime (so they block movement)
-        GameObject grid = GameObject.Find("Grid");
-        if (grid != null)
-        {
-            var cols = grid.GetComponentsInChildren<Collider2D>(true);
-            int changed = 0;
-            foreach (var c in cols)
-            {
-                if (c.isTrigger)
-                {
-                    c.isTrigger = false; // runtime change only
-                    changed++;
-                }
-            }
-        }
+
     }
 }

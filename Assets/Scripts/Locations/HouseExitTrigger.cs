@@ -4,15 +4,14 @@ using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Attach to the HouseSpawnPoint GameObject.
-/// If a trigger Collider2D (isTrigger=true) exists on the same GameObject, it will use OnTriggerEnter2D/Exit2D.
-/// Otherwise it falls back to distance-based detection using <see cref="radius"/>.
+/// Uses distance-based detection to determine when the Player is in range.
 /// When the Player (tag "Player") stays in range for <see cref="countdownSeconds"/>, the scene "FarmScene" is loaded.
 /// </summary>
 public class HouseExitTrigger : MonoBehaviour
 {
     public static bool PendingReturnToFarm;
 
-    [Tooltip("Radius used when no trigger collider is present (world units)")]
+    [Tooltip("Radius for distance-based detection (world units)")]
     public float radius = 1.25f;
 
     [Tooltip("Seconds to wait while player remains in range before loading the target scene")]
@@ -26,27 +25,8 @@ public class HouseExitTrigger : MonoBehaviour
 
     Transform playerTransform;
 
-    Collider2D localCollider;
-
-    void Awake()
-    {
-        localCollider = GetComponent<Collider2D>();
-        if (localCollider != null && localCollider.isTrigger)
-        {
-            // rely on OnTriggerEnter2D / OnTriggerExit2D
-        }
-        else
-        {
-            // fallback uses distance checks
-        }
-    }
-
     void Update()
     {
-        // If there's a trigger collider we don't need distance checks
-        if (localCollider != null && localCollider.isTrigger)
-            return;
-
         // Distance-based detection
         if (playerTransform == null)
         {
@@ -66,24 +46,6 @@ public class HouseExitTrigger : MonoBehaviour
             if (timerRunning)
                 StopTimer();
         }
-    }
-
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        if (localCollider == null || !localCollider.isTrigger) return;
-        if (!other.CompareTag("Player")) return;
-
-        if (!timerRunning)
-            StartTimer();
-    }
-
-    void OnTriggerExit2D(Collider2D other)
-    {
-        if (localCollider == null || !localCollider.isTrigger) return;
-        if (!other.CompareTag("Player")) return;
-
-        if (timerRunning)
-            StopTimer();
     }
 
     void StartTimer()
@@ -107,17 +69,15 @@ public class HouseExitTrigger : MonoBehaviour
         float t = 0f;
         while (t < countdownSeconds)
         {
-            // If player no longer exists or left range (distance mode), stop
-            if (localCollider == null || !localCollider.isTrigger)
+            // Check if player still exists
+            var p = GameObject.FindWithTag("Player");
+            if (p == null) yield break;
+
+            float d = Vector2.Distance(p.transform.position, transform.position);
+            if (d > radius)
             {
-                var p = GameObject.FindWithTag("Player");
-                if (p == null) yield break;
-                float d = Vector2.Distance(p.transform.position, transform.position);
-                if (d > radius)
-                {
-                    timerRunning = false;
-                    yield break;
-                }
+                timerRunning = false;
+                yield break;
             }
 
             t += Time.deltaTime;

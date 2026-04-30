@@ -296,8 +296,8 @@ Transform:
   - {fileID: 984465390}
   - {fileID: 232193260}
   - {fileID: 803701684}
-  - {fileID: 1692299629}
   - {fileID: 1539932246}
+  - {fileID: 862535643}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &114216414
@@ -1169,6 +1169,7 @@ GameObject:
   m_Component:
   - component: {fileID: 381036890}
   - component: {fileID: 381036891}
+  - component: {fileID: 381036892}
   m_Layer: 0
   m_Name: office_desk_5
   m_TagString: Untagged
@@ -1250,6 +1251,52 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!61 &381036892
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 381036889}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0.20437977}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 2, y: 2}
+    newSize: {x: 2, y: 2}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 2, y: 0.4999829}
+  m_EdgeRadius: 0
 --- !u!1 &383145471
 GameObject:
   m_ObjectHideFlags: 0
@@ -1480,7 +1527,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 2.6081598, y: 4.2128725}
+  m_Offset: {x: 3.4834404, y: 4.062644}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -1490,7 +1537,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 7.9828315, y: 0.30554724}
+  m_Size: {x: 6.2322702, y: 1.6777129}
   m_EdgeRadius: 0
 --- !u!4 &440383147
 Transform:
@@ -1587,7 +1634,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 6.908985, y: 0.59702826}
+  m_Offset: {x: 7.0267544, y: 0.59702826}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -1597,7 +1644,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.9890404, y: 7.3578434}
+  m_Size: {x: 0.7535014, y: 7.3578434}
   m_EdgeRadius: 0
 --- !u!61 &440383150
 BoxCollider2D:
@@ -1909,7 +1956,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -4.424543, y: 4.9179993}
+  m_Offset: {x: -4.424543, y: 5.7227583}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -1919,7 +1966,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 6.091975, y: 0.8817363}
+  m_Size: {x: 6.091975, y: 0.6854539}
   m_EdgeRadius: 0
 --- !u!1 &494850012
 GameObject:
@@ -1931,6 +1978,7 @@ GameObject:
   m_Component:
   - component: {fileID: 494850013}
   - component: {fileID: 494850014}
+  - component: {fileID: 494850015}
   m_Layer: 0
   m_Name: cabinet_21
   m_TagString: Untagged
@@ -2012,6 +2060,52 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!61 &494850015
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 494850012}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0.09284258, y: 0.42283484}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 3, y: 3}
+    newSize: {x: 3, y: 3}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 2.1246285, y: 1.0096989}
+  m_EdgeRadius: 0
 --- !u!1 &517004531
 GameObject:
   m_ObjectHideFlags: 0
@@ -4971,6 +5065,37 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!1 &862535642
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 862535643}
+  m_Layer: 0
+  m_Name: HouseSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &862535643
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 862535642}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.13, y: 0.26, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 63597484}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &871523970
 GameObject:
   m_ObjectHideFlags: 0
@@ -5088,7 +5213,7 @@ Transform:
   m_GameObject: {fileID: 880342065}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -6.95, y: -4.28, z: 0}
+  m_LocalPosition: {x: -6.95, y: -4.17, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5141,7 +5266,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 32767
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: f2236aff09a593f4c854db7f4fc77b0c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -5505,7 +5630,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 32767
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: c5512fa2c0096d045a8bcd6f97a51868, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -5709,8 +5834,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1083581863}
   - component: {fileID: 1083581864}
-  - component: {fileID: 1083581865}
   - component: {fileID: 1083581866}
+  - component: {fileID: 1083581867}
+  - component: {fileID: 1083581868}
   m_Layer: 0
   m_Name: TopDownHouse_DoorsAndWindows_16
   m_TagString: Untagged
@@ -5792,23 +5918,53 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &1083581865
-MonoBehaviour:
+--- !u!61 &1083581866
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1083581862}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2748837386677ca459d5931a3b3d44de, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EnterBuildingTrigger2D
-  sceneName: FarmScene
-  entryDelay: 2
-  playerTag: Player
-  debugLogs: 0
---- !u!61 &1083581866
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0.1685065}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.28, y: 0.48}
+    newSize: {x: 0.28, y: 0.48}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 0.28, y: 0.1429869}
+  m_EdgeRadius: 0
+--- !u!61 &1083581867
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5842,7 +5998,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: -0.07206307}
+  m_Offset: {x: 0.004453115, y: -0.11902058}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -5852,8 +6008,23 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.28, y: 0.6241261}
+  m_Size: {x: 0.36015648, y: 0.71804124}
   m_EdgeRadius: 0
+--- !u!114 &1083581868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1083581862}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32e2a7f04ae9e7e43a1d61fb14ad5578, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HouseExitTrigger
+  radius: 1.25
+  countdownSeconds: 6
+  targetSceneName: FarmScene
 --- !u!1 &1273728128
 GameObject:
   m_ObjectHideFlags: 0
@@ -5980,7 +6151,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.4559641, y: 0}
+  m_Offset: {x: -0.35774827, y: 0.2561797}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -5990,7 +6161,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.0880718, y: 3}
+  m_Size: {x: 1.2845035, y: 2.4876406}
   m_EdgeRadius: 0
 --- !u!1 &1324293462
 GameObject:
@@ -6248,7 +6419,7 @@ Transform:
   m_GameObject: {fileID: 1379250744}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -7.56, y: -4.47, z: 0}
+  m_LocalPosition: {x: -7.58, y: -4.45, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6301,7 +6472,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 10000
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 5ed11b9625bc54048a3b5d4f5b4db229, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -6347,7 +6518,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.19367528, y: -0.20006442}
+  m_Offset: {x: -0.19367528, y: -0.09126949}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -6357,7 +6528,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 3.6126494, y: 0.59987116}
+  m_Size: {x: 3.6126494, y: 0.817461}
   m_EdgeRadius: 0
 --- !u!1 &1404145140
 GameObject:
@@ -6586,53 +6757,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!1 &1692299628
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1692299629}
-  - component: {fileID: 1692299631}
-  m_Layer: 0
-  m_Name: HouseSpawnPoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1692299629
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1692299628}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.41, y: 1.52, z: 0}
-  m_LocalScale: {x: 0.35, y: 1, z: 0.22512}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 63597484}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1692299631
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1692299628}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32e2a7f04ae9e7e43a1d61fb14ad5578, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HouseExitTrigger
-  radius: 1.25
-  countdownSeconds: 4
-  targetSceneName: FarmScene
 --- !u!1 &1738452006
 GameObject:
   m_ObjectHideFlags: 0
@@ -6659,7 +6783,7 @@ Transform:
   m_GameObject: {fileID: 1738452006}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8.22, y: -4.27, z: -0}
+  m_LocalPosition: {x: -8.25, y: -4.2, z: -0}
   m_LocalScale: {x: 0.7327187, y: 0.6597841, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6712,7 +6836,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 4
+  m_SortingOrder: 10000
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 2dca20c158e030346822fe2a73ab75b5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
