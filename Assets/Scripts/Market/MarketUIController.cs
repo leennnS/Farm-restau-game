@@ -36,6 +36,7 @@ public class MarketUIController : MonoBehaviour
     [Header("Audio")]
     [SerializeField] private AudioClip openMarketSound;
     [SerializeField] private AudioClip closeMarketSound;
+    [SerializeField] private AudioClip errorSound;
 
     private AudioSource _audioSource;
 
@@ -358,6 +359,14 @@ public class MarketUIController : MonoBehaviour
         _audioSource.PlayOneShot(openMarketSound);
     }
 
+    private void PlayErrorSound()
+    {
+        if (_audioSource == null || errorSound == null)
+            return;
+
+        _audioSource.PlayOneShot(errorSound);
+    }
+
     private void PlayCloseSound()
     {
         if (_audioSource == null || closeMarketSound == null)
@@ -543,6 +552,10 @@ public class MarketUIController : MonoBehaviour
         if (!MoneyManager.Instance.SpendMoney(totalPrice))
         {
             marketSubtitle.text = "Not enough coins.";
+            PlayErrorSound();
+            // Prompt the player to take a loan (use MoneyManager to show the loan hint immediately)
+            if (MoneyManager.HasInstance)
+                MoneyManager.Instance.ShowZeroMoneyLoanHintImmediate();
             return;
         }
 
@@ -561,6 +574,7 @@ public class MarketUIController : MonoBehaviour
             // Keep money and inventory transaction in sync.
             MoneyManager.Instance.AddMoney(totalPrice);
             marketSubtitle.text = string.IsNullOrEmpty(message) ? "Purchase failed." : message;
+            PlayErrorSound();
             RefreshMoney();
             PopulateAllSections();
             return;

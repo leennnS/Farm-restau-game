@@ -47,6 +47,17 @@ public class DayNightCycleNice2D : MonoBehaviour
     [SerializeField] private string playerTag = "Player";
     [SerializeField] private PickupToastUIToolkit toastUI; // Toast notifications (auto-found if empty)
 
+    [Header("Night Ambient Audio")]
+    [Tooltip("Looping ambient sound that plays only during night hours.")]
+    [SerializeField] private AudioClip nightLoopSound;
+
+    [Header("Morning Audio")]
+    [Tooltip("One-shot sound played when transitioning from night to morning.")]
+    [SerializeField] private AudioClip morningStartSound;
+
+    [Tooltip("Seconds to fade out the night loop at dawn.")]
+    [SerializeField] private float nightFadeOutSeconds = 1.5f;
+
     [Header("Cycle")]
     [Tooltip("Real seconds for a full 24h cycle. 60 for testing (fast), 300+ for realistic")]
     [SerializeField] private float dayLengthSeconds = 60f;
@@ -82,6 +93,8 @@ public class DayNightCycleNice2D : MonoBehaviour
     private bool _hasShownNightNotification = false; // Track if night notification was shown today
     private Light2D _runtimeIndoorGlobalLight;
     private bool _manualTimePaused;
+    private AudioSource _nightLoopAudioSource;
+    private AudioSource _morningStartAudioSource;
 
     private void OnEnable()
     {
@@ -96,15 +109,21 @@ public class DayNightCycleNice2D : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         ResolveRuntimeReferences();
+        EnsureNightLoopAudioSource();
+        EnsureMorningStartAudioSource();
 
         if (IsStableIndoorScene(scene.name))
         {
             ApplyIndoorLightingOverride();
+            UpdateNightLoopAudioState();
             return;
         }
 
         if (!IsLightingScene(scene.name))
+        {
+            UpdateNightLoopAudioState();
             return;
+        }
 
         RestoreFarmLightingTargets();
 
@@ -117,6 +136,7 @@ public class DayNightCycleNice2D : MonoBehaviour
 
         FitOverlayToCamera();
         Apply();
+        UpdateNightLoopAudioState();
     }
 
     private void ResolveRuntimeReferences()
@@ -184,6 +204,7 @@ public class DayNightCycleNice2D : MonoBehaviour
         s_isFirstInitialization = false;
 
         ResolveRuntimeReferences();
+        EnsureNightLoopAudioSource();
 
         if (autoCreateGlobalClockHud)
             EnsureGlobalClockHudExists();
@@ -218,6 +239,7 @@ public class DayNightCycleNice2D : MonoBehaviour
 
         Apply();
         FitOverlayToCamera();
+        UpdateNightLoopAudioState();
         _nextDiskSaveTime = Time.unscaledTime + 1f;
     }
 
@@ -354,6 +376,13 @@ public class DayNightCycleNice2D : MonoBehaviour
             OnDayAdvanced?.Invoke();
 
         }
+
+        if (IsLightingScene(SceneManager.GetActiveScene().name) && lastTimeNormalized < 0.25f && TimeNormalized >= 0.25f)
+        {
+            PlayMorningStartSound();
+        }
+
+        UpdateNightLoopAudioState();
 
         // Show flashlight hint only in the farm lighting scene.
         // Day/night simulation can continue globally, but this toast is farm-specific.
@@ -524,9 +553,91 @@ public class DayNightCycleNice2D : MonoBehaviour
         return false;
     }
 
-    /// <summary>
-    /// Returns current in-game time as HH:MM string (24-hour format)
-    /// </summary>
+    private void EnsureNightLoopAudioSource()
+    {
+        if (_nightLoopAudioSource == null)
+            _nightLoopAudioSource = GetComponent<AudioSource>();
+
+        if (_nightLoopAudioSource == null)
+            _nightLoopAudioSource = gameObject.AddComponent<AudioSource>();
+
+        _nightLoopAudioSource.playOnAwake = false;
+        _nightLoopAudioSource.loop = true;
+        _nightLoopAudioSource.spatialBlend = 0f;
+        _nightLoopAudioSource.clip = nightLoopSound;
+    }
+
+    private static bool IsNightTime(float normalizedTime)
+    {
+        return normalizedTime >= 0.75f || normalizedTime < 0.25f;
+    }
+
+    private void UpdateNightLoopAudioState()
+    {
+        if (!IsLightingScene(SceneManager.GetActiveScene().name) || nightLoopSound == null)
+        {
+            if (_nightLoopAudioSource != null && _nightLoopAudioSource.isPlaying)
+                _nightLoopAudioSource.Stop();
+
+            return;
+        }
+
+        EnsureNightLoopAudioSource();
+
+        bool shouldPlay = IsNightTime(TimeNormalized);
+
+        if (shouldPlay)
+        {
+            if (!_nightLoopAudioSource.isPlaying || _nightLoopAudioSource.clip != nightLoopSound)
+            {
+                _nightLoopAudioSource.clip = nightLoopSound;
+                _nightLoopAudioSource.loop = true;
+                _nightLoopAudioSource.Play();
+            }
+
+            float fadeWindow = Mathf.Clamp(nightFadeOutSeconds / Mathf.Max(0.01f, dayLengthSeconds), 0f, 0.25f);
+            float fadeStart = Mathf.Max(0f, 0.25f - fadeWindow);
+
+            if (TimeNormalized < 0.25f && TimeNormalized >= fadeStart)
+            {
+                _nightLoopAudioSource.volume = Mathf.InverseLerp(0.25f, fadeStart, TimeNormalized);
+            }
+            else
+            {
+                _nightLoopAudioSource.volume = 1f;
+            }
+
+            return;
+        }
+
+        if (_nightLoopAudioSource.isPlaying)
+        {
+            _nightLoopAudioSource.volume = 1f;
+            _nightLoopAudioSource.Stop();
+        }
+    }
+
+    private void EnsureMorningStartAudioSource()
+    {
+        if (_morningStartAudioSource == null)
+            _morningStartAudioSource = gameObject.AddComponent<AudioSource>();
+        _morningStartAudioSource.playOnAwake = false;
+        _morningStartAudioSource.loop = false;
+        _morningStartAudioSource.spatialBlend = 0f;
+        _morningStartAudioSource.volume = 1f;
+    }
+
+    private void PlayMorningStartSound()
+    {
+        if (!IsLightingScene(SceneManager.GetActiveScene().name) || morningStartSound == null)
+            return;
+
+        EnsureMorningStartAudioSource();
+        if (_morningStartAudioSource != null)
+        {
+            _morningStartAudioSource.PlayOneShot(morningStartSound);
+        }
+    }
     public string GetTimeString()
     {
         // Convert normalized time (0-1) to total minutes in a 24-hour day
@@ -671,8 +782,10 @@ public class DayNightCycleNice2D : MonoBehaviour
         _hasShownNightNotification = false;
 
         OnDayAdvanced?.Invoke();
+        PlayMorningStartSound();
 
         Apply();
+        UpdateNightLoopAudioState();
         SavePersistentState();
         SaveToDisk();
 
@@ -692,6 +805,7 @@ public class DayNightCycleNice2D : MonoBehaviour
         PlayerPrefs.DeleteKey(SavedDayKey);
         PlayerPrefs.Save();
         Apply();
+        UpdateNightLoopAudioState();
 
     }
 
@@ -713,6 +827,7 @@ public class DayNightCycleNice2D : MonoBehaviour
         currentDay = savedDay;
         SavePersistentState();
         Apply();
+        UpdateNightLoopAudioState();
     }
 
     /// <summary>
@@ -732,6 +847,7 @@ public class DayNightCycleNice2D : MonoBehaviour
         if (globalLight != null)
         {
             Apply();
+            UpdateNightLoopAudioState();
 
         }
         else

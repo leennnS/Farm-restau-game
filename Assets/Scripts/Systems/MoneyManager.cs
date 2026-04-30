@@ -34,11 +34,13 @@ public class MoneyManager : MonoBehaviour
     [SerializeField] private bool showZeroMoneyLoanHint = true;
     [SerializeField] private string zeroMoneyLoanHintMessage = "No money? Press L to take a loan.";
     [SerializeField] private float zeroMoneyLoanHintDuration = 5f;
+    [SerializeField] private float zeroMoneyLoanHintRepeatInterval = 120f; // seconds between repeated hints when at zero
 
     [Header("Audio")]
     [SerializeField] private AudioClip moneyChangeSound;
 
     private bool _hasShownZeroMoneyHint;
+    private Coroutine _zeroMoneyHintRoutine;
     private AudioSource _audioSource;
     private bool _playedMoneyChangeSoundThisFrame;
 
@@ -262,10 +264,50 @@ public class MoneyManager : MonoBehaviour
         if (CurrentMoney > 0)
         {
             _hasShownZeroMoneyHint = false;
+            StopZeroMoneyHintLoop();
             return;
         }
 
-        if (_hasShownZeroMoneyHint)
+        // Show immediately and start repeat loop so hint reappears every few minutes
+        ShowZeroMoneyLoanHintImmediate();
+        StartZeroMoneyHintLoop();
+    }
+
+    private void StartZeroMoneyHintLoop()
+    {
+        if (_zeroMoneyHintRoutine != null)
+            return;
+
+        if (zeroMoneyLoanHintRepeatInterval <= 0f)
+            return;
+
+        _zeroMoneyHintRoutine = StartCoroutine(ZeroMoneyHintLoop());
+    }
+
+    private void StopZeroMoneyHintLoop()
+    {
+        if (_zeroMoneyHintRoutine == null)
+            return;
+
+        StopCoroutine(_zeroMoneyHintRoutine);
+        _zeroMoneyHintRoutine = null;
+    }
+
+    private System.Collections.IEnumerator ZeroMoneyHintLoop()
+    {
+        while (CurrentMoney <= 0)
+        {
+            yield return new WaitForSeconds(Mathf.Max(1f, zeroMoneyLoanHintRepeatInterval));
+            if (CurrentMoney <= 0)
+                ShowZeroMoneyLoanHintImmediate();
+        }
+
+        _zeroMoneyHintRoutine = null;
+    }
+
+    public void ShowZeroMoneyLoanHintImmediate()
+    {
+        if (!showZeroMoneyLoanHint)
             return;
 
         PickupToastUIToolkit toast = FindFirstObjectByType<PickupToastUIToolkit>();
@@ -310,9 +352,19 @@ public class MoneyManager : MonoBehaviour
 
         if (Input.GetKeyDown(takeLoanKey))
         {
-            bool success = TakeLoan(debugLoanAmount);
-            if (!success)
-                Debug.Log($"[MoneyManager] Loan denied. Requested={debugLoanAmount}, CurrentDebt={CurrentDebt}, MaxLoan={maxLoanAmount}");
+            // If player has debt and some money available, prefer repaying; otherwise try to take a loan.
+            if (CurrentDebt > 0 && CurrentMoney > 0)
+            {
+                int paid = RepayDebt(debugRepayAmount);
+                if (paid <= 0)
+                    Debug.Log($"[MoneyManager] Repay failed. Requested={debugRepayAmount}, Money={CurrentMoney}, Debt={CurrentDebt}");
+            }
+            else
+            {
+                bool success = TakeLoan(debugLoanAmount);
+                if (!success)
+                    Debug.Log($"[MoneyManager] Loan denied. Requested={debugLoanAmount}, CurrentDebt={CurrentDebt}, MaxLoan={maxLoanAmount}");
+            }
         }
 
         if (Input.GetKeyDown(repayLoanKey))
