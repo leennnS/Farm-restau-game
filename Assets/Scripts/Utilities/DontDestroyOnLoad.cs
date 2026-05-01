@@ -5,7 +5,7 @@ public class DontDestroyOnLoad : MonoBehaviour
 {
     private static DontDestroyOnLoad instance;
     [SerializeField] private string marketSceneName = "MarketScene";
-    [SerializeField] private Vector3 marketSceneScale = new Vector3(4f, 4f, 1f);
+    [SerializeField] private Vector3 marketSceneScale = new Vector3(1f, 0.75f, 1f);
     [SerializeField] private string houseSceneName = "HouseInteriorLITEDEMO";
 
     private Vector3 originalScale; // Store original player scale
@@ -46,7 +46,7 @@ public class DontDestroyOnLoad : MonoBehaviour
 
         if (scene.name == houseSceneName)
         {
-            transform.localScale = new Vector3(2f, 2f, 1f);
+            transform.localScale = new Vector3(0.6f, 0.4f, 1f);
             return;
         }
 

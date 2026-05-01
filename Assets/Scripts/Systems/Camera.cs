@@ -72,12 +72,6 @@ public class CameraFollowFix : MonoBehaviour
             lens.OrthographicSize = targetOrthographicSize;
             cam.Lens = lens;
         }
-
-        // Keep main camera in sync in case something reads Camera.main directly.
-        if (Camera.main != null)
-        {
-            Camera.main.orthographicSize = targetOrthographicSize;
-        }
     }
 
     IEnumerator AssignPlayer()
