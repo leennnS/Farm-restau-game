@@ -850,6 +850,10 @@ public class RestaurantNpcQueueManager : MonoBehaviour
         respawnTimer = respawnDelaySeconds;
     }
 
+    public bool HasActiveCustomerInScene => queue.Count > 0 || HasAnyActiveNpc();
+
+    public bool IsWaitingForNextNpcSpawn => waitingForNextNpcSpawn;
+
     public IReadOnlyList<QueueOrderView> GetQueueOrders()
     {
         List<QueueOrderView> entries = new List<QueueOrderView>(queue.Count);

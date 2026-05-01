@@ -60,10 +60,15 @@ public class PickupToastUIToolkit : MonoBehaviour
 
     public void Show(string message)
     {
-        Show(message, showTime);
+        Show(message, showTime, 18);
     }
 
     public void Show(string message, float duration)
+    {
+        Show(message, duration, 18);
+    }
+
+    public void Show(string message, float duration, int fontSize)
     {
         if (toast == null || toastLabel == null)
             return;
@@ -72,6 +77,7 @@ public class PickupToastUIToolkit : MonoBehaviour
             StopCoroutine(currentRoutine);
 
         toastLabel.text = message;
+        toastLabel.style.fontSize = fontSize;
         currentRoutine = StartCoroutine(AnimateToast(duration));
     }
 
