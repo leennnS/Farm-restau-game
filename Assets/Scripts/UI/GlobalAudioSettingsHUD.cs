@@ -393,6 +393,28 @@ public sealed class GlobalAudioSettingsHUD : MonoBehaviour
 
     private void EnsureEventSystem()
     {
+        EventSystem[] eventSystems = FindObjectsByType<EventSystem>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        bool sceneEventSystemExists = false;
+
+        for (int i = 0; i < eventSystems.Length; i++)
+        {
+            EventSystem system = eventSystems[i];
+            if (system == null)
+                continue;
+
+            if (system.gameObject != _eventSystemObject)
+            {
+                sceneEventSystemExists = true;
+                break;
+            }
+        }
+
+        if (sceneEventSystemExists)
+        {
+            DestroyFallbackEventSystem();
+            return;
+        }
+
         EventSystem existing = EventSystem.current != null ? EventSystem.current : FindFirstObjectByType<EventSystem>();
         if (existing != null)
             return;

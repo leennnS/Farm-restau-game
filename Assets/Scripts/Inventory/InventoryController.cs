@@ -1,6 +1,10 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+#if ENABLE_INPUT_SYSTEM
+using UnityEngine.InputSystem.UI;
+#endif
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
 
@@ -162,6 +166,9 @@ public class InventoryController : MonoBehaviour
     private VisualElement[] _itemSlots; // itemSlot01..itemSlot36
     private VisualElement[] _hotbarSlots; // hotbarSlot01..hotbarSlot12
     private VisualElement _trashSlot;
+    private readonly HashSet<VisualElement> _boundInventorySlotElements = new HashSet<VisualElement>();
+    private readonly HashSet<VisualElement> _boundHotbarSlotElements = new HashSet<VisualElement>();
+    private readonly HashSet<VisualElement> _boundTrashSlotElements = new HashSet<VisualElement>();
 
     private ItemStack[] _slotsData;
     private ItemStack[] _hotbarData;
@@ -258,6 +265,9 @@ public class InventoryController : MonoBehaviour
     {
         // Let scene UI documents initialize first.
         yield return null;
+        yield return null;
+
+        EnsureRuntimeEventSystem();
 
         // Rebind inventory UI references if UI Toolkit rebuilt the runtime panel.
         RebindInventoryUIIfNeeded(forceRebindCallbacks: false);
@@ -274,6 +284,7 @@ public class InventoryController : MonoBehaviour
 
         // Re-apply interaction state so hidden inventory cannot intercept clicks.
         SetOpen(_isOpen, playSound: false);
+        RestoreInventoryPointerState();
         SyncAudioSettingsFromSliders();
     }
 
@@ -582,8 +593,13 @@ public class InventoryController : MonoBehaviour
 
     private void SetOpen(bool open, bool playSound = true)
     {
+        EnsureRuntimeEventSystem();
+
         bool stateChanged = _isOpen != open;
         _isOpen = open;
+
+        if (_uiDocument != null)
+            _uiDocument.sortingOrder = open ? 5000 : 0;
 
         TryResolveHotbarHUD();
 
@@ -601,6 +617,9 @@ public class InventoryController : MonoBehaviour
         {
             interactionRoot.style.display = open ? DisplayStyle.Flex : DisplayStyle.None;
             interactionRoot.pickingMode = open ? PickingMode.Position : PickingMode.Ignore;
+
+            if (open)
+                interactionRoot.BringToFront();
         }
 
         // Extra safety: when closed, root should not eat pointer events.
@@ -609,6 +628,9 @@ public class InventoryController : MonoBehaviour
         else if (_root != null)
             _root.pickingMode = PickingMode.Position;
 
+        if (open)
+            RestoreInventoryPointerState();
+
         if (!stateChanged || !playSound)
             return;
 
@@ -616,6 +638,103 @@ public class InventoryController : MonoBehaviour
             PlayInventorySound(openInventorySound);
         else
             PlayInventorySound(closeInventorySound);
+    }
+
+    private void RestoreInventoryPointerState()
+    {
+        if (_root != null)
+            _root.pickingMode = _isOpen ? PickingMode.Position : PickingMode.Ignore;
+
+        if (_inventoryRootElement == null && _root != null)
+            _inventoryRootElement = _root.Q<VisualElement>("inventoryRoot");
+
+        if (_inventoryRootElement != null)
+            _inventoryRootElement.pickingMode = _isOpen ? PickingMode.Position : PickingMode.Ignore;
+
+        if (_itemSlots != null)
+        {
+            for (int i = 0; i < _itemSlots.Length; i++)
+            {
+                if (_itemSlots[i] != null)
+                    _itemSlots[i].pickingMode = PickingMode.Position;
+            }
+        }
+
+        if (_hotbarSlots != null)
+        {
+            for (int i = 0; i < _hotbarSlots.Length; i++)
+            {
+                if (_hotbarSlots[i] != null)
+                    _hotbarSlots[i].pickingMode = PickingMode.Position;
+            }
+        }
+
+        if (_trashSlot != null)
+            _trashSlot.pickingMode = PickingMode.Position;
+    }
+
+    private void EnsureRuntimeEventSystem()
+    {
+        const string inventoryFallbackName = "InventoryRuntimeEventSystem";
+        const string audioFallbackName = "GlobalAudioSettingsEventSystem";
+
+        EventSystem[] eventSystems = FindObjectsByType<EventSystem>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        bool sceneEventSystemExists = false;
+
+        for (int i = 0; i < eventSystems.Length; i++)
+        {
+            EventSystem system = eventSystems[i];
+            if (system == null)
+                continue;
+
+            string objectName = system.gameObject.name;
+            bool isFallback = string.Equals(objectName, inventoryFallbackName, StringComparison.Ordinal)
+                || string.Equals(objectName, audioFallbackName, StringComparison.Ordinal);
+
+            if (!isFallback)
+            {
+                sceneEventSystemExists = true;
+                break;
+            }
+        }
+
+        if (sceneEventSystemExists)
+        {
+            DestroyFallbackEventSystems(inventoryFallbackName, audioFallbackName);
+            return;
+        }
+
+        EventSystem existing = EventSystem.current != null ? EventSystem.current : FindFirstObjectByType<EventSystem>();
+        if (existing != null)
+            return;
+
+        GameObject eventSystemObject = new GameObject(inventoryFallbackName);
+        DontDestroyOnLoad(eventSystemObject);
+        eventSystemObject.AddComponent<EventSystem>();
+
+#if ENABLE_INPUT_SYSTEM
+        eventSystemObject.AddComponent<InputSystemUIInputModule>();
+#else
+        eventSystemObject.AddComponent<StandaloneInputModule>();
+#endif
+    }
+
+    private static void DestroyFallbackEventSystems(string inventoryFallbackName, string audioFallbackName)
+    {
+        EventSystem[] eventSystems = FindObjectsByType<EventSystem>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        for (int i = 0; i < eventSystems.Length; i++)
+        {
+            EventSystem system = eventSystems[i];
+            if (system == null)
+                continue;
+
+            string objectName = system.gameObject.name;
+            if (string.Equals(objectName, inventoryFallbackName, StringComparison.Ordinal)
+                || string.Equals(objectName, audioFallbackName, StringComparison.Ordinal))
+            {
+                Destroy(system.gameObject);
+            }
+        }
     }
 
     private void EnsureAudioSource()
@@ -868,8 +987,11 @@ public class InventoryController : MonoBehaviour
                 // Register drag and drop handlers
                 int slotIndex = i;
                 _itemSlots[i].pickingMode = PickingMode.Position;
-                _itemSlots[i].RegisterCallback<MouseDownEvent>(evt => OnInventorySlotMouseDown(slotIndex, evt));
-                _itemSlots[i].RegisterCallback<MouseUpEvent>(evt => OnInventorySlotMouseUp(slotIndex, evt));
+                if (_boundInventorySlotElements.Add(_itemSlots[i]))
+                {
+                    _itemSlots[i].RegisterCallback<MouseDownEvent>(evt => OnInventorySlotMouseDown(slotIndex, evt));
+                    _itemSlots[i].RegisterCallback<MouseUpEvent>(evt => OnInventorySlotMouseUp(slotIndex, evt));
+                }
             }
             else
             {
@@ -893,8 +1015,11 @@ public class InventoryController : MonoBehaviour
                 // Register drag and drop handlers
                 int slotIndex = i;
                 _hotbarSlots[i].pickingMode = PickingMode.Position;
-                _hotbarSlots[i].RegisterCallback<MouseDownEvent>(evt => OnHotbarSlotMouseDown(slotIndex, evt));
-                _hotbarSlots[i].RegisterCallback<MouseUpEvent>(evt => OnHotbarSlotMouseUp(slotIndex, evt));
+                if (_boundHotbarSlotElements.Add(_hotbarSlots[i]))
+                {
+                    _hotbarSlots[i].RegisterCallback<MouseDownEvent>(evt => OnHotbarSlotMouseDown(slotIndex, evt));
+                    _hotbarSlots[i].RegisterCallback<MouseUpEvent>(evt => OnHotbarSlotMouseUp(slotIndex, evt));
+                }
             }
             else
             {
@@ -908,7 +1033,8 @@ public class InventoryController : MonoBehaviour
         if (_trashSlot != null)
         {
             _trashSlot.pickingMode = PickingMode.Position;
-            _trashSlot.RegisterCallback<MouseUpEvent>(evt => OnTrashSlotMouseUp(evt));
+            if (_boundTrashSlotElements.Add(_trashSlot))
+                _trashSlot.RegisterCallback<MouseUpEvent>(evt => OnTrashSlotMouseUp(evt));
         }
     }
 
