@@ -15,17 +15,17 @@
 
             <ui:Label name="titleLabel"
                       text="Refill Watering Can"
-                      style="font-size: 22px; unity-font-style: bold; color: rgb(73, 56, 35); margin-bottom: 6px;" />
+                      style="font-size: 22px; -unity-font-style-and-weight: bold; color: rgb(73, 56, 35); margin-bottom: 6px;" />
 
             <ui:Label name="subtitleLabel"
                       text="Turn the wheel upward to draw water"
                       style="font-size: 12px; color: rgb(105, 84, 57); margin-bottom: 16px;" />
 
             <ui:VisualElement name="centerArea"
-                              style="flex-direction: row; align-items: center; justify-content: center; gap: 28px; margin-bottom: 16px;">
+                              style="flex-direction: row; align-items: center; justify-content: center; margin-bottom: 16px;">
 
                 <ui:VisualElement name="gaugeShell"
-                                  style="width: 86px; height: 170px; background-color: rgb(212, 194, 160); border-left-width: 3px; border-right-width: 3px; border-top-width: 3px; border-bottom-width: 3px; border-left-color: rgb(145, 116, 74); border-right-color: rgb(145, 116, 74); border-top-color: rgb(184, 150, 106); border-bottom-color: rgb(104, 76, 45); align-items: center; justify-content: center;">
+                                  style="width: 86px; height: 170px; margin-right: 28px; background-color: rgb(212, 194, 160); border-left-width: 3px; border-right-width: 3px; border-top-width: 3px; border-bottom-width: 3px; border-left-color: rgb(145, 116, 74); border-right-color: rgb(145, 116, 74); border-top-color: rgb(184, 150, 106); border-bottom-color: rgb(104, 76, 45); align-items: center; justify-content: center;">
 
                     <ui:VisualElement name="waterContainer"
                                       style="width: 46px; height: 132px; background-color: rgb(188, 220, 231); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(95, 126, 145); border-right-color: rgb(95, 126, 145); border-top-color: rgb(139, 170, 188); border-bottom-color: rgb(59, 84, 101); position: relative;">
@@ -43,11 +43,11 @@
 
                     <ui:Label name="percentLabel"
                               text="0%"
-                              style="font-size: 30px; unity-font-style: bold; color: rgb(47, 92, 114); margin-bottom: 8px;" />
+                              style="font-size: 30px; -unity-font-style-and-weight: bold; color: rgb(47, 92, 114); margin-bottom: 8px;" />
 
                     <ui:Label name="instructionLabel"
                               text="Scroll up to raise the water."
-                              style="font-size: 15px; unity-font-style: bold; color: rgb(73, 56, 35); margin-bottom: 8px; white-space: normal;" />
+                              style="font-size: 15px; -unity-font-style-and-weight: bold; color: rgb(73, 56, 35); margin-bottom: 8px; white-space: normal;" />
 
                     <ui:Label name="flavorLabel"
                               text="If you stop, the water slowly drops."

@@ -19,6 +19,9 @@ public class MarketMusicController : MonoBehaviour
         audioSource.loop = true;
         audioSource.spatialBlend = 0f; // 2D audio
 
+        if (AudioSettingsManager.HasInstance)
+            AudioSettingsManager.Instance.RefreshAudioSource(audioSource);
+
         // Play music
         if (marketMusic != null)
         {

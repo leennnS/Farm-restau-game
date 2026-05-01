@@ -43,14 +43,18 @@ public class InventoryController : MonoBehaviour
     // ---------- NEW: Inventory ----------
     [Header("Inventory")]
     [SerializeField] private int inventorySize = 36;
-    [SerializeField, Range(0.8f, 2.0f)] private float inventoryUiScale = 1.1f;
+    [SerializeField, Range(0.8f, 2.0f)] private float inventoryUiScale = 1.0f;
     [SerializeField] private bool autoScaleByDevice = true;
     [SerializeField] private float referenceDpi = 96f;
     [SerializeField, Range(1.0f, 1.8f)] private float maxAutoScaleMultiplier = 1.45f;
+    [SerializeField] private Texture2D inventoryBackgroundImage;
+    [SerializeField] private bool useImageBackgroundWhenAssigned = true;
     [SerializeField] private ItemDefinition[] knownItemDefinitions;
 
     [Header("Crafting")]
     [SerializeField] private bool enableInventoryCookingTab = false;
+    [SerializeField] private Texture2D cookingBackgroundImage;
+    [SerializeField] private bool useCookingImageBackgroundWhenAssigned = true;
     [SerializeField] private RecipeDefinition[] recipes;
 
     [Header("Map")]
@@ -78,6 +82,8 @@ public class InventoryController : MonoBehaviour
     private bool _isDraggingFromCookingInventory = false;
 
     private VisualElement _inventoryFooter;
+    private VisualElement _inventoryShell;
+    private VisualElement _inventoryBackgroundImageElement;
     private VisualElement _playerCard;
     private UIDocument _uiDocument;
     private VisualElement _root;
@@ -148,6 +154,7 @@ public class InventoryController : MonoBehaviour
     private Label _masterVolumeLabel;
     private Label _musicVolumeLabel;
     private Label _sfxVolumeLabel;
+    private Button _backToInventoryButton;
     private Button _exitButton;
     private Button _quitButton;
 
@@ -286,6 +293,7 @@ public class InventoryController : MonoBehaviour
         _root = newRoot;
 
         CacheUI();
+        ApplyInventoryBackgroundImage();
         ApplyInventoryUiScale();
         CacheInventorySlots();
 
@@ -548,6 +556,7 @@ public class InventoryController : MonoBehaviour
             _tabCraftingButton.style.display = DisplayStyle.Flex;
 
         ShowPage(_craftingPage, _toolsPage, _mapPage, _settingsPage);
+        SetCookingPanelMode(true);
         SetFooterVisible(false);
         ShowRecipeCategory(_currentRecipeCategory);
         UpdateActiveTopTab(_tabCraftingButton);
@@ -692,6 +701,9 @@ public class InventoryController : MonoBehaviour
         _tabCraftingButton = _root.Q<Button>("tabCraftingButton");
         _tabSettingsButton = _root.Q<Button>("tabSettingsButton");
 
+        if (_tabCraftingButton != null && !_tabCraftingButton.ClassListContains("cooking-top-tab"))
+            _tabCraftingButton.AddToClassList("cooking-top-tab");
+
         if (_tabMapButton != null)
             _tabMapButton.style.display = DisplayStyle.None;
 
@@ -708,6 +720,7 @@ public class InventoryController : MonoBehaviour
         _masterVolumeLabel = _root.Q<Label>("masterVolumeLabel");
         _musicVolumeLabel = _root.Q<Label>("musicVolumeLabel");
         _sfxVolumeLabel = _root.Q<Label>("sfxVolumeLabel");
+        _backToInventoryButton = _root.Q<Button>("backToInventoryButton");
         _exitButton = _root.Q<Button>("exitButton");
         _quitButton = _root.Q<Button>("quitButton");
         // Cooking tab
@@ -732,6 +745,8 @@ public class InventoryController : MonoBehaviour
         _craftingInventoryGrid = _root.Q<VisualElement>("craftingInventoryGrid");
 
         _inventoryFooter = _root.Q<VisualElement>("inventoryFooter");
+        _inventoryShell = _root.Q<VisualElement>("inventoryShell");
+        _inventoryBackgroundImageElement = _root.Q<VisualElement>("inventoryBackgroundImage");
         _playerCard = _root.Q<VisualElement>("playerCard");
         _cookingLoadingContainer = _root.Q<VisualElement>("cookingLoadingContainer");
         _cookingLoadingBarFill = _root.Q<VisualElement>("cookingLoadingBarFill");
@@ -747,6 +762,26 @@ public class InventoryController : MonoBehaviour
 
             if (_craftingPage != null)
                 _craftingPage.style.display = DisplayStyle.None;
+        }
+    }
+
+    private void ApplyInventoryBackgroundImage()
+    {
+        if (_inventoryShell == null || _inventoryBackgroundImageElement == null)
+            return;
+
+        bool useImageBackground = useImageBackgroundWhenAssigned && inventoryBackgroundImage != null;
+
+        if (useImageBackground)
+        {
+            _inventoryBackgroundImageElement.style.backgroundImage = new StyleBackground(inventoryBackgroundImage);
+            _inventoryBackgroundImageElement.pickingMode = PickingMode.Ignore;
+            _inventoryShell.AddToClassList("image-background-mode");
+        }
+        else
+        {
+            _inventoryBackgroundImageElement.style.backgroundImage = StyleKeyword.None;
+            _inventoryShell.RemoveFromClassList("image-background-mode");
         }
     }
 
@@ -914,6 +949,9 @@ public class InventoryController : MonoBehaviour
         if (_quitButton != null)
             _quitButton.clicked += QuitGame;
 
+        if (_backToInventoryButton != null)
+            _backToInventoryButton.clicked += ShowTools;
+
         // Populate crafting recipes
         if (enableInventoryCookingTab)
             PopulateCraftingRecipes();
@@ -944,6 +982,7 @@ public class InventoryController : MonoBehaviour
 
     private void ShowTools()
     {
+        SetCookingPanelMode(false);
         ShowPage(_toolsPage, _mapPage, _craftingPage, _settingsPage);
         SetFooterVisible(true);
         UpdateActiveTopTab(_tabToolsButton);
@@ -951,6 +990,7 @@ public class InventoryController : MonoBehaviour
 
     private void ShowMap()
     {
+        SetCookingPanelMode(false);
         ShowPage(_mapPage, _toolsPage, _craftingPage, _settingsPage);
         SetFooterVisible(true);
         UpdateActiveTopTab(_tabMapButton);
@@ -965,6 +1005,7 @@ public class InventoryController : MonoBehaviour
         }
 
         ShowPage(_craftingPage, _toolsPage, _mapPage, _settingsPage);
+        SetCookingPanelMode(true);
         SetFooterVisible(false);
         if (_isServeMode)
             ShowServeTab();
@@ -986,10 +1027,48 @@ public class InventoryController : MonoBehaviour
 
     private void ShowSettings()
     {
+        SetCookingPanelMode(false);
         ShowPage(_settingsPage, _toolsPage, _mapPage, _craftingPage);
         SetFooterVisible(true);
         UpdateActiveTopTab(_tabSettingsButton);
         SyncAudioSettingsFromSliders();
+    }
+
+    private void SetCookingPanelMode(bool enabled)
+    {
+        if (_inventoryShell == null)
+            return;
+
+        if (enabled)
+        {
+            _inventoryShell.AddToClassList("cooking-panel-mode");
+            ApplyCookingBackgroundImage();
+        }
+        else
+        {
+            _inventoryShell.RemoveFromClassList("cooking-panel-mode");
+            _inventoryShell.RemoveFromClassList("cooking-image-background-mode");
+            ApplyInventoryBackgroundImage();
+        }
+    }
+
+    private void ApplyCookingBackgroundImage()
+    {
+        if (_inventoryShell == null || _inventoryBackgroundImageElement == null)
+            return;
+
+        bool useCookingImage = useCookingImageBackgroundWhenAssigned && cookingBackgroundImage != null;
+
+        if (useCookingImage)
+        {
+            _inventoryBackgroundImageElement.style.backgroundImage = new StyleBackground(cookingBackgroundImage);
+            _inventoryBackgroundImageElement.pickingMode = PickingMode.Ignore;
+            _inventoryShell.AddToClassList("cooking-image-background-mode");
+        }
+        else
+        {
+            _inventoryShell.RemoveFromClassList("cooking-image-background-mode");
+        }
     }
 
     private void ShowPage(VisualElement show, VisualElement hide1, VisualElement hide2, VisualElement hide3)
@@ -1075,6 +1154,7 @@ public class InventoryController : MonoBehaviour
         DestroyPersistentObjects<DayNightCycleNice2D>();
         DestroyPersistentObjects<GlobalMoneyHUD>();
         DestroyPersistentObjects<GlobalClockHUD>();
+        DestroyPersistentObjects<GlobalAudioSettingsHUD>();
         DestroyPersistentObjects<GlobalNextDayButtonHUD>();
         DestroyPersistentObjects<ClockHUDController>();
         DestroyPersistentObjects<OrderListHUD>();
@@ -1656,6 +1736,8 @@ public class InventoryController : MonoBehaviour
             _exitButton.clicked -= ExitToMenu;
         if (_quitButton != null)
             _quitButton.clicked -= QuitGame;
+        if (_backToInventoryButton != null)
+            _backToInventoryButton.clicked -= ShowTools;
 
         if (_cookRecipeButton != null)
             _cookRecipeButton.clicked -= OnCookOrServePressed;

@@ -1,11 +1,8 @@
 .cook-button {
-    width: 108px;
-    height: 34px;
-    margin-top: 4px;
     padding-left: 10px;
     padding-right: 10px;
     font-size: 12px;
-    -unity-font-style: bold;
+    -unity-font-style-and-weight: bold;
     color: rgb(92, 45, 12);
 
     background-color: rgb(255, 212, 94);
@@ -39,12 +36,10 @@
 }
 
 .back-button {
-    width: 84px;
-    height: 32px;
     padding-left: 10px;
     padding-right: 10px;
     font-size: 12px;
-    -unity-font-style: bold;
+    -unity-font-style-and-weight: bold;
     color: rgb(80, 52, 28);
 
     background-color: rgb(230, 212, 186);
@@ -75,16 +70,15 @@
 
 .cooking-loading-container {
     display: none;
-    width: 130px;
-    margin-top: 4px;
+    min-width: 170px;
     margin-bottom: 0;
-    margin-left: 6px;
+    margin-left: 10px;
     padding-left: 0;
     padding-right: 0;
     padding-top: 0;
     padding-bottom: 0;
 
-    background-color: transparent;
+    background-color: rgba(0, 0, 0, 0);
     border-left-width: 0;
     border-right-width: 0;
     border-top-width: 0;
@@ -93,35 +87,42 @@
     flex-direction: column;
     justify-content: center;
     align-items: stretch;
-    gap: 3px;
 }
 
 .cooking-loading-label {
     display: flex;
-    font-size: 9px;
-    -unity-font-style: bold;
-    color: rgb(92, 60, 32);
-    unity-text-align: middle-left;
+    font-size: 10px;
+    -unity-font-style-and-weight: bold;
+    color: rgb(69, 59, 36);
+    -unity-text-align: middle-left;
+    margin-bottom: 5px;
 }
 
 .cooking-loading-bar-background {
     position: relative;
-    width: 100%;
-    height: 8px;
-    background-color: rgba(92, 60, 32, 0.22);
+    height: 10px;
+    background-color: rgb(207, 181, 128);
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-left-color: rgb(132, 101, 62);
+    border-right-color: rgb(132, 101, 62);
+    border-top-color: rgb(226, 204, 153);
+    border-bottom-color: rgb(86, 61, 36);
 
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
 
-    overflow: hidden;
+    margin-bottom: 4px;
 }
 
 .cooking-loading-bar-fill {
     width: 0%;
     height: 100%;
-    background-color: rgb(255, 196, 70);
+    background-color: rgb(154, 165, 100);
 
     border-top-left-radius: 4px;
     border-bottom-left-radius: 4px;
@@ -131,49 +132,1568 @@
 
 .cooking-progress-text {
     display: flex;
-    font-size: 8px;
-    -unity-font-style: bold;
-    color: rgb(110, 78, 42);
-    unity-text-align: middle-right;
+    font-size: 9px;
+    -unity-font-style-and-weight: bold;
+    color: rgb(69, 59, 36);
+    -unity-text-align: middle-right;
 }
 
 .top-tab {
-    width: 36px;
+    width: 34px;
+    height: 32px;
+    flex-shrink: 0;
+    margin-right: 7px;
+
+    background-color: rgb(172, 93, 39);
+    -unity-background-scale-mode: scale-to-fit;
+
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+
+    border-left-color: rgb(75, 38, 15);
+    border-right-color: rgb(75, 38, 15);
+    border-top-color: rgb(213, 132, 61);
+    border-bottom-color: rgb(88, 47, 20);
+
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+.top-tab:hover {
+    background-color: rgb(196, 122, 52);
+}
+
+.active-top-tab {
     height: 36px;
-    margin-top: 6px;
+    background-color: rgb(214, 148, 69);
+    border-top-color: rgb(246, 190, 101);
+    border-bottom-color: rgb(214, 148, 69);
+}
 
-    background-color: rgb(214, 168, 107);
-    background-size: 20px 20px;
-    background-position: center;
-    background-repeat: no-repeat;
+/* Inventory visual polish */
 
+.inv-root {
+    flex-grow: 1;
+    align-items: center;
+    justify-content: center;
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+
+.inv-shell {
+    position: relative;
+    width: 540px;
+    height: 390px;
+    flex-grow: 0;
+    flex-shrink: 0;
+    padding-left: 28px;
+    padding-right: 28px;
+    padding-top: 34px;
+    padding-bottom: 26px;
+}
+
+.inventory-background-image {
+    display: none;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    -unity-background-scale-mode: scale-to-fit;
+}
+
+.image-background-mode {
+    width: 820px;
+    height: 615px;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.image-background-mode .inventory-background-image {
+    display: flex;
+}
+
+.image-background-mode .wood-shadow,
+.image-background-mode .wood-frame,
+.image-background-mode .wood-bevel,
+.image-background-mode .wood-strip,
+.image-background-mode .decor,
+.image-background-mode .parchment-wash,
+.image-background-mode .inv-title-plaque {
+    display: none;
+}
+
+.image-background-mode .inv-panel {
+    width: 820px;
+    height: 615px;
+    background-color: rgba(0, 0, 0, 0);
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.image-background-mode .inv-header {
+    height: 174px;
+    padding-left: 60px;
+    padding-right: 60px;
+    padding-top: 30px;
+}
+
+.image-background-mode .inv-header-controls {
+    position: absolute;
+    right: 60px;
+    top: 44px;
+}
+
+.image-background-mode .inv-close {
+    width: 50px;
+    height: 50px;
+    font-size: 30px;
+}
+
+.image-background-mode .settings-header-button {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+    border-top-left-radius: 13px;
+    border-top-right-radius: 13px;
+    border-bottom-left-radius: 13px;
+    border-bottom-right-radius: 13px;
+}
+
+.image-background-mode .settings-header-button.active-top-tab {
+    height: 50px;
+}
+
+.image-background-mode .inv-pages,
+.image-background-mode .inv-tools {
+    align-items: center;
+}
+
+.image-background-mode .inv-footer {
+    right: 58px;
+    bottom: 46px;
+}
+
+.image-background-mode .inv-hotbar,
+.image-background-mode .inv-hotbar-numbers,
+.image-background-mode .inv-hotbar-row,
+.image-background-mode .inv-grid,
+.image-background-mode .hotbar-inventory-divider {
+    width: 738px;
+}
+
+.image-background-mode .inv-hotbar {
+    margin-bottom: 8px;
+    margin-left: 28px;
+}
+
+.image-background-mode .inv-grid,
+.image-background-mode .hotbar-inventory-divider {
+    margin-left: 28px;
+}
+
+.image-background-mode .inv-hotbar-numbers {
+    height: 24px;
+}
+
+.image-background-mode .inv-hotbar-numbers > Label {
+    width: 56px;
+    height: 24px;
+    font-size: 14px;
+    margin-right: 6px;
+}
+
+.image-background-mode .inv-hotbar-row {
+    height: 52px;
+}
+
+.image-background-mode #hotbarRow > VisualElement,
+.image-background-mode #inventoryGrid > VisualElement {
+    width: 52px;
+    height: 52px;
+    margin-right: 6px;
+    margin-bottom: 12px;
+    background-color: rgb(232, 198, 143);
+}
+
+.image-background-mode Label#countLabel {
+    font-size: 12px;
+    min-width: 16px;
+    height: 16px;
+}
+
+.wood-shadow,
+.wood-frame,
+.wood-bevel,
+.wood-strip,
+.decor {
+    position: absolute;
+}
+
+.wood-shadow {
+    left: 8px;
+    right: 8px;
+    top: 8px;
+    bottom: 6px;
+    background-color: rgb(45, 27, 12);
+    opacity: 0.45;
+    border-top-left-radius: 28px;
+    border-top-right-radius: 28px;
+    border-bottom-left-radius: 28px;
+    border-bottom-right-radius: 28px;
+}
+
+.wood-frame {
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: rgb(138, 77, 34);
+    border-left-width: 5px;
+    border-right-width: 5px;
+    border-top-width: 5px;
+    border-bottom-width: 5px;
+    border-left-color: rgb(75, 38, 15);
+    border-right-color: rgb(75, 38, 15);
+    border-top-color: rgb(196, 122, 52);
+    border-bottom-color: rgb(61, 32, 13);
+    border-top-left-radius: 24px;
+    border-top-right-radius: 24px;
+    border-bottom-left-radius: 24px;
+    border-bottom-right-radius: 24px;
+}
+
+.wood-bevel {
+    left: 13px;
+    right: 13px;
+    top: 13px;
+    bottom: 13px;
+    background-color: rgb(166, 97, 42);
     border-left-width: 3px;
     border-right-width: 3px;
     border-top-width: 3px;
     border-bottom-width: 3px;
+    border-left-color: rgb(111, 61, 26);
+    border-right-color: rgb(111, 61, 26);
+    border-top-color: rgb(226, 148, 68);
+    border-bottom-color: rgb(86, 45, 19);
+    border-top-left-radius: 19px;
+    border-top-right-radius: 19px;
+    border-bottom-left-radius: 19px;
+    border-bottom-right-radius: 19px;
+}
 
-    border-left-color: rgb(122, 78, 42);
-    border-right-color: rgb(122, 78, 42);
-    border-top-color: rgb(183, 126, 62);
-    border-bottom-color: rgb(92, 58, 27);
+.wood-strip {
+    background-color: rgb(176, 101, 43);
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    border-left-color: rgb(99, 52, 21);
+    border-right-color: rgb(99, 52, 21);
+    border-top-color: rgb(216, 134, 59);
+    border-bottom-color: rgb(91, 47, 20);
+}
 
+.wood-strip-top {
+    left: 28px;
+    right: 28px;
+    top: 16px;
+    height: 24px;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.wood-strip-bottom {
+    left: 30px;
+    right: 30px;
+    bottom: 14px;
+    height: 24px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+}
+
+.wood-strip-left {
+    left: 15px;
+    top: 42px;
+    bottom: 42px;
+    width: 22px;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 8px;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 8px;
+}
+
+.wood-strip-right {
+    right: 15px;
+    top: 42px;
+    bottom: 42px;
+    width: 22px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 12px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 12px;
+}
+
+.grain {
+    position: absolute;
+    height: 4px;
+    background-color: rgb(112, 56, 22);
+    opacity: 0.45;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
-    border-bottom-left-radius: 0px;
-    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
 }
 
-.top-tab:hover {
-    background-color: rgb(228, 183, 122);
+.grain-wide {
+    width: 70px;
+    left: 120px;
+    top: 12px;
 }
 
-.active-top-tab {
-    height: 40px;
+.grain-mid {
+    width: 52px;
+    right: 132px;
+    top: 20px;
+}
+
+.grain-small {
+    width: 34px;
+    left: 285px;
+    top: 8px;
+}
+
+.inv-tabs {
+    position: absolute;
+    left: 56px;
+    top: 9px;
+    height: 38px;
+    flex-direction: row;
+    align-items: flex-end;
+}
+
+.inv-panel {
+    position: relative;
+    width: 484px;
+    height: 330px;
+    flex-grow: 0;
+    flex-shrink: 0;
+    background-color: rgb(247, 223, 173);
+    border-left-width: 3px;
+    border-right-width: 3px;
+    border-top-width: 3px;
+    border-bottom-width: 3px;
+    border-left-color: rgb(184, 120, 50);
+    border-right-color: rgb(184, 120, 50);
+    border-top-color: rgb(255, 233, 184);
+    border-bottom-color: rgb(139, 76, 31);
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+    padding-left: 23px;
+    padding-right: 23px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+
+.parchment-wash {
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    top: 12px;
+    bottom: 12px;
+    background-color: rgb(255, 233, 184);
+    opacity: 0.38;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+}
+
+.inv-header {
+    height: 50px;
+    flex-shrink: 0;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.inv-header-controls {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-end;
+}
+
+.settings-header-button {
+    width: 34px;
+    height: 34px;
+    margin-right: 8px;
+    margin-left: 0;
+    background-color: rgb(198, 139, 76);
+    border-left-color: rgb(126, 76, 35);
+    border-right-color: rgb(126, 76, 35);
+    border-top-color: rgb(236, 174, 94);
+    border-bottom-color: rgb(101, 58, 26);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.settings-header-button:hover {
+    background-color: rgb(216, 159, 91);
+}
+
+.settings-header-button.active-top-tab {
+    height: 34px;
+    background-color: rgb(230, 178, 99);
+    border-bottom-color: rgb(101, 58, 26);
+}
+
+.inv-title-plaque {
+    position: relative;
+    width: 178px;
+    height: 44px;
+    flex-shrink: 0;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(166, 97, 42);
+    border-left-width: 3px;
+    border-right-width: 3px;
+    border-top-width: 3px;
+    border-bottom-width: 3px;
+    border-left-color: rgb(86, 45, 19);
+    border-right-color: rgb(86, 45, 19);
+    border-top-color: rgb(218, 145, 66);
+    border-bottom-color: rgb(75, 38, 15);
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
+    border-bottom-left-radius: 14px;
+    border-bottom-right-radius: 14px;
+    padding-left: 11px;
+    padding-right: 11px;
+}
+
+.plaque-inner {
+    width: 148px;
+    height: 28px;
+    background-color: rgb(255, 233, 184);
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    border-left-color: rgb(184, 120, 50);
+    border-right-color: rgb(184, 120, 50);
+    border-top-color: rgb(255, 245, 204);
+    border-bottom-color: rgb(139, 76, 31);
+    border-top-left-radius: 13px;
+    border-top-right-radius: 13px;
+    border-bottom-left-radius: 13px;
+    border-bottom-right-radius: 13px;
+    align-items: center;
+    justify-content: center;
+}
+
+.plaque-cap {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    background-color: rgb(196, 122, 52);
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    border-left-color: rgb(86, 45, 19);
+    border-right-color: rgb(86, 45, 19);
+    border-top-color: rgb(232, 161, 77);
+    border-bottom-color: rgb(72, 36, 14);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.plaque-cap-left {
+    left: 8px;
+    top: 8px;
+}
+
+.plaque-cap-right {
+    right: 8px;
+    top: 8px;
+}
+
+.inv-title {
+    width: 140px;
+    font-size: 23px;
+    color: rgb(83, 48, 25);
+    -unity-font-style-and-weight: bold;
+    -unity-text-align: middle-center;
+}
+
+.title-leaf {
+    position: absolute;
+    width: 10px;
+    height: 16px;
+    background-color: rgb(89, 143, 42);
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+
+.title-leaf-left {
+    left: 24px;
+    bottom: 7px;
+}
+
+.title-leaf-right {
+    right: 24px;
+    bottom: 7px;
+}
+
+.inv-close {
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+    background-color: rgb(198, 73, 39);
+    color: rgb(255, 246, 223);
+    border-left-width: 3px;
+    border-right-width: 3px;
+    border-top-width: 3px;
+    border-bottom-width: 3px;
+    border-left-color: rgb(112, 37, 22);
+    border-right-color: rgb(112, 37, 22);
+    border-top-color: rgb(232, 122, 74);
+    border-bottom-color: rgb(80, 25, 15);
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
+    border-bottom-left-radius: 14px;
+    border-bottom-right-radius: 14px;
+    font-size: 20px;
+    -unity-font-style-and-weight: bold;
+    -unity-text-align: middle-center;
+}
+
+.inv-close:hover {
+    background-color: rgb(220, 89, 48);
+}
+
+.inv-close:active {
+    background-color: rgb(168, 55, 32);
+}
+
+.inv-pages {
+    flex-grow: 1;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.inv-tools {
+    width: 100%;
+    flex-grow: 0;
+    flex-shrink: 0;
+    align-items: center;
+}
+
+.inv-hotbar {
+    width: 411px;
+    flex-shrink: 0;
+    align-items: center;
+    margin-top: 0;
+    margin-bottom: 8px;
+}
+
+.inv-hotbar-numbers {
+    width: 411px;
+    height: 17px;
+    flex-shrink: 0;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 4px;
+}
+
+.inv-hotbar-numbers > Label {
+    width: 29px;
+    height: 17px;
+    flex-shrink: 0;
+    color: rgb(104, 65, 33);
+    font-size: 11px;
+    -unity-font-style-and-weight: bold;
+    -unity-text-align: middle-center;
+    margin-right: 5px;
+}
+
+.inv-hotbar-row,
+.inv-grid,
+.crafting-inventory-grid,
+.required-ingredient-slots {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.inv-hotbar-row {
+    width: 411px;
+    height: 29px;
+    flex-shrink: 0;
+}
+
+.hotbar-inventory-divider {
+    width: 411px;
+    height: 2px;
+    flex-shrink: 0;
     margin-top: 2px;
-    background-color: rgb(228, 183, 122);
+    margin-bottom: 9px;
+    background-color: rgb(190, 127, 58);
+    opacity: 0.38;
+}
 
-    border-left-color: rgb(139, 90, 43);
-    border-right-color: rgb(139, 90, 43);
-    border-top-color: rgb(192, 138, 74);
-    border-bottom-color: rgb(228, 183, 122);
+.inv-grid {
+    width: 411px;
+    flex-shrink: 0;
+}
+
+#hotbarRow > VisualElement,
+#inventoryGrid > VisualElement,
+#craftingInventoryGrid > VisualElement,
+#requiredIngredientSlots > VisualElement {
+    width: 29px;
+    height: 29px;
+    flex-grow: 0;
+    flex-shrink: 0;
+    margin-right: 5px;
+    margin-bottom: 9px;
+    background-color: rgb(255, 232, 187);
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    border-left-color: rgb(184, 120, 50);
+    border-right-color: rgb(184, 120, 50);
+    border-top-color: rgb(255, 243, 205);
+    border-bottom-color: rgb(139, 76, 31);
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+    border-bottom-left-radius: 7px;
+    border-bottom-right-radius: 7px;
+    -unity-background-scale-mode: scale-to-fit;
+}
+
+#hotbarRow > VisualElement:hover,
+#inventoryGrid > VisualElement:hover {
+    background-color: rgb(239, 207, 153);
+    border-left-color: rgb(207, 142, 61);
+    border-right-color: rgb(207, 142, 61);
+    border-top-color: rgb(255, 249, 221);
+    border-bottom-color: rgb(157, 88, 35);
+}
+
+#hotbarRow > VisualElement:focus,
+#hotbarRow > VisualElement:active,
+#hotbarRow > VisualElement.selected,
+#hotbarRow > VisualElement.hotbar-selected,
+.hotbar-selected {
+    background-color: rgb(235, 198, 137);
+    border-left-color: rgb(226, 164, 51);
+    border-right-color: rgb(226, 164, 51);
+    border-top-color: rgb(255, 246, 169);
+    border-bottom-color: rgb(139, 76, 31);
+}
+
+#hotbarRow > #hotbarSlot12,
+#inventoryGrid > #itemSlot12,
+#inventoryGrid > #itemSlot24,
+#inventoryGrid > #itemSlot36 {
+    margin-right: 0;
+}
+
+Label#countLabel {
+    min-width: 12px;
+    height: 14px;
+    font-size: 9px;
+    color: rgb(82, 51, 28);
+    background-color: rgba(0, 0, 0, 0);
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    -unity-font-style-and-weight: bold;
+    -unity-text-align: middle-center;
+}
+
+.inv-footer {
+    position: absolute;
+    right: 18px;
+    bottom: 14px;
+    width: 52px;
+    height: 52px;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+}
+
+.trash-plaque {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: rgb(166, 97, 42);
+    border-left-width: 3px;
+    border-right-width: 3px;
+    border-top-width: 3px;
+    border-bottom-width: 3px;
+    border-left-color: rgb(75, 38, 15);
+    border-right-color: rgb(75, 38, 15);
+    border-top-color: rgb(218, 145, 66);
+    border-bottom-color: rgb(75, 38, 15);
+    border-top-left-radius: 17px;
+    border-top-right-radius: 17px;
+    border-bottom-left-radius: 17px;
+    border-bottom-right-radius: 17px;
+}
+
+.inv-trash {
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+    background-color: rgb(255, 232, 187);
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    border-left-color: rgb(184, 120, 50);
+    border-right-color: rgb(184, 120, 50);
+    border-top-color: rgb(255, 243, 205);
+    border-bottom-color: rgb(139, 76, 31);
+    border-top-left-radius: 11px;
+    border-top-right-radius: 11px;
+    border-bottom-left-radius: 11px;
+    border-bottom-right-radius: 11px;
+    -unity-background-scale-mode: scale-to-fit;
+}
+
+.trash-leaves {
+    position: absolute;
+    left: -12px;
+    top: -9px;
+    width: 40px;
+    height: 36px;
+}
+
+.trash-leaf-a {
+    left: 4px;
+    top: 12px;
+}
+
+.trash-leaf-b {
+    left: 24px;
+    top: 4px;
+}
+
+.decor-top-left {
+    left: 20px;
+    top: 8px;
+    width: 118px;
+    height: 48px;
+}
+
+.decor-top-right {
+    right: 22px;
+    top: 8px;
+    width: 110px;
+    height: 48px;
+}
+
+.decor-left-vine {
+    left: 6px;
+    top: 66px;
+    width: 40px;
+    height: 245px;
+}
+
+.decor-right-vine {
+    right: 6px;
+    top: 66px;
+    width: 40px;
+    height: 245px;
+}
+
+.decor-bottom-left {
+    left: 22px;
+    bottom: 8px;
+    width: 130px;
+    height: 48px;
+}
+
+.decor-bottom-right {
+    right: 62px;
+    bottom: 14px;
+    width: 104px;
+    height: 44px;
+}
+
+.vine {
+    position: absolute;
+    background-color: rgb(79, 121, 38);
+    opacity: 0.9;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.vine-horizontal {
+    left: 14px;
+    top: 27px;
+    width: 78px;
+    height: 5px;
+}
+
+.vine-vertical {
+    left: 17px;
+    top: 20px;
+    width: 5px;
+    height: 198px;
+}
+
+.leaf {
+    position: absolute;
+    width: 12px;
+    height: 20px;
+    background-color: rgb(91, 147, 42);
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-left-color: rgb(51, 91, 24);
+    border-right-color: rgb(51, 91, 24);
+    border-top-color: rgb(143, 185, 60);
+    border-bottom-color: rgb(45, 79, 22);
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
+    border-bottom-left-radius: 14px;
+    border-bottom-right-radius: 14px;
+}
+
+.leaf-a {
+    left: 34px;
+    top: 8px;
+}
+
+.leaf-b {
+    left: 62px;
+    top: 16px;
+}
+
+.leaf-c {
+    left: 88px;
+    top: 7px;
+}
+
+.leaf-side-1 {
+    left: 8px;
+    top: 34px;
+}
+
+.leaf-side-2 {
+    left: 22px;
+    top: 86px;
+}
+
+.leaf-side-3 {
+    left: 7px;
+    top: 150px;
+}
+
+.leaf-side-4 {
+    left: 22px;
+    top: 206px;
+}
+
+.flower {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+}
+
+.flower-white .petal {
+    background-color: rgb(255, 249, 232);
+}
+
+.flower-pink .petal {
+    background-color: rgb(238, 139, 151);
+}
+
+.petal {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-left-color: rgb(177, 116, 70);
+    border-right-color: rgb(177, 116, 70);
+    border-top-color: rgb(255, 240, 210);
+    border-bottom-color: rgb(143, 86, 57);
+}
+
+.petal-top {
+    left: 7px;
+    top: 0;
+}
+
+.petal-left {
+    left: 0;
+    top: 7px;
+}
+
+.petal-right {
+    right: 0;
+    top: 7px;
+}
+
+.petal-bottom {
+    left: 7px;
+    bottom: 0;
+}
+
+.flower-center {
+    position: absolute;
+    left: 9px;
+    top: 9px;
+    width: 6px;
+    height: 6px;
+    background-color: rgb(246, 191, 45);
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+
+.decor-top-left .flower {
+    left: 14px;
+    top: 8px;
+}
+
+.decor-top-right .flower {
+    right: 4px;
+    top: 8px;
+}
+
+.side-flower {
+    left: 7px;
+    bottom: 18px;
+}
+
+.decor-bottom-left .flower {
+    left: 6px;
+    bottom: 10px;
+}
+
+.inv-subpage {
+    width: 100%;
+    flex-grow: 1;
+    flex-direction: column;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+.subpage-title,
+.recipe-detail-title,
+.recipe-section-label,
+.selected-recipe-name {
+    color: rgb(83, 48, 25);
+    -unity-font-style-and-weight: bold;
+}
+
+.subpage-title {
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+.map-container {
+    width: 560px;
+    height: 330px;
+    background-color: rgb(216, 181, 119);
+    border-left-width: 3px;
+    border-right-width: 3px;
+    border-top-width: 3px;
+    border-bottom-width: 3px;
+    border-left-color: rgb(139, 76, 31);
+    border-right-color: rgb(139, 76, 31);
+    border-top-color: rgb(255, 233, 184);
+    border-bottom-color: rgb(90, 49, 22);
+}
+
+.cooking-category-tabs {
+    flex-direction: row;
+    margin-bottom: 8px;
+    align-items: center;
+}
+
+.category-tab,
+.settings-button {
+    height: 30px;
+    min-width: 92px;
+    padding-left: 8px;
+    padding-right: 8px;
+    font-size: 12px;
+    color: rgb(83, 48, 25);
+    -unity-font-style-and-weight: bold;
+    background-color: rgb(230, 178, 99);
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    border-left-color: rgb(139, 76, 31);
+    border-right-color: rgb(139, 76, 31);
+    border-top-color: rgb(255, 218, 142);
+    border-bottom-color: rgb(90, 49, 22);
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    margin-right: 6px;
+}
+
+.active-category-tab {
+    background-color: rgb(255, 232, 187);
+    border-bottom-color: rgb(184, 120, 50);
+}
+
+/* Cooking tab uses its own panel treatment instead of the inventory background. */
+
+.top-tab.cooking-top-tab {
+    background-color: rgb(118, 132, 83);
+    border-left-color: rgb(59, 72, 42);
+    border-right-color: rgb(59, 72, 42);
+    border-top-color: rgb(164, 178, 108);
+    border-bottom-color: rgb(47, 56, 34);
+}
+
+.top-tab.cooking-top-tab:hover {
+    background-color: rgb(139, 154, 93);
+}
+
+.active-top-tab.cooking-top-tab {
+    background-color: rgb(160, 174, 105);
+    border-top-color: rgb(202, 214, 136);
+    border-bottom-color: rgb(160, 174, 105);
+}
+
+.cooking-panel-mode .inventory-background-image,
+.cooking-panel-mode .wood-shadow,
+.cooking-panel-mode .wood-frame,
+.cooking-panel-mode .wood-bevel,
+.cooking-panel-mode .wood-strip,
+.cooking-panel-mode .decor,
+.cooking-panel-mode .parchment-wash {
+    display: none;
+}
+
+.cooking-panel-mode {
+    width: 760px;
+    height: 560px;
+    padding-left: 24px;
+    padding-right: 24px;
+    padding-top: 24px;
+    padding-bottom: 24px;
+    background-color: rgb(94, 78, 55);
+    border-left-width: 3px;
+    border-right-width: 3px;
+    border-top-width: 3px;
+    border-bottom-width: 3px;
+    border-left-color: rgb(52, 42, 29);
+    border-right-color: rgb(52, 42, 29);
+    border-top-color: rgb(140, 115, 78);
+    border-bottom-color: rgb(42, 32, 22);
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+}
+
+.cooking-panel-mode .inv-panel {
+    width: 712px;
+    height: 512px;
+    background-color: rgb(236, 225, 190);
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    border-left-color: rgb(131, 138, 88);
+    border-right-color: rgb(131, 138, 88);
+    border-top-color: rgb(250, 243, 214);
+    border-bottom-color: rgb(87, 93, 61);
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
+    border-bottom-left-radius: 14px;
+    border-bottom-right-radius: 14px;
+    padding-left: 18px;
+    padding-right: 18px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+}
+
+.cooking-panel-mode .inv-title-plaque,
+.cooking-panel-mode .subpage-title {
+    display: none;
+}
+
+.cooking-panel-mode .inv-header {
+    height: 40px;
+    justify-content: flex-end;
+}
+
+.cooking-panel-mode .inv-header-controls {
+    position: absolute;
+    right: 16px;
+    top: 2px;
+}
+
+.cooking-panel-mode .inv-close {
+    width: 34px;
+    height: 34px;
+    font-size: 20px;
+    background-color: rgb(142, 38, 30);
+    border-left-color: rgb(74, 20, 16);
+    border-right-color: rgb(74, 20, 16);
+    border-top-color: rgb(190, 73, 54);
+    border-bottom-color: rgb(54, 14, 11);
+}
+
+.cooking-panel-mode .inv-close:hover {
+    background-color: rgb(164, 48, 36);
+}
+
+.cooking-panel-mode .inv-close:active {
+    background-color: rgb(112, 28, 23);
+}
+
+.cooking-panel-mode .inv-footer {
+    display: none;
+}
+
+.cooking-panel-mode .settings-header-button {
+    display: none;
+}
+
+.cooking-panel-mode .crafting-page {
+    width: 100%;
+    flex-grow: 1;
+    background-color: rgb(241, 231, 199);
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    padding-left: 14px;
+    padding-right: 14px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+}
+
+.cooking-panel-mode .cooking-category-tabs {
+    margin-top: -16px;
+    margin-bottom: 24px;
+    justify-content: center;
+}
+
+.cooking-panel-mode .category-tab {
+    background-color: rgb(154, 165, 100);
+    color: rgb(47, 56, 34);
+    border-left-color: rgb(84, 94, 59);
+    border-right-color: rgb(84, 94, 59);
+    border-top-color: rgb(199, 211, 132);
+    border-bottom-color: rgb(57, 66, 42);
+}
+
+.cooking-panel-mode .category-tab:hover {
+    background-color: rgb(174, 185, 112);
+}
+
+.cooking-panel-mode .active-category-tab {
+    background-color: rgb(238, 229, 194);
+    border-bottom-color: rgb(238, 229, 194);
+}
+
+.cooking-panel-mode .recipe-tooltip,
+.cooking-panel-mode .selected-recipe-icon,
+.cooking-panel-mode #craftingInventoryGrid > VisualElement,
+.cooking-panel-mode #requiredIngredientSlots > VisualElement {
+    background-color: rgb(207, 181, 128);
+    border-left-color: rgb(132, 101, 62);
+    border-right-color: rgb(132, 101, 62);
+    border-top-color: rgb(226, 204, 153);
+    border-bottom-color: rgb(86, 61, 36);
+}
+
+.cooking-panel-mode .recipe-grid {
+    height: 288px;
+    padding-top: 4px;
+}
+
+.cooking-panel-mode .recipe-browser-view,
+.cooking-panel-mode .recipe-detail-view {
+    width: 100%;
+}
+
+.cooking-image-background-mode {
+    width: 760px;
+    height: 570px;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    background-color: rgba(0, 0, 0, 0);
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+}
+
+.cooking-image-background-mode .inventory-background-image {
+    display: flex;
+}
+
+.cooking-image-background-mode .inv-panel {
+    width: 760px;
+    height: 570px;
+    background-color: rgba(0, 0, 0, 0);
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    padding-left: 52px;
+    padding-right: 52px;
+    padding-top: 34px;
+    padding-bottom: 42px;
+}
+
+.cooking-image-background-mode .inv-title-plaque,
+.cooking-image-background-mode .crafting-page {
+    background-color: rgba(0, 0, 0, 0);
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+}
+
+.cooking-image-background-mode .crafting-page {
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.cooking-image-background-mode .inv-header {
+    height: 74px;
+}
+
+.cooking-image-background-mode .cooking-category-tabs {
+    margin-top: 4px;
+    margin-bottom: 12px;
+}
+
+.cooking-image-background-mode .recipe-grid {
+    height: 255px;
+}
+
+.cooking-image-background-mode .recipe-tooltip {
+    background-color: rgb(238, 229, 194);
+}
+
+.recipe-browser-view,
+.recipe-detail-view {
+    flex-grow: 1;
+    flex-direction: column;
+}
+
+.recipe-grid {
+    flex-direction: row;
+    flex-wrap: wrap;
+    height: 225px;
+}
+
+.recipe-tooltip {
+    min-height: 76px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: rgb(255, 232, 187);
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    border-left-color: rgb(184, 120, 50);
+    border-right-color: rgb(184, 120, 50);
+    border-top-color: rgb(255, 243, 205);
+    border-bottom-color: rgb(139, 76, 31);
+}
+
+.recipe-tooltip-name {
+    font-size: 14px;
+    -unity-font-style-and-weight: bold;
+    color: rgb(83, 48, 25);
+}
+
+.recipe-tooltip-ingredients {
+    font-size: 12px;
+    color: rgb(83, 48, 25);
+}
+
+.recipe-detail-header,
+.recipe-detail-body,
+.cook-action-row,
+.settings-row,
+.settings-actions {
+    flex-direction: row;
+    align-items: center;
+}
+
+.recipe-detail-header {
+    justify-content: space-between;
+}
+
+.recipe-detail-title {
+    font-size: 16px;
+}
+
+.recipe-detail-body {
+    min-height: 130px;
+}
+
+.selected-recipe-card {
+    width: 120px;
+    flex-direction: column;
+}
+
+.selected-recipe-name {
+    font-size: 14px;
+}
+
+.selected-recipe-icon {
+    width: 110px;
+    height: 110px;
+    background-color: rgb(255, 232, 187);
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    border-left-color: rgb(184, 120, 50);
+    border-right-color: rgb(184, 120, 50);
+    border-top-color: rgb(255, 243, 205);
+    border-bottom-color: rgb(139, 76, 31);
+}
+
+.recipe-requirements {
+    flex-grow: 1;
+    flex-direction: column;
+}
+
+.recipe-section-label {
+    font-size: 13px;
+}
+
+.required-ingredient-slots {
+    min-height: 55px;
+}
+
+.crafting-inventory-grid {
+    min-height: 92px;
+}
+
+.settings-page {
+    padding-top: 16px;
+    padding-left: 26px;
+    padding-right: 26px;
+    align-items: center;
+}
+
+.settings-row {
+    width: 560px;
+    flex-grow: 0;
+    flex-shrink: 0;
+    margin-bottom: 10px;
+}
+
+.settings-label {
+    width: 160px;
+    flex-grow: 0;
+    color: rgb(83, 48, 25);
+}
+
+.settings-slider {
+    width: 310px;
+}
+
+.settings-value {
+    width: 36px;
+    color: rgb(83, 48, 25);
+    -unity-text-align: middle-right;
+}
+
+.settings-actions {
+    width: 560px;
+    flex-grow: 0;
+    flex-shrink: 0;
+    margin-top: 12px;
+}
+
+.settings-button {
+    flex-grow: 1;
+}
+
+.settings-back-button {
+    width: 560px;
+    height: 32px;
+    margin-bottom: 14px;
+    color: rgb(83, 48, 25);
+    -unity-font-style-and-weight: bold;
+    background-color: rgb(232, 198, 143);
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    border-left-color: rgb(184, 120, 50);
+    border-right-color: rgb(184, 120, 50);
+    border-top-color: rgb(249, 224, 178);
+    border-bottom-color: rgb(139, 76, 31);
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.settings-back-button:hover {
+    background-color: rgb(239, 207, 153);
+}
+
+/* Standalone hotbar HUD */
+
+.hud-hotbar-root {
+    flex-grow: 1;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    align-items: center;
+    justify-content: flex-end;
+    padding-bottom: 46px;
+}
+
+.hud-hotbar-container {
+    position: relative;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-left: 18px;
+    padding-right: 18px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+    background-color: rgb(198, 139, 76);
+    border-left-width: 4px;
+    border-right-width: 4px;
+    border-top-width: 4px;
+    border-bottom-width: 4px;
+    border-left-color: rgb(126, 76, 35);
+    border-right-color: rgb(126, 76, 35);
+    border-top-color: rgb(236, 174, 94);
+    border-bottom-color: rgb(101, 58, 26);
+    border-top-left-radius: 18px;
+    border-top-right-radius: 18px;
+    border-bottom-left-radius: 18px;
+    border-bottom-right-radius: 18px;
+}
+
+.hud-hotbar-wood {
+    position: absolute;
+    left: 8px;
+    right: 8px;
+    top: 7px;
+    bottom: 7px;
+    background-color: rgb(216, 159, 91);
+    opacity: 0.62;
+    border-top-left-radius: 13px;
+    border-top-right-radius: 13px;
+    border-bottom-left-radius: 13px;
+    border-bottom-right-radius: 13px;
+}
+
+.hud-hotbar-slots {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.hud-hotbar-slot {
+    width: 52px;
+    height: 52px;
+    flex-grow: 0;
+    flex-shrink: 0;
+    margin-right: 8px;
+    background-color: rgb(221, 184, 126);
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    border-left-color: rgb(184, 120, 50);
+    border-right-color: rgb(184, 120, 50);
+    border-top-color: rgb(239, 209, 158);
+    border-bottom-color: rgb(139, 76, 31);
+    border-top-left-radius: 9px;
+    border-top-right-radius: 9px;
+    border-bottom-left-radius: 9px;
+    border-bottom-right-radius: 9px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    -unity-background-scale-mode: scale-to-fit;
+}
+
+.hud-hotbar-slot-last {
+    margin-right: 0;
+}
+
+.hud-hotbar-slot:hover {
+    background-color: rgb(228, 194, 137);
+    border-top-color: rgb(246, 219, 169);
+    border-bottom-color: rgb(150, 86, 36);
 }

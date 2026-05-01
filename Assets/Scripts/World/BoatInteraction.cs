@@ -15,11 +15,17 @@ public class BoatInteraction : MonoBehaviour
     [SerializeField] private string disembarkPrompt = "Press E to disembark";
     [SerializeField] private Vector3 playerBoatOffset = Vector3.zero; // Adjust where player stands on boat
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip boardSound;
+    [SerializeField] private AudioClip disembarkSound;
+    [SerializeField, Range(0f, 1f)] private float interactionVolume = 0.8f;
+
     [Header("References")]
     [SerializeField] private Transform playerTransform;
     private CharacterController2D playerController;
     private Rigidbody2D playerRigidbody;
     private BoatMovement boatMovement;
+    private AudioSource interactionAudioSource;
 
     private bool playerIsOnBoat = false;
     private Vector3 playerOriginalLocalScale;
@@ -36,6 +42,8 @@ public class BoatInteraction : MonoBehaviour
     private void Start()
     {
         boatMovement = GetComponent<BoatMovement>();
+        SetupInteractionAudioSource();
+
         if (boatMovement == null)
         {
             Debug.LogError("BoatInteraction requires a BoatMovement component on the same GameObject!");
@@ -173,6 +181,7 @@ public class BoatInteraction : MonoBehaviour
         }
 
         Debug.Log("[Boat] Player boarded the boat");
+        PlayInteractionSound(boardSound);
         if (toastUI != null)
             toastUI.Show("Press WASD to move, E to disembark");
     }
@@ -204,8 +213,29 @@ public class BoatInteraction : MonoBehaviour
             boatMovement.StopMoving();
 
         Debug.Log("[Boat] Player disembarked");
+        PlayInteractionSound(disembarkSound);
         if (toastUI != null)
             toastUI.Show(boardPrompt);
+    }
+
+    private void SetupInteractionAudioSource()
+    {
+        interactionAudioSource = gameObject.AddComponent<AudioSource>();
+        interactionAudioSource.playOnAwake = false;
+        interactionAudioSource.loop = false;
+        interactionAudioSource.spatialBlend = 0f;
+        interactionAudioSource.volume = interactionVolume;
+
+        if (AudioSettingsManager.HasInstance)
+            AudioSettingsManager.Instance.RefreshAudioSource(interactionAudioSource);
+    }
+
+    private void PlayInteractionSound(AudioClip clip)
+    {
+        if (interactionAudioSource == null || clip == null)
+            return;
+
+        interactionAudioSource.PlayOneShot(clip);
     }
 
     public bool IsPlayerOnBoat => playerIsOnBoat;

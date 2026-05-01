@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 [RequireComponent(typeof(UIDocument))]
@@ -10,8 +11,10 @@ public class HotBarHUDController : MonoBehaviour
     private UIDocument _uiDocument;
     private VisualElement _root;
     private VisualElement[] _slots;
+    private bool _requestedVisible = true;
 
     private const int HotbarSize = 12;
+    private const string FarmSceneName = "FarmScene";
 
     private void Awake()
     {
@@ -44,10 +47,26 @@ public class HotBarHUDController : MonoBehaviour
         SetVisible(true);
     }
 
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        ApplySceneVisibility();
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
     private void OnDestroy()
     {
         if (_instance == this)
             _instance = null;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        ApplySceneVisibility();
     }
 
     private void CacheSlots()
@@ -119,9 +138,16 @@ public class HotBarHUDController : MonoBehaviour
 
     public void SetVisible(bool visible)
     {
+        _requestedVisible = visible;
+        ApplySceneVisibility();
+    }
+
+    private void ApplySceneVisibility()
+    {
         if (_root != null)
         {
-            _root.style.display = visible ? DisplayStyle.Flex : DisplayStyle.None;
+            bool visibleInScene = string.Equals(SceneManager.GetActiveScene().name, FarmSceneName, StringComparison.Ordinal);
+            _root.style.display = _requestedVisible && visibleInScene ? DisplayStyle.Flex : DisplayStyle.None;
         }
     }
 }

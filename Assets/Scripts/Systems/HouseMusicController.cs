@@ -18,6 +18,9 @@ public class HouseMusicController : MonoBehaviour
         audioSource.spatialBlend = 0f;
         audioSource.clip = houseMusic;
 
+        if (AudioSettingsManager.HasInstance)
+            AudioSettingsManager.Instance.RefreshAudioSource(audioSource);
+
         if (audioSource.clip != null)
             audioSource.Play();
     }

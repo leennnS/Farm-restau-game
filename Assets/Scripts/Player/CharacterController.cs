@@ -5,8 +5,13 @@ public class CharacterController2D : MonoBehaviour
 {
     Rigidbody2D myRigidBody;
     Animator animator;
+    AudioSource walkAudioSource;
 
     public float speed = 15f;
+
+    [Header("Walk SFX")]
+    [SerializeField] private AudioClip walkSound;
+    [SerializeField, Range(0f, 1f)] private float walkVolume = 0.65f;
 
     Vector2 motionVector;
     public Vector2 lastmotionVector;
@@ -16,6 +21,7 @@ public class CharacterController2D : MonoBehaviour
     {
         myRigidBody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        SetupWalkAudioSource();
     }
 
     void Update()
@@ -37,6 +43,8 @@ public class CharacterController2D : MonoBehaviour
             animator.SetFloat("lastHorizontal", motionVector.x);
             animator.SetFloat("lastVertical", motionVector.y);
         }
+
+        UpdateWalkAudio();
     }
 
     void FixedUpdate()
@@ -46,4 +54,43 @@ public class CharacterController2D : MonoBehaviour
         myRigidBody.MovePosition(myRigidBody.position + motionVector * scaledSpeed * Time.fixedDeltaTime);
     }
 
+    void OnDisable()
+    {
+        if (walkAudioSource != null && walkAudioSource.isPlaying)
+            walkAudioSource.Stop();
+    }
+
+    private void SetupWalkAudioSource()
+    {
+        walkAudioSource = gameObject.AddComponent<AudioSource>();
+        walkAudioSource.playOnAwake = false;
+        walkAudioSource.loop = true;
+        walkAudioSource.spatialBlend = 0f;
+        walkAudioSource.volume = walkVolume;
+        walkAudioSource.clip = walkSound;
+
+        if (AudioSettingsManager.HasInstance)
+            AudioSettingsManager.Instance.RefreshAudioSource(walkAudioSource);
+    }
+
+    private void UpdateWalkAudio()
+    {
+        if (walkAudioSource == null)
+            return;
+
+        if (walkAudioSource.clip != walkSound)
+            walkAudioSource.clip = walkSound;
+
+        bool shouldPlay = moving && walkSound != null && Time.timeScale > 0.001f;
+
+        if (shouldPlay)
+        {
+            if (!walkAudioSource.isPlaying)
+                walkAudioSource.Play();
+        }
+        else if (walkAudioSource.isPlaying)
+        {
+            walkAudioSource.Stop();
+        }
+    }
 }

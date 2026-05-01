@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 [RequireComponent(typeof(UIDocument))]
@@ -12,6 +13,9 @@ public class HotBarController : MonoBehaviour
     private VisualElement _root;          // rootVisualElement
     private VisualElement _hotbarRoot;    // optional: "hotbarRoot" in your UXML
     private VisualElement[] _slots;
+    private bool _requestedVisible = true;
+
+    private const string FarmSceneName = "FarmScene";
 
     private void Awake()
     {
@@ -32,12 +36,29 @@ public class HotBarController : MonoBehaviour
 
         CacheSlots();
         ClearAll();
+        ApplySceneVisibility();
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        ApplySceneVisibility();
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     private void OnDestroy()
     {
         if (_instance == this)
             _instance = null;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        ApplySceneVisibility();
     }
 
     private void CacheSlots()
@@ -69,8 +90,15 @@ public class HotBarController : MonoBehaviour
 
     public void SetVisible(bool visible)
     {
+        _requestedVisible = visible;
+        ApplySceneVisibility();
+    }
+
+    private void ApplySceneVisibility()
+    {
         if (_hotbarRoot == null) return;
-        _hotbarRoot.style.display = visible ? DisplayStyle.Flex : DisplayStyle.None;
+        bool visibleInScene = string.Equals(SceneManager.GetActiveScene().name, FarmSceneName, System.StringComparison.Ordinal);
+        _hotbarRoot.style.display = _requestedVisible && visibleInScene ? DisplayStyle.Flex : DisplayStyle.None;
     }
 
     public void SetSlot(int index, Sprite icon, int amount)
