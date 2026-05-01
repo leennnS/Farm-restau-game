@@ -1,6 +1,10 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+#if ENABLE_INPUT_SYSTEM
+using UnityEngine.InputSystem.UI;
+#endif
 using UnityEngine.UIElements;
 using UnityEngine.SceneManagement;
 
@@ -43,14 +47,18 @@ public class InventoryController : MonoBehaviour
     // ---------- NEW: Inventory ----------
     [Header("Inventory")]
     [SerializeField] private int inventorySize = 36;
-    [SerializeField, Range(0.8f, 2.0f)] private float inventoryUiScale = 1.1f;
+    [SerializeField, Range(0.8f, 2.0f)] private float inventoryUiScale = 1.0f;
     [SerializeField] private bool autoScaleByDevice = true;
     [SerializeField] private float referenceDpi = 96f;
     [SerializeField, Range(1.0f, 1.8f)] private float maxAutoScaleMultiplier = 1.45f;
+    [SerializeField] private Texture2D inventoryBackgroundImage;
+    [SerializeField] private bool useImageBackgroundWhenAssigned = true;
     [SerializeField] private ItemDefinition[] knownItemDefinitions;
 
     [Header("Crafting")]
     [SerializeField] private bool enableInventoryCookingTab = false;
+    [SerializeField] private Texture2D cookingBackgroundImage;
+    [SerializeField] private bool useCookingImageBackgroundWhenAssigned = true;
     [SerializeField] private RecipeDefinition[] recipes;
 
     [Header("Map")]
@@ -78,6 +86,8 @@ public class InventoryController : MonoBehaviour
     private bool _isDraggingFromCookingInventory = false;
 
     private VisualElement _inventoryFooter;
+    private VisualElement _inventoryShell;
+    private VisualElement _inventoryBackgroundImageElement;
     private VisualElement _playerCard;
     private UIDocument _uiDocument;
     private VisualElement _root;
@@ -148,6 +158,7 @@ public class InventoryController : MonoBehaviour
     private Label _masterVolumeLabel;
     private Label _musicVolumeLabel;
     private Label _sfxVolumeLabel;
+    private Button _backToInventoryButton;
     private Button _exitButton;
     private Button _quitButton;
 
@@ -155,6 +166,9 @@ public class InventoryController : MonoBehaviour
     private VisualElement[] _itemSlots; // itemSlot01..itemSlot36
     private VisualElement[] _hotbarSlots; // hotbarSlot01..hotbarSlot12
     private VisualElement _trashSlot;
+    private readonly HashSet<VisualElement> _boundInventorySlotElements = new HashSet<VisualElement>();
+    private readonly HashSet<VisualElement> _boundHotbarSlotElements = new HashSet<VisualElement>();
+    private readonly HashSet<VisualElement> _boundTrashSlotElements = new HashSet<VisualElement>();
 
     private ItemStack[] _slotsData;
     private ItemStack[] _hotbarData;
@@ -251,6 +265,9 @@ public class InventoryController : MonoBehaviour
     {
         // Let scene UI documents initialize first.
         yield return null;
+        yield return null;
+
+        EnsureRuntimeEventSystem();
 
         // Rebind inventory UI references if UI Toolkit rebuilt the runtime panel.
         RebindInventoryUIIfNeeded(forceRebindCallbacks: false);
@@ -267,6 +284,7 @@ public class InventoryController : MonoBehaviour
 
         // Re-apply interaction state so hidden inventory cannot intercept clicks.
         SetOpen(_isOpen, playSound: false);
+        RestoreInventoryPointerState();
         SyncAudioSettingsFromSliders();
     }
 
@@ -286,6 +304,7 @@ public class InventoryController : MonoBehaviour
         _root = newRoot;
 
         CacheUI();
+        ApplyInventoryBackgroundImage();
         ApplyInventoryUiScale();
         CacheInventorySlots();
 
@@ -548,6 +567,7 @@ public class InventoryController : MonoBehaviour
             _tabCraftingButton.style.display = DisplayStyle.Flex;
 
         ShowPage(_craftingPage, _toolsPage, _mapPage, _settingsPage);
+        SetCookingPanelMode(true);
         SetFooterVisible(false);
         ShowRecipeCategory(_currentRecipeCategory);
         UpdateActiveTopTab(_tabCraftingButton);
@@ -573,8 +593,13 @@ public class InventoryController : MonoBehaviour
 
     private void SetOpen(bool open, bool playSound = true)
     {
+        EnsureRuntimeEventSystem();
+
         bool stateChanged = _isOpen != open;
         _isOpen = open;
+
+        if (_uiDocument != null)
+            _uiDocument.sortingOrder = open ? 5000 : 0;
 
         TryResolveHotbarHUD();
 
@@ -592,6 +617,9 @@ public class InventoryController : MonoBehaviour
         {
             interactionRoot.style.display = open ? DisplayStyle.Flex : DisplayStyle.None;
             interactionRoot.pickingMode = open ? PickingMode.Position : PickingMode.Ignore;
+
+            if (open)
+                interactionRoot.BringToFront();
         }
 
         // Extra safety: when closed, root should not eat pointer events.
@@ -600,6 +628,9 @@ public class InventoryController : MonoBehaviour
         else if (_root != null)
             _root.pickingMode = PickingMode.Position;
 
+        if (open)
+            RestoreInventoryPointerState();
+
         if (!stateChanged || !playSound)
             return;
 
@@ -607,6 +638,103 @@ public class InventoryController : MonoBehaviour
             PlayInventorySound(openInventorySound);
         else
             PlayInventorySound(closeInventorySound);
+    }
+
+    private void RestoreInventoryPointerState()
+    {
+        if (_root != null)
+            _root.pickingMode = _isOpen ? PickingMode.Position : PickingMode.Ignore;
+
+        if (_inventoryRootElement == null && _root != null)
+            _inventoryRootElement = _root.Q<VisualElement>("inventoryRoot");
+
+        if (_inventoryRootElement != null)
+            _inventoryRootElement.pickingMode = _isOpen ? PickingMode.Position : PickingMode.Ignore;
+
+        if (_itemSlots != null)
+        {
+            for (int i = 0; i < _itemSlots.Length; i++)
+            {
+                if (_itemSlots[i] != null)
+                    _itemSlots[i].pickingMode = PickingMode.Position;
+            }
+        }
+
+        if (_hotbarSlots != null)
+        {
+            for (int i = 0; i < _hotbarSlots.Length; i++)
+            {
+                if (_hotbarSlots[i] != null)
+                    _hotbarSlots[i].pickingMode = PickingMode.Position;
+            }
+        }
+
+        if (_trashSlot != null)
+            _trashSlot.pickingMode = PickingMode.Position;
+    }
+
+    private void EnsureRuntimeEventSystem()
+    {
+        const string inventoryFallbackName = "InventoryRuntimeEventSystem";
+        const string audioFallbackName = "GlobalAudioSettingsEventSystem";
+
+        EventSystem[] eventSystems = FindObjectsByType<EventSystem>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        bool sceneEventSystemExists = false;
+
+        for (int i = 0; i < eventSystems.Length; i++)
+        {
+            EventSystem system = eventSystems[i];
+            if (system == null)
+                continue;
+
+            string objectName = system.gameObject.name;
+            bool isFallback = string.Equals(objectName, inventoryFallbackName, StringComparison.Ordinal)
+                || string.Equals(objectName, audioFallbackName, StringComparison.Ordinal);
+
+            if (!isFallback)
+            {
+                sceneEventSystemExists = true;
+                break;
+            }
+        }
+
+        if (sceneEventSystemExists)
+        {
+            DestroyFallbackEventSystems(inventoryFallbackName, audioFallbackName);
+            return;
+        }
+
+        EventSystem existing = EventSystem.current != null ? EventSystem.current : FindFirstObjectByType<EventSystem>();
+        if (existing != null)
+            return;
+
+        GameObject eventSystemObject = new GameObject(inventoryFallbackName);
+        DontDestroyOnLoad(eventSystemObject);
+        eventSystemObject.AddComponent<EventSystem>();
+
+#if ENABLE_INPUT_SYSTEM
+        eventSystemObject.AddComponent<InputSystemUIInputModule>();
+#else
+        eventSystemObject.AddComponent<StandaloneInputModule>();
+#endif
+    }
+
+    private static void DestroyFallbackEventSystems(string inventoryFallbackName, string audioFallbackName)
+    {
+        EventSystem[] eventSystems = FindObjectsByType<EventSystem>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        for (int i = 0; i < eventSystems.Length; i++)
+        {
+            EventSystem system = eventSystems[i];
+            if (system == null)
+                continue;
+
+            string objectName = system.gameObject.name;
+            if (string.Equals(objectName, inventoryFallbackName, StringComparison.Ordinal)
+                || string.Equals(objectName, audioFallbackName, StringComparison.Ordinal))
+            {
+                Destroy(system.gameObject);
+            }
+        }
     }
 
     private void EnsureAudioSource()
@@ -692,6 +820,9 @@ public class InventoryController : MonoBehaviour
         _tabCraftingButton = _root.Q<Button>("tabCraftingButton");
         _tabSettingsButton = _root.Q<Button>("tabSettingsButton");
 
+        if (_tabCraftingButton != null && !_tabCraftingButton.ClassListContains("cooking-top-tab"))
+            _tabCraftingButton.AddToClassList("cooking-top-tab");
+
         if (_tabMapButton != null)
             _tabMapButton.style.display = DisplayStyle.None;
 
@@ -708,6 +839,7 @@ public class InventoryController : MonoBehaviour
         _masterVolumeLabel = _root.Q<Label>("masterVolumeLabel");
         _musicVolumeLabel = _root.Q<Label>("musicVolumeLabel");
         _sfxVolumeLabel = _root.Q<Label>("sfxVolumeLabel");
+        _backToInventoryButton = _root.Q<Button>("backToInventoryButton");
         _exitButton = _root.Q<Button>("exitButton");
         _quitButton = _root.Q<Button>("quitButton");
         // Cooking tab
@@ -732,6 +864,8 @@ public class InventoryController : MonoBehaviour
         _craftingInventoryGrid = _root.Q<VisualElement>("craftingInventoryGrid");
 
         _inventoryFooter = _root.Q<VisualElement>("inventoryFooter");
+        _inventoryShell = _root.Q<VisualElement>("inventoryShell");
+        _inventoryBackgroundImageElement = _root.Q<VisualElement>("inventoryBackgroundImage");
         _playerCard = _root.Q<VisualElement>("playerCard");
         _cookingLoadingContainer = _root.Q<VisualElement>("cookingLoadingContainer");
         _cookingLoadingBarFill = _root.Q<VisualElement>("cookingLoadingBarFill");
@@ -747,6 +881,26 @@ public class InventoryController : MonoBehaviour
 
             if (_craftingPage != null)
                 _craftingPage.style.display = DisplayStyle.None;
+        }
+    }
+
+    private void ApplyInventoryBackgroundImage()
+    {
+        if (_inventoryShell == null || _inventoryBackgroundImageElement == null)
+            return;
+
+        bool useImageBackground = useImageBackgroundWhenAssigned && inventoryBackgroundImage != null;
+
+        if (useImageBackground)
+        {
+            _inventoryBackgroundImageElement.style.backgroundImage = new StyleBackground(inventoryBackgroundImage);
+            _inventoryBackgroundImageElement.pickingMode = PickingMode.Ignore;
+            _inventoryShell.AddToClassList("image-background-mode");
+        }
+        else
+        {
+            _inventoryBackgroundImageElement.style.backgroundImage = StyleKeyword.None;
+            _inventoryShell.RemoveFromClassList("image-background-mode");
         }
     }
 
@@ -833,8 +987,11 @@ public class InventoryController : MonoBehaviour
                 // Register drag and drop handlers
                 int slotIndex = i;
                 _itemSlots[i].pickingMode = PickingMode.Position;
-                _itemSlots[i].RegisterCallback<MouseDownEvent>(evt => OnInventorySlotMouseDown(slotIndex, evt));
-                _itemSlots[i].RegisterCallback<MouseUpEvent>(evt => OnInventorySlotMouseUp(slotIndex, evt));
+                if (_boundInventorySlotElements.Add(_itemSlots[i]))
+                {
+                    _itemSlots[i].RegisterCallback<MouseDownEvent>(evt => OnInventorySlotMouseDown(slotIndex, evt));
+                    _itemSlots[i].RegisterCallback<MouseUpEvent>(evt => OnInventorySlotMouseUp(slotIndex, evt));
+                }
             }
             else
             {
@@ -858,8 +1015,11 @@ public class InventoryController : MonoBehaviour
                 // Register drag and drop handlers
                 int slotIndex = i;
                 _hotbarSlots[i].pickingMode = PickingMode.Position;
-                _hotbarSlots[i].RegisterCallback<MouseDownEvent>(evt => OnHotbarSlotMouseDown(slotIndex, evt));
-                _hotbarSlots[i].RegisterCallback<MouseUpEvent>(evt => OnHotbarSlotMouseUp(slotIndex, evt));
+                if (_boundHotbarSlotElements.Add(_hotbarSlots[i]))
+                {
+                    _hotbarSlots[i].RegisterCallback<MouseDownEvent>(evt => OnHotbarSlotMouseDown(slotIndex, evt));
+                    _hotbarSlots[i].RegisterCallback<MouseUpEvent>(evt => OnHotbarSlotMouseUp(slotIndex, evt));
+                }
             }
             else
             {
@@ -873,7 +1033,8 @@ public class InventoryController : MonoBehaviour
         if (_trashSlot != null)
         {
             _trashSlot.pickingMode = PickingMode.Position;
-            _trashSlot.RegisterCallback<MouseUpEvent>(evt => OnTrashSlotMouseUp(evt));
+            if (_boundTrashSlotElements.Add(_trashSlot))
+                _trashSlot.RegisterCallback<MouseUpEvent>(evt => OnTrashSlotMouseUp(evt));
         }
     }
 
@@ -914,6 +1075,9 @@ public class InventoryController : MonoBehaviour
         if (_quitButton != null)
             _quitButton.clicked += QuitGame;
 
+        if (_backToInventoryButton != null)
+            _backToInventoryButton.clicked += ShowTools;
+
         // Populate crafting recipes
         if (enableInventoryCookingTab)
             PopulateCraftingRecipes();
@@ -944,6 +1108,7 @@ public class InventoryController : MonoBehaviour
 
     private void ShowTools()
     {
+        SetCookingPanelMode(false);
         ShowPage(_toolsPage, _mapPage, _craftingPage, _settingsPage);
         SetFooterVisible(true);
         UpdateActiveTopTab(_tabToolsButton);
@@ -951,6 +1116,7 @@ public class InventoryController : MonoBehaviour
 
     private void ShowMap()
     {
+        SetCookingPanelMode(false);
         ShowPage(_mapPage, _toolsPage, _craftingPage, _settingsPage);
         SetFooterVisible(true);
         UpdateActiveTopTab(_tabMapButton);
@@ -965,6 +1131,7 @@ public class InventoryController : MonoBehaviour
         }
 
         ShowPage(_craftingPage, _toolsPage, _mapPage, _settingsPage);
+        SetCookingPanelMode(true);
         SetFooterVisible(false);
         if (_isServeMode)
             ShowServeTab();
@@ -986,10 +1153,48 @@ public class InventoryController : MonoBehaviour
 
     private void ShowSettings()
     {
+        SetCookingPanelMode(false);
         ShowPage(_settingsPage, _toolsPage, _mapPage, _craftingPage);
         SetFooterVisible(true);
         UpdateActiveTopTab(_tabSettingsButton);
         SyncAudioSettingsFromSliders();
+    }
+
+    private void SetCookingPanelMode(bool enabled)
+    {
+        if (_inventoryShell == null)
+            return;
+
+        if (enabled)
+        {
+            _inventoryShell.AddToClassList("cooking-panel-mode");
+            ApplyCookingBackgroundImage();
+        }
+        else
+        {
+            _inventoryShell.RemoveFromClassList("cooking-panel-mode");
+            _inventoryShell.RemoveFromClassList("cooking-image-background-mode");
+            ApplyInventoryBackgroundImage();
+        }
+    }
+
+    private void ApplyCookingBackgroundImage()
+    {
+        if (_inventoryShell == null || _inventoryBackgroundImageElement == null)
+            return;
+
+        bool useCookingImage = useCookingImageBackgroundWhenAssigned && cookingBackgroundImage != null;
+
+        if (useCookingImage)
+        {
+            _inventoryBackgroundImageElement.style.backgroundImage = new StyleBackground(cookingBackgroundImage);
+            _inventoryBackgroundImageElement.pickingMode = PickingMode.Ignore;
+            _inventoryShell.AddToClassList("cooking-image-background-mode");
+        }
+        else
+        {
+            _inventoryShell.RemoveFromClassList("cooking-image-background-mode");
+        }
     }
 
     private void ShowPage(VisualElement show, VisualElement hide1, VisualElement hide2, VisualElement hide3)
@@ -1075,6 +1280,7 @@ public class InventoryController : MonoBehaviour
         DestroyPersistentObjects<DayNightCycleNice2D>();
         DestroyPersistentObjects<GlobalMoneyHUD>();
         DestroyPersistentObjects<GlobalClockHUD>();
+        DestroyPersistentObjects<GlobalAudioSettingsHUD>();
         DestroyPersistentObjects<GlobalNextDayButtonHUD>();
         DestroyPersistentObjects<ClockHUDController>();
         DestroyPersistentObjects<OrderListHUD>();
@@ -1656,6 +1862,8 @@ public class InventoryController : MonoBehaviour
             _exitButton.clicked -= ExitToMenu;
         if (_quitButton != null)
             _quitButton.clicked -= QuitGame;
+        if (_backToInventoryButton != null)
+            _backToInventoryButton.clicked -= ShowTools;
 
         if (_cookRecipeButton != null)
             _cookRecipeButton.clicked -= OnCookOrServePressed;

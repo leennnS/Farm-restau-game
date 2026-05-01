@@ -24,6 +24,9 @@ public class RestaurantMusicController : MonoBehaviour
         audioSource.loop = true;
         audioSource.spatialBlend = 0f; // 0 = 2D, 1 = 3D
 
+        if (AudioSettingsManager.HasInstance)
+            AudioSettingsManager.Instance.RefreshAudioSource(audioSource);
+
         // Play the music
         if (restaurantMusic != null)
         {

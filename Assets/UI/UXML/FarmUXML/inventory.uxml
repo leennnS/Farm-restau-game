@@ -1,172 +1,206 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-   <ui:Style src="project://database/Assets/UI/UXML/CookingStyles.uss?fileID=7433441132597879392&amp;guid=487566365cc70c14f8b11b65c5be9d1d&amp;type=3#CookingStyles" />
-   <ui:VisualElement name="inventoryRoot" style="flex-grow: 1; align-items: center; justify-content: center;">
-    <ui:VisualElement name="inventoryShell" style="width: 820px; position: relative;">
-        <ui:VisualElement name="inventoryTabs" style="flex-direction: row; gap: 4px; margin-left: 12px; margin-bottom: -2px; height: 42px; align-items: flex-end;">
-            <ui:Button name="tabToolsButton" tooltip="Inventory" class="top-tab active-top-tab" style="background-image: url(&quot;project://database/Assets/Art/Models/Farm/InventoryIcons/sprout.png?fileID=2800000&amp;guid=fcf461b16c4d1854a90e415ee4a4dd7a&amp;type=3#sprout&quot;);" />
-            <ui:Button name="tabCraftingButton" tooltip="Crafting" class="top-tab" style="background-image: url(&quot;project://database/Assets/Art/Models/Farm/InventoryIcons/chef.png?fileID=2800000&amp;guid=4e9ff1eb3a15b1c4a9250d071b56d496&amp;type=3#chef&quot;);" />
-            <ui:Button name="tabSettingsButton" tooltip="Settings" class="top-tab" style="background-image: url(&quot;project://database/Assets/Art/Sprites/cogwheel.png?fileID=2800000&amp;guid=56a62a677ee29354c8af0689dfd1e769&amp;type=3#cogwheel&quot;);" />
-        </ui:VisualElement>
-
-        <ui:VisualElement name="inventoryPanel" style="width: 820px; height: 560px; background-color: rgb(228, 183, 122); border-left-color: rgb(139, 90, 43); border-right-color: rgb(139, 90, 43); border-top-color: rgb(192, 138, 74); border-bottom-color: rgb(107, 63, 26); border-left-width: 4px; border-right-width: 4px; border-top-width: 4px; border-bottom-width: 4px; padding-left: 18px; padding-right: 18px; padding-top: 14px; padding-bottom: 14px; min-height: auto;">
-            <ui:VisualElement name="inventoryHeader" style="flex-direction: row; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                <ui:Label text="Inventory" name="Title" style="font-size: 28px; unity-font-style: bold; color: rgb(58, 42, 24);"/>
-                <ui:Button name="closeButton" text="X" style="width: 40px; height: 40px; font-size: 20px;"/>
+    <ui:Style src="project://database/Assets/UI/UXML/CookingStyles.uss?fileID=7433441132597879392&amp;guid=487566365cc70c14f8b11b65c5be9d1d&amp;type=3#CookingStyles" />
+    <ui:VisualElement name="inventoryRoot" class="inv-root">
+        <ui:VisualElement name="inventoryShell" class="inv-shell">
+            <ui:VisualElement name="inventoryBackgroundImage" class="inventory-background-image" picking-mode="Ignore" />
+            <ui:VisualElement class="wood-shadow" picking-mode="Ignore" />
+            <ui:VisualElement class="wood-frame" picking-mode="Ignore" />
+            <ui:VisualElement class="wood-bevel" picking-mode="Ignore" />
+            <ui:VisualElement class="wood-strip wood-strip-top" picking-mode="Ignore">
+                <ui:VisualElement class="grain grain-wide" picking-mode="Ignore" />
+                <ui:VisualElement class="grain grain-small" picking-mode="Ignore" />
+                <ui:VisualElement class="grain grain-mid" picking-mode="Ignore" />
             </ui:VisualElement>
-           
-            <ui:VisualElement name="inventoryPages" style="flex-direction: column; flex-grow: 1;">
-                <ui:VisualElement name="toolsPage" style="flex-direction: column;">
-                    <ui:VisualElement name="hotbarContainer" style="flex-direction: column; margin-bottom: 14px;">
-                        <ui:VisualElement name="hotbarNumbers" style="flex-direction: row; gap: 12px; margin-bottom: 4px; flex-shrink: 1;">
-                            <ui:Label text="1" style="width: 55px; text-align: center; font-size: 14px; color: rgb(58, 42, 24); unity-font-style: bold; height: 28px;"/>
-                            <ui:Label text="2" style="width: 55px; text-align: center; font-size: 14px; color: rgb(58, 42, 24); unity-font-style: bold;"/>
-                            <ui:Label text="3" style="width: 55px; text-align: center; font-size: 14px; color: rgb(58, 42, 24); unity-font-style: bold;"/>
-                            <ui:Label text="4" style="width: 55px; text-align: center; font-size: 14px; color: rgb(58, 42, 24); unity-font-style: bold;"/>
-                            <ui:Label text="5" style="width: 55px; text-align: center; font-size: 14px; color: rgb(58, 42, 24); unity-font-style: bold;"/>
-                            <ui:Label text="6" style="width: 55px; text-align: center; font-size: 14px; color: rgb(58, 42, 24); unity-font-style: bold;"/>
-                            <ui:Label text="7" style="width: 55px; text-align: center; font-size: 14px; color: rgb(58, 42, 24); unity-font-style: bold;"/>
-                            <ui:Label text="8" style="width: 55px; text-align: center; font-size: 14px; color: rgb(58, 42, 24); unity-font-style: bold;"/>
-                            <ui:Label text="9" style="width: 55px; text-align: center; font-size: 14px; color: rgb(58, 42, 24); unity-font-style: bold;"/>
-                            <ui:Label text="10" style="width: 55px; text-align: center; font-size: 14px; color: rgb(58, 42, 24); unity-font-style: bold;"/>
-                            <ui:Label text="11" style="width: 55px; text-align: center; font-size: 14px; color: rgb(58, 42, 24); unity-font-style: bold;"/>
-                            <ui:Label text="12" style="width: 55px; text-align: center; font-size: 14px; color: rgb(58, 42, 24); unity-font-style: bold;"/>
-                        </ui:VisualElement>
-                        <ui:VisualElement name="hotbarRow" style="flex-direction: row; gap: 12px;">
-                            <ui:VisualElement name="hotbarSlot01" style="width: 58px; height: 58px; background-color: rgb(242, 228, 199); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60); background-image: none;"/>
-                            <ui:VisualElement name="hotbarSlot02" style="width: 58px; height: 58px; background-color: rgb(242, 228, 199); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);"/>
-                            <ui:VisualElement name="hotbarSlot03" style="width: 58px; height: 58px; background-color: rgb(242, 228, 199); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);"/>
-                            <ui:VisualElement name="hotbarSlot04" style="width: 58px; height: 58px; background-color: rgb(242, 228, 199); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);"/>
-                            <ui:VisualElement name="hotbarSlot05" style="width: 58px; height: 58px; background-color: rgb(242, 228, 199); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);"/>
-                            <ui:VisualElement name="hotbarSlot06" style="width: 58px; height: 58px; background-color: rgb(242, 228, 199); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);"/>
-                            <ui:VisualElement name="hotbarSlot07" style="width: 58px; height: 58px; background-color: rgb(242, 228, 199); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);"/>
-                            <ui:VisualElement name="hotbarSlot08" style="width: 58px; height: 58px; background-color: rgb(242, 228, 199); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);"/>
-                            <ui:VisualElement name="hotbarSlot09" style="width: 58px; height: 58px; background-color: rgb(242, 228, 199); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);"/>
-                            <ui:VisualElement name="hotbarSlot10" style="width: 58px; height: 58px; background-color: rgb(242, 228, 199); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);"/>
-                            <ui:VisualElement name="hotbarSlot11" style="width: 58px; height: 58px; background-color: rgb(242, 228, 199); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);"/>
-                            <ui:VisualElement name="hotbarSlot12" style="width: 58px; height: 58px; background-color: rgb(242, 228, 199); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);"/>
-                        </ui:VisualElement>
-                    </ui:VisualElement>
-                    <ui:VisualElement name="inventoryGrid" style="flex-direction: row; flex-wrap: wrap; gap: 8px; height: 210px; margin-bottom: 14px;">
-                        <ui:VisualElement name="itemSlot01" style="width: 52px; height: 52px; background-color: rgb(247, 234, 210); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);"/>
-                        <ui:VisualElement name="itemSlot02" style="width: 52px; height: 52px; background-color: rgb(247, 234, 210); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60); background-image: none;"/>
-                        <ui:VisualElement name="itemSlot03" style="width: 52px; height: 52px; background-color: rgb(247, 234, 210); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);"/>
-                        <ui:VisualElement name="itemSlot04" style="width: 52px; height: 52px; background-color: rgb(247, 234, 210); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60); background-image: none;"/>
-                        <ui:VisualElement name="itemSlot05" style="width: 52px; height: 52px; background-color: rgb(247, 234, 210); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);"/>
-                        <ui:VisualElement name="itemSlot06" style="width: 52px; height: 52px; background-color: rgb(247, 234, 210); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);"/>
-                        <ui:VisualElement name="itemSlot07" style="width: 52px; height: 52px; background-color: rgb(247, 234, 210); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);"/>
-                        <ui:VisualElement name="itemSlot08" style="width: 52px; height: 52px; background-color: rgb(247, 234, 210); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);"/>
-                        <ui:VisualElement name="itemSlot09" style="width: 52px; height: 52px; background-color: rgb(247, 234, 210); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);"/>
-                        <ui:VisualElement name="itemSlot10" style="width: 52px; height: 52px; background-color: rgb(247, 234, 210); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);"/>
-                        <ui:VisualElement name="itemSlot11" style="width: 52px; height: 52px; background-color: rgb(247, 234, 210); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);"/>
-                        <ui:VisualElement name="itemSlot12" style="width: 52px; height: 52px; background-color: rgb(247, 234, 210); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);"/>
-                        <ui:VisualElement name="itemSlot13" style="width: 52px; height: 52px; background-color: rgb(247, 234, 210); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);"/>
-                        <ui:VisualElement name="itemSlot14" style="width: 52px; height: 52px; background-color: rgb(247, 234, 210); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);"/>
-                        <ui:VisualElement name="itemSlot15" style="width: 52px; height: 52px; background-color: rgb(247, 234, 210); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);"/>
-                        <ui:VisualElement name="itemSlot16" style="width: 52px; height: 52px; background-color: rgb(247, 234, 210); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);"/>
-                        <ui:VisualElement name="itemSlot17" style="width: 52px; height: 52px; background-color: rgb(247, 234, 210); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);"/>
-                        <ui:VisualElement name="itemSlot18" style="width: 52px; height: 52px; background-color: rgb(247, 234, 210); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);"/>
-                        <ui:VisualElement name="itemSlot19" style="width: 52px; height: 52px; background-color: rgb(247, 234, 210); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);"/>
-                        <ui:VisualElement name="itemSlot20" style="width: 52px; height: 52px; background-color: rgb(247, 234, 210); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);"/>
-                        <ui:VisualElement name="itemSlot21" style="width: 52px; height: 52px; background-color: rgb(247, 234, 210); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);"/>
-                        <ui:VisualElement name="itemSlot22" style="width: 52px; height: 52px; background-color: rgb(247, 234, 210); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60); background-image: none;"/>
-                        <ui:VisualElement name="itemSlot23" style="width: 52px; height: 52px; background-color: rgb(247, 234, 210); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);"/>
-                        <ui:VisualElement name="itemSlot24" style="width: 52px; height: 52px; background-color: rgb(247, 234, 210); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);"/>
-                        <ui:VisualElement name="itemSlot25" style="width: 52px; height: 52px; background-color: rgb(247, 234, 210); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60); background-image: none;"/>
-                        <ui:VisualElement name="itemSlot26" style="width: 52px; height: 52px; background-color: rgb(247, 234, 210); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);"/>
-                        <ui:VisualElement name="itemSlot27" style="width: 52px; height: 52px; background-color: rgb(247, 234, 210); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);"/>
-                        <ui:VisualElement name="itemSlot28" style="width: 52px; height: 52px; background-color: rgb(247, 234, 210); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);"/>
-                        <ui:VisualElement name="itemSlot29" style="width: 52px; height: 52px; background-color: rgb(247, 234, 210); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);"/>
-                        <ui:VisualElement name="itemSlot30" style="width: 52px; height: 52px; background-color: rgb(247, 234, 210); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);"/>
-                        <ui:VisualElement name="itemSlot31" style="width: 52px; height: 52px; background-color: rgb(247, 234, 210); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);"/>
-                        <ui:VisualElement name="itemSlot32" style="width: 52px; height: 52px; background-color: rgb(247, 234, 210); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);"/>
-                        <ui:VisualElement name="itemSlot33" style="width: 52px; height: 52px; background-color: rgb(247, 234, 210); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);"/>
-                        <ui:VisualElement name="itemSlot34" style="width: 52px; height: 52px; background-color: rgb(247, 234, 210); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);"/>
-                        <ui:VisualElement name="itemSlot35" style="width: 52px; height: 52px; background-color: rgb(247, 234, 210); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);"/>
-                        <ui:VisualElement name="itemSlot36" style="width: 52px; height: 52px; background-color: rgb(247, 234, 210); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);"/>
-                    </ui:VisualElement>
-                </ui:VisualElement>
-                <ui:VisualElement name="mapPage" style="flex-direction: column; display: none; justify-content: center; align-items: center; padding: 10px;">
-                    <ui:Label text="Game Map" style="font-size: 18px; color: rgb(58, 42, 24); unity-font-style: bold; margin-bottom: 12px;"/>
-                    <ui:VisualElement name="mapContainer" style="width: 517px; height: 374px; background-color: rgb(100, 100, 100); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(70, 70, 70); border-right-color: rgb(70, 70, 70); border-top-color: rgb(150, 150, 150); border-bottom-color: rgb(50, 50, 50);"/>
-                </ui:VisualElement>
-                <ui:VisualElement name="craftingPage" style="flex-direction: column; display: none; flex-grow: 1; padding: 8px; gap: 8px;">
-                    <ui:Label text="Cooking" style="font-size: 18px; color: rgb(58, 42, 24); unity-font-style: bold;"/>
-                    <ui:VisualElement name="cookingCategoryTabs" style="flex-direction: row; gap: 4px; margin-bottom: 4px; align-items: center;">
-                        <ui:Button name="tabBreakfastButton" text="Breakfast" style="height: 24px; min-width: 86px; padding-left: 7px; padding-right: 7px; font-size: 11px; background-color: rgb(239, 221, 188); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);"/>
-                        <ui:Button name="tabMainDishButton" text="Main Dishes" style="height: 24px; min-width: 70px; padding-left: 7px; padding-right: 7px; font-size: 11px; background-color: rgb(239, 221, 188); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);"/>
-                        <ui:Button name="tabDrinksButton" text="Drinks &amp; Smoothies" style="height: 24px; min-width: 70px; padding-left: 7px; padding-right: 7px; font-size: 11px; background-color: rgb(239, 221, 188); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);"/>
-                        <ui:Button name="tabDessertButton" text="Bakery &amp; Desserts" style="height: 24px; min-width: 76px; padding-left: 7px; padding-right: 7px; font-size: 11px; background-color: rgb(239, 221, 188); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);"/>
-                    </ui:VisualElement>
-                    <ui:VisualElement name="recipeBrowserView" style="flex-direction: column; flex-grow: 1; gap: 6px;">
-                        <ui:VisualElement name="recipeGrid" style="flex-direction: row; flex-wrap: wrap; gap: 11px; align-content: flex-start; height: 231px;"/>
-                        <ui:VisualElement name="recipeTooltip" style="display: none; min-height: 77px; padding: 10px; background-color: rgb(247, 234, 210); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);">
-                            <ui:Label name="recipeTooltipName" text="Dish Name" style="font-size: 14px; unity-font-style: bold; color: rgb(58, 42, 24);"/>
-                            <ui:Label name="recipeTooltipIngredients" text="Ingredients..." style="font-size: 12px; color: rgb(58, 42, 24);"/>
-                        </ui:VisualElement>
-                    </ui:VisualElement>
-                    <ui:VisualElement name="recipeDetailView" style="display: none; flex-direction: column; flex-grow: 1; gap: 8px;">
-    <ui:VisualElement style="flex-direction: row; justify-content: space-between; align-items: center;">
-        <ui:Label text="Recipe Details" style="font-size: 16px; unity-font-style: bold; color: rgb(58, 42, 24);" />
-        <ui:Button name="backToRecipesButton" text="Back" class="back-button" />
-    </ui:VisualElement>
+            <ui:VisualElement class="wood-strip wood-strip-bottom" picking-mode="Ignore">
+                <ui:VisualElement class="grain grain-mid" picking-mode="Ignore" />
+                <ui:VisualElement class="grain grain-wide" picking-mode="Ignore" />
+                <ui:VisualElement class="grain grain-small" picking-mode="Ignore" />
+            </ui:VisualElement>
+            <ui:VisualElement class="wood-strip wood-strip-left" picking-mode="Ignore" />
+            <ui:VisualElement class="wood-strip wood-strip-right" picking-mode="Ignore" />
 
-    <ui:VisualElement style="flex-direction: row; gap: 14px; min-height: 130px;">
-        <ui:VisualElement style="flex-direction: column; gap: 6px; width: 120px;">
-            <ui:Label name="selectedRecipeName" text="Dish Name" style="font-size: 14px; unity-font-style: bold; color: rgb(58, 42, 24);" />
-            <ui:VisualElement name="selectedRecipeIcon" style="width: 110px; height: 110px; background-color: rgb(247, 234, 210); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60);" />
-        </ui:VisualElement>
-
-        <ui:VisualElement style="flex-direction: column; gap: 6px; flex-grow: 1;">
-            <ui:Label text="Required Ingredients" style="font-size: 13px; unity-font-style: bold; color: rgb(58, 42, 24);" />
-            <ui:VisualElement name="requiredIngredientSlots" style="flex-direction: row; gap: 9px; flex-wrap: wrap; min-height: 55px;" />
-
-            <ui:VisualElement name="cookActionRow" style="flex-direction: row; align-items: center; gap: 8px; margin-top: 4px;">
-                <ui:Button name="cookRecipeButton" text="Cook" class="cook-button" />
-
-                <ui:VisualElement name="cookingLoadingContainer" class="cooking-loading-container">
-                    <ui:Label name="cookingLoadingLabel" text="Preparing..." class="cooking-loading-label" />
-                    <ui:VisualElement name="cookingLoadingBarBackground" class="cooking-loading-bar-background">
-                        <ui:VisualElement name="cookingLoadingBarFill" class="cooking-loading-bar-fill" />
-                    </ui:VisualElement>
-                    <ui:Label name="cookingProgressText" text="0%" class="cooking-progress-text" />
+            <ui:VisualElement class="decor decor-top-left" picking-mode="Ignore">
+                <ui:VisualElement class="vine vine-horizontal" picking-mode="Ignore" />
+                <ui:VisualElement class="leaf leaf-a" picking-mode="Ignore" />
+                <ui:VisualElement class="leaf leaf-b" picking-mode="Ignore" />
+                <ui:VisualElement class="leaf leaf-c" picking-mode="Ignore" />
+                <ui:VisualElement class="flower flower-white" picking-mode="Ignore">
+                    <ui:VisualElement class="petal petal-top" picking-mode="Ignore" />
+                    <ui:VisualElement class="petal petal-left" picking-mode="Ignore" />
+                    <ui:VisualElement class="petal petal-right" picking-mode="Ignore" />
+                    <ui:VisualElement class="petal petal-bottom" picking-mode="Ignore" />
+                    <ui:VisualElement class="flower-center" picking-mode="Ignore" />
                 </ui:VisualElement>
             </ui:VisualElement>
-        </ui:VisualElement>
-    </ui:VisualElement>
-
-    <ui:Label text="Inventory" style="font-size: 13px; unity-font-style: bold; color: rgb(58, 42, 24);" />
-    <ui:VisualElement name="craftingInventoryGrid" style="flex-direction: row; flex-wrap: wrap; gap: 7px; min-height: 92px;" />
-</ui:VisualElement>
-                </ui:VisualElement>
-                <ui:VisualElement name="settingsPage" style="flex-direction: column; display: none; gap: 12px; padding: 10px;">
-                    <ui:Label text="Settings" style="font-size: 18px; color: rgb(58, 42, 24); unity-font-style: bold;"/>
-                    <ui:VisualElement style="flex-direction: column; gap: 8px;">
-                        <ui:VisualElement style="flex-direction: row; align-items: center; gap: 8px;">
-                            <ui:Label text="Master Volume:" style="flex-grow: 1; color: rgb(58, 42, 24);"/>
-                            <ui:Slider name="masterVolumeSlider" low-value="0" high-value="100" value="80" style="width: 150px;"/>
-                            <ui:Label name="masterVolumeLabel" text="80" style="width: 30px; color: rgb(58, 42, 24);"/>
-                        </ui:VisualElement>
-                        <ui:VisualElement style="flex-direction: row; align-items: center; gap: 8px;">
-                            <ui:Label text="Music Volume:" style="flex-grow: 1; color: rgb(58, 42, 24);"/>
-                            <ui:Slider name="musicVolumeSlider" low-value="0" high-value="100" value="70" style="width: 150px;"/>
-                            <ui:Label name="musicVolumeLabel" text="70" style="width: 30px; color: rgb(58, 42, 24);"/>
-                        </ui:VisualElement>
-                        <ui:VisualElement style="flex-direction: row; align-items: center; gap: 8px;">
-                            <ui:Label text="SFX Volume:" style="flex-grow: 1; color: rgb(58, 42, 24);"/>
-                            <ui:Slider name="sfxVolumeSlider" low-value="0" high-value="100" value="80" style="width: 150px;"/>
-                            <ui:Label name="sfxVolumeLabel" text="80" style="width: 30px; color: rgb(58, 42, 24);"/>
-                        </ui:VisualElement>
-                    </ui:VisualElement>
-                    <ui:VisualElement style="flex-direction: row; gap: 6px; margin-top: 10px;">
-                        <ui:Button name="exitButton" text="Exit to Menu" style="flex-grow: 1; padding: 6px;"/>
-                        <ui:Button name="quitButton" text="Quit Game" style="flex-grow: 1; padding: 6px;"/>
-                    </ui:VisualElement>
+            <ui:VisualElement class="decor decor-top-right" picking-mode="Ignore">
+                <ui:VisualElement class="vine vine-horizontal" picking-mode="Ignore" />
+                <ui:VisualElement class="leaf leaf-a" picking-mode="Ignore" />
+                <ui:VisualElement class="leaf leaf-b" picking-mode="Ignore" />
+                <ui:VisualElement class="leaf leaf-c" picking-mode="Ignore" />
+                <ui:VisualElement class="flower flower-pink" picking-mode="Ignore">
+                    <ui:VisualElement class="petal petal-top" picking-mode="Ignore" />
+                    <ui:VisualElement class="petal petal-left" picking-mode="Ignore" />
+                    <ui:VisualElement class="petal petal-right" picking-mode="Ignore" />
+                    <ui:VisualElement class="petal petal-bottom" picking-mode="Ignore" />
+                    <ui:VisualElement class="flower-center" picking-mode="Ignore" />
                 </ui:VisualElement>
             </ui:VisualElement>
- <ui:VisualElement name="inventoryFooter" style="flex-direction: row; justify-content: flex-end; align-items: flex-start; margin-top: 4px; height: 0;">
-    <ui:VisualElement name="trashSlot" style="width: 46px; height: 46px; background-color: rgb(214, 168, 107); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(122, 78, 42); border-right-color: rgb(122, 78, 42); border-top-color: rgb(183, 126, 62); border-bottom-color: rgb(92, 58, 27); bottom: 110px; background-image: url(&quot;project://database/Assets/Art/Sprites/trash.png?fileID=2800000&amp;guid=7d8ca0912fff70642b3fe4a54fa60369&amp;type=3#trash&quot;);" />
-</ui:VisualElement>
+            <ui:VisualElement class="decor decor-left-vine" picking-mode="Ignore">
+                <ui:VisualElement class="vine vine-vertical" picking-mode="Ignore" />
+                <ui:VisualElement class="leaf leaf-side-1" picking-mode="Ignore" />
+                <ui:VisualElement class="leaf leaf-side-2" picking-mode="Ignore" />
+                <ui:VisualElement class="leaf leaf-side-3" picking-mode="Ignore" />
+                <ui:VisualElement class="leaf leaf-side-4" picking-mode="Ignore" />
+                <ui:VisualElement class="flower flower-pink side-flower" picking-mode="Ignore">
+                    <ui:VisualElement class="petal petal-top" picking-mode="Ignore" />
+                    <ui:VisualElement class="petal petal-left" picking-mode="Ignore" />
+                    <ui:VisualElement class="petal petal-right" picking-mode="Ignore" />
+                    <ui:VisualElement class="petal petal-bottom" picking-mode="Ignore" />
+                    <ui:VisualElement class="flower-center" picking-mode="Ignore" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement class="decor decor-right-vine" picking-mode="Ignore">
+                <ui:VisualElement class="vine vine-vertical" picking-mode="Ignore" />
+                <ui:VisualElement class="leaf leaf-side-1" picking-mode="Ignore" />
+                <ui:VisualElement class="leaf leaf-side-2" picking-mode="Ignore" />
+                <ui:VisualElement class="leaf leaf-side-3" picking-mode="Ignore" />
+                <ui:VisualElement class="leaf leaf-side-4" picking-mode="Ignore" />
+                <ui:VisualElement class="flower flower-white side-flower" picking-mode="Ignore">
+                    <ui:VisualElement class="petal petal-top" picking-mode="Ignore" />
+                    <ui:VisualElement class="petal petal-left" picking-mode="Ignore" />
+                    <ui:VisualElement class="petal petal-right" picking-mode="Ignore" />
+                    <ui:VisualElement class="petal petal-bottom" picking-mode="Ignore" />
+                    <ui:VisualElement class="flower-center" picking-mode="Ignore" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement class="decor decor-bottom-left" picking-mode="Ignore">
+                <ui:VisualElement class="vine vine-horizontal" picking-mode="Ignore" />
+                <ui:VisualElement class="leaf leaf-a" picking-mode="Ignore" />
+                <ui:VisualElement class="leaf leaf-b" picking-mode="Ignore" />
+                <ui:VisualElement class="leaf leaf-c" picking-mode="Ignore" />
+                <ui:VisualElement class="flower flower-pink" picking-mode="Ignore">
+                    <ui:VisualElement class="petal petal-top" picking-mode="Ignore" />
+                    <ui:VisualElement class="petal petal-left" picking-mode="Ignore" />
+                    <ui:VisualElement class="petal petal-right" picking-mode="Ignore" />
+                    <ui:VisualElement class="petal petal-bottom" picking-mode="Ignore" />
+                    <ui:VisualElement class="flower-center" picking-mode="Ignore" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement class="decor decor-bottom-right" picking-mode="Ignore">
+                <ui:VisualElement class="vine vine-horizontal" picking-mode="Ignore" />
+                <ui:VisualElement class="leaf leaf-a" picking-mode="Ignore" />
+                <ui:VisualElement class="leaf leaf-b" picking-mode="Ignore" />
+                <ui:VisualElement class="leaf leaf-c" picking-mode="Ignore" />
+            </ui:VisualElement>
+
+            <ui:VisualElement name="inventoryPanel" class="inv-panel">
+                <ui:VisualElement class="parchment-wash" picking-mode="Ignore" />
+                <ui:VisualElement name="inventoryHeader" class="inv-header">
+                    <ui:VisualElement name="inventoryTitlePlaque" class="inv-title-plaque">
+                        <ui:VisualElement class="plaque-cap plaque-cap-left" picking-mode="Ignore" />
+                        <ui:VisualElement class="plaque-cap plaque-cap-right" picking-mode="Ignore" />
+                        <ui:VisualElement class="plaque-inner">
+                            <ui:Label text="Inventory" name="Title" class="inv-title" />
+                        </ui:VisualElement>
+                        <ui:VisualElement class="title-leaf title-leaf-left" picking-mode="Ignore" />
+                        <ui:VisualElement class="title-leaf title-leaf-right" picking-mode="Ignore" />
+                    </ui:VisualElement>
+                    <ui:VisualElement class="inv-header-controls">
+                        <ui:Button name="closeButton" text="X" class="inv-close" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+
+                <ui:VisualElement name="inventoryPages" class="inv-pages">
+                    <ui:VisualElement name="toolsPage" class="inv-tools">
+                        <ui:VisualElement name="hotbarContainer" class="inv-hotbar">
+                            <ui:VisualElement name="hotbarNumbers" class="inv-hotbar-numbers">
+                                <ui:Label text="1" /><ui:Label text="2" /><ui:Label text="3" /><ui:Label text="4" /><ui:Label text="5" /><ui:Label text="6" />
+                                <ui:Label text="7" /><ui:Label text="8" /><ui:Label text="9" /><ui:Label text="10" /><ui:Label text="11" /><ui:Label text="12" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="hotbarRow" class="inv-hotbar-row">
+                                <ui:VisualElement name="hotbarSlot01" /><ui:VisualElement name="hotbarSlot02" /><ui:VisualElement name="hotbarSlot03" /><ui:VisualElement name="hotbarSlot04" />
+                                <ui:VisualElement name="hotbarSlot05" /><ui:VisualElement name="hotbarSlot06" /><ui:VisualElement name="hotbarSlot07" /><ui:VisualElement name="hotbarSlot08" />
+                                <ui:VisualElement name="hotbarSlot09" /><ui:VisualElement name="hotbarSlot10" /><ui:VisualElement name="hotbarSlot11" /><ui:VisualElement name="hotbarSlot12" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement class="hotbar-inventory-divider" picking-mode="Ignore" />
+                        <ui:VisualElement name="inventoryGrid" class="inv-grid">
+                            <ui:VisualElement name="itemSlot01" /><ui:VisualElement name="itemSlot02" /><ui:VisualElement name="itemSlot03" /><ui:VisualElement name="itemSlot04" />
+                            <ui:VisualElement name="itemSlot05" /><ui:VisualElement name="itemSlot06" /><ui:VisualElement name="itemSlot07" /><ui:VisualElement name="itemSlot08" />
+                            <ui:VisualElement name="itemSlot09" /><ui:VisualElement name="itemSlot10" /><ui:VisualElement name="itemSlot11" /><ui:VisualElement name="itemSlot12" />
+                            <ui:VisualElement name="itemSlot13" /><ui:VisualElement name="itemSlot14" /><ui:VisualElement name="itemSlot15" /><ui:VisualElement name="itemSlot16" />
+                            <ui:VisualElement name="itemSlot17" /><ui:VisualElement name="itemSlot18" /><ui:VisualElement name="itemSlot19" /><ui:VisualElement name="itemSlot20" />
+                            <ui:VisualElement name="itemSlot21" /><ui:VisualElement name="itemSlot22" /><ui:VisualElement name="itemSlot23" /><ui:VisualElement name="itemSlot24" />
+                            <ui:VisualElement name="itemSlot25" /><ui:VisualElement name="itemSlot26" /><ui:VisualElement name="itemSlot27" /><ui:VisualElement name="itemSlot28" />
+                            <ui:VisualElement name="itemSlot29" /><ui:VisualElement name="itemSlot30" /><ui:VisualElement name="itemSlot31" /><ui:VisualElement name="itemSlot32" />
+                            <ui:VisualElement name="itemSlot33" /><ui:VisualElement name="itemSlot34" /><ui:VisualElement name="itemSlot35" /><ui:VisualElement name="itemSlot36" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+
+                    <ui:VisualElement name="mapPage" class="inv-subpage" style="display: none;">
+                        <ui:Label text="Game Map" class="subpage-title" />
+                        <ui:VisualElement name="mapContainer" class="map-container" />
+                    </ui:VisualElement>
+
+                    <ui:VisualElement name="craftingPage" class="inv-subpage crafting-page" style="display: none;">
+                        <ui:Label text="Cooking" class="subpage-title" />
+                        <ui:VisualElement name="cookingCategoryTabs" class="cooking-category-tabs">
+                            <ui:Button name="tabBreakfastButton" text="Breakfast" class="category-tab" />
+                            <ui:Button name="tabMainDishButton" text="Main Dishes" class="category-tab" />
+                            <ui:Button name="tabDrinksButton" text="Drinks &amp; Smoothies" class="category-tab" />
+                            <ui:Button name="tabDessertButton" text="Bakery &amp; Desserts" class="category-tab" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="recipeBrowserView" class="recipe-browser-view">
+                            <ui:VisualElement name="recipeGrid" class="recipe-grid" />
+                            <ui:VisualElement name="recipeTooltip" class="recipe-tooltip" style="display: none;">
+                                <ui:Label name="recipeTooltipName" text="Dish Name" class="recipe-tooltip-name" />
+                                <ui:Label name="recipeTooltipIngredients" text="Ingredients..." class="recipe-tooltip-ingredients" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <ui:VisualElement name="recipeDetailView" class="recipe-detail-view" style="display: none;">
+                            <ui:VisualElement class="recipe-detail-header">
+                                <ui:Label text="Recipe Details" class="recipe-detail-title" />
+                                <ui:Button name="backToRecipesButton" text="Back" class="back-button" />
+                            </ui:VisualElement>
+                            <ui:VisualElement class="recipe-detail-body">
+                                <ui:VisualElement class="selected-recipe-card">
+                                    <ui:Label name="selectedRecipeName" text="Dish Name" class="selected-recipe-name" />
+                                    <ui:VisualElement name="selectedRecipeIcon" class="selected-recipe-icon" />
+                                </ui:VisualElement>
+                                <ui:VisualElement class="recipe-requirements">
+                                    <ui:Label text="Required Ingredients" class="recipe-section-label" />
+                                    <ui:VisualElement name="requiredIngredientSlots" class="required-ingredient-slots" />
+                                    <ui:VisualElement name="cookActionRow" class="cook-action-row">
+                                        <ui:Button name="cookRecipeButton" text="Cook" class="cook-button" />
+                                        <ui:VisualElement name="cookingLoadingContainer" class="cooking-loading-container">
+                                            <ui:Label name="cookingLoadingLabel" text="Preparing..." class="cooking-loading-label" />
+                                            <ui:VisualElement name="cookingLoadingBarBackground" class="cooking-loading-bar-background">
+                                                <ui:VisualElement name="cookingLoadingBarFill" class="cooking-loading-bar-fill" />
+                                            </ui:VisualElement>
+                                            <ui:Label name="cookingProgressText" text="0%" class="cooking-progress-text" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+                                </ui:VisualElement>
+                            </ui:VisualElement>
+                            <ui:Label text="Inventory" class="recipe-section-label" />
+                            <ui:VisualElement name="craftingInventoryGrid" class="crafting-inventory-grid" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+
+                </ui:VisualElement>
+
+                <ui:VisualElement name="inventoryFooter" class="inv-footer">
+                    <ui:VisualElement class="trash-plaque" picking-mode="Ignore" />
+                    <ui:VisualElement class="trash-leaves" picking-mode="Ignore">
+                        <ui:VisualElement class="leaf trash-leaf-a" picking-mode="Ignore" />
+                        <ui:VisualElement class="leaf trash-leaf-b" picking-mode="Ignore" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="trashSlot" class="inv-trash" style="background-image: url(&quot;project://database/Assets/Art/Sprites/trash.png?fileID=2800000&amp;guid=7d8ca0912fff70642b3fe4a54fa60369&amp;type=3#trash&quot;);" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="inventoryTabs" class="inv-tabs">
+                <ui:Button name="tabCraftingButton" tooltip="Crafting" class="top-tab" style="background-image: url(&quot;project://database/Assets/Art/Models/Farm/InventoryIcons/chef.png?fileID=2800000&amp;guid=4e9ff1eb3a15b1c4a9250d071b56d496&amp;type=3#chef&quot;);" />
+            </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
-</ui:VisualElement>
 </ui:UXML>

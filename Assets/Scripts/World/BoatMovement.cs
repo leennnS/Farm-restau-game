@@ -22,13 +22,19 @@ public class BoatMovement : MonoBehaviour
     [SerializeField] private Sprite upSprite;
     [SerializeField] private Sprite downSprite;
 
+    [Header("Audio")]
+    [SerializeField] private AudioClip movingLoopSound;
+    [SerializeField, Range(0f, 1f)] private float movingLoopVolume = 0.7f;
+
     private Rigidbody2D boatRigidbody;
+    private AudioSource movingAudioSource;
     private bool isMoving = false;
     private Vector2 currentDirection;
 
     private void Start()
     {
         boatRigidbody = GetComponent<Rigidbody2D>();
+        SetupMovingAudioSource();
         
         // Get SpriteRenderer if not assigned
         if (spriteRenderer == null)
@@ -40,6 +46,11 @@ public class BoatMovement : MonoBehaviour
         {
             Debug.LogError("BoatMovement requires a Rigidbody2D component!");
         }
+    }
+
+    private void OnDisable()
+    {
+        StopMovingLoopSound();
     }
 
     private void FixedUpdate()
@@ -65,11 +76,13 @@ public class BoatMovement : MonoBehaviour
     public void StartMoving()
     {
         isMoving = true;
+        PlayMovingLoopSound();
     }
 
     public void StopMoving()
     {
         isMoving = false;
+        StopMovingLoopSound();
         if (boatRigidbody != null)
         {
             boatRigidbody.linearVelocity = Vector2.zero;
@@ -124,6 +137,37 @@ public class BoatMovement : MonoBehaviour
                     spriteRenderer.sprite = downSprite;
             }
         }
+    }
+
+    private void SetupMovingAudioSource()
+    {
+        movingAudioSource = gameObject.AddComponent<AudioSource>();
+        movingAudioSource.playOnAwake = false;
+        movingAudioSource.loop = true;
+        movingAudioSource.spatialBlend = 0f;
+        movingAudioSource.volume = movingLoopVolume;
+        movingAudioSource.clip = movingLoopSound;
+
+        if (AudioSettingsManager.HasInstance)
+            AudioSettingsManager.Instance.RefreshAudioSource(movingAudioSource);
+    }
+
+    private void PlayMovingLoopSound()
+    {
+        if (movingAudioSource == null || movingLoopSound == null)
+            return;
+
+        if (movingAudioSource.clip != movingLoopSound)
+            movingAudioSource.clip = movingLoopSound;
+
+        if (!movingAudioSource.isPlaying)
+            movingAudioSource.Play();
+    }
+
+    private void StopMovingLoopSound()
+    {
+        if (movingAudioSource != null && movingAudioSource.isPlaying)
+            movingAudioSource.Stop();
     }
 
     public bool IsMoving => isMoving;

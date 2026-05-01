@@ -1,39 +1,21 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-        <ui:VisualElement name="hotbarRoot"
-    style="flex-grow: 1;
-    position: absolute; left: 0; right: 0; top: 0; bottom: 0;
-    align-items: center;
-    justify-content: flex-end;
-    padding-bottom: 56px;
-    picking-mode: ignore;">
-
-  
-        <ui:VisualElement name="hotbarContainer" style="flex-direction: column; align-items: center; justify-content: center; padding: 20px; background-color: rgb(228, 183, 122); border-left-color: rgb(139, 90, 43); border-right-color: rgb(139, 90, 43); border-top-color: rgb(192, 138, 74); border-bottom-color: rgb(107, 63, 26); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px;">
-            <ui:VisualElement name="hotbarSlots" style="flex-direction: row; gap: 12px;">
-                <ui:VisualElement name="hotbarSlot01" style="width: 80px; height: 80px; background-color: rgb(242, 228, 199); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60); background-image: none; flex-direction: column; align-items: center; justify-content: center;">
-                </ui:VisualElement>
-                <ui:VisualElement name="hotbarSlot02" style="width: 80px; height: 80px; background-color: rgb(242, 228, 199); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60); flex-direction: column; align-items: center; justify-content: center;">
-                </ui:VisualElement>
-                <ui:VisualElement name="hotbarSlot03" style="width: 80px; height: 80px; background-color: rgb(242, 228, 199); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60); flex-direction: column; align-items: center; justify-content: center;">
-                </ui:VisualElement>
-                <ui:VisualElement name="hotbarSlot04" style="width: 80px; height: 80px; background-color: rgb(242, 228, 199); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60); flex-direction: column; align-items: center; justify-content: center;">
-                </ui:VisualElement>
-                <ui:VisualElement name="hotbarSlot05" style="width: 80px; height: 80px; background-color: rgb(242, 228, 199); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60); flex-direction: column; align-items: center; justify-content: center;">
-                </ui:VisualElement>
-                <ui:VisualElement name="hotbarSlot06" style="width: 80px; height: 80px; background-color: rgb(242, 228, 199); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60); flex-direction: column; align-items: center; justify-content: center;">
-                </ui:VisualElement>
-                <ui:VisualElement name="hotbarSlot07" style="width: 80px; height: 80px; background-color: rgb(242, 228, 199); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60); flex-direction: column; align-items: center; justify-content: center;">
-                </ui:VisualElement>
-                <ui:VisualElement name="hotbarSlot08" style="width: 80px; height: 80px; background-color: rgb(242, 228, 199); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60); flex-direction: column; align-items: center; justify-content: center;">
-                </ui:VisualElement>
-                <ui:VisualElement name="hotbarSlot09" style="width: 80px; height: 80px; background-color: rgb(242, 228, 199); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60); flex-direction: column; align-items: center; justify-content: center;">
-                </ui:VisualElement>
-                <ui:VisualElement name="hotbarSlot10" style="width: 80px; height: 80px; background-color: rgb(242, 228, 199); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60); flex-direction: column; align-items: center; justify-content: center;">
-                </ui:VisualElement>
-                <ui:VisualElement name="hotbarSlot11" style="width: 80px; height: 80px; background-color: rgb(242, 228, 199); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60); flex-direction: column; align-items: center; justify-content: center;">
-                </ui:VisualElement>
-                <ui:VisualElement name="hotbarSlot12" style="width: 80px; height: 80px; background-color: rgb(242, 228, 199); border-left-width: 2px; border-right-width: 2px; border-top-width: 2px; border-bottom-width: 2px; border-left-color: rgb(199, 167, 122); border-right-color: rgb(199, 167, 122); border-top-color: rgb(231, 207, 160); border-bottom-color: rgb(155, 107, 60); flex-direction: column; align-items: center; justify-content: center;">
-                </ui:VisualElement>
+    <ui:Style src="project://database/Assets/UI/UXML/CookingStyles.uss?fileID=7433441132597879392&amp;guid=487566365cc70c14f8b11b65c5be9d1d&amp;type=3#CookingStyles" />
+    <ui:VisualElement name="hotbarRoot" class="hud-hotbar-root" picking-mode="Ignore">
+        <ui:VisualElement name="hotbarContainer" class="hud-hotbar-container">
+            <ui:VisualElement class="hud-hotbar-wood" picking-mode="Ignore" />
+            <ui:VisualElement name="hotbarSlots" class="hud-hotbar-slots">
+                <ui:VisualElement name="hotbarSlot01" class="hud-hotbar-slot" />
+                <ui:VisualElement name="hotbarSlot02" class="hud-hotbar-slot" />
+                <ui:VisualElement name="hotbarSlot03" class="hud-hotbar-slot" />
+                <ui:VisualElement name="hotbarSlot04" class="hud-hotbar-slot" />
+                <ui:VisualElement name="hotbarSlot05" class="hud-hotbar-slot" />
+                <ui:VisualElement name="hotbarSlot06" class="hud-hotbar-slot" />
+                <ui:VisualElement name="hotbarSlot07" class="hud-hotbar-slot" />
+                <ui:VisualElement name="hotbarSlot08" class="hud-hotbar-slot" />
+                <ui:VisualElement name="hotbarSlot09" class="hud-hotbar-slot" />
+                <ui:VisualElement name="hotbarSlot10" class="hud-hotbar-slot" />
+                <ui:VisualElement name="hotbarSlot11" class="hud-hotbar-slot" />
+                <ui:VisualElement name="hotbarSlot12" class="hud-hotbar-slot hud-hotbar-slot-last" />
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>

@@ -18,6 +18,9 @@ public class FarmMusicController : MonoBehaviour
         audioSource.spatialBlend = 0f;
         audioSource.clip = farmMusic;
 
+        if (AudioSettingsManager.HasInstance)
+            AudioSettingsManager.Instance.RefreshAudioSource(audioSource);
+
         if (audioSource.clip != null)
             audioSource.Play();
     }
