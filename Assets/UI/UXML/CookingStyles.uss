@@ -177,3 +177,59 @@
     border-top-color: rgb(192, 138, 74);
     border-bottom-color: rgb(228, 183, 122);
 }
+
+.category-tab {
+    min-width: 82px;
+    height: 26px;
+    margin-top: 4px;
+    padding-left: 12px;
+    padding-right: 12px;
+    font-size: 11px;
+    -unity-font-style: bold;
+    color: rgb(255, 246, 232);
+
+    background-color: rgb(118, 83, 50);
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    border-left-color: rgb(88, 61, 35);
+    border-right-color: rgb(88, 61, 35);
+    border-top-color: rgb(164, 120, 74);
+    border-bottom-color: rgb(60, 40, 22);
+
+    border-top-left-radius: 11px;
+    border-top-right-radius: 11px;
+    border-bottom-left-radius: 11px;
+    border-bottom-right-radius: 11px;
+
+    -unity-text-align: middle-center;
+}
+
+.category-tab .unity-text-element {
+    white-space: nowrap;
+    unity-text-align: middle-center;
+}
+
+.category-tab:hover {
+    background-color: rgb(134, 97, 58);
+    border-top-color: rgb(191, 146, 92);
+}
+
+.category-tab:active {
+    background-color: rgb(93, 64, 37);
+    border-top-color: rgb(143, 104, 63);
+    border-bottom-color: rgb(39, 27, 15);
+    margin-top: 5px;
+}
+
+.active-category-tab {
+    height: 28px;
+    margin-top: 2px;
+    color: rgb(74, 42, 14);
+    background-color: rgb(248, 214, 129);
+    border-left-color: rgb(207, 149, 49);
+    border-right-color: rgb(168, 117, 31);
+    border-top-color: rgb(255, 239, 173);
+    border-bottom-color: rgb(142, 91, 15);
+}
