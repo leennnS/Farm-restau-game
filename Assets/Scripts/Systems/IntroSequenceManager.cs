@@ -77,6 +77,11 @@ public class IntroSequenceManager : MonoBehaviour
             playerController.enabled = false;
         }
 
+        if (lantern != null)
+        {
+            lantern.SetPickupEnabled(false);
+        }
+
         // Start narrative
         if (narrativeController != null)
         {
@@ -110,6 +115,11 @@ public class IntroSequenceManager : MonoBehaviour
             playerController.enabled = true;
         }
 
+        if (lantern != null)
+        {
+            lantern.SetPickupEnabled(true);
+        }
+
         // Enable note discovery
         if (note != null)
         {
@@ -119,7 +129,7 @@ public class IntroSequenceManager : MonoBehaviour
         // Show hint
         if (narrativeController != null)
         {
-            narrativeController.ShowHint("Pick up the lantern.");
+            narrativeController.SetHintText("Press E to hold the lantern");
         }
 
         yield return new WaitForSeconds(0.5f);

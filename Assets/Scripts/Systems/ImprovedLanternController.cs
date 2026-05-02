@@ -71,6 +71,7 @@ public class ImprovedLanternController : MonoBehaviour
     private float nextPickupPromptTime = 0f;
     private GameObject pickupHintObject;
     private TextMeshPro pickupHintText;
+    private bool pickupEnabled = true;
 
     private static ImprovedLanternController _instance;
 
@@ -175,6 +176,13 @@ public class ImprovedLanternController : MonoBehaviour
         }
         else
         {
+            if (!pickupEnabled)
+            {
+                wasPlayerInPickupRange = false;
+                HidePickupHintText();
+                return;
+            }
+
             // Check if player is nearby
             CharacterController2D player = FindFirstObjectByType<CharacterController2D>();
             if (player != null)
@@ -284,6 +292,9 @@ public class ImprovedLanternController : MonoBehaviour
 
     public void PickUpLantern(Transform player, CharacterController2D controller)
     {
+        if (!pickupEnabled)
+            return;
+
         isHeldByPlayer = true;
         wasPlayerInPickupRange = false;
         HidePickupHintText();
@@ -301,6 +312,17 @@ public class ImprovedLanternController : MonoBehaviour
         if (lanternSprite != null)
         {
             lanternSprite.color = Color.white;
+        }
+    }
+
+    public void SetPickupEnabled(bool enabled)
+    {
+        pickupEnabled = enabled;
+
+        if (!pickupEnabled)
+        {
+            wasPlayerInPickupRange = false;
+            HidePickupHintText();
         }
     }
 

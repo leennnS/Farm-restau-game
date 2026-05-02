@@ -23,7 +23,7 @@ public class IntroNarrativeController : MonoBehaviour
     [SerializeField]
     private CanvasGroup narrativeCanvasGroup;
 
-    private Coroutine typewriterCoroutine;
+    private Coroutine hintCoroutine;
     private bool isOpeningPlaying;
     private bool isTypingLine;
     private bool skipLineRequested;
@@ -56,6 +56,8 @@ public class IntroNarrativeController : MonoBehaviour
         {
             narrativeCanvasGroup.alpha = 0f;
         }
+
+        SetHintText("Press Space to continue");
     }
 
     private void Update()
@@ -85,6 +87,7 @@ public class IntroNarrativeController : MonoBehaviour
         isOpeningPlaying = true;
         skipLineRequested = false;
         advanceLineRequested = false;
+        SetHintText("Press Space to continue");
 
         // Fade in canvas
         if (narrativeCanvasGroup != null)
@@ -115,9 +118,29 @@ public class IntroNarrativeController : MonoBehaviour
     {
         if (this.hintText != null)
         {
-            StopAllCoroutines();
-            StartCoroutine(DisplayHintWithFade(hintText));
+            if (hintCoroutine != null)
+                StopCoroutine(hintCoroutine);
+
+            hintCoroutine = StartCoroutine(DisplayHintWithFade(hintText));
         }
+    }
+
+    public void SetHintText(string text)
+    {
+        if (hintCoroutine != null)
+        {
+            StopCoroutine(hintCoroutine);
+            hintCoroutine = null;
+        }
+
+        if (hintText == null)
+            return;
+
+        CanvasGroup hintCanvasGroup = hintText.GetComponentInParent<CanvasGroup>();
+        if (hintCanvasGroup != null)
+            hintCanvasGroup.alpha = string.IsNullOrEmpty(text) ? 0f : 1f;
+
+        hintText.text = text;
     }
 
     private IEnumerator DisplayHintWithFade(string text)
@@ -137,8 +160,13 @@ public class IntroNarrativeController : MonoBehaviour
             yield return new WaitForSeconds(3f);
             yield return FadeCanvasGroup(hintCanvasGroup, 1f, 0f, 0.5f);
         }
+        else
+        {
+            yield return new WaitForSeconds(3f);
+        }
 
         hintText.text = "";
+        hintCoroutine = null;
     }
 
     private IEnumerator TypewriteLine(string text)
@@ -197,11 +225,7 @@ public class IntroNarrativeController : MonoBehaviour
 
     public void ClearText()
     {
-        if (typewriterCoroutine != null)
-        {
-            StopCoroutine(typewriterCoroutine);
-        }
-
-        narrativeText.text = "";
+        if (narrativeText != null)
+            narrativeText.text = "";
     }
 }
