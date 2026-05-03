@@ -166,6 +166,9 @@ public class InventoryController : MonoBehaviour
     private VisualElement[] _itemSlots; // itemSlot01..itemSlot36
     private VisualElement[] _hotbarSlots; // hotbarSlot01..hotbarSlot12
     private VisualElement _trashSlot;
+    private VisualElement _slotTooltip;
+    private Label _slotTooltipLabel;
+    private VisualElement _slotTooltipTarget;
     private readonly HashSet<VisualElement> _boundInventorySlotElements = new HashSet<VisualElement>();
     private readonly HashSet<VisualElement> _boundHotbarSlotElements = new HashSet<VisualElement>();
     private readonly HashSet<VisualElement> _boundTrashSlotElements = new HashSet<VisualElement>();
@@ -307,6 +310,7 @@ public class InventoryController : MonoBehaviour
         ApplyInventoryBackgroundImage();
         ApplyInventoryUiScale();
         CacheInventorySlots();
+        EnsureSlotTooltip();
 
         if (forceRebindCallbacks || rootChanged || !ReferenceEquals(_boundRootForCallbacks, _root))
         {
@@ -627,6 +631,9 @@ public class InventoryController : MonoBehaviour
             _root.pickingMode = PickingMode.Ignore;
         else if (_root != null)
             _root.pickingMode = PickingMode.Position;
+
+        if (!open)
+            HideSlotTooltip();
 
         if (open)
             RestoreInventoryPointerState();
@@ -991,6 +998,9 @@ public class InventoryController : MonoBehaviour
                 {
                     _itemSlots[i].RegisterCallback<MouseDownEvent>(evt => OnInventorySlotMouseDown(slotIndex, evt));
                     _itemSlots[i].RegisterCallback<MouseUpEvent>(evt => OnInventorySlotMouseUp(slotIndex, evt));
+                    _itemSlots[i].RegisterCallback<MouseEnterEvent>(evt => ShowInventorySlotTooltip(slotIndex, evt.mousePosition));
+                    _itemSlots[i].RegisterCallback<MouseMoveEvent>(evt => ShowInventorySlotTooltip(slotIndex, evt.mousePosition));
+                    _itemSlots[i].RegisterCallback<MouseLeaveEvent>(_ => HideSlotTooltip());
                 }
             }
             else
@@ -1019,6 +1029,9 @@ public class InventoryController : MonoBehaviour
                 {
                     _hotbarSlots[i].RegisterCallback<MouseDownEvent>(evt => OnHotbarSlotMouseDown(slotIndex, evt));
                     _hotbarSlots[i].RegisterCallback<MouseUpEvent>(evt => OnHotbarSlotMouseUp(slotIndex, evt));
+                    _hotbarSlots[i].RegisterCallback<MouseEnterEvent>(evt => ShowHotbarSlotTooltip(slotIndex, evt.mousePosition));
+                    _hotbarSlots[i].RegisterCallback<MouseMoveEvent>(evt => ShowHotbarSlotTooltip(slotIndex, evt.mousePosition));
+                    _hotbarSlots[i].RegisterCallback<MouseLeaveEvent>(_ => HideSlotTooltip());
                 }
             }
             else
@@ -1394,6 +1407,8 @@ public class InventoryController : MonoBehaviour
         {
             slotVE.style.backgroundImage = StyleKeyword.None;
             SetSlotCount(slotVE, "");
+            if (ReferenceEquals(_slotTooltipTarget, slotVE))
+                HideSlotTooltip();
             return;
         }
 
@@ -1419,6 +1434,8 @@ public class InventoryController : MonoBehaviour
         {
             slotVE.style.backgroundImage = StyleKeyword.None;
             SetSlotCount(slotVE, "");
+            if (ReferenceEquals(_slotTooltipTarget, slotVE))
+                HideSlotTooltip();
             return;
         }
 
@@ -1510,6 +1527,123 @@ public class InventoryController : MonoBehaviour
         }
 
         countLabel.text = text;
+    }
+
+    private void EnsureSlotTooltip()
+    {
+        if (_root == null)
+            return;
+
+        if (_slotTooltip != null && !ReferenceEquals(_slotTooltip.parent, _root))
+        {
+            _slotTooltip.RemoveFromHierarchy();
+            _slotTooltip = null;
+            _slotTooltipLabel = null;
+            _slotTooltipTarget = null;
+        }
+
+        if (_slotTooltip != null)
+            return;
+
+        _slotTooltip = new VisualElement { name = "slotHoverTooltip" };
+        _slotTooltip.pickingMode = PickingMode.Ignore;
+        _slotTooltip.style.position = Position.Absolute;
+        _slotTooltip.style.display = DisplayStyle.None;
+        _slotTooltip.style.opacity = 0.82f;
+        _slotTooltip.style.backgroundColor = new Color(0.08f, 0.06f, 0.04f, 0.72f);
+        _slotTooltip.style.borderLeftWidth = 1;
+        _slotTooltip.style.borderRightWidth = 1;
+        _slotTooltip.style.borderTopWidth = 1;
+        _slotTooltip.style.borderBottomWidth = 1;
+        Color borderColor = new Color(1f, 0.91f, 0.72f, 0.28f);
+        _slotTooltip.style.borderLeftColor = borderColor;
+        _slotTooltip.style.borderRightColor = borderColor;
+        _slotTooltip.style.borderTopColor = borderColor;
+        _slotTooltip.style.borderBottomColor = borderColor;
+        _slotTooltip.style.borderTopLeftRadius = 3;
+        _slotTooltip.style.borderTopRightRadius = 3;
+        _slotTooltip.style.borderBottomLeftRadius = 3;
+        _slotTooltip.style.borderBottomRightRadius = 3;
+        _slotTooltip.style.paddingLeft = 8;
+        _slotTooltip.style.paddingRight = 8;
+        _slotTooltip.style.paddingTop = 4;
+        _slotTooltip.style.paddingBottom = 4;
+        _slotTooltip.style.maxWidth = 170;
+
+        _slotTooltipLabel = new Label { name = "slotHoverTooltipLabel" };
+        _slotTooltipLabel.pickingMode = PickingMode.Ignore;
+        _slotTooltipLabel.style.fontSize = 10;
+        _slotTooltipLabel.style.color = new Color(1f, 0.96f, 0.86f, 0.92f);
+        _slotTooltipLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
+        _slotTooltip.Add(_slotTooltipLabel);
+
+        _root.Add(_slotTooltip);
+        _slotTooltip.BringToFront();
+    }
+
+    private void ShowInventorySlotTooltip(int slotIndex, Vector2 mousePosition)
+    {
+        if (_slotsData == null || _itemSlots == null || slotIndex < 0 || slotIndex >= _slotsData.Length || slotIndex >= _itemSlots.Length)
+        {
+            HideSlotTooltip();
+            return;
+        }
+
+        ShowSlotTooltip(_slotsData[slotIndex], _itemSlots[slotIndex], mousePosition);
+    }
+
+    private void ShowHotbarSlotTooltip(int slotIndex, Vector2 mousePosition)
+    {
+        if (_hotbarData == null || _hotbarSlots == null || slotIndex < 0 || slotIndex >= _hotbarData.Length || slotIndex >= _hotbarSlots.Length)
+        {
+            HideSlotTooltip();
+            return;
+        }
+
+        ShowSlotTooltip(_hotbarData[slotIndex], _hotbarSlots[slotIndex], mousePosition);
+    }
+
+    private void ShowSlotTooltip(ItemStack stack, VisualElement targetSlot, Vector2 mousePosition)
+    {
+        if (stack.item == null || stack.amount <= 0 || targetSlot == null)
+        {
+            HideSlotTooltip();
+            return;
+        }
+
+        EnsureSlotTooltip();
+        if (_slotTooltip == null || _slotTooltipLabel == null)
+            return;
+
+        string itemName = !string.IsNullOrWhiteSpace(stack.item.displayName) ? stack.item.displayName : stack.item.name;
+        _slotTooltipLabel.text = $"{itemName} x{stack.amount}";
+        _slotTooltipTarget = targetSlot;
+        _slotTooltip.style.display = DisplayStyle.Flex;
+        _slotTooltip.BringToFront();
+        PositionSlotTooltip(mousePosition);
+    }
+
+    private void PositionSlotTooltip(Vector2 mousePosition)
+    {
+        if (_root == null || _slotTooltip == null)
+            return;
+
+        Vector2 localPosition = _root.WorldToLocal(mousePosition);
+        float rootWidth = Mathf.Max(1f, _root.resolvedStyle.width);
+        float rootHeight = Mathf.Max(1f, _root.resolvedStyle.height);
+        float left = Mathf.Clamp(localPosition.x + 12f, 4f, Mathf.Max(4f, rootWidth - 170f));
+        float top = Mathf.Clamp(localPosition.y + 12f, 4f, Mathf.Max(4f, rootHeight - 32f));
+
+        _slotTooltip.style.left = left;
+        _slotTooltip.style.top = top;
+    }
+
+    private void HideSlotTooltip()
+    {
+        _slotTooltipTarget = null;
+
+        if (_slotTooltip != null)
+            _slotTooltip.style.display = DisplayStyle.None;
     }
 
     // ----------------------------
