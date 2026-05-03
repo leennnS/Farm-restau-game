@@ -12,9 +12,22 @@ public class PlayerFlashlight : MonoBehaviour
     [SerializeField] private KeyCode toggleKey = KeyCode.F;
 
     [Header("Light Settings")]
-    [SerializeField] private float flashlightRange = 8f;
-    [SerializeField] private float flashlightIntensity = 1.2f;
+    [SerializeField] private float flashlightInnerRadius = 0.6741534f;
+    [SerializeField] private float flashlightRange = 11.27706f;
+    [SerializeField] private float flashlightIntensity = 0.85f;
     [SerializeField] private Color flashlightColor = new Color(1f, 0.95f, 0.85f); // Warm white
+    [SerializeField] private float forwardOffset = 0.08f;
+    [SerializeField] private float coneSpreadOffset = 0f;
+    [SerializeField] private float coneOuterAngle = 65.18f;
+    [SerializeField] private float coneInnerAngle = 7.6f;
+    [SerializeField] private float falloffStrength = 0.5f;
+    [SerializeField] private int blendStyleIndex = 0;
+    [SerializeField] private int lightOrder = 0;
+    [SerializeField] private float shadowStrength = 0.75f;
+    [SerializeField] private float shadowSoftness = 0.3f;
+    [SerializeField] private float shadowFalloffStrength = 0.5f;
+    [SerializeField] private float nightStartHour = 18f;
+    [SerializeField] private float nightEndHour = 6f;
 
     [Header("Animation")]
     [SerializeField] private float fadeInDuration = 0.2f;
@@ -26,7 +39,7 @@ public class PlayerFlashlight : MonoBehaviour
     private float targetIntensity = 0f;
     private Vector2 lastDirection = Vector2.right; // Default direction
     private Light2D[] coneLights; // Array of lights forming a cone
-    private const int CONE_LIGHT_COUNT = 5; // Number of lights in the cone
+    private const int CONE_LIGHT_COUNT = 1; // Single 2D spot light matching the inspector settings
     private bool isAllowedScene;
 
     private void Start()
@@ -72,7 +85,18 @@ public class PlayerFlashlight : MonoBehaviour
             Light2D light = lightObj.AddComponent<Light2D>();
             light.lightType = Light2D.LightType.Point;
             light.intensity = 0f;
+            light.pointLightInnerRadius = flashlightInnerRadius;
             light.pointLightOuterRadius = flashlightRange;
+            light.pointLightOuterAngle = coneOuterAngle;
+            light.pointLightInnerAngle = coneInnerAngle;
+            light.falloffIntensity = falloffStrength;
+            light.blendStyleIndex = blendStyleIndex;
+            light.lightOrder = lightOrder;
+            light.shadowsEnabled = true;
+            light.shadowIntensity = shadowStrength;
+            light.shadowSoftness = shadowSoftness;
+            light.shadowSoftnessFalloffIntensity = shadowFalloffStrength;
+            light.volumetricShadowsEnabled = false;
             light.color = flashlightColor;
             light.enabled = true;
 
@@ -82,7 +106,7 @@ public class PlayerFlashlight : MonoBehaviour
 
     private void Update()
     {
-        if (!isAllowedScene)
+        if (!isAllowedScene || !IsNightTime())
         {
             ForceOffImmediate();
 
@@ -112,19 +136,20 @@ public class PlayerFlashlight : MonoBehaviour
         if (coneLights != null && coneLights.Length > 0)
         {
             float baseAngle = Mathf.Atan2(lastDirection.y, lastDirection.x) * Mathf.Rad2Deg;
-            float coneAngle = 60f;
-            float coneRadius = flashlightRange * 0.15f; // Offset from center
-            float angleStep = coneAngle / (CONE_LIGHT_COUNT - 1);
+            float coneAngle = 0f;
+            float angleStep = coneLights.Length > 1 ? coneAngle / (coneLights.Length - 1) : 0f;
+            Vector2 forwardPosition = lastDirection * forwardOffset;
 
             for (int i = 0; i < CONE_LIGHT_COUNT; i++)
             {
-                float currentAngle = baseAngle - (coneAngle / 2) + (i * angleStep);
+                float currentAngle = coneLights.Length > 1 ? baseAngle - (coneAngle / 2) + (i * angleStep) : baseAngle;
                 float radians = currentAngle * Mathf.Deg2Rad;
 
                 // Position each light in a cone formation
-                float offsetX = Mathf.Cos(radians) * coneRadius;
-                float offsetY = Mathf.Sin(radians) * coneRadius;
+                float offsetX = forwardPosition.x + Mathf.Cos(radians) * coneSpreadOffset;
+                float offsetY = forwardPosition.y + Mathf.Sin(radians) * coneSpreadOffset;
                 coneLights[i].transform.localPosition = new Vector3(offsetX, offsetY, 0);
+                coneLights[i].transform.localRotation = Quaternion.AngleAxis(currentAngle - 90f, Vector3.forward);
             }
         }
     }
@@ -169,6 +194,19 @@ public class PlayerFlashlight : MonoBehaviour
             ForceOffImmediate();
     }
 
+    private bool IsNightTime()
+    {
+        DayNightCycleNice2D cycle = DayNightCycleNice2D.Instance;
+        if (cycle == null)
+            return true;
+
+        float currentHour = cycle.TimeNormalized * 24f;
+        if (nightStartHour < nightEndHour)
+            return currentHour >= nightStartHour && currentHour < nightEndHour;
+
+        return currentHour >= nightStartHour || currentHour < nightEndHour;
+    }
+
     private void ForceOffImmediate()
     {
         if (!Mathf.Approximately(currentIntensity, 0f) || isFlashlightOn || !Mathf.Approximately(targetIntensity, 0f))
@@ -183,6 +221,9 @@ public class PlayerFlashlight : MonoBehaviour
     // Public methods for external control
     public void TurnOn()
     {
+        if (!isAllowedScene || !IsNightTime())
+            return;
+
         isFlashlightOn = true;
         targetIntensity = flashlightIntensity;
     }

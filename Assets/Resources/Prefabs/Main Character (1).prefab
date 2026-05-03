@@ -114,9 +114,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerFlashlight
   toggleKey: 102
-  flashlightRange: 8
-  flashlightIntensity: 1
+  flashlightInnerRadius: 0.6741534
+  flashlightRange: 11.27706
+  flashlightIntensity: 0.85
   flashlightColor: {r: 1, g: 0.95, b: 0.85, a: 1}
+  forwardOffset: 0.08
+  coneSpreadOffset: 0
+  coneOuterAngle: 65.18
+  coneInnerAngle: 7.6
+  falloffStrength: 0.5
+  blendStyleIndex: 0
+  lightOrder: 0
+  shadowStrength: 0.75
+  shadowSoftness: 0.3
+  shadowFalloffStrength: 0.5
+  nightStartHour: 18
+  nightEndHour: 6
   fadeInDuration: 0.2
   fadeOutDuration: 0.3
   allowedSceneName: FarmScene
