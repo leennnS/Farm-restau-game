@@ -211,7 +211,11 @@ public class InventoryController : MonoBehaviour
         _uiDocument = GetComponent<UIDocument>();
         _root = _uiDocument.rootVisualElement;
 
-        // Keep this inventory object across scene loads
+        // DontDestroyOnLoad only preserves root objects reliably.
+        if (transform.parent != null)
+            transform.SetParent(null, true);
+
+        // Keep this inventory object across scene loads.
         DontDestroyOnLoad(gameObject);
 
         EnsureAudioSource();
@@ -1973,6 +1977,9 @@ public class InventoryController : MonoBehaviour
     private void OnDestroy()
     {
         StopCookingLoopSound();
+
+        if (_instance == this)
+            _instance = null;
 
         if (AudioSettingsManager.HasInstance)
             AudioSettingsManager.Instance.SettingsChanged -= HandleAudioSettingsChanged;

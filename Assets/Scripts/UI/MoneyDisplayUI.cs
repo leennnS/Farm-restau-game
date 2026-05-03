@@ -65,6 +65,7 @@ public class MoneyDisplayUI : MonoBehaviour
     private void HandleSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         RefreshVisibility();
+        Refresh();
     }
 
     private void RefreshVisibility()

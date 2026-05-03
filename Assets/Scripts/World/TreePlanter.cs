@@ -23,8 +23,22 @@ public class TreePlanter : MonoBehaviour
 
     private Vector3 RoundPosition(Vector3 pos) => new Vector3(Mathf.Round(pos.x * 10f) / 10f, Mathf.Round(pos.y * 10f) / 10f, pos.z);
 
+    private void ResolveReferences()
+    {
+        if (inventoryController == null)
+            inventoryController = InventoryController.Instance;
+        if (inventoryController == null)
+            inventoryController = FindFirstObjectByType<InventoryController>();
+        if (mainCamera == null)
+            mainCamera = Camera.main;
+        if (toastUI == null)
+            toastUI = FindFirstObjectByType<PickupToastUIToolkit>();
+    }
+
     private void OnEnable()
     {
+        ResolveReferences();
+
         FarmingInputHandler input = FindFirstObjectByType<FarmingInputHandler>();
         if (input != null)
             input.RegisterTreePlanter(this);
@@ -39,12 +53,7 @@ public class TreePlanter : MonoBehaviour
 
     private void Awake()
     {
-        if (inventoryController == null)
-            inventoryController = FindFirstObjectByType<InventoryController>();
-        if (mainCamera == null)
-            mainCamera = Camera.main;
-        if (toastUI == null)
-            toastUI = FindFirstObjectByType<PickupToastUIToolkit>();
+        ResolveReferences();
     }
 
     public void SetSelectedHotbarSlot(int slot)
@@ -57,6 +66,8 @@ public class TreePlanter : MonoBehaviour
     /// </summary>
     public bool TryDigHole(Vector3 worldPosition)
     {
+        ResolveReferences();
+
         if (holeSprite == null)
         {
             return false;
@@ -101,6 +112,8 @@ public class TreePlanter : MonoBehaviour
     /// </summary>
     public bool TryPlantTree(Vector3 worldPosition)
     {
+        ResolveReferences();
+
         if (treePrefab == null || inventoryController == null)
             return false;
 
@@ -115,13 +128,12 @@ public class TreePlanter : MonoBehaviour
             return false;
 
         ItemDefinition treesSeedItem = referenceTree.GetSeedItem();
-        if (treesSeedItem == null || selectedItem != treesSeedItem)
+        if (!IsMatchingTreeSeed(selectedItem, treesSeedItem))
             return false;
 
         // Check if there's a hole nearby
-        Vector3 roundedPos = RoundPosition(worldPosition);
         PlantingHole nearestHole = null;
-        float nearestDist = holeSearchRadius;
+        float nearestDist = Mathf.Max(holeSearchRadius, 1f);
 
         foreach (var hole in _holes.Values)
         {
@@ -147,6 +159,13 @@ public class TreePlanter : MonoBehaviour
             return false;
         }
 
+        if (!inventoryController.TryRemoveItem(selectedItem, 1))
+        {
+            if (toastUI != null)
+                toastUI.Show($"No {GetItemDisplayName(selectedItem)} left");
+            return false;
+        }
+
         // Plant the tree in the hole
         Vector3 holePos = nearestHole.GetPosition();
         GameObject treeInstance = Instantiate(treePrefab, holePos, Quaternion.identity);
@@ -161,11 +180,43 @@ public class TreePlanter : MonoBehaviour
         if (nearestHole.TryGetComponent<SpriteRenderer>(out var holeSR))
             holeSR.enabled = false; // Hide hole sprite once planted
 
-        // Consume seed from inventory
-        inventoryController.TryRemoveItem(selectedItem, 1);
         if (toastUI != null)
             toastUI.Show("Tree seed planted! It will grow over time.");
 
         return true;
+    }
+
+    private bool IsMatchingTreeSeed(ItemDefinition selectedItem, ItemDefinition treeSeedItem)
+    {
+        if (selectedItem == null || treeSeedItem == null)
+            return false;
+
+        if (selectedItem == treeSeedItem)
+            return true;
+
+        return NormalizeItemName(GetItemDisplayName(selectedItem)) == NormalizeItemName(GetItemDisplayName(treeSeedItem));
+    }
+
+    private string GetItemDisplayName(ItemDefinition item)
+    {
+        if (item == null)
+            return string.Empty;
+
+        if (!string.IsNullOrWhiteSpace(item.displayName))
+            return item.displayName;
+
+        return item.name;
+    }
+
+    private string NormalizeItemName(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+            return string.Empty;
+
+        return value
+            .ToLowerInvariant()
+            .Replace(" ", string.Empty)
+            .Replace("_", string.Empty)
+            .Replace("-", string.Empty);
     }
 }

@@ -6,8 +6,7 @@ public class MarketInventoryBridge : MonoBehaviour
 
     private void Start()
     {
-        // Find the InventoryController in the scene
-        inventoryController = FindFirstObjectByType<InventoryController>();
+        ResolveInventoryController();
 
         if (inventoryController == null)
             Debug.LogError("[MarketInventoryBridge] InventoryController not found in scene!");
@@ -17,6 +16,8 @@ public class MarketInventoryBridge : MonoBehaviour
     {
         message = string.Empty;
         Debug.Log($"[MarketInventoryBridge] Purchased: {item.itemName} x{amount}");
+
+        ResolveInventoryController();
 
         if (inventoryController == null)
         {
@@ -45,5 +46,15 @@ public class MarketInventoryBridge : MonoBehaviour
         Debug.LogWarning($"[MarketInventoryBridge] Failed to add {item.itemName} x{amount} - inventory may be full!");
         message = $"Inventory full. Could not add {item.itemName}.";
         return false;
+    }
+
+    private void ResolveInventoryController()
+    {
+        if (inventoryController != null)
+            return;
+
+        inventoryController = InventoryController.Instance;
+        if (inventoryController == null)
+            inventoryController = FindFirstObjectByType<InventoryController>();
     }
 }

@@ -36,6 +36,7 @@ public class MarketUIController : MonoBehaviour
     [Header("Audio")]
     [SerializeField] private AudioClip openMarketSound;
     [SerializeField] private AudioClip closeMarketSound;
+    [SerializeField] private AudioClip purchaseSound;
     [SerializeField] private AudioClip errorSound;
 
     private AudioSource _audioSource;
@@ -367,6 +368,14 @@ public class MarketUIController : MonoBehaviour
         _audioSource.PlayOneShot(errorSound);
     }
 
+    private void PlayPurchaseSound()
+    {
+        if (_audioSource == null || purchaseSound == null)
+            return;
+
+        _audioSource.PlayOneShot(purchaseSound);
+    }
+
     private void PlayCloseSound()
     {
         if (_audioSource == null || closeMarketSound == null)
@@ -581,6 +590,7 @@ public class MarketUIController : MonoBehaviour
         }
 
         marketSubtitle.text = string.IsNullOrEmpty(message) ? $"Purchased {item.itemName} x{quantity}." : message;
+        PlayPurchaseSound();
         RefreshMoney();
         PopulateAllSections();
     }

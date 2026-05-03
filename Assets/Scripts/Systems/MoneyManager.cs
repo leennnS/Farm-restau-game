@@ -53,7 +53,11 @@ public class MoneyManager : MonoBehaviour
                 _instance = FindFirstObjectByType<MoneyManager>();
 
                 if (_instance == null)
-                    Debug.LogError("[MoneyManager] No MoneyManager found in scene. Add a MoneyManager component to a scene GameObject.");
+                {
+                    GameObject moneyManagerObject = new GameObject("MoneyManager");
+                    _instance = moneyManagerObject.AddComponent<MoneyManager>();
+                    Debug.LogWarning("[MoneyManager] No MoneyManager found in scene. Created one automatically.");
+                }
             }
 
             return _instance;
@@ -131,7 +135,7 @@ public class MoneyManager : MonoBehaviour
         CurrentMoney += amount;
         SaveMoney();
         PlayMoneyChangeSound();
-        OnMoneyChanged?.Invoke(CurrentMoney);
+        NotifyMoneyChanged();
         HandleZeroMoneyLoanHint();
     }
 
@@ -146,7 +150,7 @@ public class MoneyManager : MonoBehaviour
         CurrentMoney -= amount;
         SaveMoney();
         PlayMoneyChangeSound();
-        OnMoneyChanged?.Invoke(CurrentMoney);
+        NotifyMoneyChanged();
         HandleZeroMoneyLoanHint();
         return true;
     }
@@ -156,7 +160,7 @@ public class MoneyManager : MonoBehaviour
         CurrentMoney = Mathf.Max(0, amount);
         SaveMoney();
         PlayMoneyChangeSound();
-        OnMoneyChanged?.Invoke(CurrentMoney);
+        NotifyMoneyChanged();
         HandleZeroMoneyLoanHint();
     }
 
@@ -181,8 +185,8 @@ public class MoneyManager : MonoBehaviour
 
         SaveMoney();
         PlayMoneyChangeSound();
-        OnDebtChanged?.Invoke(CurrentDebt);
-        OnMoneyChanged?.Invoke(CurrentMoney);
+        NotifyDebtChanged();
+        NotifyMoneyChanged();
         HandleZeroMoneyLoanHint();
         return true;
     }
@@ -198,8 +202,8 @@ public class MoneyManager : MonoBehaviour
 
         SaveMoney();
         PlayMoneyChangeSound();
-        OnDebtChanged?.Invoke(CurrentDebt);
-        OnMoneyChanged?.Invoke(CurrentMoney);
+        NotifyDebtChanged();
+        NotifyMoneyChanged();
         HandleZeroMoneyLoanHint();
         return paid;
     }
@@ -209,7 +213,7 @@ public class MoneyManager : MonoBehaviour
         SetMoney(Mathf.Max(0, defaultStartingMoney));
         CurrentDebt = defaultStartingDebt;
         SaveMoney();
-        OnDebtChanged?.Invoke(CurrentDebt);
+        NotifyDebtChanged();
     }
 
     public void SaveMoney()
@@ -240,9 +244,38 @@ public class MoneyManager : MonoBehaviour
         // Keep keys in sync with defaults when first booting a profile.
         SaveMoney();
 
-        OnMoneyChanged?.Invoke(CurrentMoney);
-        OnDebtChanged?.Invoke(CurrentDebt);
+        NotifyMoneyChanged();
+        NotifyDebtChanged();
         HandleZeroMoneyLoanHint();
+    }
+
+    private void NotifyMoneyChanged()
+    {
+        OnMoneyChanged?.Invoke(CurrentMoney);
+        RefreshMoneyDisplays();
+    }
+
+    private void NotifyDebtChanged()
+    {
+        OnDebtChanged?.Invoke(CurrentDebt);
+        RefreshMoneyDisplays();
+    }
+
+    private void RefreshMoneyDisplays()
+    {
+        GlobalMoneyHUD[] globalHuds = FindObjectsByType<GlobalMoneyHUD>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        for (int i = 0; i < globalHuds.Length; i++)
+        {
+            if (globalHuds[i] != null)
+                globalHuds[i].Refresh();
+        }
+
+        MoneyDisplayUI[] moneyDisplays = FindObjectsByType<MoneyDisplayUI>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        for (int i = 0; i < moneyDisplays.Length; i++)
+        {
+            if (moneyDisplays[i] != null)
+                moneyDisplays[i].Refresh();
+        }
     }
 
     private int GetEffectiveDebtCap()

@@ -31,9 +31,12 @@ public class FarmingInputHandler : MonoBehaviour
     private void ResolveReferences()
     {
         if (farmingManager == null) farmingManager = FindFirstObjectByType<FarmingManager>();
+        if (inventoryController == null) inventoryController = InventoryController.Instance;
         if (inventoryController == null) inventoryController = FindFirstObjectByType<InventoryController>();
         if (mainCamera == null) mainCamera = Camera.main;
         if (pickupToast == null) pickupToast = FindFirstObjectByType<PickupToastUIToolkit>();
+        if (_treePlanter == null) _treePlanter = FindFirstObjectByType<TreePlanter>();
+        if (_treePlanter != null) _treePlanter.SetSelectedHotbarSlot(selectedHotbarSlot);
     }
 
     private void Awake()
@@ -187,12 +190,6 @@ public class FarmingInputHandler : MonoBehaviour
             $"Camera:{mainCamera.name} PixelRect:{mainCamera.pixelRect}"
         );
 
-        Debug.DrawLine(groundCenter + Vector3.left * 0.3f, groundCenter + Vector3.right * 0.3f, Color.red, 2f);
-        Debug.DrawLine(groundCenter + Vector3.up * 0.3f, groundCenter + Vector3.down * 0.3f, Color.red, 2f);
-
-        SpawnDebugCross(world, Color.cyan);
-        SpawnDebugCross(groundCenter, Color.yellow);
-
         ItemDefinition selectedItem = inventoryController.GetHotbarItem(selectedHotbarSlot);
         FarmingAction action = GetAction(selectedItem);
 
@@ -206,6 +203,12 @@ public class FarmingInputHandler : MonoBehaviour
         // Then try planting a seed in an existing hole
         if (action == FarmingAction.Plant && _treePlanter != null && _treePlanter.TryPlantTree(world))
             return;
+
+        if (farmingManager.HasMatureCropAtWorldPosition(world))
+        {
+            farmingManager.TryHarvestAtWorldPosition(world);
+            return;
+        }
 
         switch (action)
         {
@@ -246,52 +249,44 @@ public class FarmingInputHandler : MonoBehaviour
 
         return activeName.IndexOf("farm", System.StringComparison.OrdinalIgnoreCase) >= 0;
     }
-    private void SpawnDebugCross(Vector3 pos, Color color)
-    {
-        GameObject go = new GameObject("ClickDebugCross");
-        go.transform.position = pos;
-
-        LineRenderer lr = go.AddComponent<LineRenderer>();
-        lr.positionCount = 4; // two segments
-        lr.useWorldSpace = true;
-        lr.startWidth = 0.03f;
-        lr.endWidth = 0.03f;
-        lr.material = new Material(Shader.Find("Sprites/Default"));
-        lr.startColor = color;
-        lr.endColor = color;
-        lr.sortingOrder = 1000;
-
-        Vector3 left = pos + Vector3.left * 0.2f;
-        Vector3 right = pos + Vector3.right * 0.2f;
-        Vector3 up = pos + Vector3.up * 0.2f;
-        Vector3 down = pos + Vector3.down * 0.2f;
-
-        lr.SetPosition(0, left);
-        lr.SetPosition(1, right);
-        lr.SetPosition(2, up);
-        lr.SetPosition(3, down);
-
-        Destroy(go, 2f);
-    }
-
     private FarmingAction GetAction(ItemDefinition item)
     {
         if (item == null) return FarmingAction.None;
 
-        // Use displayName if you have it; otherwise fallback to asset name
-        string name = (item.displayName != null && item.displayName.Length > 0)
-            ? item.displayName.ToLower()
-            : item.name.ToLower();
+        if (item is WateringCanItem) return FarmingAction.Water;
 
-        if (name.Contains(hoeKeyword)) return FarmingAction.Hoe;
-        if (name.Contains(wateringCanKeyword)) return FarmingAction.Water;
+        string name = GetComparableItemName(item);
+
+        if (name.Contains(NormalizeItemName(hoeKeyword))) return FarmingAction.Hoe;
+        if (name.Contains(NormalizeItemName(wateringCanKeyword)) || name.Contains("wateringcan")) return FarmingAction.Water;
 
         // Hands tool: returns Dig for planting holes or Harvest for crops (context-dependent)
-        if (name.Contains(handKeyword)) return FarmingAction.Dig;
+        if (name.Contains(NormalizeItemName(handKeyword))) return FarmingAction.Dig;
 
         if (name.Contains("seed") || name.Contains("sapling")) return FarmingAction.Plant;
 
         return FarmingAction.None;
+    }
+
+    private string GetComparableItemName(ItemDefinition item)
+    {
+        if (item == null) return string.Empty;
+
+        string displayName = item.displayName;
+        string assetName = item.name;
+        return NormalizeItemName($"{displayName} {assetName}");
+    }
+
+    private string NormalizeItemName(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+            return string.Empty;
+
+        return value
+            .ToLowerInvariant()
+            .Replace(" ", string.Empty)
+            .Replace("_", string.Empty)
+            .Replace("-", string.Empty);
     }
 
     private void TryWaterWithCan(Vector3 world, ItemDefinition wateringCanItem)
@@ -352,11 +347,10 @@ public class FarmingInputHandler : MonoBehaviour
         ItemDefinition selectedItem = inventoryController.GetHotbarItem(selectedHotbarSlot);
 
         // Check if it's a watering can
-        string itemName = (selectedItem != null && selectedItem.displayName != null && selectedItem.displayName.Length > 0)
-            ? selectedItem.displayName.ToLower()
-            : (selectedItem != null ? selectedItem.name.ToLower() : "");
-
-        if (!itemName.Contains(wateringCanKeyword))
+        string itemName = GetComparableItemName(selectedItem);
+        if (!(selectedItem is WateringCanItem) &&
+            !itemName.Contains(NormalizeItemName(wateringCanKeyword)) &&
+            !itemName.Contains("wateringcan"))
         {
             if (pickupToast != null)
                 pickupToast.Show("No watering can equipped!");

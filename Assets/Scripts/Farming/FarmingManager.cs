@@ -107,6 +107,9 @@ public class FarmingManager : MonoBehaviour
         }
 
         if (inventoryController == null)
+            inventoryController = InventoryController.Instance;
+
+        if (inventoryController == null)
             inventoryController = FindFirstObjectByType<InventoryController>();
 
         if (pickupToast == null)
@@ -315,6 +318,26 @@ public class FarmingManager : MonoBehaviour
 
         Debug.Log($"[FarmingManager] Watered crop at {cellPos}");
         return true;
+    }
+
+    public bool HasMatureCropAtWorldPosition(Vector3 worldPos)
+    {
+        if (cropTilemap == null)
+            return false;
+
+        Vector3Int cellPos = cropTilemap.WorldToCell(worldPos);
+        return HasMatureCropAtCell(cellPos);
+    }
+
+    public bool HasMatureCropAtCell(Vector3Int cellPos)
+    {
+        if (!plantedCrops.TryGetValue(cellPos, out CropData crop))
+            return false;
+
+        if (!cropDefinitionLookup.TryGetValue(crop.cropId, out CropDefinition cropDef))
+            return false;
+
+        return crop.IsMature(cropDef);
     }
 
     // ============ HARVESTING ============

@@ -181,6 +181,7 @@ public class GlobalMoneyHUD : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         RefreshSceneVisibility();
+        Refresh();
     }
 
     private void RefreshSceneVisibility()
