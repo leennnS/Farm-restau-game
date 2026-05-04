@@ -45,7 +45,7 @@ public class MoneyManager : MonoBehaviour
     private AudioSource _audioSource;
     private bool _playedMoneyChangeSoundThisFrame;
     private bool _hasCreatedFallbackMoneyChangeSound;
-    private bool _attemptedToastBootstrap;
+    private Coroutine _ensureLoanToastAfterSceneLoadRoutine;
     private const string MoneyChangeSoundResourcePath = "SFX/money-change";
 
     public static MoneyManager Instance
@@ -109,6 +109,39 @@ public class MoneyManager : MonoBehaviour
         }
 
         EnsureLoanToastExists();
+
+        // Re-evaluate hint visibility after scene transitions so loan prompts remain available.
+        HandleZeroMoneyLoanHint();
+
+        if (_ensureLoanToastAfterSceneLoadRoutine != null)
+            StopCoroutine(_ensureLoanToastAfterSceneLoadRoutine);
+
+        _ensureLoanToastAfterSceneLoadRoutine = StartCoroutine(EnsureLoanToastWhenUiReady());
+    }
+
+    private System.Collections.IEnumerator EnsureLoanToastWhenUiReady()
+    {
+        const float retryDurationSeconds = 2f;
+        const float retryIntervalSeconds = 0.1f;
+
+        float elapsed = 0f;
+        while (elapsed < retryDurationSeconds)
+        {
+            PickupToastUIToolkit toast = EnsureLoanToastExists();
+            if (toast != null)
+            {
+                if (CurrentMoney <= 0)
+                    ShowZeroMoneyLoanHintImmediate();
+
+                _ensureLoanToastAfterSceneLoadRoutine = null;
+                yield break;
+            }
+
+            yield return new WaitForSeconds(retryIntervalSeconds);
+            elapsed += retryIntervalSeconds;
+        }
+
+        _ensureLoanToastAfterSceneLoadRoutine = null;
     }
 
     private bool IsMenuScene(string sceneName)
@@ -363,11 +396,6 @@ public class MoneyManager : MonoBehaviour
         if (toast != null)
             return toast;
 
-        if (_attemptedToastBootstrap)
-            return null;
-
-        _attemptedToastBootstrap = true;
-
         UIDocument sourceDocument = FindSourceUiDocument();
         if (sourceDocument == null || sourceDocument.panelSettings == null)
             return null;
@@ -377,6 +405,7 @@ public class MoneyManager : MonoBehaviour
         toastDocument.panelSettings = sourceDocument.panelSettings;
         toastDocument.sortingOrder = sourceDocument.sortingOrder + 100;
         toastGo.AddComponent<PickupToastUIToolkit>();
+        DontDestroyOnLoad(toastGo);
 
         return FindFirstObjectByType<PickupToastUIToolkit>();
     }
