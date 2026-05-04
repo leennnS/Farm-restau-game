@@ -10,7 +10,7 @@ public class MarketUIController : MonoBehaviour
     [SerializeField] private UIDocument uiDocument;
     [SerializeField] private MarketInventoryBridge inventoryBridge;
     [SerializeField] private PickupToastUIToolkit toastUI;
-    [SerializeField] private string zeroMoneyLoanHintMessage = "💸 No money? Press L to take a loan.";
+    [SerializeField] private string zeroMoneyLoanHintMessage = "L to take a loan and R to repay";
     [SerializeField] private float zeroMoneyLoanHintDuration = 6.0f;
 
     [Header("Items")]

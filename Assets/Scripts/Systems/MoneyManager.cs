@@ -32,7 +32,7 @@ public class MoneyManager : MonoBehaviour
 
     [Header("Loan Hint")]
     [SerializeField] private bool showZeroMoneyLoanHint = true;
-    [SerializeField] private string zeroMoneyLoanHintMessage = "No money? Press L to take a loan.";
+    [SerializeField] private string zeroMoneyLoanHintMessage = "L to take a loan and R to repay";
     [SerializeField] private float zeroMoneyLoanHintDuration = 5f;
     [SerializeField] private float zeroMoneyLoanHintRepeatInterval = 120f; // seconds between repeated hints when at zero
 
@@ -43,6 +43,8 @@ public class MoneyManager : MonoBehaviour
     private Coroutine _zeroMoneyHintRoutine;
     private AudioSource _audioSource;
     private bool _playedMoneyChangeSoundThisFrame;
+    private bool _hasCreatedFallbackMoneyChangeSound;
+    private const string MoneyChangeSoundResourcePath = "SFX/money-change";
 
     public static MoneyManager Instance
     {
@@ -82,6 +84,7 @@ public class MoneyManager : MonoBehaviour
         _instance = this;
         DontDestroyOnLoad(gameObject);
         EnsureAudioSource();
+        EnsureMoneyChangeSound();
         LoadMoney();
     }
 
@@ -362,11 +365,51 @@ public class MoneyManager : MonoBehaviour
 
     private void PlayMoneyChangeSound()
     {
-        if (_playedMoneyChangeSoundThisFrame || _audioSource == null || moneyChangeSound == null)
+        if (_playedMoneyChangeSoundThisFrame || _audioSource == null)
+            return;
+
+        EnsureMoneyChangeSound();
+
+        if (moneyChangeSound == null)
             return;
 
         _audioSource.PlayOneShot(moneyChangeSound);
         _playedMoneyChangeSoundThisFrame = true;
+    }
+
+    private void EnsureMoneyChangeSound()
+    {
+        if (moneyChangeSound != null || _hasCreatedFallbackMoneyChangeSound)
+            return;
+
+        moneyChangeSound = Resources.Load<AudioClip>(MoneyChangeSoundResourcePath);
+        if (moneyChangeSound != null)
+            return;
+
+        moneyChangeSound = CreateFallbackMoneyChangeSound();
+        _hasCreatedFallbackMoneyChangeSound = true;
+    }
+
+    private AudioClip CreateFallbackMoneyChangeSound()
+    {
+        const int sampleRate = 44100;
+        const float durationSeconds = 0.18f;
+        int sampleCount = Mathf.CeilToInt(sampleRate * durationSeconds);
+        float[] samples = new float[sampleCount];
+
+        for (int i = 0; i < sampleCount; i++)
+        {
+            float time = i / (float)sampleRate;
+            float envelope = Mathf.Exp(-time * 18f);
+            float toneA = Mathf.Sin(2f * Mathf.PI * 880f * time);
+            float toneB = Mathf.Sin(2f * Mathf.PI * 1320f * time) * 0.6f;
+            float toneC = Mathf.Sin(2f * Mathf.PI * 1760f * time) * 0.35f;
+            samples[i] = (toneA + toneB + toneC) * 0.22f * envelope;
+        }
+
+        AudioClip clip = AudioClip.Create("FallbackMoneyChange", sampleCount, 1, sampleRate, false);
+        clip.SetData(samples, 0);
+        return clip;
     }
 
     private void OnApplicationPause(bool pauseStatus)
@@ -382,6 +425,7 @@ public class MoneyManager : MonoBehaviour
 
         if (Input.GetKeyDown(takeLoanKey))
         {
+            ShowZeroMoneyLoanHintImmediate();
             TakeLoan(debugLoanAmount);
         }
 

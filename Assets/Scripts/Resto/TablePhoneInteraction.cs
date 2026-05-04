@@ -31,6 +31,7 @@ public class TablePhoneInteraction : MonoBehaviour
     private bool playerInRange;
     private bool spawnPending = false;
     private Coroutine spawnCoroutine = null;
+    private bool attemptedToastBootstrap = false;
     private const float MinSpawnDelay = 5f;
 
     // UI
@@ -47,7 +48,11 @@ public class TablePhoneInteraction : MonoBehaviour
     private void ResolveReferences()
     {
         if (pickupToast == null)
+        {
             pickupToast = FindFirstObjectByType<PickupToastUIToolkit>();
+            if (pickupToast == null)
+                TryBootstrapPickupToast();
+        }
 
         if (queueManager == null)
             queueManager = FindFirstObjectByType<RestaurantNpcQueueManager>();
@@ -60,6 +65,40 @@ public class TablePhoneInteraction : MonoBehaviour
             audioSource.playOnAwake = false;
             audioSource.spatialBlend = 0f;
         }
+    }
+
+    private void TryBootstrapPickupToast()
+    {
+        if (attemptedToastBootstrap)
+            return;
+
+        attemptedToastBootstrap = true;
+
+        ResolveHostDocument();
+
+        UIDocument sourceDoc = hostUiDocument;
+        if (sourceDoc == null)
+        {
+            UIDocument[] docs = FindObjectsByType<UIDocument>(FindObjectsSortMode.None);
+            for (int i = 0; i < docs.Length; i++)
+            {
+                if (docs[i] != null && docs[i].panelSettings != null)
+                {
+                    sourceDoc = docs[i];
+                    break;
+                }
+            }
+        }
+
+        if (sourceDoc == null || sourceDoc.panelSettings == null)
+            return;
+
+        GameObject toastGo = new GameObject("RuntimePickupToastUI");
+        UIDocument doc = toastGo.AddComponent<UIDocument>();
+        doc.panelSettings = sourceDoc.panelSettings;
+        doc.sortingOrder = sourceDoc.sortingOrder + 10;
+
+        pickupToast = toastGo.AddComponent<PickupToastUIToolkit>();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
