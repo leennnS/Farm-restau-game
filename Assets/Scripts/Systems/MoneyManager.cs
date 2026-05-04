@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 /// <summary>
 /// Global money system shared across all scenes.
@@ -44,6 +45,7 @@ public class MoneyManager : MonoBehaviour
     private AudioSource _audioSource;
     private bool _playedMoneyChangeSoundThisFrame;
     private bool _hasCreatedFallbackMoneyChangeSound;
+    private bool _attemptedToastBootstrap;
     private const string MoneyChangeSoundResourcePath = "SFX/money-change";
 
     public static MoneyManager Instance
@@ -105,6 +107,8 @@ public class MoneyManager : MonoBehaviour
         {
             EnsureGlobalHudExists();
         }
+
+        EnsureLoanToastExists();
     }
 
     private bool IsMenuScene(string sceneName)
@@ -344,10 +348,50 @@ public class MoneyManager : MonoBehaviour
             return;
 
         PickupToastUIToolkit toast = FindFirstObjectByType<PickupToastUIToolkit>();
+        if (toast == null)
+            toast = EnsureLoanToastExists();
+
         if (toast != null)
             toast.Show(zeroMoneyLoanHintMessage, zeroMoneyLoanHintDuration);
 
         _hasShownZeroMoneyHint = true;
+    }
+
+    private PickupToastUIToolkit EnsureLoanToastExists()
+    {
+        PickupToastUIToolkit toast = FindFirstObjectByType<PickupToastUIToolkit>();
+        if (toast != null)
+            return toast;
+
+        if (_attemptedToastBootstrap)
+            return null;
+
+        _attemptedToastBootstrap = true;
+
+        UIDocument sourceDocument = FindSourceUiDocument();
+        if (sourceDocument == null || sourceDocument.panelSettings == null)
+            return null;
+
+        GameObject toastGo = new GameObject("RuntimePickupToastUI");
+        UIDocument toastDocument = toastGo.AddComponent<UIDocument>();
+        toastDocument.panelSettings = sourceDocument.panelSettings;
+        toastDocument.sortingOrder = sourceDocument.sortingOrder + 100;
+        toastGo.AddComponent<PickupToastUIToolkit>();
+
+        return FindFirstObjectByType<PickupToastUIToolkit>();
+    }
+
+    private UIDocument FindSourceUiDocument()
+    {
+        UIDocument[] documents = FindObjectsByType<UIDocument>(FindObjectsSortMode.None);
+        for (int i = 0; i < documents.Length; i++)
+        {
+            UIDocument document = documents[i];
+            if (document != null && document.isActiveAndEnabled && document.panelSettings != null)
+                return document;
+        }
+
+        return null;
     }
 
     private void EnsureAudioSource()
