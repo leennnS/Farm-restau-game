@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class OrderListHUD : MonoBehaviour
 {
+    private static OrderListHUD _instance;
+
     [Header("Scene Filter")]
     [SerializeField] private bool runOnlyInRestaurantScene = true;
     [SerializeField] private string restaurantSceneName = "RestaurantScene";
@@ -26,8 +28,34 @@ public class OrderListHUD : MonoBehaviour
     private Canvas _canvas;
     private RestaurantNpcQueueManager _restaurantQueueManager;
 
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    private static void Bootstrap()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoadedBootstrap;
+        SceneManager.sceneLoaded += OnSceneLoadedBootstrap;
+    }
+
+    private static void OnSceneLoadedBootstrap(Scene scene, LoadSceneMode mode)
+    {
+        if (!IsRestaurantSceneName(scene.name))
+            return;
+
+        if (FindFirstObjectByType<OrderListHUD>() != null)
+            return;
+
+        GameObject go = new GameObject("OrderListHUD");
+        go.AddComponent<OrderListHUD>();
+    }
+
     private void Awake()
     {
+        if (_instance != null && _instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        _instance = this;
         DontDestroyOnLoad(gameObject);
     }
 
@@ -56,6 +84,12 @@ public class OrderListHUD : MonoBehaviour
         if (!IsSceneAllowed())
             return;
 
+        if (_restaurantQueueManager == null)
+        {
+            ResolveRestaurantQueueManager();
+            RefreshFromCurrentSource();
+        }
+
         UpdateAnchorPosition();
     }
 
@@ -74,8 +108,13 @@ public class OrderListHUD : MonoBehaviour
             return true;
 
         Scene active = SceneManager.GetActiveScene();
-        string activeName = active.name ?? string.Empty;
-        if (string.Equals(activeName, restaurantSceneName, System.StringComparison.OrdinalIgnoreCase))
+        return IsRestaurantSceneName(active.name, restaurantSceneName);
+    }
+
+    private static bool IsRestaurantSceneName(string sceneName, string exactSceneName = "RestaurantScene")
+    {
+        string activeName = sceneName ?? string.Empty;
+        if (string.Equals(activeName, exactSceneName, System.StringComparison.OrdinalIgnoreCase))
             return true;
 
         return activeName.IndexOf("restaurant", System.StringComparison.OrdinalIgnoreCase) >= 0;
@@ -105,7 +144,7 @@ public class OrderListHUD : MonoBehaviour
 
             canvas = canvasGo.AddComponent<Canvas>();
             canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-            canvas.sortingOrder = 1002;
+            canvas.sortingOrder = 1005;
 
             CanvasScaler scaler = canvasGo.AddComponent<CanvasScaler>();
             scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
@@ -277,5 +316,11 @@ public class OrderListHUD : MonoBehaviour
     {
         if (_canvas != null)
             _canvas.enabled = true;
+    }
+
+    private void OnDestroy()
+    {
+        if (_instance == this)
+            _instance = null;
     }
 }

@@ -185,7 +185,16 @@ public class PondRefillUI : MonoBehaviour
     private void CompleteRefill()
     {
         if (farmingInputHandler == null)
+            farmingInputHandler = FindFirstObjectByType<FarmingInputHandler>();
+
+        if (farmingInputHandler == null)
+        {
+            if (pickupToast != null)
+                pickupToast.Show("Watering can refill failed.");
+
+            HideRefillUI();
             return;
+        }
 
         bool refilled = farmingInputHandler.TryRefillWateringCan();
 

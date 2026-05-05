@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 327089572608396531, guid: 9ad108346c7a7e043b02cf2d3ee07124, type: 3}
       propertyPath: speed
-      value: 3
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 1807031062259198392, guid: 9ad108346c7a7e043b02cf2d3ee07124, type: 3}
       propertyPath: m_Sprite
@@ -114,15 +114,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerFlashlight
   toggleKey: 102
-  flashlightInnerRadius: 0.6741534
-  flashlightRange: 11.27706
-  flashlightIntensity: 0.85
+  flashlightInnerRadius: 1.2
+  flashlightRange: 24
+  flashlightIntensity: 1.15
   flashlightColor: {r: 1, g: 0.95, b: 0.85, a: 1}
-  forwardOffset: 0.08
+  forwardOffset: 0.45
   coneSpreadOffset: 0
-  coneOuterAngle: 65.18
-  coneInnerAngle: 7.6
-  falloffStrength: 0.5
+  coneOuterAngle: 105
+  coneInnerAngle: 38
+  falloffStrength: 0.35
   blendStyleIndex: 0
   lightOrder: 0
   shadowStrength: 0.75

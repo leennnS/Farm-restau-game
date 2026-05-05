@@ -61,6 +61,12 @@ public class GameManager : MonoBehaviour
         SaveGameState();
     }
 
+    private void OnDestroy()
+    {
+        if (_instance == this)
+            _instance = null;
+    }
+
     private void OnApplicationPause(bool pauseStatus)
     {
         if (pauseStatus)
@@ -83,6 +89,8 @@ public class GameManager : MonoBehaviour
     public void NewGame()
     {
         Debug.Log("[GameManager] Starting new game - clearing player data");
+
+        MainMenuRuntimeCleanup.PrepareForMainMenu(destroyGameManager: false);
 
         // Clear all persistent player data
         ClearAllGameData();

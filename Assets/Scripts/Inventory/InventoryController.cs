@@ -1281,51 +1281,8 @@ public class InventoryController : MonoBehaviour
         SaveInventoryData();
         SetOpen(false, playSound: false);
 
-        CleanupGameplaySystemsForMainMenu();
+        MainMenuRuntimeCleanup.PrepareForMainMenu(destroyGameManager: true);
         SceneManager.LoadScene("MAIN MENU", LoadSceneMode.Single);
-    }
-
-    private void CleanupGameplaySystemsForMainMenu()
-    {
-        Time.timeScale = 1f;
-
-        DestroyPersistentObjects<InventoryController>();
-        DestroyPersistentObjects<HotBarController>();
-        DestroyPersistentObjects<HotBarHUDController>();
-        DestroyPersistentObjects<MoneyManager>();
-        DestroyPersistentObjects<GameManager>();
-        DestroyPersistentObjects<DayNightCycleNice2D>();
-        DestroyPersistentObjects<GlobalMoneyHUD>();
-        DestroyPersistentObjects<GlobalClockHUD>();
-        DestroyPersistentObjects<GlobalAudioSettingsHUD>();
-        DestroyPersistentObjects<GlobalNextDayButtonHUD>();
-        DestroyPersistentObjects<ClockHUDController>();
-        DestroyPersistentObjects<OrderListHUD>();
-        DestroyPersistentObjects<LanternController>();
-        DestroyPersistentObjects<ImprovedLanternController>();
-        DestroyPersistentObjects<RestaurantCookingUIController>();
-        DestroyPersistentObjects<CameraFollowFix>();
-    }
-
-    private static void DestroyPersistentObjects<T>() where T : MonoBehaviour
-    {
-        T[] instances = FindObjectsByType<T>(FindObjectsInactive.Include, FindObjectsSortMode.None);
-        if (instances == null)
-            return;
-
-        for (int i = 0; i < instances.Length; i++)
-        {
-            T instance = instances[i];
-            if (instance == null)
-                continue;
-
-            GameObject target = instance.gameObject;
-            if (target == null)
-                continue;
-
-            target.SetActive(false);
-            Destroy(target);
-        }
     }
 
     private void QuitGame()

@@ -135,17 +135,17 @@ public sealed class GlobalAudioSettingsHUD : MonoBehaviour
         rect.sizeDelta = new Vector2(82f, 82f);
 
         Image image = buttonObject.AddComponent<Image>();
-        image.color = new Color(0.52f, 0.29f, 0.13f, 0.76f);
+        image.color = new Color(0.12f, 0.09f, 0.06f, 0.56f);
 
         Outline outline = buttonObject.AddComponent<Outline>();
-        outline.effectColor = new Color(0.23f, 0.13f, 0.06f, 0.78f);
-        outline.effectDistance = new Vector2(2f, -2f);
+        outline.effectColor = new Color(0.93f, 0.72f, 0.38f, 0.6f);
+        outline.effectDistance = new Vector2(1.1f, -1.1f);
 
         Button button = buttonObject.AddComponent<Button>();
         button.targetGraphic = image;
         button.onClick.AddListener(TogglePopup);
 
-        Text label = CreateText("Icon", buttonObject.transform, "\u266B", 48, FontStyle.Bold, new Color(1f, 0.91f, 0.67f, 1f));
+        Text label = CreateText("Icon", buttonObject.transform, "\u266B", 42, FontStyle.Bold, new Color(1f, 0.95f, 0.78f, 0.92f));
         label.alignment = TextAnchor.MiddleCenter;
         Stretch(label.rectTransform, 0f, 0f, 0f, 0f);
 
@@ -500,41 +500,8 @@ public sealed class GlobalAudioSettingsHUD : MonoBehaviour
 
         Time.timeScale = 1f;
         ClosePopup();
-        CleanupGameplaySystemsForMainMenu();
-        SceneManager.LoadScene("MAIN MENU", LoadSceneMode.Single);
-    }
-
-    private void CleanupGameplaySystemsForMainMenu()
-    {
-        DestroyPersistentObjects<InventoryController>();
-        DestroyPersistentObjects<HotBarController>();
-        DestroyPersistentObjects<HotBarHUDController>();
-        DestroyPersistentObjects<MoneyManager>();
-        DestroyPersistentObjects<GameManager>();
-        DestroyPersistentObjects<DayNightCycleNice2D>();
-        DestroyPersistentObjects<GlobalMoneyHUD>();
-        DestroyPersistentObjects<GlobalClockHUD>();
-        DestroyPersistentObjects<GlobalNextDayButtonHUD>();
-        DestroyPersistentObjects<ClockHUDController>();
-        DestroyPersistentObjects<OrderListHUD>();
-        DestroyPersistentObjects<LanternController>();
-        DestroyPersistentObjects<ImprovedLanternController>();
-        DestroyPersistentObjects<RestaurantCookingUIController>();
-        DestroyPersistentObjects<CameraFollowFix>();
+        MainMenuRuntimeCleanup.PrepareForMainMenu(destroyGameManager: true);
         DestroyFallbackEventSystem();
-    }
-
-    private static void DestroyPersistentObjects<T>() where T : MonoBehaviour
-    {
-        T[] instances = FindObjectsByType<T>(FindObjectsInactive.Include, FindObjectsSortMode.None);
-        if (instances == null)
-            return;
-
-        for (int i = 0; i < instances.Length; i++)
-        {
-            T instance = instances[i];
-            if (instance != null)
-                Destroy(instance.gameObject);
-        }
+        SceneManager.LoadScene("MAIN MENU", LoadSceneMode.Single);
     }
 }
