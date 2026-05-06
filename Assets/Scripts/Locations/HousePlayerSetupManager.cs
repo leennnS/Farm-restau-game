@@ -3,6 +3,8 @@ using UnityEngine.SceneManagement;
 
 public class HousePlayerSetupManager
 {
+    private static float? cachedPlayerSpeed;
+
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     static void Init()
     {
@@ -11,15 +13,34 @@ public class HousePlayerSetupManager
 
     private static void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name != "HouseInteriorLITEDEMO")
-            return;
-
         GameObject player = GameObject.FindWithTag("Player");
         if (player == null)
         {
-            Debug.LogWarning("HousePlayerSetupManager: no GameObject with tag 'Player' found.");
+            if (scene.name == "HouseInteriorLITEDEMO")
+                Debug.LogWarning("HousePlayerSetupManager: no GameObject with tag 'Player' found.");
+
             return;
         }
+
+        CharacterController2D controller = player.GetComponent<CharacterController2D>();
+        if (controller == null)
+            return;
+
+        if (scene.name == "HouseInteriorLITEDEMO")
+        {
+            if (!cachedPlayerSpeed.HasValue)
+                cachedPlayerSpeed = controller.speed;
+
+            controller.speed = 9f;
+        }
+        else if (cachedPlayerSpeed.HasValue)
+        {
+            controller.speed = cachedPlayerSpeed.Value;
+            cachedPlayerSpeed = null;
+        }
+
+        if (scene.name != "HouseInteriorLITEDEMO")
+            return;
 
         // Attach movement constraint component if not present
         var limiter = player.GetComponent<PlayerMovementConstraint>();
