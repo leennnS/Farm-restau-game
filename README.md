@@ -243,7 +243,7 @@ Assets/
 
 ## License
 
-[Add your license information here]
+MIT License
 
 ## Credits
 
