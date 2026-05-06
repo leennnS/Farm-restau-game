@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58792e1609b5aad489825d4e466bd4c2, type: 3}
+  m_Name: StrawberryCrop
+  m_EditorClassIdentifier: Assembly-CSharp::CropDefinition
+  cropId: StrawberryCrop
+  displayName: 
+  cropIcon: {fileID: 0}
+  stageTiles:
+  - {fileID: 11400000, guid: 8ad894f62cd9bf94281240d704eaf76a, type: 2}
+  - {fileID: 11400000, guid: 0bf0d972e6b20a74c8a5e493fe41eb39, type: 2}
+  - {fileID: 11400000, guid: 17b31e4cdddcf604cb36824f140ca792, type: 2}
+  - {fileID: 11400000, guid: 6ad2c6c04e051ff43823dc51cd80ffc0, type: 2}
+  daysPerStage: 01000000010000000100000001000000
+  deadPlantSprite: {fileID: 4597040313595929487, guid: 1815db5e110871849b39a4c197c58c28, type: 3}
+  seedItem: {fileID: 11400000, guid: b2c25dfcae7d8b74aa369f93c3c74925, type: 2}
+  harvestItem: {fileID: 11400000, guid: a620fcc93877474419d638aa32a00b77, type: 2}
+  harvestAmount: 1
+  harvestPrefab: {fileID: 1711588723623028544, guid: 68ffa46e50831b3498ad1c4364dbce10, type: 3}
+  requiresWatering: 1
+  daysWithoutWaterUntilDeath: 3
+  reveritToSoilAfterHarvest: 1

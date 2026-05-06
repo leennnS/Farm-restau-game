@@ -11044,6 +11044,27 @@ MonoBehaviour:
     description: 
     available: 1
     itemDefinition: {fileID: 11400000, guid: 16b47ca967a7e0d48bc7ba39da227dc7, type: 2}
+  - itemName: Carrot Seed
+    icon: {fileID: -2094157912208876536, guid: 54ba9dd135428e4498b4c6f6d56b5570, type: 3}
+    price: 1
+    quantity: 1
+    description: 
+    available: 1
+    itemDefinition: {fileID: 11400000, guid: 87c0ab5d1be29fc438df42b6eed2049c, type: 2}
+  - itemName: Strawberry Seed
+    icon: {fileID: 3430456192419265838, guid: 30091cb8005330a478ecbd24bece6609, type: 3}
+    price: 1
+    quantity: 1
+    description: 
+    available: 1
+    itemDefinition: {fileID: 11400000, guid: b2c25dfcae7d8b74aa369f93c3c74925, type: 2}
+  - itemName: Blueberry Seed
+    icon: {fileID: 1887190405401825261, guid: 5224afc30c995ec4eac374e8ef6996a8, type: 3}
+    price: 1
+    quantity: 1
+    description: 
+    available: 1
+    itemDefinition: {fileID: 11400000, guid: 0fefe9b7c8f0e324cb22894e31303926, type: 2}
   toolsEntries:
   - itemName: Axe
     icon: {fileID: 6674386295937086461, guid: 263141e9e40b44546a59daec410a3c90, type: 3}

@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58792e1609b5aad489825d4e466bd4c2, type: 3}
+  m_Name: BlueberryCrop
+  m_EditorClassIdentifier: Assembly-CSharp::CropDefinition
+  cropId: Blueberry Crop
+  displayName: 
+  cropIcon: {fileID: 0}
+  stageTiles:
+  - {fileID: 11400000, guid: 8ad894f62cd9bf94281240d704eaf76a, type: 2}
+  - {fileID: 11400000, guid: dc20b5573eef40847912876c25f39f8b, type: 2}
+  - {fileID: 11400000, guid: ed4ee2e0b3d3ef249b39209ed932bc32, type: 2}
+  - {fileID: 11400000, guid: 1bc32b7640bc0d44b844c42bb76776ea, type: 2}
+  daysPerStage: 01000000010000000100000001000000
+  deadPlantSprite: {fileID: -8224065698937322091, guid: 95266d4a2e553ea42adeaa432beaa91a, type: 3}
+  seedItem: {fileID: 11400000, guid: 0fefe9b7c8f0e324cb22894e31303926, type: 2}
+  harvestItem: {fileID: 11400000, guid: d8b445a84887aa5449f8c29f6c9eb2ff, type: 2}
+  harvestAmount: 1
+  harvestPrefab: {fileID: 1711588723623028544, guid: 4c4076339b56e5048ad7b419e6436a67, type: 3}
+  requiresWatering: 1
+  daysWithoutWaterUntilDeath: 3
+  reveritToSoilAfterHarvest: 1

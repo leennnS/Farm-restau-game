@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d1e90db75a22bd44b53036bc18de6e1, type: 3}
-  m_Name: omlet
+  m_Name: Omlet
   m_EditorClassIdentifier: Assembly-CSharp::ItemDefinition
   displayName: Omlet
   icon: {fileID: 4861057730434007722, guid: 27d633611e6907043814c56227c5c174, type: 3}

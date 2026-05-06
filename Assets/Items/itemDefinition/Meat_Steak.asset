@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d1e90db75a22bd44b53036bc18de6e1, type: 3}
-  m_Name: meat_steak
+  m_Name: Meat_Steak
   m_EditorClassIdentifier: Assembly-CSharp::ItemDefinition
   displayName: Meat Steak
   icon: {fileID: -4536646526587992613, guid: 24f664dacea3572498f59a8885d363c5, type: 3}

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d1e90db75a22bd44b53036bc18de6e1, type: 3}
-  m_Name: pear
+  m_Name: Pear
   m_EditorClassIdentifier: Assembly-CSharp::ItemDefinition
   displayName: Pear
   icon: {fileID: 21300000, guid: 31740551f69654fb7bc2a39c35d57d9c, type: 3}
