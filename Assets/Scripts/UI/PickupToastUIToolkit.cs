@@ -36,21 +36,23 @@ public class PickupToastUIToolkit : MonoBehaviour
         toast.style.left = Length.Percent(50);
         toast.style.bottom = startBottom;
         toast.style.translate = new Translate(new Length(-50, LengthUnit.Percent), 0);
-        toast.style.backgroundColor = new Color(0f, 0f, 0f, 0.75f);
-        toast.style.paddingLeft = 12;
-        toast.style.paddingRight = 12;
-        toast.style.paddingTop = 8;
-        toast.style.paddingBottom = 8;
+        toast.style.backgroundColor = new Color(0.08f, 0.07f, 0.05f, 0.92f);
+        toast.style.paddingLeft = 18;
+        toast.style.paddingRight = 18;
+        toast.style.paddingTop = 12;
+        toast.style.paddingBottom = 12;
         toast.style.borderTopLeftRadius = 10;
         toast.style.borderTopRightRadius = 10;
         toast.style.borderBottomLeftRadius = 10;
         toast.style.borderBottomRightRadius = 10;
         toast.style.opacity = 0f;
         toast.style.display = DisplayStyle.None;
+        toast.style.maxWidth = 920f;
+        toast.style.minWidth = 420f;
 
         toastLabel = new Label();
         toastLabel.style.color = Color.white;
-        toastLabel.style.fontSize = 18;
+        toastLabel.style.fontSize = 24;
         toastLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
         toastLabel.style.unityTextAlign = TextAnchor.MiddleCenter;
 
@@ -74,11 +76,48 @@ public class PickupToastUIToolkit : MonoBehaviour
             return;
 
         if (currentRoutine != null)
+        {
             StopCoroutine(currentRoutine);
+            currentRoutine = null;
+        }
 
         toastLabel.text = message;
         toastLabel.style.fontSize = fontSize;
         currentRoutine = StartCoroutine(AnimateToast(duration));
+    }
+
+    public void ShowPersistent(string message, int fontSize = 28)
+    {
+        if (toast == null || toastLabel == null)
+            return;
+
+        if (currentRoutine != null)
+        {
+            StopCoroutine(currentRoutine);
+            currentRoutine = null;
+        }
+
+        toastLabel.text = message;
+        toastLabel.style.fontSize = fontSize;
+        toast.style.display = DisplayStyle.Flex;
+        toast.style.opacity = 1f;
+        toast.style.bottom = endBottom;
+    }
+
+    public void Hide()
+    {
+        if (toast == null)
+            return;
+
+        if (currentRoutine != null)
+        {
+            StopCoroutine(currentRoutine);
+            currentRoutine = null;
+        }
+
+        toast.style.opacity = 0f;
+        toast.style.display = DisplayStyle.None;
+        toast.style.bottom = startBottom;
     }
 
     private IEnumerator AnimateToast(float duration)
@@ -103,5 +142,6 @@ public class PickupToastUIToolkit : MonoBehaviour
         toast.style.opacity = 0f;
         toast.style.display = DisplayStyle.None;
         toast.style.bottom = startBottom;
+        currentRoutine = null;
     }
 }

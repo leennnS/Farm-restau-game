@@ -26,7 +26,10 @@ public class ImprovedLanternController : MonoBehaviour
     private PickupToastUIToolkit toastUI;
 
     [SerializeField]
-    private string pickupPromptTemplate = "Press {0} to pick up lantern";
+    private string pickupPromptTemplate = "Press {0} to pick up the lantern";
+
+    [SerializeField]
+    private int pickupPromptFontSize = 28;
 
     [SerializeField]
     private float pickupPromptRepeatDelay = 1.2f;
@@ -194,7 +197,7 @@ public class ImprovedLanternController : MonoBehaviour
                 {
                     ShowPickupHintText();
 
-                    if (!wasPlayerInPickupRange || Time.time >= nextPickupPromptTime)
+                    if (!wasPlayerInPickupRange)
                     {
                         ShowPickupPrompt();
                     }
@@ -207,6 +210,10 @@ public class ImprovedLanternController : MonoBehaviour
                 else
                 {
                     HidePickupHintText();
+                    if (wasPlayerInPickupRange)
+                    {
+                        HidePickupPrompt();
+                    }
                 }
 
                 wasPlayerInPickupRange = isPlayerInPickupRange;
@@ -224,8 +231,16 @@ public class ImprovedLanternController : MonoBehaviour
         if (toastUI == null)
             return;
 
-        toastUI.Show(string.Format(pickupPromptTemplate, pickupKey));
+        toastUI.ShowPersistent(string.Format(pickupPromptTemplate, pickupKey), pickupPromptFontSize);
         nextPickupPromptTime = Time.time + pickupPromptRepeatDelay;
+    }
+
+    private void HidePickupPrompt()
+    {
+        if (toastUI == null)
+            return;
+
+        toastUI.Hide();
     }
 
     private void CreatePickupHintIfNeeded()
@@ -298,6 +313,7 @@ public class ImprovedLanternController : MonoBehaviour
         isHeldByPlayer = true;
         wasPlayerInPickupRange = false;
         HidePickupHintText();
+        HidePickupPrompt();
         playerTransform = player;
         playerController = controller;
 
@@ -323,6 +339,7 @@ public class ImprovedLanternController : MonoBehaviour
         {
             wasPlayerInPickupRange = false;
             HidePickupHintText();
+            HidePickupPrompt();
         }
     }
 
@@ -331,6 +348,7 @@ public class ImprovedLanternController : MonoBehaviour
         isHeldByPlayer = false;
         wasPlayerInPickupRange = false;
         HidePickupHintText();
+        HidePickupPrompt();
         playerTransform = null;
         playerController = null;
 

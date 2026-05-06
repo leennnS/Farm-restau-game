@@ -27,7 +27,7 @@ public class LanternController : MonoBehaviour
     private PickupToastUIToolkit toastUI;
 
     [SerializeField]
-    private string pickupPromptTemplate = "Press {0} to pick up lantern";
+    private string pickupPromptTemplate = "Press {0} to pick up the lantern";
 
     [SerializeField]
     private float pickupPromptRepeatDelay = 1.2f;

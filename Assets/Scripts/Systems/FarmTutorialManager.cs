@@ -6,6 +6,17 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class FarmTutorialManager : MonoBehaviour
 {
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    private static void EnsureInstanceBeforeSceneLoad()
+    {
+        if (_instance == null)
+        {
+            var go = new GameObject("FarmTutorialManager_Global");
+            go.AddComponent<FarmTutorialManager>();
+            DontDestroyOnLoad(go);
+        }
+    }
+
     private const string PendingFarmTutorialKey = "PendingFarmTutorial";
     private const string FarmTutorialStartedKey = "FarmTutorialStarted";
     private const string FarmTutorialCompletedKey = "FarmTutorialCompleted";
@@ -58,6 +69,8 @@ public class FarmTutorialManager : MonoBehaviour
 
     private TutorialStep currentStep = TutorialStep.None;
     private bool isRunning;
+    private static FarmTutorialManager _instance;
+    private bool forceDisabled = false;
     private bool houseVisited;
     private bool marketVisited;
     private bool restaurantVisited;
@@ -76,6 +89,18 @@ public class FarmTutorialManager : MonoBehaviour
         }
 
         ResolveReferences();
+        // Ensure this manager persists across scenes and only one instance exists
+        if (_instance == null)
+        {
+            _instance = this;
+            DontDestroyOnLoad(gameObject);
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+        else if (_instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
         if (waypointMarker != null)
             waypointInitialScale = waypointMarker.localScale;
 
@@ -88,8 +113,39 @@ public class FarmTutorialManager : MonoBehaviour
         BeginTutorial();
     }
 
+    private void Awake()
+    {
+        // Establish singleton and ensure waypoint marker exists early (before Start)
+        if (_instance == null)
+        {
+            _instance = this;
+            DontDestroyOnLoad(gameObject);
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+        else if (_instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        // Try to resolve refs and create the runtime arrow marker early so it's available across scenes
+        ResolveReferences();
+    }
+
     private void Update()
     {
+        // Global 'K' key should disable tutorial immediately from any scene
+        if (Input.GetKeyDown(skipKey))
+        {
+            // If running, complete (skip); if not running, disable future starts
+            if (isRunning)
+                CompleteTutorial(true);
+            else
+                DisableTutorialImmediate();
+
+            return;
+        }
+
         if (!isRunning)
             return;
 
@@ -208,10 +264,39 @@ public class FarmTutorialManager : MonoBehaviour
 
     private void EnsureWaypointMarker()
     {
-        if (waypointMarker != null)
+        // Do not create or enable the waypoint marker in the Intro scene.
+        string activeSceneName = SceneManager.GetActiveScene().name;
+        if (activeSceneName == "Intro")
+        {
+            GameObject maybeExisting = GameObject.Find("FarmTutorialWaypoint");
+            if (maybeExisting != null)
+                maybeExisting.SetActive(false);
+            if (debugLogs)
+                Debug.Log("[FarmTutorial] Skipping waypoint creation in Intro scene.");
             return;
+        }
+
+        // If a marker already exists in the scene (possible from previous runs), reuse it.
+        GameObject existing = GameObject.Find("FarmTutorialWaypoint");
+        if (existing != null)
+        {
+            waypointMarker = existing.transform;
+            // Ensure it's parented to this manager and preserved across scenes
+            waypointMarker.SetParent(transform, false);
+            DontDestroyOnLoad(waypointMarker.gameObject);
+            waypointMarker.localScale = Vector3.one * runtimeWaypointScale;
+            // Make sure sprite is set (in case it was created without one)
+            SpriteRenderer sr = waypointMarker.GetComponent<SpriteRenderer>();
+            if (sr == null)
+                sr = waypointMarker.gameObject.AddComponent<SpriteRenderer>();
+            sr.sprite = GetOrCreateRuntimeArrowSprite();
+            sr.color = runtimeWaypointColor;
+            sr.sortingOrder = runtimeWaypointSortingOrder;
+            return;
+        }
 
         GameObject marker = new GameObject("FarmTutorialWaypoint");
+        marker.transform.SetParent(transform, false);
         SpriteRenderer renderer = marker.AddComponent<SpriteRenderer>();
         renderer.sprite = GetOrCreateRuntimeArrowSprite();
         renderer.color = runtimeWaypointColor;
@@ -235,6 +320,7 @@ public class FarmTutorialManager : MonoBehaviour
 
         waypointMarker = marker.transform;
         waypointMarker.localScale = Vector3.one * runtimeWaypointScale;
+        DontDestroyOnLoad(marker);
 
         if (debugLogs)
             Debug.Log("[FarmTutorial] No waypoint marker assigned. Created runtime arrow marker.");
@@ -288,6 +374,12 @@ public class FarmTutorialManager : MonoBehaviour
 
     private bool ShouldStartTutorial()
     {
+        if (forceDisabled)
+        {
+            if (debugLogs)
+                Debug.Log("[FarmTutorial] Not starting: tutorial was force-disabled by player.");
+            return false;
+        }
         if (SceneManager.GetActiveScene().name != "FarmScene")
         {
             if (debugLogs)
@@ -330,6 +422,23 @@ public class FarmTutorialManager : MonoBehaviour
 
         if (debugLogs)
             Debug.Log("[FarmTutorial] Started.");
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // Re-resolve scene-local references after scene load so tutorial keeps working.
+        ResolveReferences();
+
+        // If we just arrived to FarmScene and the intro handoff is pending, start the tutorial.
+        if (scene.name == "FarmScene" && ShouldStartTutorial())
+        {
+            BeginTutorial();
+            return;
+        }
+
+        // If tutorial is already running, re-apply the current step so UI and waypoint restore correctly.
+        if (isRunning)
+            MoveToStep(currentStep);
     }
 
     private void MoveToStep(TutorialStep step)
@@ -377,6 +486,19 @@ public class FarmTutorialManager : MonoBehaviour
             return;
 
         MoveToStep(TutorialStep.Complete);
+    }
+
+    private void OnDestroy()
+    {
+        // Ensure we never leave the static sceneLoaded handler referencing a destroyed instance.
+        try
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+        catch { }
+
+        if (_instance == this)
+            _instance = null;
     }
 
     private void OnChestLootCollected()
@@ -470,8 +592,34 @@ public class FarmTutorialManager : MonoBehaviour
         PlayerPrefs.DeleteKey(PendingFarmTutorialKey);
         PlayerPrefs.Save();
 
+        // Unsubscribe from sceneLoaded to avoid dangling handlers
+        if (_instance == this)
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+
         if (debugLogs)
             Debug.Log(skipped ? "[FarmTutorial] Skipped and completed." : "[FarmTutorial] Completed.");
+    }
+
+    private void DisableTutorialImmediate()
+    {
+        // Fully disable and mark as completed so it won't start again
+        isRunning = false;
+        forceDisabled = true;
+
+        if (starterChest != null)
+            starterChest.LootCollected -= OnChestLootCollected;
+
+        HideWaypoint();
+        if (tutorialUI != null)
+            tutorialUI.HideMessage();
+
+        PlayerPrefs.SetInt(FarmTutorialCompletedKey, 1);
+        PlayerPrefs.DeleteKey(FarmTutorialStartedKey);
+        PlayerPrefs.DeleteKey(PendingFarmTutorialKey);
+        PlayerPrefs.Save();
+
+        if (debugLogs)
+            Debug.Log("[FarmTutorial] Disabled immediately by player (K).");
     }
 
     private void HideTutorialText()
@@ -532,7 +680,8 @@ public class FarmTutorialManager : MonoBehaviour
         waypointMarker.position = markerPosition;
 
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        waypointMarker.rotation = Quaternion.Euler(0f, 0f, angle - 90f);
+        // Flip orientation so arrow visually points FROM player TOWARD the target.
+        waypointMarker.rotation = Quaternion.Euler(0f, 0f, angle + 90f);
         waypointMarker.localScale = waypointInitialScale == Vector3.zero ? Vector3.one : waypointInitialScale;
     }
 

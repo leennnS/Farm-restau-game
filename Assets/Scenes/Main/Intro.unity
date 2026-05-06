@@ -7316,6 +7316,7 @@ GameObject:
   - component: {fileID: 510393132}
   - component: {fileID: 510393131}
   - component: {fileID: 510393135}
+  - component: {fileID: 510393136}
   - component: {fileID: 510393134}
   m_Layer: 5
   m_Name: LetterUIDocument
@@ -7426,6 +7427,22 @@ MonoBehaviour:
   m_PivotReferenceSize: 0
   m_Pivot: 0
   m_WorldSpaceCollider: {fileID: 0}
+--- !u!114 &510393136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 510393129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 764ed76f5bab9fd409edfe424ca4976a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PickupToastUIToolkit
+  uiDocument: {fileID: 510393135}
+  showTime: 1.2
+  startBottom: 90
+  endBottom: 125
 --- !u!1 &601662853
 GameObject:
   m_ObjectHideFlags: 0
