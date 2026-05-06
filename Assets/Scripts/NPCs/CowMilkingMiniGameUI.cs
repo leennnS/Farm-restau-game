@@ -6,6 +6,10 @@ public class CowMilkingMinigameUI : MonoBehaviour
     [Header("UI Toolkit")]
     [SerializeField] private UIDocument uiDocument;
 
+    [Header("Audio")]
+    public AudioClip milkingLoopClip;
+    [SerializeField] private AudioSource audioSource;
+
     [Header("Portraits")]
     [SerializeField] private Sprite[] playerAnimationFrames;
     [SerializeField] private float playerAnimationSpeed = 0.12f;
@@ -58,6 +62,15 @@ public class CowMilkingMinigameUI : MonoBehaviour
     {
         if (uiDocument == null)
             uiDocument = GetComponent<UIDocument>();
+
+        if (audioSource == null)
+            audioSource = GetComponent<AudioSource>();
+
+        if (audioSource == null)
+            audioSource = gameObject.AddComponent<AudioSource>();
+
+        audioSource.loop = true;
+        audioSource.playOnAwake = false;
     }
 
     private void OnEnable()
@@ -184,6 +197,7 @@ public class CowMilkingMinigameUI : MonoBehaviour
         if (uiRoot != null)
             uiRoot.style.display = DisplayStyle.Flex;
 
+        StartMilkingAudio();
         TogglePlayerScripts(false);
         isOpen = true;
     }
@@ -387,6 +401,8 @@ public class CowMilkingMinigameUI : MonoBehaviour
         isPlayingHitAnimation = false;
         currentAnimationFrame = 0;
 
+        StopMilkingAudio();
+
         if (uiRoot != null)
             uiRoot.style.display = DisplayStyle.None;
 
@@ -406,5 +422,26 @@ public class CowMilkingMinigameUI : MonoBehaviour
             if (script != null)
                 script.enabled = enabledValue;
         }
+    }
+
+    private void StartMilkingAudio()
+    {
+        if (audioSource == null || milkingLoopClip == null)
+            return;
+
+        if (audioSource.clip != milkingLoopClip)
+            audioSource.clip = milkingLoopClip;
+
+        if (!audioSource.isPlaying)
+            audioSource.Play();
+    }
+
+    private void StopMilkingAudio()
+    {
+        if (audioSource == null)
+            return;
+
+        if (audioSource.isPlaying)
+            audioSource.Stop();
     }
 }

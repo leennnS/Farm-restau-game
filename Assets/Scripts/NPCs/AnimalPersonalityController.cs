@@ -422,4 +422,13 @@ public class AnimalPersonalityController : MonoBehaviour
 
         _moodBubble.Initialize(_spriteRenderer, moodBubbleOffset);
     }
+
+    /// <summary>
+    /// Returns true if this animal is hungry (no longer in cooldown from last feeding).
+    /// Used by AnimalInteractionPromptManager to show "Press G to feed" prompts.
+    /// </summary>
+    public bool IsHungry()
+    {
+        return _fedTimer <= 0f;
+    }
 }
