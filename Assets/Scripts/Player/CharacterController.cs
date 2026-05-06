@@ -7,7 +7,9 @@ public class CharacterController2D : MonoBehaviour
     Animator animator;
     AudioSource walkAudioSource;
 
-    public float speed = 15f;
+    private const float MinimumRuntimeSpeed = 14f;
+
+    public float speed = MinimumRuntimeSpeed;
 
     [Header("Walk SFX")]
     [SerializeField] private AudioClip walkSound;
@@ -19,6 +21,9 @@ public class CharacterController2D : MonoBehaviour
 
     void Start()
     {
+        if (speed < MinimumRuntimeSpeed)
+            speed = MinimumRuntimeSpeed;
+
         myRigidBody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         SetupWalkAudioSource();
@@ -49,9 +54,7 @@ public class CharacterController2D : MonoBehaviour
 
     void FixedUpdate()
     {
-        // Scale movement speed based on character scale for consistent perceived speed
-        float scaledSpeed = speed * transform.localScale.x;
-        myRigidBody.MovePosition(myRigidBody.position + motionVector * scaledSpeed * Time.fixedDeltaTime);
+        myRigidBody.MovePosition(myRigidBody.position + motionVector * speed * Time.fixedDeltaTime);
     }
 
     void OnDisable()

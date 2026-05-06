@@ -189,6 +189,9 @@ public class ChickenController : MonoBehaviour
 
         hasLaidEggToday = true;
 
+        AnimalPersonalityController personality = GetComponent<AnimalPersonalityController>();
+        if (personality != null)
+            personality.OnEggLaid();
     }
 
     private Vector3 GetEggSpawnPosition()

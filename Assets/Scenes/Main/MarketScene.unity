@@ -1,4 +1,4 @@
-﻿%YAML 1.1
+%YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
 --- !u!29 &1
 OcclusionCullingSettings:
@@ -11037,6 +11037,13 @@ MonoBehaviour:
     description: 
     available: 1
     itemDefinition: {fileID: 11400000, guid: 1fe4385980a5bd1429b19a686572f2f9, type: 2}
+  - itemName: Apple Seed
+    icon: {fileID: 2734590955584488060, guid: 1f33422b9aaabb8438f4ab6177157efc, type: 3}
+    price: 1
+    quantity: 1
+    description: 
+    available: 1
+    itemDefinition: {fileID: 11400000, guid: 16b47ca967a7e0d48bc7ba39da227dc7, type: 2}
   toolsEntries:
   - itemName: Axe
     icon: {fileID: 6674386295937086461, guid: 263141e9e40b44546a59daec410a3c90, type: 3}
@@ -12446,4 +12453,3 @@ SceneRoots:
   - {fileID: 757719250}
   - {fileID: 19190452}
   - {fileID: 696997500}
-

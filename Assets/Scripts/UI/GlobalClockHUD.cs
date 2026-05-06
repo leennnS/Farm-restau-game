@@ -94,11 +94,11 @@ public class GlobalClockHUD : MonoBehaviour
         panelRt.sizeDelta = new Vector2(170f, 54f);
 
         Image panelImage = panelGo.AddComponent<Image>();
-        panelImage.color = new Color(0f, 0f, 0f, 0.5f);
+        panelImage.color = new Color(0.12f, 0.09f, 0.06f, 0.68f);
 
         Outline outline = panelGo.AddComponent<Outline>();
-        outline.effectColor = new Color(0.4f, 0.6f, 0.8f, 0.7f);
-        outline.effectDistance = new Vector2(1.5f, -1.5f);
+        outline.effectColor = new Color(0.93f, 0.72f, 0.38f, 0.82f);
+        outline.effectDistance = new Vector2(1.6f, -1.6f);
 
         GameObject textGo = new GameObject("ClockText");
         textGo.transform.SetParent(panelGo.transform, false);
@@ -114,12 +114,12 @@ public class GlobalClockHUD : MonoBehaviour
         _clockText.fontSize = fontSize;
         _clockText.fontStyle = FontStyle.Bold;
         _clockText.alignment = TextAnchor.MiddleCenter;
-        _clockText.color = Color.white;
+        _clockText.color = new Color(1f, 0.95f, 0.78f, 1f);
         _clockText.raycastTarget = false;
 
         Shadow shadow = textGo.AddComponent<Shadow>();
-        shadow.effectColor = new Color(0f, 0f, 0f, 0.8f);
-        shadow.effectDistance = new Vector2(1f, -1f);
+        shadow.effectColor = new Color(0.05f, 0.03f, 0.02f, 0.9f);
+        shadow.effectDistance = new Vector2(1.4f, -1.4f);
     }
 
     private void Refresh()

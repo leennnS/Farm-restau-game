@@ -15,6 +15,18 @@ public class RestaurantCookingUIController : MonoBehaviour
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     private static void Bootstrap()
     {
+        SceneManager.sceneLoaded -= OnSceneLoadedBootstrap;
+        SceneManager.sceneLoaded += OnSceneLoadedBootstrap;
+        EnsureInstance();
+    }
+
+    private static void OnSceneLoadedBootstrap(Scene scene, LoadSceneMode mode)
+    {
+        EnsureInstance();
+    }
+
+    private static void EnsureInstance()
+    {
         if (FindFirstObjectByType<RestaurantCookingUIController>() != null)
             return;
 
@@ -32,6 +44,12 @@ public class RestaurantCookingUIController : MonoBehaviour
 
         _instance = this;
         DontDestroyOnLoad(gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        if (_instance == this)
+            _instance = null;
     }
 
     private void Update()

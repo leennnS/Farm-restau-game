@@ -3,7 +3,7 @@ using UnityEngine;
 public class CowInteraction : MonoBehaviour
 {
     [Header("Interaction Settings")]
-    [SerializeField] private float interactionDistance = 2f;
+    [SerializeField] private float interactionDistance = 2.6f;
     [SerializeField] private KeyCode interactionKey = KeyCode.E;
     [SerializeField] private float milkCooldown = 10f;
 
@@ -26,6 +26,8 @@ public class CowInteraction : MonoBehaviour
     private bool isBeingMilked;
     private GameObject milkFlyEffectPrefab;
     private CowMilkingMinigameUI milkingUI;
+    private Collider2D cowCollider;
+    private SpriteRenderer cowSpriteRenderer;
 
     public Sprite CowPortraitSprite => cowPortraitSprite;
     public bool IsBeingMilked => isBeingMilked;
@@ -33,6 +35,8 @@ public class CowInteraction : MonoBehaviour
     private void Start()
     {
         timeSinceLastMilk = milkCooldown;
+        cowCollider = GetComponent<Collider2D>();
+        cowSpriteRenderer = GetComponentInChildren<SpriteRenderer>();
 
         milkFlyEffectPrefab = Resources.Load<GameObject>(milkFlyEffectResourcesPath);
 
@@ -65,7 +69,7 @@ public class CowInteraction : MonoBehaviour
         if (isBeingMilked)
             return;
 
-        float distanceToPlayer = Vector2.Distance(transform.position, playerTransform.position);
+        float distanceToPlayer = GetDistanceToPlayer();
 
         if (distanceToPlayer <= interactionDistance && Input.GetKeyDown(interactionKey))
         {
@@ -81,6 +85,28 @@ public class CowInteraction : MonoBehaviour
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
             playerTransform = player.transform;
+    }
+
+    private float GetDistanceToPlayer()
+    {
+        if (playerTransform == null)
+            return float.MaxValue;
+
+        Vector3 playerPosition = playerTransform.position;
+
+        if (cowCollider != null)
+        {
+            Vector2 closestPoint = cowCollider.ClosestPoint(playerPosition);
+            return Vector2.Distance(playerPosition, closestPoint);
+        }
+
+        if (cowSpriteRenderer != null)
+        {
+            Vector3 closestPoint = cowSpriteRenderer.bounds.ClosestPoint(playerPosition);
+            return Vector2.Distance(playerPosition, closestPoint);
+        }
+
+        return Vector2.Distance(transform.position, playerPosition);
     }
 
     public bool CanStartMilking()
@@ -122,6 +148,10 @@ public class CowInteraction : MonoBehaviour
 
             if (pickupToast != null)
                 pickupToast.Show($"+{milkQuantity} {milkItemDefinition.displayName}");
+
+            AnimalPersonalityController personality = GetComponent<AnimalPersonalityController>();
+            if (personality != null)
+                personality.OnMilkedSuccessfully();
 
             SpawnMilkFlyEffect();
         }

@@ -36,8 +36,20 @@ public class DontDestroyOnLoad : MonoBehaviour
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
+    private void OnDestroy()
+    {
+        if (instance == this)
+            instance = null;
+    }
+
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        if (scene.name == "MAIN MENU" || scene.name == "MainMenu")
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         if (scene.name == marketSceneName)
         {
             transform.localScale = marketSceneScale;

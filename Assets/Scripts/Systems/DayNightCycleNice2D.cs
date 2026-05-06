@@ -38,6 +38,25 @@ public class DayNightCycleNice2D : MonoBehaviour
         s_persistentDay = 0;
     }
 
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    private static void Bootstrap()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoadedBootstrap;
+        SceneManager.sceneLoaded += OnSceneLoadedBootstrap;
+    }
+
+    private static void OnSceneLoadedBootstrap(Scene scene, LoadSceneMode mode)
+    {
+        if (!ShouldAutoCreateForScene(scene.name))
+            return;
+
+        if (s_instance != null || FindFirstObjectByType<DayNightCycleNice2D>() != null)
+            return;
+
+        GameObject go = new GameObject("DayNightCycleNice2D");
+        go.AddComponent<DayNightCycleNice2D>();
+    }
+
     [Header("References")]
     [SerializeField] private Light2D globalLight;          // Global Light 2D
     [SerializeField] private Light2D moonLight;            // Moon Light 2D (optional for night)
@@ -364,6 +383,12 @@ public class DayNightCycleNice2D : MonoBehaviour
             return;
         }
 
+        if (!ShouldProgressTimeInScene(SceneManager.GetActiveScene().name))
+        {
+            Apply();
+            return;
+        }
+
         lastTimeNormalized = TimeNormalized;
         TimeNormalized += Time.deltaTime / dayLengthSeconds;
 
@@ -475,6 +500,12 @@ public class DayNightCycleNice2D : MonoBehaviour
 
     private void Apply()
     {
+        if (IsStableIndoorScene(SceneManager.GetActiveScene().name))
+        {
+            ApplyIndoorLightingOverride();
+            return;
+        }
+
         if (!IsLightingScene(SceneManager.GetActiveScene().name))
             return;
 
@@ -541,16 +572,41 @@ public class DayNightCycleNice2D : MonoBehaviour
 
     private bool IsStableIndoorScene(string sceneName)
     {
+        if (sceneName.IndexOf("restaurant", StringComparison.OrdinalIgnoreCase) >= 0 ||
+            sceneName.IndexOf("market", StringComparison.OrdinalIgnoreCase) >= 0)
+        {
+            return true;
+        }
+
         if (stableIndoorSceneNames == null || stableIndoorSceneNames.Length == 0)
             return false;
 
         for (int i = 0; i < stableIndoorSceneNames.Length; i++)
         {
-            if (string.Equals(sceneName, stableIndoorSceneNames[i], StringComparison.Ordinal))
+            string stableSceneName = stableIndoorSceneNames[i];
+            if (string.IsNullOrWhiteSpace(stableSceneName))
+                continue;
+
+            if (string.Equals(sceneName, stableSceneName, StringComparison.OrdinalIgnoreCase))
                 return true;
         }
 
         return false;
+    }
+
+    private static bool ShouldAutoCreateForScene(string sceneName)
+    {
+        return string.Equals(sceneName, "FarmScene", StringComparison.Ordinal)
+            || string.Equals(sceneName, "RestaurantScene", StringComparison.Ordinal)
+            || string.Equals(sceneName, "MarketScene", StringComparison.Ordinal);
+    }
+
+    private static bool ShouldProgressTimeInScene(string sceneName)
+    {
+        return ShouldAutoCreateForScene(sceneName)
+            || sceneName.IndexOf("restaurant", StringComparison.OrdinalIgnoreCase) >= 0
+            || sceneName.IndexOf("market", StringComparison.OrdinalIgnoreCase) >= 0
+            || sceneName.IndexOf("farm", StringComparison.OrdinalIgnoreCase) >= 0;
     }
 
     private void EnsureNightLoopAudioSource()
@@ -885,6 +941,14 @@ public class DayNightCycleNice2D : MonoBehaviour
 
             if (l == _runtimeIndoorGlobalLight)
                 continue;
+
+            if (l.lightType == Light2D.LightType.Global)
+            {
+                l.color = Color.white;
+                l.intensity = 1f;
+                l.enabled = true;
+                continue;
+            }
 
             if (l.lightType != Light2D.LightType.Global)
                 l.enabled = false;

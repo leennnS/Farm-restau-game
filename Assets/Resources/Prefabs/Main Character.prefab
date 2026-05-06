@@ -158,7 +158,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9c60f19a8ec2334d9ce18ee7164757d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  speed: 3
+  speed: 14
+  walkSound: {fileID: 0}
+  walkVolume: 0.65
   lastmotionVector: {x: 0, y: 0}
   moving: 0
 --- !u!114 &7601089512745698870
@@ -173,6 +175,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9d1cfd11fa1590488dd363216a4cb41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DontDestroyOnLoad
+  marketSceneName: MarketScene
+  marketSceneScale: {x: 1, y: 0.75, z: 1}
+  houseSceneName: HouseInteriorLITEDEMO
 --- !u!61 &7892766150942956777
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -235,6 +240,8 @@ MonoBehaviour:
   inventoryController: {fileID: 0}
   mainCamera: {fileID: 0}
   pickupToast: {fileID: 0}
+  runOnlyInFarmScene: 1
+  farmSceneName: FarmScene
   hoeKeyword: hoe
   wateringCanKeyword: watering_can
   handKeyword: hand

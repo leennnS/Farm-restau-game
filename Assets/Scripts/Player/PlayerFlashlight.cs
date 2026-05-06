@@ -12,15 +12,15 @@ public class PlayerFlashlight : MonoBehaviour
     [SerializeField] private KeyCode toggleKey = KeyCode.F;
 
     [Header("Light Settings")]
-    [SerializeField] private float flashlightInnerRadius = 0.6741534f;
-    [SerializeField] private float flashlightRange = 11.27706f;
-    [SerializeField] private float flashlightIntensity = 0.85f;
+    [SerializeField] private float flashlightInnerRadius = 1.2f;
+    [SerializeField] private float flashlightRange = 24f;
+    [SerializeField] private float flashlightIntensity = 1.15f;
     [SerializeField] private Color flashlightColor = new Color(1f, 0.95f, 0.85f); // Warm white
-    [SerializeField] private float forwardOffset = 0.08f;
+    [SerializeField] private float forwardOffset = 0.45f;
     [SerializeField] private float coneSpreadOffset = 0f;
-    [SerializeField] private float coneOuterAngle = 65.18f;
-    [SerializeField] private float coneInnerAngle = 7.6f;
-    [SerializeField] private float falloffStrength = 0.5f;
+    [SerializeField] private float coneOuterAngle = 105f;
+    [SerializeField] private float coneInnerAngle = 38f;
+    [SerializeField] private float falloffStrength = 0.35f;
     [SerializeField] private int blendStyleIndex = 0;
     [SerializeField] private int lightOrder = 0;
     [SerializeField] private float shadowStrength = 0.75f;

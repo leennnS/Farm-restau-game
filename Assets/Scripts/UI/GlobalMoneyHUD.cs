@@ -18,11 +18,11 @@ public class GlobalMoneyHUD : MonoBehaviour
 
     [Header("Style")]
     [SerializeField] private int fontSize = 28;
-    [SerializeField] private Color textColor = new Color(0.12f, 0.42f, 0.2f, 1f);
-    [SerializeField] private Color panelColor = new Color(0.72f, 0.9f, 1f, 0.9f);
+    [SerializeField] private Color textColor = new Color(0.18f, 0.27f, 0.13f, 1f);
+    [SerializeField] private Color panelColor = new Color(0.98f, 0.89f, 0.66f, 0.92f);
     [SerializeField] private Color iconBgColor = new Color(0.35f, 0.78f, 0.42f, 1f);
     [SerializeField] private Color iconTextColor = new Color(0.22f, 0.12f, 0.02f, 1f);
-    [SerializeField] private Color shadowColor = new Color(0f, 0f, 0f, 0.45f);
+    [SerializeField] private Color shadowColor = new Color(0.09f, 0.06f, 0.03f, 0.5f);
 
     private Text _moneyText;
     private Canvas _hudCanvas;
@@ -110,8 +110,8 @@ public class GlobalMoneyHUD : MonoBehaviour
         panelImage.color = panelColor;
 
         Outline panelOutline = panelGo.AddComponent<Outline>();
-        panelOutline.effectColor = new Color(0f, 0f, 0f, 0.5f);
-        panelOutline.effectDistance = new Vector2(1.5f, -1.5f);
+        panelOutline.effectColor = new Color(0.31f, 0.2f, 0.09f, 0.72f);
+        panelOutline.effectDistance = new Vector2(1.6f, -1.6f);
 
         HorizontalLayoutGroup layout = panelGo.AddComponent<HorizontalLayoutGroup>();
         layout.padding = new RectOffset(12, 12, 8, 8);
