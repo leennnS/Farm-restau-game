@@ -26,6 +26,7 @@ public class RestaurantNpcQueueManager : MonoBehaviour
     [Header("Spawning")]
     [SerializeField] private float respawnDelaySeconds = 60f;
     [SerializeField] private bool spawnFirstNpcImmediately = true;
+    [SerializeField] private float firstNpcSpawnDelaySeconds = 5f;
 
     [Header("Scene Trigger")]
     [SerializeField] private bool runOnlyInRestaurantScene = true;
@@ -58,6 +59,7 @@ public class RestaurantNpcQueueManager : MonoBehaviour
     private float respawnTimer;
     private bool queueActive;
     private bool waitingForNextNpcSpawn;
+    private bool waitingForInitialNpcSpawn;
     private bool hasWarnedInventoryMissing;
     private bool hasWarnedMissingNpcPrefab;
     private bool hasWarnedMissingSpawnPoint;
@@ -90,6 +92,7 @@ public class RestaurantNpcQueueManager : MonoBehaviour
         queueActive = IsSceneAllowed();
         respawnTimer = 0f;
         waitingForNextNpcSpawn = false;
+        waitingForInitialNpcSpawn = false;
         EnsureAudioSource();
         TryBindInventory();
 
@@ -103,10 +106,7 @@ public class RestaurantNpcQueueManager : MonoBehaviour
 
         if (queueActive)
         {
-            if (spawnFirstNpcImmediately)
-                SpawnNextNpc();
-            else
-                ScheduleNextNpcSpawn();
+            ScheduleInitialNpcSpawn();
         }
 
         NotifyQueueOrdersChanged();
@@ -131,8 +131,8 @@ public class RestaurantNpcQueueManager : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         queueActive = IsSceneAllowed();
-        if (queueActive && queue.Count == 0 && !HasAnyActiveNpc())
-            ScheduleNextNpcSpawn();
+        if (queueActive && queue.Count == 0 && !HasAnyActiveNpc() && !waitingForInitialNpcSpawn)
+            ScheduleInitialNpcSpawn();
     }
 
     private bool IsSceneAllowed()
@@ -177,6 +177,23 @@ public class RestaurantNpcQueueManager : MonoBehaviour
 
     private void TickRespawnTimer(float deltaTime)
     {
+        if (waitingForInitialNpcSpawn)
+        {
+            respawnTimer += deltaTime;
+
+            if (respawnTimer < firstNpcSpawnDelaySeconds)
+                return;
+
+            respawnTimer = 0f;
+            waitingForInitialNpcSpawn = false;
+
+            if (SpawnNextNpc())
+                return;
+
+            ScheduleInitialNpcSpawn();
+            return;
+        }
+
         if (!waitingForNextNpcSpawn || queue.Count > 0 || HasAnyActiveNpc())
             return;
 
@@ -327,6 +344,12 @@ public class RestaurantNpcQueueManager : MonoBehaviour
     private void ScheduleNextNpcSpawn()
     {
         waitingForNextNpcSpawn = true;
+        respawnTimer = 0f;
+    }
+
+    private void ScheduleInitialNpcSpawn()
+    {
+        waitingForInitialNpcSpawn = true;
         respawnTimer = 0f;
     }
 

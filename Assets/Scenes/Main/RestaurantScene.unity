@@ -9707,7 +9707,7 @@ MonoBehaviour:
   npcSpawnPoint: {fileID: 1804683395}
   npcTurnPoint: {fileID: 2040396541}
   npcExitPoint: {fileID: 1804683395}
-  respawnDelaySeconds: 60
+  respawnDelaySeconds: 30
   spawnFirstNpcImmediately: 1
   runOnlyInRestaurantScene: 1
   restaurantSceneName: RestaurantScene
