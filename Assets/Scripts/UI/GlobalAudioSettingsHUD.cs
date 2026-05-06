@@ -145,7 +145,7 @@ public sealed class GlobalAudioSettingsHUD : MonoBehaviour
         button.targetGraphic = image;
         button.onClick.AddListener(TogglePopup);
 
-        Text label = CreateText("Icon", buttonObject.transform, "\u266B", 42, FontStyle.Bold, new Color(1f, 0.95f, 0.78f, 0.92f));
+        Text label = CreateText("Icon", buttonObject.transform, "\u2699", 42, FontStyle.Bold, new Color(1f, 0.95f, 0.78f, 0.92f));
         label.alignment = TextAnchor.MiddleCenter;
         Stretch(label.rectTransform, 0f, 0f, 0f, 0f);
 

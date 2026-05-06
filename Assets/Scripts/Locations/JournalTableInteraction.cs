@@ -6,6 +6,7 @@ using UnityEngine.UIElements;
 /// Attach to a table or desk with a trigger collider.
 /// Shows a proximity prompt, opens a writable journal panel, and persists the text via PlayerPrefs.
 /// </summary>
+[DefaultExecutionOrder(-10000)]
 public class JournalTableInteraction : MonoBehaviour
 {
     private const string DefaultSaveKey = "JournalText";
@@ -69,6 +70,10 @@ public class JournalTableInteraction : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape))
             CloseJournal();
+
+        // While the journal is open, consume the current frame's legacy input so other
+        // polling-based interactions do not react to the same keys.
+        Input.ResetInputAxes();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
