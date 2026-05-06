@@ -7,6 +7,7 @@ public class CarSpawner : MonoBehaviour
     [SerializeField] private float spawnX = 15f;
     [SerializeField] private float spawnCooldown = 3f;
     [SerializeField] private float carMoveSpeed = 10f;
+    [SerializeField] private AudioClip honkSound;
 
     private float spawnTimer = -1f;  // Start at -1 so it spawns immediately
 
@@ -48,6 +49,10 @@ public class CarSpawner : MonoBehaviour
                 carScript = car.AddComponent<Car>();
             }
             carScript.SetMoveSpeed(carMoveSpeed);
+
+            CarNearMissEffects nearMiss = car.GetComponent<CarNearMissEffects>();
+            if (nearMiss != null)
+                nearMiss.SetHonkClip(honkSound);
         }
     }
 }

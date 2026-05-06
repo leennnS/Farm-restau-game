@@ -25,6 +25,7 @@ public class CowMilkingMinigameUI : MonoBehaviour
     [SerializeField] private MonoBehaviour[] scriptsToDisableWhileOpen;
 
     private VisualElement root;
+    private VisualElement uiRoot;
     private VisualElement panel;
     private VisualElement cowImage;
     private VisualElement playerImage;
@@ -74,6 +75,7 @@ public class CowMilkingMinigameUI : MonoBehaviour
         }
 
         root = uiDocument.rootVisualElement;
+        uiRoot = root.Q<VisualElement>("Root") ?? root;
 
         panel = root.Q<VisualElement>("MilkingPanel");
         cowImage = root.Q<VisualElement>("CowImage");
@@ -89,7 +91,16 @@ public class CowMilkingMinigameUI : MonoBehaviour
         cancelButton = root.Q<Button>("CancelButton");
 
         if (cancelButton != null)
+        {
+            cancelButton.clicked -= CancelMilking;
             cancelButton.clicked += CancelMilking;
+            cancelButton.UnregisterCallback<ClickEvent>(HandleCancelClick);
+            cancelButton.RegisterCallback<ClickEvent>(HandleCancelClick);
+            cancelButton.UnregisterCallback<PointerUpEvent>(HandleCancelPointerUp);
+            cancelButton.RegisterCallback<PointerUpEvent>(HandleCancelPointerUp);
+            cancelButton.SetEnabled(true);
+            cancelButton.pickingMode = PickingMode.Position;
+        }
     }
 
     private void Update()
@@ -108,7 +119,25 @@ public class CowMilkingMinigameUI : MonoBehaviour
         else if (pressedWrongKey)
             HandleHit(false);
 
+        if (Input.GetMouseButtonUp(0) && IsPointerOverCancelButton())
+            CancelMilking();
+
         if (Input.GetKeyDown(KeyCode.Escape))
+            CancelMilking();
+    }
+
+    private void OnGUI()
+    {
+        if (!isOpen)
+            return;
+
+        Rect cancelRect = GetCancelButtonScreenRect();
+        if (cancelRect.width <= 0f || cancelRect.height <= 0f)
+            cancelRect = new Rect(Screen.width * 0.5f - 180f, Screen.height - 120f, 360f, 70f);
+
+        GUI.depth = -10000;
+
+        if (GUI.Button(cancelRect, GUIContent.none, GUIStyle.none))
             CancelMilking();
     }
 
@@ -149,8 +178,11 @@ public class CowMilkingMinigameUI : MonoBehaviour
         UpdateNextKeyLabel();
         RefreshBars();
 
-        if (root != null)
-            root.style.display = DisplayStyle.Flex;
+        if (uiDocument != null)
+            uiDocument.sortingOrder = 6000;
+
+        if (uiRoot != null)
+            uiRoot.style.display = DisplayStyle.Flex;
 
         TogglePlayerScripts(false);
         isOpen = true;
@@ -295,6 +327,46 @@ public class CowMilkingMinigameUI : MonoBehaviour
         FinishMilking(false);
     }
 
+    private void HandleCancelClick(ClickEvent evt)
+    {
+        evt.StopImmediatePropagation();
+        CancelMilking();
+    }
+
+    private void HandleCancelPointerUp(PointerUpEvent evt)
+    {
+        if (evt.button != 0)
+            return;
+
+        evt.StopImmediatePropagation();
+        CancelMilking();
+    }
+
+    private bool IsPointerOverCancelButton()
+    {
+        Vector2 panelPosition = Input.mousePosition;
+        panelPosition.y = Screen.height - panelPosition.y;
+
+        Rect cancelRect = GetCancelButtonScreenRect();
+        if (cancelRect.width > 0f && cancelRect.height > 0f && cancelRect.Contains(panelPosition))
+            return true;
+
+        Rect fallbackRect = new Rect(Screen.width * 0.5f - 180f, Screen.height - 120f, 360f, 70f);
+        return fallbackRect.Contains(panelPosition);
+    }
+
+    private Rect GetCancelButtonScreenRect()
+    {
+        if (cancelButton == null)
+            return Rect.zero;
+
+        Rect world = cancelButton.worldBound;
+        if (world.width <= 0f || world.height <= 0f)
+            return Rect.zero;
+
+        return new Rect(world.x, world.y, world.width, world.height);
+    }
+
     private void FinishMilking(bool success)
     {
         if (currentCow != null)
@@ -315,8 +387,11 @@ public class CowMilkingMinigameUI : MonoBehaviour
         isPlayingHitAnimation = false;
         currentAnimationFrame = 0;
 
-        if (root != null)
-            root.style.display = DisplayStyle.None;
+        if (uiRoot != null)
+            uiRoot.style.display = DisplayStyle.None;
+
+        if (uiDocument != null)
+            uiDocument.sortingOrder = 0;
 
         TogglePlayerScripts(true);
     }
