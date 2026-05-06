@@ -88,7 +88,11 @@ public class FarmTutorialManager : MonoBehaviour
             Debug.Log($"[FarmTutorial] Flags on Start -> pending:{pending}, started:{started}, completed:{completed}");
         }
 
-        ResolveReferences();
+        // Only resolve refs on New Game to avoid creating arrows on Continue Game
+        if (ShouldStartTutorial() || PlayerPrefs.GetInt(FarmTutorialStartedKey, 0) == 1)
+        {
+            ResolveReferences();
+        }
         // Ensure this manager persists across scenes and only one instance exists
         if (_instance == null)
         {
@@ -128,8 +132,11 @@ public class FarmTutorialManager : MonoBehaviour
             return;
         }
 
-        // Try to resolve refs and create the runtime arrow marker early so it's available across scenes
-        ResolveReferences();
+        // Only resolve refs if tutorial should run (to avoid creating arrows on Continue Game)
+        if (ShouldStartTutorial())
+        {
+            ResolveReferences();
+        }
     }
 
     private void Update()
@@ -264,6 +271,14 @@ public class FarmTutorialManager : MonoBehaviour
 
     private void EnsureWaypointMarker()
     {
+        // Safety check: only create arrows if tutorial is meant to run (guards against accidental calls)
+        if (!ShouldStartTutorial() && PlayerPrefs.GetInt(FarmTutorialCompletedKey, 0) == 0)
+        {
+            if (debugLogs)
+                Debug.Log("[FarmTutorial] Skipping waypoint marker creation: tutorial should not run in this session.");
+            return;
+        }
+
         // Do not create or enable the waypoint marker in the Intro scene.
         string activeSceneName = SceneManager.GetActiveScene().name;
         if (activeSceneName == "Intro")
@@ -426,8 +441,11 @@ public class FarmTutorialManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // Re-resolve scene-local references after scene load so tutorial keeps working.
-        ResolveReferences();
+        // Re-resolve scene-local references after scene load, but only if tutorial should run or is running
+        if (ShouldStartTutorial() || isRunning)
+        {
+            ResolveReferences();
+        }
 
         // If we just arrived to FarmScene and the intro handoff is pending, start the tutorial.
         if (scene.name == "FarmScene" && ShouldStartTutorial())

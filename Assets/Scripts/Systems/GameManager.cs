@@ -192,6 +192,12 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.DeleteKey("GlobalInventory");
         PlayerPrefs.DeleteKey("DayNight_TimeNormalized");
         PlayerPrefs.DeleteKey("DayNight_DayIndex");
+
+        // Clear tutorial state for a fresh new game
+        PlayerPrefs.DeleteKey("FarmTutorialStarted");
+        PlayerPrefs.DeleteKey("FarmTutorialCompleted");
+        PlayerPrefs.DeleteKey("PendingFarmTutorial");
+
         PlayerPrefs.Save();
     }
 
