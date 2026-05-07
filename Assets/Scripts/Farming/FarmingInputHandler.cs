@@ -107,7 +107,7 @@ public class FarmingInputHandler : MonoBehaviour
     [SerializeField] private float actionFrameSeconds = 0.08f;
 
     private int selectedHotbarSlot = 0;
-    private Dictionary<ItemDefinition, int> wateringCanDurability = new Dictionary<ItemDefinition, int>();
+    private Dictionary<string, int> wateringCanDurability = new Dictionary<string, int>();
     private TreePlanter _treePlanter = null;
     private SpriteRenderer _playerSpriteRenderer;
     private Animator _playerAnimator;
@@ -299,22 +299,35 @@ public class FarmingInputHandler : MonoBehaviour
             return;
         }
 
-        float targetZ = farmingManager.GroundTilemap != null
+        // Use separate tilemap planes when converting screen->world->cell to avoid
+        // mixing Z positions between ground and crop tilemaps (can produce wrong cells).
+        float groundTargetZ = farmingManager.GroundTilemap != null
             ? farmingManager.GroundTilemap.transform.position.z
             : 0f;
 
-        // For an orthographic camera, convert directly using the camera distance to the tile plane
-        mouse.z = Mathf.Abs(mainCamera.transform.position.z - targetZ);
+        float cropTargetZ = farmingManager.CropTilemap != null
+            ? farmingManager.CropTilemap.transform.position.z
+            : groundTargetZ;
 
-        Vector3 world = mainCamera.ScreenToWorldPoint(mouse);
-        world.z = targetZ;
+        // For an orthographic camera, convert using the camera distance to the tile plane
+        // Compute world position for ground conversions
+        Vector3 mouseForGround = mouse;
+        mouseForGround.z = Mathf.Abs(mainCamera.transform.position.z - groundTargetZ);
+        Vector3 worldGround = mainCamera.ScreenToWorldPoint(mouseForGround);
+        worldGround.z = groundTargetZ;
+
+        // Compute world position for crop conversions
+        Vector3 mouseForCrop = mouse;
+        mouseForCrop.z = Mathf.Abs(mainCamera.transform.position.z - cropTargetZ);
+        Vector3 worldCrop = mainCamera.ScreenToWorldPoint(mouseForCrop);
+        worldCrop.z = cropTargetZ;
 
         Vector3Int groundCell = farmingManager.GroundTilemap != null
-            ? farmingManager.GroundTilemap.WorldToCell(world)
+            ? farmingManager.GroundTilemap.WorldToCell(worldGround)
             : Vector3Int.zero;
 
         Vector3Int cropCell = farmingManager.CropTilemap != null
-            ? farmingManager.CropTilemap.WorldToCell(world)
+            ? farmingManager.CropTilemap.WorldToCell(worldCrop)
             : Vector3Int.zero;
 
         Vector3 groundCenter = farmingManager.GroundTilemap != null
@@ -322,10 +335,10 @@ public class FarmingInputHandler : MonoBehaviour
             : Vector3.zero;
         Vector3 animationTarget = farmingManager.GroundTilemap != null
             ? groundCenter
-            : world;
+            : worldCrop;
 
         Debug.Log(
-            $"CLICK | Screen:{Input.mousePosition} | World:{world} | " +
+            $"CLICK | Screen:{Input.mousePosition} | WorldCrop:{worldCrop} | WorldGround:{worldGround} | " +
             $"GroundCell:{groundCell} | CropCell:{cropCell} | GroundCenter:{groundCenter} | " +
             $"Camera:{mainCamera.name} PixelRect:{mainCamera.pixelRect}"
         );
@@ -337,23 +350,23 @@ public class FarmingInputHandler : MonoBehaviour
         if (action == FarmingAction.Dig)
         {
             PlayActionAnimation(FarmingAction.Dig, animationTarget);
-            if (_treePlanter != null && _treePlanter.TryDigHole(world))
+            if (_treePlanter != null && _treePlanter.TryDigHole(worldGround))
                 return;
         }
 
         // Then try planting a seed in an existing hole
         if (action == FarmingAction.Plant && _treePlanter != null)
         {
-            if (_treePlanter.TryPlantTree(world))
+            if (_treePlanter.TryPlantTree(worldGround))
             {
                 PlayActionAnimation(FarmingAction.Plant, animationTarget);
                 return;
             }
         }
 
-        if (farmingManager.HasMatureCropAtWorldPosition(world))
+        if (farmingManager.HasMatureCropAtWorldPosition(worldCrop))
         {
-            farmingManager.TryHarvestAtWorldPosition(world);
+            farmingManager.TryHarvestAtWorldPosition(worldCrop);
             return;
         }
 
@@ -361,24 +374,24 @@ public class FarmingInputHandler : MonoBehaviour
         {
             case FarmingAction.Hoe:
                 PlayActionAnimation(FarmingAction.Hoe, animationTarget);
-                farmingManager.TryHoeAtWorldPosition(world);
+                farmingManager.TryHoeAtWorldPosition(worldGround);
                 break;
 
             case FarmingAction.Dig:
                 // Dig already tried above; if we're here it failed, so maybe try to harvest crops instead
-                farmingManager.TryHarvestAtWorldPosition(world);
+                farmingManager.TryHarvestAtWorldPosition(worldCrop);
                 break;
 
             case FarmingAction.Water:
-                TryWaterWithCan(world, animationTarget, selectedItem);
+                TryWaterWithCan(worldCrop, animationTarget, selectedItem);
                 break;
 
             case FarmingAction.Harvest:
-                farmingManager.TryHarvestAtWorldPosition(world);
+                farmingManager.TryHarvestAtWorldPosition(worldCrop);
                 break;
 
             case FarmingAction.Plant:
-                TryPlant(world, selectedItem);
+                TryPlant(worldCrop, selectedItem);
                 break;
         }
     }
@@ -442,10 +455,11 @@ public class FarmingInputHandler : MonoBehaviour
         if (wateringCanItem == null) return;
 
         // Get or initialize durability for this can
-        if (!wateringCanDurability.ContainsKey(wateringCanItem))
-            wateringCanDurability[wateringCanItem] = wateringCanCapacity;
+        string canKey = wateringCanItem.name;
+        if (!wateringCanDurability.ContainsKey(canKey))
+            wateringCanDurability[canKey] = wateringCanCapacity;
 
-        int currentDurability = wateringCanDurability[wateringCanItem];
+        int currentDurability = wateringCanDurability[canKey];
 
         // Check if can is empty
         if (currentDurability <= 0)
@@ -463,21 +477,21 @@ public class FarmingInputHandler : MonoBehaviour
             PlayActionAnimation(FarmingAction.Water, animationTarget);
 
             // Decrease durability
-            wateringCanDurability[wateringCanItem]--;
+            wateringCanDurability[canKey]--;
 
             // Update visual state in hotbar
             UpdateWateringCanVisualState(wateringCanItem);
 
             // Show message if can is becoming empty
-            if (wateringCanDurability[wateringCanItem] <= 0)
+            if (wateringCanDurability[canKey] <= 0)
             {
                 if (pickupToast != null)
                     pickupToast.Show("Watering can empty! Needs refill.");
             }
-            else if (wateringCanDurability[wateringCanItem] <= 3)
+            else if (wateringCanDurability[canKey] <= 3)
             {
                 if (pickupToast != null)
-                    pickupToast.Show($"Water: {wateringCanDurability[wateringCanItem]}/{wateringCanCapacity}");
+                    pickupToast.Show($"Water: {wateringCanDurability[canKey]}/{wateringCanCapacity}");
             }
         }
     }
@@ -633,7 +647,8 @@ public class FarmingInputHandler : MonoBehaviour
         }
 
         // Refill the watering can
-        wateringCanDurability[selectedItem] = wateringCanCapacity;
+        string canKey = selectedItem.name;
+        wateringCanDurability[canKey] = wateringCanCapacity;
 
         // Update visual state in hotbar
         UpdateWateringCanVisualState(selectedItem);
@@ -680,8 +695,9 @@ public class FarmingInputHandler : MonoBehaviour
             return;
 
         // Get current durability
-        int currentDurability = wateringCanDurability.ContainsKey(wateringCanItem)
-            ? wateringCanDurability[wateringCanItem]
+        string canKey = wateringCanItem.name;
+        int currentDurability = wateringCanDurability.ContainsKey(canKey)
+            ? wateringCanDurability[canKey]
             : 0;
 
         // Determine which sprite to show (if it's a WateringCanItem)

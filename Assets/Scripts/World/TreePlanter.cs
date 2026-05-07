@@ -23,6 +23,65 @@ public class TreePlanter : MonoBehaviour
 
     private Vector3 RoundPosition(Vector3 pos) => new Vector3(Mathf.Round(pos.x * 10f) / 10f, Mathf.Round(pos.y * 10f) / 10f, pos.z);
 
+    public GameObject GetTreePrefab() => treePrefab;
+
+    public string GetTreeKey()
+    {
+        if (treePrefab == null)
+            return string.Empty;
+
+        FruitTreeInteraction referenceTree = treePrefab.GetComponent<FruitTreeInteraction>();
+        if (referenceTree != null)
+            return referenceTree.GetTreeKey();
+
+        return treePrefab.name;
+    }
+
+    public bool RestorePlantedTree(TreeDataSerializable treeData)
+    {
+        ResolveReferences();
+
+        if (treePrefab == null)
+            return false;
+
+        Vector3 treePosition = new Vector3(treeData.positionX, treeData.positionY, treeData.positionZ);
+        Vector3 roundedPos = RoundPosition(treePosition);
+        roundedPos.z = 0f;
+
+        if (_holes.TryGetValue(roundedPos, out PlantingHole existingHole) && existingHole != null && existingHole.HasSeed())
+            return false;
+
+        PlantingHole plantingHole = existingHole;
+        if (plantingHole == null)
+        {
+            GameObject holeMarker = new GameObject("Hole_Marker");
+            holeMarker.transform.position = roundedPos;
+
+            SpriteRenderer sr = holeMarker.AddComponent<SpriteRenderer>();
+            sr.sprite = holeSprite;
+            sr.color = Color.white;
+            sr.sortingOrder = 5;
+
+            plantingHole = holeMarker.AddComponent<PlantingHole>();
+            plantingHole.Initialize(roundedPos);
+            _holes[roundedPos] = plantingHole;
+        }
+
+        plantingHole.PlantSeed();
+
+        if (plantingHole.TryGetComponent<SpriteRenderer>(out var holeSR))
+            holeSR.enabled = false;
+
+        GameObject treeInstance = Instantiate(treePrefab, roundedPos, Quaternion.identity);
+        treeInstance.AddComponent<RuntimePlantedTree>();
+
+        FruitTreeInteraction treeScript = treeInstance.GetComponent<FruitTreeInteraction>();
+        if (treeScript != null)
+            treeScript.ApplySaveData(treeData);
+
+        return true;
+    }
+
     private void ResolveReferences()
     {
         if (inventoryController == null)
@@ -42,6 +101,9 @@ public class TreePlanter : MonoBehaviour
         FarmingInputHandler input = FindFirstObjectByType<FarmingInputHandler>();
         if (input != null)
             input.RegisterTreePlanter(this);
+
+        if (FarmingDataSaveSystem.HasInstance)
+            FarmingDataSaveSystem.Instance.TryRestorePendingTrees();
     }
 
     private void OnDisable()
@@ -169,6 +231,7 @@ public class TreePlanter : MonoBehaviour
         // Plant the tree in the hole
         Vector3 holePos = nearestHole.GetPosition();
         GameObject treeInstance = Instantiate(treePrefab, holePos, Quaternion.identity);
+        treeInstance.AddComponent<RuntimePlantedTree>();
         FruitTreeInteraction treeScript = treeInstance.GetComponent<FruitTreeInteraction>();
         if (treeScript != null)
         {
@@ -182,6 +245,8 @@ public class TreePlanter : MonoBehaviour
 
         if (toastUI != null)
             toastUI.Show("Tree seed planted! It will grow over time.");
+
+        FarmingDataSaveSystem.Instance.SaveFarmingData();
 
         return true;
     }

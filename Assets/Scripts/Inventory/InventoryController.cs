@@ -1278,6 +1278,8 @@ public class InventoryController : MonoBehaviour
     private void ExitToMenu()
     {
         StopCookingLoopSound();
+        if (GameManager.HasInstance)
+            GameManager.Instance.SaveGameState();
         SaveInventoryData();
         SetOpen(false, playSound: false);
 

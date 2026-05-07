@@ -176,6 +176,10 @@ public class GameManager : MonoBehaviour
             DayNightCycleNice2D.Instance.SaveTimeState();
         }
 
+        FarmingManager farmingManager = FindFirstObjectByType<FarmingManager>();
+        if (farmingManager != null)
+            FarmingDataSaveSystem.Instance.SaveFarmingData(farmingManager);
+
         // Mark that we have a valid save
         PlayerPrefs.SetInt(GameStateKey, 1);
         PlayerPrefs.Save();
@@ -193,6 +197,8 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.DeleteKey("DayNight_TimeNormalized");
         PlayerPrefs.DeleteKey("DayNight_DayIndex");
         PlayerPrefs.DeleteKey("JournalText");
+
+        FarmingDataSaveSystem.Instance.DeleteSaveFile();
 
         // Clear tutorial state for a fresh new game
         PlayerPrefs.DeleteKey("FarmTutorialStarted");

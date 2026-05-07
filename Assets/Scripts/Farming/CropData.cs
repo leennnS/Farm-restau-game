@@ -12,6 +12,7 @@ public struct CropData
     public bool wasWateredToday;  // Whether this crop was watered today
     public int daysWithoutWater;  // Consecutive days without watering
     public bool isDead;           // Whether this crop has died from lack of water
+    public bool isReadyToHarvest; // Explicit ready flag persisted across save/load
 
     public CropData(string id, int stage = 0)
     {
@@ -21,17 +22,25 @@ public struct CropData
         wasWateredToday = false;
         daysWithoutWater = 0;
         isDead = false;
+        isReadyToHarvest = false;
     }
 
     public bool IsMature(CropDefinition cropDef)
     {
         if (cropDef == null) return false;
-        return currentStage >= cropDef.TotalStages - 1;
+        return isReadyToHarvest || currentStage >= cropDef.TotalStages - 1;
     }
 
     public void AdvanceDay(CropDefinition cropDef, bool isWatered)
     {
-        if (cropDef == null || isDead || IsMature(cropDef)) return;
+        if (cropDef == null || isDead)
+            return;
+
+        if (IsMature(cropDef))
+        {
+            isReadyToHarvest = true;
+            return;
+        }
 
         // Track watering status for crops that require water
         if (cropDef.requiresWatering)
@@ -49,6 +58,7 @@ public struct CropData
                 {
                     isDead = true;
                     wasWateredToday = false;
+                    isReadyToHarvest = false;
                     return;
                 }
             }
@@ -70,6 +80,9 @@ public struct CropData
             currentStage++;
             if (currentStage >= cropDef.TotalStages)
                 currentStage = cropDef.TotalStages - 1; // Cap at mature
+
+            if (currentStage >= cropDef.TotalStages - 1)
+                isReadyToHarvest = true;
         }
 
         wasWateredToday = false; // Reset for next day
@@ -90,4 +103,5 @@ public struct CropDataSerializable
     public bool wasWateredToday;
     public int daysWithoutWater;
     public bool isDead;
+    public bool isReadyToHarvest;
 }

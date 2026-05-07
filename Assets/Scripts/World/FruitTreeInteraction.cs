@@ -210,6 +210,8 @@ public class FruitTreeInteraction : MonoBehaviour
                 pickup.Set(fruitItem, 1);
                 pickup.SetTimeToLive(pickupTtlSeconds);
                 pickup.SetMagnetDelay(pickupMagnetDelaySeconds);
+                if (go.GetComponent<RuntimeFarmHarvestPickup>() == null)
+                    go.AddComponent<RuntimeFarmHarvestPickup>();
             }
 
             // Add physics to make fruit fall and clamp to tree bounds
@@ -322,6 +324,44 @@ public class FruitTreeInteraction : MonoBehaviour
 
     }
 
+    public string GetTreeKey()
+    {
+        if (seedItem != null)
+            return seedItem.name;
+
+        return gameObject.name;
+    }
+
+    public TreeDataSerializable CaptureSaveData()
+    {
+        return new TreeDataSerializable
+        {
+            positionX = transform.position.x,
+            positionY = transform.position.y,
+            positionZ = transform.position.z,
+            treeKey = GetTreeKey(),
+            growthStage = _growthStage,
+            daysSinceLastPick = _daysSinceLastPick,
+            daysSinceSpriteChange = _daysSinceSpriteChange,
+            spriteShowsFruit = _spriteShowsFruit,
+            daysSinceLastStageAdvance = _daysSinceLastStageAdvance
+        };
+    }
+
+    public void ApplySaveData(TreeDataSerializable saveData)
+    {
+        transform.position = new Vector3(saveData.positionX, saveData.positionY, saveData.positionZ);
+
+        _growthStage = Mathf.Clamp(saveData.growthStage, 0, 3);
+        _daysSinceLastPick = Mathf.Max(0, saveData.daysSinceLastPick);
+        _daysSinceSpriteChange = Mathf.Max(0, saveData.daysSinceSpriteChange);
+        _spriteShowsFruit = saveData.spriteShowsFruit;
+        _daysSinceLastStageAdvance = saveData.daysSinceLastStageAdvance;
+
+        CacheTreeBounds();
+        UpdateGrowthSprite();
+    }
+
     /// <summary>
     /// Returns true if the tree is fully mature (growth stage 3) and can be picked.
     /// </summary>
@@ -336,6 +376,11 @@ public class FruitTreeInteraction : MonoBehaviour
     public ItemDefinition GetSeedItem()
     {
         return seedItem;
+    }
+
+    public ItemDefinition GetFruitItemDefinition()
+    {
+        return fruitItem;
     }
 
     private bool TryClamp2D(Vector3 spawnPos, Transform target, Rigidbody2D rb)

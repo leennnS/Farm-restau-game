@@ -1,8 +1,10 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 using System.Text;
 
@@ -32,6 +34,8 @@ public class FarmingManager : MonoBehaviour
 
     [Header("Harvest")]
     [SerializeField] private GameObject harvestItemPrefab; // Prefab for harvested crop items
+    [SerializeField, Tooltip("How long harvested crop pickups stay in the world before despawning.")]
+    private float harvestPickupTtlSeconds = 600f;
 
     [Header("Digging")]
     [Tooltip("Tile to replace Grass with when hoed")]
@@ -121,6 +125,11 @@ public class FarmingManager : MonoBehaviour
         Initialize();
     }
 
+    private void Start()
+    {
+        StartCoroutine(LoadSavedFarmStateNextFrame());
+    }
+
     private void OnEnable()
     {
         // Subscribe to day advancement event
@@ -131,9 +140,22 @@ public class FarmingManager : MonoBehaviour
 
     private void OnDisable()
     {
+        SaveFarmState();
+
         // Unsubscribe from day advancement event
         DayNightCycleNice2D.OnDayAdvanced -= AdvanceDay;
         SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnApplicationPause(bool pauseStatus)
+    {
+        if (pauseStatus)
+            SaveFarmState();
+    }
+
+    private void OnApplicationQuit()
+    {
+        SaveFarmState();
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -201,6 +223,7 @@ public class FarmingManager : MonoBehaviour
 
         hoedSoilCells.Add(cellPos);
         groundTilemap.SetTile(cellPos, soilTile ?? grassTile);
+        SaveFarmState();
 
         TileBase afterTile = groundTilemap.GetTile(cellPos);
         Debug.Log($"[TryHoeAtCell AFTER] Scene={SceneManager.GetActiveScene().name} Cell={cellPos} Tile={(afterTile ? afterTile.name : "NULL")}");
@@ -231,6 +254,7 @@ public class FarmingManager : MonoBehaviour
 
     public bool TryPlantAtCell(Vector3Int cellPos, CropDefinition cropDef)
     {
+        Debug.Log($"[TryPlantAtCell] Attempting plant {cropDef?.displayName} at {cellPos}. Planted count before: {plantedCrops.Count}");
         if (cropDef == null || !cropDef.IsValid)
             return false;
 
@@ -248,7 +272,8 @@ public class FarmingManager : MonoBehaviour
         {
             if (pickupToast != null)
                 pickupToast.Show("Already have a crop here");
-            Debug.LogWarning($"[FarmingManager] Cannot plant: crop already exists at {cellPos}");
+            var keys = plantedCrops.Keys.Select(k => k.ToString()).ToArray();
+            Debug.LogWarning($"[FarmingManager] Cannot plant: crop already exists at {cellPos}. Keys: {string.Join(",", keys)}");
             return false;
         }
 
@@ -275,6 +300,7 @@ public class FarmingManager : MonoBehaviour
             pickupToast.Show($"Planted {cropDef.displayName}");
 
         Debug.Log($"[FarmingManager] Planted {cropDef.displayName} at {cellPos}");
+        SaveFarmState();
         return true;
     }
 
@@ -317,6 +343,7 @@ public class FarmingManager : MonoBehaviour
             pickupToast.Show("Plant watered ✓");
 
         Debug.Log($"[FarmingManager] Watered crop at {cellPos}");
+        SaveFarmState();
         return true;
     }
 
@@ -361,8 +388,13 @@ public class FarmingManager : MonoBehaviour
 
     public bool TryHarvestAtCell(Vector3Int cellPos)
     {
+        Debug.Log($"[TryHarvestAtCell] Attempting harvest at {cellPos}. Planted count before: {plantedCrops.Count}");
         if (!plantedCrops.TryGetValue(cellPos, out CropData crop))
+        {
+            var keys = plantedCrops.Keys.Select(k => k.ToString()).ToArray();
+            Debug.LogWarning($"[TryHarvestAtCell] No crop found at {cellPos}. Keys: {string.Join(",", keys)}");
             return false;
+        }
 
         if (!cropDefinitionLookup.TryGetValue(crop.cropId, out CropDefinition cropDef))
             return false;
@@ -415,6 +447,9 @@ public class FarmingManager : MonoBehaviour
                 if (pickup != null)
                 {
                     pickup.Set(cropDef.harvestItem, cropDef.harvestAmount);
+                    pickup.SetTimeToLive(harvestPickupTtlSeconds);
+                    if (harvestGO.GetComponent<RuntimeFarmHarvestPickup>() == null)
+                        harvestGO.AddComponent<RuntimeFarmHarvestPickup>();
                     Debug.Log($"[FarmingManager] Set harvest prefab item {i + 1}/4 to {cropDef.harvestItem.displayName} x{cropDef.harvestAmount}");
                 }
                 else
@@ -422,6 +457,9 @@ public class FarmingManager : MonoBehaviour
                     Debug.LogWarning($"[FarmingManager] Harvest prefab missing PickupComponent! Adding one dynamically.");
                     pickup = harvestGO.AddComponent<PickupComponent>();
                     pickup.Set(cropDef.harvestItem, cropDef.harvestAmount);
+                    pickup.SetTimeToLive(harvestPickupTtlSeconds);
+                    if (harvestGO.GetComponent<RuntimeFarmHarvestPickup>() == null)
+                        harvestGO.AddComponent<RuntimeFarmHarvestPickup>();
                 }
             }
             else
@@ -448,6 +486,8 @@ public class FarmingManager : MonoBehaviour
                 // Add pickup component
                 PickupComponent pickup = harvestGO.AddComponent<PickupComponent>();
                 pickup.Set(cropDef.harvestItem, cropDef.harvestAmount);
+                pickup.SetTimeToLive(harvestPickupTtlSeconds);
+                harvestGO.AddComponent<RuntimeFarmHarvestPickup>();
             }
         }
 
@@ -464,6 +504,7 @@ public class FarmingManager : MonoBehaviour
 
         // Remove crop from world
         plantedCrops.Remove(cellPos);
+        Debug.Log($"[TryHarvestAtCell] Removed crop at {cellPos}. Planted count after: {plantedCrops.Count}");
         if (cropTilemap != null)
             cropTilemap.SetTile(cellPos, null);
 
@@ -474,6 +515,7 @@ public class FarmingManager : MonoBehaviour
         }
 
         Debug.Log($"[FarmingManager] Harvested {cropDef.displayName} at {cellPos}. Spawned pickup.");
+        SaveFarmState();
         return true;
     }
 
@@ -506,6 +548,7 @@ public class FarmingManager : MonoBehaviour
             groundTilemap.SetTile(cellPos, soilTile);
 
         Debug.Log($"[FarmingManager] Crop {cropDef.displayName} destroyed at {cellPos}!");
+        SaveFarmState();
         return true;
     }
 
@@ -546,6 +589,7 @@ public class FarmingManager : MonoBehaviour
         }
 
         Debug.Log($"[FarmingManager] Day advanced. {plantedCrops.Count} crops updated.");
+        SaveFarmState();
     }
 
     // ============ INTERNAL HELPERS ============
@@ -604,7 +648,11 @@ public class FarmingManager : MonoBehaviour
             deadPlantVisuals.Remove(cellPos);
         }
 
-        TileBase stageTile = cropDef.GetStageTile(crop.currentStage);
+        int stageIndex = crop.currentStage;
+        if (crop.isReadyToHarvest)
+            stageIndex = Mathf.Max(stageIndex, cropDef.TotalStages - 1);
+
+        TileBase stageTile = cropDef.GetStageTile(stageIndex);
         cropTilemap.SetTile(cellPos, stageTile);
     }
 
@@ -645,6 +693,11 @@ public class FarmingManager : MonoBehaviour
         return null;
     }
 
+    public CropDefinition[] GetAvailableCrops()
+    {
+        return availableCrops;
+    }
+
     public void SetPlantedCrops(Dictionary<Vector3Int, CropData> crops)
     {
         plantedCrops = new Dictionary<Vector3Int, CropData>(crops);
@@ -656,6 +709,45 @@ public class FarmingManager : MonoBehaviour
         Debug.Log($"[SetHoedSoils] Scene={SceneManager.GetActiveScene().name} Count={soilCells.Count}\n{Environment.StackTrace}");
         hoedSoilCells = new HashSet<Vector3Int>(soilCells);
         RefreshAllSoilTiles();
+    }
+
+    private void SaveFarmState()
+    {
+        if (!Application.isPlaying)
+            return;
+
+        FarmingDataSaveSystem.Instance.SaveFarmingData(this);
+    }
+
+    private IEnumerator LoadSavedFarmStateNextFrame()
+    {
+        if (!Application.isPlaying)
+            yield break;
+
+        // Scene objects can still be mid-initialization on the first frame after a load.
+        // Wait until the tilemaps are actually available so the restored farm paints back in.
+        const int maxWaitFrames = 30;
+        for (int i = 0; i < maxWaitFrames; i++)
+        {
+            ResolveReferences();
+
+            if (groundTilemap != null && cropTilemap != null)
+                break;
+
+            yield return null;
+        }
+
+        ResolveReferences();
+
+        if (FarmingDataSaveSystem.HasInstance)
+        {
+            FarmingDataSaveSystem.Instance.LoadFarmingData(this);
+
+            // TreePlanter objects may finish enabling one frame later than the crop tilemaps.
+            // Re-run pending tree restoration once the scene has fully settled.
+            yield return null;
+            FarmingDataSaveSystem.Instance.TryRestorePendingTrees();
+        }
     }
 
 

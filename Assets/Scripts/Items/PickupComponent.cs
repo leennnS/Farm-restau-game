@@ -61,6 +61,26 @@ public class PickupComponent : MonoBehaviour
         ttl = newTTL;
     }
 
+    public float GetTimeToLive()
+    {
+        return ttl;
+    }
+
+    private void SaveFarmPickupStateIfNeeded()
+    {
+        if (!TryGetComponent<RuntimeFarmHarvestPickup>(out _))
+            return;
+
+        if (!FarmingDataSaveSystem.HasInstance)
+            return;
+
+        FarmingManager farmingManager = FindFirstObjectByType<FarmingManager>();
+        if (farmingManager == null)
+            return;
+
+        FarmingDataSaveSystem.Instance.SaveFarmingData(farmingManager);
+    }
+
     private void Update()
     {
         if (player == null)
@@ -74,6 +94,7 @@ public class PickupComponent : MonoBehaviour
         ttl -= Time.deltaTime;
         if (ttl <= 0f)
         {
+            SaveFarmPickupStateIfNeeded();
             Destroy(gameObject);
             return;
         }
@@ -105,6 +126,7 @@ public class PickupComponent : MonoBehaviour
                 if (pickupToast != null && item != null)
                     pickupToast.Show($"+{count} {item.displayName}");
 
+                SaveFarmPickupStateIfNeeded();
                 Destroy(gameObject);
             }
             else
