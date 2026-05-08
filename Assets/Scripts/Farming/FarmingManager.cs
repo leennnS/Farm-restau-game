@@ -45,11 +45,13 @@ public class FarmingManager : MonoBehaviour
     private HashSet<Vector3Int> hoedSoilCells = new HashSet<Vector3Int>();      // Cells that are tilled
     private Dictionary<Vector3Int, CropData> plantedCrops = new Dictionary<Vector3Int, CropData>(); // Crops by cell
     private Dictionary<Vector3Int, GameObject> deadPlantVisuals = new Dictionary<Vector3Int, GameObject>(); // Dead plant sprite GameObjects
+    private Dictionary<Vector3Int, TileBase> baseCropTilemapTiles = new Dictionary<Vector3Int, TileBase>();
 
     // Crop definition lookup
     private Dictionary<string, CropDefinition> cropDefinitionLookup = new Dictionary<string, CropDefinition>();
 
     private bool initialized = false;
+    private bool baseCropTilesCaptured;
 
     [ContextMenu("Debug Tilemap Runtime State")]
     public void DebugTilemapRuntimeState()
@@ -168,6 +170,7 @@ public class FarmingManager : MonoBehaviour
         if (initialized) return;
 
         ResolveReferences();
+        CaptureBaseCropTilemapTiles();
 
         // Build crop lookup
         if (availableCrops != null)
@@ -505,8 +508,7 @@ public class FarmingManager : MonoBehaviour
         // Remove crop from world
         plantedCrops.Remove(cellPos);
         Debug.Log($"[TryHarvestAtCell] Removed crop at {cellPos}. Planted count after: {plantedCrops.Count}");
-        if (cropTilemap != null)
-            cropTilemap.SetTile(cellPos, null);
+        RestoreBaseCropTileAtCell(cellPos);
 
         // Optionally revert soil
         if (cropDef.reveritToSoilAfterHarvest && groundTilemap != null)
@@ -540,8 +542,7 @@ public class FarmingManager : MonoBehaviour
 
         // Remove crop from world
         plantedCrops.Remove(cellPos);
-        if (cropTilemap != null)
-            cropTilemap.SetTile(cellPos, null);
+        RestoreBaseCropTileAtCell(cellPos);
 
         // Revert to soil
         if (groundTilemap != null)
@@ -631,8 +632,8 @@ public class FarmingManager : MonoBehaviour
                     Debug.Log($"[FarmingManager] Dead plant visual already exists at {cellPos}");
                 }
 
-                // Clear the tilemap tile
-                cropTilemap.SetTile(cellPos, null);
+                // Clear the crop tile while preserving any original decorative tile.
+                RestoreBaseCropTileAtCell(cellPos);
             }
             else
             {
@@ -754,7 +755,11 @@ public class FarmingManager : MonoBehaviour
     private void RefreshAllCropTiles()
     {
         if (cropTilemap == null) return;
+
+        CaptureBaseCropTilemapTiles();
+
         cropTilemap.ClearAllTiles();
+        RestoreBaseCropTilemapTiles();
 
         // Clean up old dead plant visuals first
         foreach (var deadGO in deadPlantVisuals.Values)
@@ -806,7 +811,10 @@ public class FarmingManager : MonoBehaviour
     {
         plantedCrops.Clear();
         if (cropTilemap != null)
+        {
             cropTilemap.ClearAllTiles();
+            RestoreBaseCropTilemapTiles();
+        }
 
         // Clean up dead plant visuals
         foreach (var deadGO in deadPlantVisuals.Values)
@@ -817,6 +825,45 @@ public class FarmingManager : MonoBehaviour
         deadPlantVisuals.Clear();
 
         Debug.Log("[FarmingManager] Cleared all crops");
+    }
+
+    private void CaptureBaseCropTilemapTiles()
+    {
+        if (baseCropTilesCaptured || cropTilemap == null)
+            return;
+
+        baseCropTilemapTiles.Clear();
+        BoundsInt bounds = cropTilemap.cellBounds;
+
+        foreach (Vector3Int cellPos in bounds.allPositionsWithin)
+        {
+            TileBase tile = cropTilemap.GetTile(cellPos);
+            if (tile != null)
+                baseCropTilemapTiles[cellPos] = tile;
+        }
+
+        baseCropTilesCaptured = true;
+        Debug.Log($"[FarmingManager] Preserved {baseCropTilemapTiles.Count} base CropTilemap tiles.");
+    }
+
+    private void RestoreBaseCropTilemapTiles()
+    {
+        if (cropTilemap == null)
+            return;
+
+        foreach (var kvp in baseCropTilemapTiles)
+            cropTilemap.SetTile(kvp.Key, kvp.Value);
+    }
+
+    private void RestoreBaseCropTileAtCell(Vector3Int cellPos)
+    {
+        if (cropTilemap == null)
+            return;
+
+        if (baseCropTilemapTiles.TryGetValue(cellPos, out TileBase baseTile))
+            cropTilemap.SetTile(cellPos, baseTile);
+        else
+            cropTilemap.SetTile(cellPos, null);
     }
 
     [ContextMenu("Log Farming State")]

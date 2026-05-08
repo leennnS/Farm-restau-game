@@ -18,6 +18,7 @@ public class CharacterController2D : MonoBehaviour
     Vector2 motionVector;
     public Vector2 lastmotionVector;
     public bool moving;
+    private bool movementLocked;
 
     void Start()
     {
@@ -31,6 +32,12 @@ public class CharacterController2D : MonoBehaviour
 
     void Update()
     {
+        if (movementLocked)
+        {
+            StopMovement();
+            return;
+        }
+
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
 
@@ -54,7 +61,18 @@ public class CharacterController2D : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (movementLocked)
+            return;
+
         myRigidBody.MovePosition(myRigidBody.position + motionVector * speed * Time.fixedDeltaTime);
+    }
+
+    public void SetMovementLocked(bool locked)
+    {
+        movementLocked = locked;
+
+        if (locked)
+            StopMovement();
     }
 
     void OnDisable()
@@ -95,5 +113,24 @@ public class CharacterController2D : MonoBehaviour
         {
             walkAudioSource.Stop();
         }
+    }
+
+    private void StopMovement()
+    {
+        motionVector = Vector2.zero;
+        moving = false;
+
+        if (myRigidBody != null)
+            myRigidBody.linearVelocity = Vector2.zero;
+
+        if (animator != null)
+        {
+            animator.SetFloat("horizontal", 0f);
+            animator.SetFloat("vertical", 0f);
+            animator.SetBool("moving", false);
+        }
+
+        if (walkAudioSource != null && walkAudioSource.isPlaying)
+            walkAudioSource.Stop();
     }
 }
