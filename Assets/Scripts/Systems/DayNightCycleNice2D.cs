@@ -1132,7 +1132,17 @@ public class DayNightCycleNice2D : MonoBehaviour
     {
         Scene activeScene = SceneManager.GetActiveScene();
 
-        if (_runtimeIndoorGlobalLight == null)
+        Light2D existingGlobalLight = FindSceneGlobalLight();
+        if (existingGlobalLight != null)
+        {
+            if (_runtimeIndoorGlobalLight != null && _runtimeIndoorGlobalLight != existingGlobalLight)
+            {
+                Destroy(_runtimeIndoorGlobalLight.gameObject);
+            }
+
+            _runtimeIndoorGlobalLight = existingGlobalLight;
+        }
+        else if (_runtimeIndoorGlobalLight == null)
         {
             GameObject go = new GameObject("IndoorNeutralGlobalLight");
             SceneManager.MoveGameObjectToScene(go, activeScene);
