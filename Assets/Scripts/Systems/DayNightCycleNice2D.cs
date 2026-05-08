@@ -47,12 +47,28 @@ public class DayNightCycleNice2D : MonoBehaviour
 
     private static void OnSceneLoadedBootstrap(Scene scene, LoadSceneMode mode)
     {
+        // Only auto-create for main game scenes (not menu or special scenes)
         if (!ShouldAutoCreateForScene(scene.name))
             return;
 
-        if (s_instance != null || FindFirstObjectByType<DayNightCycleNice2D>() != null)
+        // CRITICAL: Multiple redundant checks to prevent duplicate instances
+        // Check 1: Static reference
+        if (s_instance != null)
             return;
 
+        // Check 2: Search in all scenes (in case static reference is stale)
+        if (FindFirstObjectByType<DayNightCycleNice2D>() != null)
+            return;
+
+        // Check 3: Search specifically in loaded scene
+        DayNightCycleNice2D[] instancesInScene = FindObjectsByType<DayNightCycleNice2D>(FindObjectsSortMode.None);
+        for (int i = 0; i < instancesInScene.Length; i++)
+        {
+            if (instancesInScene[i] != null)
+                return; // Instance already exists, don't create another
+        }
+
+        // Safe to create: definitely no instance exists
         GameObject go = new GameObject("DayNightCycleNice2D");
         go.AddComponent<DayNightCycleNice2D>();
     }
@@ -83,7 +99,7 @@ public class DayNightCycleNice2D : MonoBehaviour
     [SerializeField] private bool autoCreateGlobalClockHud = true;
     [SerializeField] private bool autoCreateNextDayButtonHud = true;
     [SerializeField] private string lightingSceneName = "FarmScene";
-    [SerializeField] private string[] stableIndoorSceneNames = { "RestaurantScene", "MarketScene" };
+    [SerializeField] private string[] stableIndoorSceneNames = { "RestaurantScene", "MarketScene", "HouseInteriorLITEDEMO" };
 
     [Range(0f, 1f)]
     [Tooltip("0 = midnight, 0.25 = 6AM, 0.5 = noon, 0.75 = 6PM")]
@@ -102,6 +118,11 @@ public class DayNightCycleNice2D : MonoBehaviour
     [SerializeField] private AnimationCurve overlayAlpha;
 
     public float TimeNormalized { get; private set; } // 0..1
+
+    // Debug logging
+    [SerializeField] private bool debugLogging = false;
+    private float _lastLoggedTime = 0f;
+    private float _logInterval = 1f; // Log every 1 second
 
     // Day advancement event
     public static event Action OnDayAdvanced;
@@ -127,6 +148,10 @@ public class DayNightCycleNice2D : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        // CRITICAL: Remove any duplicate instances in the newly loaded scene
+        // This prevents multiple Update calls from advancing time faster
+        RemoveDuplicateInstancesInScene(scene);
+
         ResolveRuntimeReferences();
         EnsureNightLoopAudioSource();
         EnsureMorningStartAudioSource();
@@ -178,13 +203,75 @@ public class DayNightCycleNice2D : MonoBehaviour
 
     private void Awake()
     {
+        // CRITICAL: Prevent duplicate instances with quadruple redundant checks
+
+        // Check 1: Static reference exists and it's not us
         if (s_instance != null && s_instance != this)
         {
+            if (debugLogging)
+                Debug.Log($"[DayNightCycle] Duplicate detected (static ref exists) - destroying");
             Destroy(gameObject);
             return;
         }
 
+        // Check 2: Search all scenes for existing instance
+        DayNightCycleNice2D foundInstance = FindFirstObjectByType<DayNightCycleNice2D>();
+        if (foundInstance != null && foundInstance != this)
+        {
+            if (debugLogging)
+                Debug.Log($"[DayNightCycle] Duplicate detected (FindFirstObjectByType) - destroying");
+            Destroy(gameObject);
+            return;
+        }
+
+        // Check 3: Explicit loop through all instances
+        DayNightCycleNice2D[] existingInstances = FindObjectsByType<DayNightCycleNice2D>(FindObjectsSortMode.None);
+        for (int i = 0; i < existingInstances.Length; i++)
+        {
+            if (existingInstances[i] != null && existingInstances[i] != this)
+            {
+                if (debugLogging)
+                    Debug.Log($"[DayNightCycle] Duplicate detected (loop check) - destroying");
+                Destroy(gameObject);
+                return;
+            }
+        }
+
+        // Check 4: Check current scene specifically for siblings
+        Scene currentScene = gameObject.scene;
+        if (currentScene.IsValid())
+        {
+            GameObject[] rootObjects = currentScene.GetRootGameObjects();
+            for (int i = 0; i < rootObjects.Length; i++)
+            {
+                if (rootObjects[i] == gameObject)
+                    continue;
+
+                DayNightCycleNice2D[] sceneInstances = rootObjects[i].GetComponentsInChildren<DayNightCycleNice2D>();
+                for (int j = 0; j < sceneInstances.Length; j++)
+                {
+                    if (sceneInstances[j] != null && sceneInstances[j] != this)
+                    {
+                        if (debugLogging)
+                            Debug.Log($"[DayNightCycle] Duplicate detected (scene check) - destroying");
+                        Destroy(gameObject);
+                        return;
+                    }
+                }
+            }
+        }
+
+        // All checks passed - this is the singleton instance
         s_instance = this;
+
+        // Ensure this GameObject is at root level (required for DontDestroyOnLoad)
+        if (transform.parent != null)
+        {
+            transform.parent = null;
+            if (debugLogging)
+                Debug.Log($"[DayNightCycle] Unparented from hierarchy to make it root for DontDestroyOnLoad");
+        }
+
         DontDestroyOnLoad(gameObject);
 
         // FIX: Only use in-memory state for same-session scene transitions.
@@ -366,31 +453,48 @@ public class DayNightCycleNice2D : MonoBehaviour
 
     private void Update()
     {
+        // Validate dayLengthSeconds
         if (dayLengthSeconds <= 0f)
         {
             if (!_warnedInvalidDayLength)
             {
-
                 _warnedInvalidDayLength = true;
             }
-
             dayLengthSeconds = 60f;
         }
 
+        // GLOBAL CLOCK FIX: Check if time is manually paused
         if (_manualTimePaused)
         {
             Apply();
             return;
         }
 
-        if (!ShouldProgressTimeInScene(SceneManager.GetActiveScene().name))
+        // GLOBAL CLOCK FIX: Check scene type to determine lighting apply
+        string currentScene = SceneManager.GetActiveScene().name;
+        bool shouldProgressTime = ShouldProgressTimeInScene(currentScene);
+
+        if (!shouldProgressTime)
         {
+            // Don't progress time in menu scenes, but still apply lighting if needed
             Apply();
             return;
         }
 
+        // CRITICAL: Always advance time globally, independent of scene
         lastTimeNormalized = TimeNormalized;
         TimeNormalized += Time.deltaTime / dayLengthSeconds;
+
+        // DEBUG: Log time progression every second
+        if (debugLogging)
+        {
+            _lastLoggedTime += Time.deltaTime;
+            if (_lastLoggedTime >= _logInterval)
+            {
+                _lastLoggedTime = 0f;
+                Debug.Log($"[DayNightCycle] Scene: {currentScene} | Time: {GetTimeString()} | dayLengthSeconds: {dayLengthSeconds} | Instances: {CountInstances()}");
+            }
+        }
 
         // Check if we've crossed into a new day (time wrapped from < 1 to >= 1)
         if (TimeNormalized >= 1f)
@@ -572,8 +676,10 @@ public class DayNightCycleNice2D : MonoBehaviour
 
     private bool IsStableIndoorScene(string sceneName)
     {
+        // Check common indoor scene names first
         if (sceneName.IndexOf("restaurant", StringComparison.OrdinalIgnoreCase) >= 0 ||
-            sceneName.IndexOf("market", StringComparison.OrdinalIgnoreCase) >= 0)
+            sceneName.IndexOf("market", StringComparison.OrdinalIgnoreCase) >= 0 ||
+            sceneName.IndexOf("house", StringComparison.OrdinalIgnoreCase) >= 0)  // ADD: Include House scenes
         {
             return true;
         }
@@ -603,10 +709,22 @@ public class DayNightCycleNice2D : MonoBehaviour
 
     private static bool ShouldProgressTimeInScene(string sceneName)
     {
-        return ShouldAutoCreateForScene(sceneName)
-            || sceneName.IndexOf("restaurant", StringComparison.OrdinalIgnoreCase) >= 0
-            || sceneName.IndexOf("market", StringComparison.OrdinalIgnoreCase) >= 0
-            || sceneName.IndexOf("farm", StringComparison.OrdinalIgnoreCase) >= 0;
+        // GLOBAL CLOCK FIX: Time progresses in ALL scenes
+        // Return false only for menu/non-gameplay scenes
+        if (string.IsNullOrWhiteSpace(sceneName))
+            return false;
+
+        // Don't progress time in menu scenes
+        if (sceneName.IndexOf("menu", StringComparison.OrdinalIgnoreCase) >= 0 ||
+            sceneName.IndexOf("intro", StringComparison.OrdinalIgnoreCase) >= 0 ||
+            sceneName.IndexOf("splash", StringComparison.OrdinalIgnoreCase) >= 0 ||
+            sceneName.IndexOf("title", StringComparison.OrdinalIgnoreCase) >= 0)
+        {
+            return false;
+        }
+
+        // All other scenes progress time (Farm, Market, Restaurant, House, etc.)
+        return true;
     }
 
     private void EnsureNightLoopAudioSource()
@@ -1031,4 +1149,46 @@ public class DayNightCycleNice2D : MonoBehaviour
         _runtimeIndoorGlobalLight.intensity = 1f;
         _runtimeIndoorGlobalLight.enabled = true;
     }
+
+    private int CountInstances()
+    {
+        DayNightCycleNice2D[] instances = FindObjectsByType<DayNightCycleNice2D>(FindObjectsSortMode.None);
+        return instances != null ? instances.Length : 0;
+    }
+
+    private void RemoveDuplicateInstancesInScene(Scene scene)
+    {
+        // Get all DayNightCycleNice2D instances in the newly loaded scene
+        DayNightCycleNice2D[] instances = FindObjectsByType<DayNightCycleNice2D>(FindObjectsSortMode.None);
+
+        if (instances == null || instances.Length <= 1)
+            return; // No duplicates
+
+        int destroyed = 0;
+        for (int i = 0; i < instances.Length; i++)
+        {
+            DayNightCycleNice2D instance = instances[i];
+
+            // Skip the global singleton (marked with DontDestroyOnLoad)
+            if (instance == s_instance)
+                continue;
+
+            // Check if this instance is in the newly loaded scene
+            if (instance.gameObject.scene == scene)
+            {
+                if (debugLogging)
+                {
+                    Debug.Log($"[DayNightCycle] Found duplicate in scene '{scene.name}' - destroying it");
+                }
+                Destroy(instance.gameObject);
+                destroyed++;
+            }
+        }
+
+        if (destroyed > 0 && debugLogging)
+        {
+            Debug.Log($"[DayNightCycle] Destroyed {destroyed} duplicate instance(s) in {scene.name}");
+        }
+    }
 }
+
