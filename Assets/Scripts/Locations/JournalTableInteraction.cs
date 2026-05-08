@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UIElements;
+using System.Collections;
 
 /// <summary>
 /// House journal interaction.
@@ -28,6 +29,11 @@ public class JournalTableInteraction : MonoBehaviour
     private bool playerInRange;
     private bool panelOpen;
     private bool isLoadingJournal;
+    private bool pendingSave;
+    private float pendingSaveAt;
+    private Coroutine focusAfterOpenRoutine;
+
+    private const float AutoSaveDelaySeconds = 0.2f;
 
     private VisualElement overlayRoot;
     private VisualElement panelRoot;
@@ -60,10 +66,20 @@ public class JournalTableInteraction : MonoBehaviour
     {
         ResolveReferences();
 
+        if (panelOpen && pendingSave && Time.unscaledTime >= pendingSaveAt)
+        {
+            SaveJournalText();
+            pendingSave = false;
+        }
+
         if (!panelOpen)
         {
             if (playerInRange && Input.GetKeyDown(interactionKey))
+            {
                 OpenJournal();
+                // Consume this frame so the interaction key does not leak into text input.
+                Input.ResetInputAxes();
+            }
 
             return;
         }
@@ -99,6 +115,8 @@ public class JournalTableInteraction : MonoBehaviour
 
     private void OnDisable()
     {
+        StopFocusRoutine();
+
         if (panelOpen)
             SaveJournalText();
 
@@ -180,14 +198,17 @@ public class JournalTableInteraction : MonoBehaviour
         }
 
         panelOpen = true;
+        pendingSave = false;
         SetPanelVisible(true);
 
         if (journalField != null)
         {
             isLoadingJournal = true;
-            journalField.value = LoadJournalText();
+            journalField.SetValueWithoutNotify(LoadJournalText());
             isLoadingJournal = false;
-            journalField.Focus();
+
+            StopFocusRoutine();
+            focusAfterOpenRoutine = StartCoroutine(FocusFieldAfterInteractionKeyRelease());
         }
 
         if (saveStatusLabel != null)
@@ -201,7 +222,9 @@ public class JournalTableInteraction : MonoBehaviour
         if (!panelOpen)
             return;
 
+        StopFocusRoutine();
         SaveJournalText();
+        pendingSave = false;
         panelOpen = false;
         SetPanelVisible(false);
 
@@ -361,7 +384,11 @@ public class JournalTableInteraction : MonoBehaviour
         journalField.RegisterValueChangedCallback(_ =>
         {
             if (!isLoadingJournal)
+            {
                 UpdateSaveStatus("Unsaved changes");
+                pendingSave = true;
+                pendingSaveAt = Time.unscaledTime + AutoSaveDelaySeconds;
+            }
         });
         paperFrame.Add(journalField);
 
@@ -430,5 +457,33 @@ public class JournalTableInteraction : MonoBehaviour
             hostUiDocument = doc;
             return;
         }
+    }
+
+    private IEnumerator FocusFieldAfterInteractionKeyRelease()
+    {
+        while (Input.GetKey(interactionKey))
+            yield return null;
+
+        // One extra frame avoids carrying key-up state into first text event.
+        yield return null;
+
+        if (panelOpen && journalField != null)
+        {
+            journalField.Focus();
+
+            int end = journalField.value != null ? journalField.value.Length : 0;
+            journalField.SelectRange(end, end);
+        }
+
+        focusAfterOpenRoutine = null;
+    }
+
+    private void StopFocusRoutine()
+    {
+        if (focusAfterOpenRoutine == null)
+            return;
+
+        StopCoroutine(focusAfterOpenRoutine);
+        focusAfterOpenRoutine = null;
     }
 }
