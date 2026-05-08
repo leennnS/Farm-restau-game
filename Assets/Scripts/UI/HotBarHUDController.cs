@@ -12,6 +12,7 @@ public class HotBarHUDController : MonoBehaviour
     private VisualElement _root;
     private VisualElement[] _slots;
     private bool _requestedVisible = true;
+    private bool _mapSuppressed;
 
     private const int HotbarSize = 12;
     private const string FarmSceneName = "FarmScene";
@@ -142,12 +143,18 @@ public class HotBarHUDController : MonoBehaviour
         ApplySceneVisibility();
     }
 
+    public void SetMapSuppressed(bool suppressed)
+    {
+        _mapSuppressed = suppressed;
+        ApplySceneVisibility();
+    }
+
     private void ApplySceneVisibility()
     {
         if (_root != null)
         {
             bool visibleInScene = string.Equals(SceneManager.GetActiveScene().name, FarmSceneName, StringComparison.Ordinal);
-            _root.style.display = _requestedVisible && visibleInScene ? DisplayStyle.Flex : DisplayStyle.None;
+            _root.style.display = _requestedVisible && visibleInScene && !_mapSuppressed ? DisplayStyle.Flex : DisplayStyle.None;
         }
     }
 }

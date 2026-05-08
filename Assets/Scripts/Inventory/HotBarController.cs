@@ -14,6 +14,7 @@ public class HotBarController : MonoBehaviour
     private VisualElement _hotbarRoot;    // optional: "hotbarRoot" in your UXML
     private VisualElement[] _slots;
     private bool _requestedVisible = true;
+    private bool _mapSuppressed;
 
     private const string FarmSceneName = "FarmScene";
 
@@ -94,11 +95,17 @@ public class HotBarController : MonoBehaviour
         ApplySceneVisibility();
     }
 
+    public void SetMapSuppressed(bool suppressed)
+    {
+        _mapSuppressed = suppressed;
+        ApplySceneVisibility();
+    }
+
     private void ApplySceneVisibility()
     {
         if (_hotbarRoot == null) return;
         bool visibleInScene = string.Equals(SceneManager.GetActiveScene().name, FarmSceneName, System.StringComparison.Ordinal);
-        _hotbarRoot.style.display = _requestedVisible && visibleInScene ? DisplayStyle.Flex : DisplayStyle.None;
+        _hotbarRoot.style.display = _requestedVisible && visibleInScene && !_mapSuppressed ? DisplayStyle.Flex : DisplayStyle.None;
     }
 
     public void SetSlot(int index, Sprite icon, int amount)

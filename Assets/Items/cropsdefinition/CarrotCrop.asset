@@ -14,17 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CropDefinition
   cropId: CarrotCrop
   displayName: 
-  cropIcon: {fileID: 0}
+  cropIcon: {fileID: -5859083586626064994, guid: bc15af1013e81354e8d6b616ffbe5c7a, type: 3}
   stageTiles:
-  - {fileID: 11400000, guid: 74b97b619b87f8340a2a718cdc91ae60, type: 2}
-  - {fileID: 11400000, guid: c0cd97cddf8214a41b5658475167b462, type: 2}
+  - {fileID: 11400000, guid: 0a5b923bd031dfa49a81556588e98155, type: 2}
+  - {fileID: 11400000, guid: 51b2f80ea99c81e419a251164607470a, type: 2}
   - {fileID: 11400000, guid: 8f4ff1129d151844b92a6bd9b69ae4d7, type: 2}
-  - {fileID: 11400000, guid: e33f36ab00225b040b8ad7076444bab4, type: 2}
+  - {fileID: 11400000, guid: e407a78ad708e0f439d96b75f0d304f9, type: 2}
   daysPerStage: 01000000010000000100000001000000
   deadPlantSprite: {fileID: 2621221574101210171, guid: 54ba9dd135428e4498b4c6f6d56b5570, type: 3}
   seedItem: {fileID: 11400000, guid: 87c0ab5d1be29fc438df42b6eed2049c, type: 2}
   harvestItem: {fileID: 11400000, guid: 214bddc6a76fba846ac3c20ad9571c30, type: 2}
-  harvestAmount: 1
+  harvestAmount: 3
   harvestPrefab: {fileID: 1711588723623028544, guid: 17acad399b996764d9ec44d7c890c767, type: 3}
   requiresWatering: 1
   daysWithoutWaterUntilDeath: 3

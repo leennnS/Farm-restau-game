@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: carrot
   m_EditorClassIdentifier: Assembly-CSharp::ItemDefinition
   displayName: Carrot
-  icon: {fileID: 21300000, guid: 1fbdfb9bf6c2e4397a1d62eed589ec1f, type: 3}
+  icon: {fileID: -5859083586626064994, guid: bc15af1013e81354e8d6b616ffbe5c7a, type: 3}
   maxStack: 99
