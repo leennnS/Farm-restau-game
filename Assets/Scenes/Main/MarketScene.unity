@@ -11065,6 +11065,20 @@ MonoBehaviour:
     description: 
     available: 1
     itemDefinition: {fileID: 11400000, guid: 0fefe9b7c8f0e324cb22894e31303926, type: 2}
+  - itemName: EggPlant Seed
+    icon: {fileID: 660843597062781518, guid: 245a42939d286b047bf4e41dd6fd6e29, type: 3}
+    price: 1
+    quantity: 1
+    description: 
+    available: 1
+    itemDefinition: {fileID: 11400000, guid: 74400222b965524409b5885a6d2ae6f5, type: 2}
+  - itemName: Potato Seed
+    icon: {fileID: -6915279104839378345, guid: 585629c2e1fd9dc4da96c1f10347ea86, type: 3}
+    price: 1
+    quantity: 1
+    description: 
+    available: 1
+    itemDefinition: {fileID: 11400000, guid: ecf8ac30482bfc840bea37c051cc0ea3, type: 2}
   toolsEntries:
   - itemName: Axe
     icon: {fileID: 6674386295937086461, guid: 263141e9e40b44546a59daec410a3c90, type: 3}
