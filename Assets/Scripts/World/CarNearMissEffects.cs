@@ -20,6 +20,11 @@ public class CarNearMissEffects : MonoBehaviour
     [SerializeField] private float perCarCooldown = 2f;
     [SerializeField] private float globalHonkCooldown = 0.45f;
 
+    [Header("Traffic Obstacles")]
+    [SerializeField] private bool stopForDeliveryVans = true;
+    [SerializeField] private float deliveryVanStopDistance = 5.5f;
+    [SerializeField] private float deliveryVanResumeDistance = 6.5f;
+
     [Header("Audio")]
     [SerializeField] private AudioClip honkClip;
     [SerializeField] private float honkVolume = 1.25f;
@@ -52,9 +57,10 @@ public class CarNearMissEffects : MonoBehaviour
     private bool _hasTriggeredNearMiss;
     private Light2D _headlight;
     private bool _shouldStopForPlayer;
+    private bool _shouldStopForDeliveryVan;
     private int _lastEvaluationFrame = -1;
 
-    public bool ShouldStopForPlayer => _shouldStopForPlayer;
+    public bool ShouldStopForPlayer => _shouldStopForPlayer || _shouldStopForDeliveryVan;
 
     public bool EvaluateNow()
     {
@@ -64,8 +70,9 @@ public class CarNearMissEffects : MonoBehaviour
         _lastEvaluationFrame = Time.frameCount;
         ResolvePlayer();
         UpdateHeadlightPosition();
+        CheckDeliveryVanObstacle();
         CheckNearMiss();
-        return _shouldStopForPlayer;
+        return ShouldStopForPlayer;
     }
 
     public void Configure(Vector2 direction)
@@ -149,6 +156,104 @@ public class CarNearMissEffects : MonoBehaviour
         _hasTriggeredNearMiss = true;
         _nextCarTriggerTime = Time.time + perCarCooldown;
         PlayNearMiss();
+    }
+
+    private void CheckDeliveryVanObstacle()
+    {
+        if (!stopForDeliveryVans)
+            return;
+
+        RefreshVisualReferences();
+
+        DeliveryVanInteraction[] vans = FindObjectsByType<DeliveryVanInteraction>(FindObjectsSortMode.None);
+        bool obstacleAhead = false;
+
+        for (int i = 0; i < vans.Length; i++)
+        {
+            DeliveryVanInteraction van = vans[i];
+            if (van == null || !van.BlocksTraffic || van.gameObject == gameObject)
+                continue;
+
+            Bounds vanBounds = van.GetTrafficBounds();
+            Bounds carBounds = GetCarTrafficBounds();
+
+            if (!AreBoundsInSameLane(carBounds, vanBounds))
+                continue;
+
+            float gapAhead = GetHorizontalGapAhead(carBounds, vanBounds);
+            if (gapAhead >= -0.2f && gapAhead <= deliveryVanStopDistance)
+            {
+                obstacleAhead = true;
+                break;
+            }
+        }
+
+        if (obstacleAhead)
+        {
+            _shouldStopForDeliveryVan = true;
+            return;
+        }
+
+        if (_shouldStopForDeliveryVan && IsClearOfDeliveryVans())
+            _shouldStopForDeliveryVan = false;
+    }
+
+    private bool IsClearOfDeliveryVans()
+    {
+        DeliveryVanInteraction[] vans = FindObjectsByType<DeliveryVanInteraction>(FindObjectsSortMode.None);
+
+        for (int i = 0; i < vans.Length; i++)
+        {
+            DeliveryVanInteraction van = vans[i];
+            if (van == null || !van.BlocksTraffic || van.gameObject == gameObject)
+                continue;
+
+            Bounds vanBounds = van.GetTrafficBounds();
+            Bounds carBounds = GetCarTrafficBounds();
+
+            if (!AreBoundsInSameLane(carBounds, vanBounds))
+                continue;
+
+            float gapAhead = GetHorizontalGapAhead(carBounds, vanBounds);
+            if (gapAhead >= -0.2f && gapAhead <= deliveryVanResumeDistance)
+                return false;
+        }
+
+        return true;
+    }
+
+    private Bounds GetCarTrafficBounds()
+    {
+        if (_carCollider != null)
+            return _carCollider.bounds;
+
+        if (_carRenderer != null)
+            return _carRenderer.bounds;
+
+        return new Bounds(transform.position, Vector3.one);
+    }
+
+    private bool AreBoundsInSameLane(Bounds carBounds, Bounds obstacleBounds)
+    {
+        float carMinY = carBounds.min.y;
+        float carMaxY = carBounds.max.y;
+        float obstacleMinY = obstacleBounds.min.y;
+        float obstacleMaxY = obstacleBounds.max.y;
+        float overlap = Mathf.Min(carMaxY, obstacleMaxY) - Mathf.Max(carMinY, obstacleMinY);
+
+        if (overlap > 0f)
+            return true;
+
+        float verticalCenterDistance = Mathf.Abs(carBounds.center.y - obstacleBounds.center.y);
+        return verticalCenterDistance <= sameLaneVerticalDistance;
+    }
+
+    private float GetHorizontalGapAhead(Bounds carBounds, Bounds obstacleBounds)
+    {
+        if (_moveDirection.x >= 0f)
+            return obstacleBounds.min.x - carBounds.max.x;
+
+        return carBounds.min.x - obstacleBounds.max.x;
     }
 
     private void PlayNearMiss()

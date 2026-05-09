@@ -118,6 +118,7 @@ public class DayNightCycleNice2D : MonoBehaviour
     [SerializeField] private AnimationCurve overlayAlpha;
 
     public float TimeNormalized { get; private set; } // 0..1
+    public int CurrentDayIndex => currentDay;
 
     // Debug logging
     [SerializeField] private bool debugLogging = false;
