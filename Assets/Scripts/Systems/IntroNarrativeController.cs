@@ -6,6 +6,7 @@ using System.Collections;
 /// Handles all narrative text display during intro with typewriter effect.
 /// Also manages objective hints.
 /// </summary>
+[RequireComponent(typeof(AudioSource))]
 public class IntroNarrativeController : MonoBehaviour
 {
     [SerializeField]
@@ -23,7 +24,12 @@ public class IntroNarrativeController : MonoBehaviour
     [SerializeField]
     private CanvasGroup narrativeCanvasGroup;
 
+    [SerializeField]
+    [Tooltip("Assign one clip per opening line, in the same order as openingLines.")]
+    private AudioClip[] openingLineAudioClips = new AudioClip[7];
+
     private Coroutine hintCoroutine;
+    private AudioSource lineAudioSource;
     private bool isOpeningPlaying;
     private bool isTypingLine;
     private bool skipLineRequested;
@@ -44,6 +50,17 @@ public class IntroNarrativeController : MonoBehaviour
         if (narrativeText == null)
         {
             Debug.LogWarning("[IntroNarrative] Narrative text not assigned!");
+        }
+
+        lineAudioSource = GetComponent<AudioSource>();
+        if (lineAudioSource != null)
+        {
+            lineAudioSource.playOnAwake = false;
+            lineAudioSource.loop = false;
+            lineAudioSource.spatialBlend = 0f;
+
+            if (AudioSettingsManager.HasInstance)
+                AudioSettingsManager.Instance.RefreshAudioSource(lineAudioSource);
         }
 
         if (narrativeCanvasGroup == null && narrativeText != null)
@@ -73,6 +90,8 @@ public class IntroNarrativeController : MonoBehaviour
         if (!advancePressed)
             return;
 
+        StopCurrentLineAudio();
+
         if (isTypingLine)
             skipLineRequested = true;
         else
@@ -98,8 +117,11 @@ public class IntroNarrativeController : MonoBehaviour
         yield return new WaitForSeconds(0.3f);
 
         // Play each opening line with typewriter effect
-        foreach (string line in openingLines)
+        for (int i = 0; i < openingLines.Length; i++)
         {
+            PlayLineAudio(i);
+
+            string line = openingLines[i];
             yield return StartCoroutine(TypewriteLine(line));
             yield return StartCoroutine(WaitForEnterOrDelay(1.2f));
         }
@@ -189,6 +211,33 @@ public class IntroNarrativeController : MonoBehaviour
 
         isTypingLine = false;
         skipLineRequested = false;
+    }
+
+    private void PlayLineAudio(int lineIndex)
+    {
+        if (lineAudioSource == null)
+            return;
+
+        StopCurrentLineAudio();
+
+        if (openingLineAudioClips == null || lineIndex < 0 || lineIndex >= openingLineAudioClips.Length)
+            return;
+
+        AudioClip clip = openingLineAudioClips[lineIndex];
+        if (clip == null)
+            return;
+
+        lineAudioSource.clip = clip;
+        lineAudioSource.Play();
+    }
+
+    private void StopCurrentLineAudio()
+    {
+        if (lineAudioSource == null)
+            return;
+
+        if (lineAudioSource.isPlaying)
+            lineAudioSource.Stop();
     }
 
     private IEnumerator WaitForEnterOrDelay(float delay)
