@@ -25,6 +25,8 @@ public class MarketSectionTrigger : MonoBehaviour
         if (activeTrigger != this)
             return;
 
+        marketUI.SetInteractionHint(promptMessage, true);
+
         if (marketUI.IsOpen)
             return;
 

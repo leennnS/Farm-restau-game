@@ -61,6 +61,9 @@ public class GardeningMarketTrigger : MonoBehaviour
         if (!playerInZone)
             return;
 
+        if (marketUI != null)
+            marketUI.SetInteractionHint(interactionPrompt, true);
+
         if (Input.GetKeyDown(interactionKey))
         {
             if (marketUI != null)
