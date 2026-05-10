@@ -9332,7 +9332,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IntroMusicController
   introMusic: {fileID: 8300000, guid: 92d38fb0f8e9f8c48af6228f8a56b000, type: 3}
-  baseVolume: 1
+  baseVolume: 0.235
   stackedSources: 6
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
