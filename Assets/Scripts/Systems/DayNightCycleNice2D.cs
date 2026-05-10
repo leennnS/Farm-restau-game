@@ -957,7 +957,6 @@ public class DayNightCycleNice2D : MonoBehaviour
         _hasShownNightNotification = false;
 
         OnDayAdvanced?.Invoke();
-        PlayMorningStartSound();
 
         Apply();
         UpdateNightLoopAudioState();
