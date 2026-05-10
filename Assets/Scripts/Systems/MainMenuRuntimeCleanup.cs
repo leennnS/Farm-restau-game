@@ -26,6 +26,8 @@ public static class MainMenuRuntimeCleanup
         DestroyPersistentObjects<GlobalNextDayButtonHUD>();
         DestroyPersistentObjects<ClockHUDController>();
         DestroyPersistentObjects<OrderListHUD>();
+        DestroyPersistentObjects<FarmTutorialManager>();
+        DestroyPersistentObjects<FarmTutorialUIController>();
         DestroyPersistentObjects<LanternController>();
         DestroyPersistentObjects<ImprovedLanternController>();
         DestroyPersistentObjects<CameraFollowFix>();
