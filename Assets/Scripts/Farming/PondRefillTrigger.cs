@@ -9,6 +9,8 @@ public class PondRefillTrigger : MonoBehaviour
 {
     [SerializeField] private KeyCode interactKey = KeyCode.E;
     [SerializeField] private PondRefillUI pondRefillUI;
+    [SerializeField] private PickupToastUIToolkit toastUI;
+    [SerializeField] private string interactionPrompt = "Press E to refill water";
 
     private bool playerInRange = false;
     private bool uiActive = false;
@@ -20,21 +22,28 @@ public class PondRefillTrigger : MonoBehaviour
 
         if (pondRefillUI == null)
             Debug.LogError("[PondRefillTrigger] PondRefillUI not found in scene!");
+
+        if (toastUI == null)
+            toastUI = FindFirstObjectByType<PickupToastUIToolkit>();
     }
 
-   private void Update()
-{
-    if (!playerInRange || pondRefillUI == null)
-        return;
-
-    if (!uiActive && Input.GetKeyDown(interactKey))
+    private void Update()
     {
-        Debug.Log("[PondRefillTrigger] E pressed near pond. Showing refill UI.");
-        pondRefillUI.SetTrigger(this);
-        pondRefillUI.ShowRefillUI();
-        uiActive = true;
+        if (!playerInRange || pondRefillUI == null)
+            return;
+
+        // Keep the interaction prompt visible while player is in range
+        if (toastUI != null)
+            toastUI.ShowPersistent(interactionPrompt, 28);
+
+        if (!uiActive && Input.GetKeyDown(interactKey))
+        {
+            Debug.Log("[PondRefillTrigger] E pressed near pond. Showing refill UI.");
+            pondRefillUI.SetTrigger(this);
+            pondRefillUI.ShowRefillUI();
+            uiActive = true;
+        }
     }
-}
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -58,6 +67,9 @@ public class PondRefillTrigger : MonoBehaviour
             pondRefillUI.HideRefillUI();
             uiActive = false;
         }
+
+        if (toastUI != null)
+            toastUI.Hide();
     }
 
     public void NotifyUIClosed()
