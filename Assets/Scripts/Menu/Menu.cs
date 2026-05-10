@@ -73,14 +73,13 @@ public class Menu : MonoBehaviour
     }
 
     /// <summary>
-    /// Check if a save exists and update Continue button accordingly
+    /// Keep the Continue button visible and let the click handler decide what to do.
     /// </summary>
     private void UpdateContinueButtonState()
     {
         if (continueButton != null)
         {
-            bool hasSave = GameManager.Instance.HasExistingSave();
-            continueButton.SetActive(hasSave);
+            continueButton.SetActive(true);
         }
     }
 
