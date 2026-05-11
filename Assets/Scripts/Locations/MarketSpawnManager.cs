@@ -32,6 +32,7 @@ public static class MarketSpawnManager
 
         // Move player to spawn point
         player.transform.position = spawn.transform.position;
+        CameraFollowFix.RebindAllCamerasTo(player.transform);
 
         Debug.Log($"[MarketSpawnManager] Player moved to {spawn.transform.position}");
     }

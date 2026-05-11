@@ -130,33 +130,10 @@ public static class FarmSpawnManager
         if (controller != null)
             controller.enabled = true;
 
-        RebindCameraToPlayer(player.transform);
+        CameraFollowFix.RebindAllCamerasTo(player.transform);
 
         string sourceName = fromRestaurant ? "Restaurant" : fromHouse ? "House" : "Market";
         Debug.Log($"[FarmSpawnManager] Restored return from {sourceName} in scene '{scene.name}' at {player.transform.position} scale={player.transform.localScale}");
     }
 
-    private static void RebindCameraToPlayer(Transform playerTransform)
-    {
-        bool rebound = false;
-
-        CinemachineCamera[] cineCams = Object.FindObjectsByType<CinemachineCamera>(FindObjectsSortMode.None);
-        for (int i = 0; i < cineCams.Length; i++)
-        {
-            if (cineCams[i] == null)
-                continue;
-
-            cineCams[i].Target.TrackingTarget = playerTransform;
-            rebound = true;
-        }
-
-        // Fallback if no Cinemachine camera exists/is active.
-        Camera mainCam = Camera.main;
-        if (!rebound && mainCam != null)
-        {
-            Vector3 p = playerTransform.position;
-            Vector3 c = mainCam.transform.position;
-            mainCam.transform.position = new Vector3(p.x, p.y, c.z);
-        }
-    }
 }

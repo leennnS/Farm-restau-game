@@ -78,6 +78,8 @@ public static class RestaurantSpawnManager
         if (player.GetComponent<PlayerMovementConstraint>() == null)
             player.AddComponent<PlayerMovementConstraint>();
 
+        CameraFollowFix.RebindAllCamerasTo(player.transform);
+
         Debug.Log($"RestaurantSpawnManager: Instantiated player at {spawn.transform.position} with scale {player.transform.localScale}.");
     }
 

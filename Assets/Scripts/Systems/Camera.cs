@@ -31,6 +31,7 @@ public class CameraFollowFix : MonoBehaviour
     [SerializeField] private float playerMarkerScreenSize = 34f;
     [SerializeField] private bool showMapKeyHint = true;
     [SerializeField] private Vector3 mapTilemapCullingBounds = new Vector3(8f, 8f, 8f);
+    [SerializeField, Min(1)] private int transitionSnapFrames = 12;
 
     private float originalOrthographicSize;
     private bool originalOrthographicSizeCaptured;
@@ -42,7 +43,11 @@ public class CameraFollowFix : MonoBehaviour
     private Sprite playerMarkerSprite;
     private Texture2D playerMarkerTexture;
     private CharacterController2D playerController;
+    private Coroutine assignPlayerRoutine;
+    private Coroutine transitionSnapRoutine;
     private readonly List<TilemapCullingState> tilemapCullingStates = new List<TilemapCullingState>();
+
+    public static CameraFollowFix Instance => instance;
 
     void Awake()
     {
@@ -153,7 +158,11 @@ public class CameraFollowFix : MonoBehaviour
     {
         SetMapViewActive(false);
         ApplySceneLensOverride(scene.name);
-        StartCoroutine(AssignPlayer());
+
+        if (assignPlayerRoutine != null)
+            StopCoroutine(assignPlayerRoutine);
+
+        assignPlayerRoutine = StartCoroutine(AssignPlayer());
     }
 
     private void ApplySceneLensOverride(string sceneName)
@@ -185,17 +194,23 @@ public class CameraFollowFix : MonoBehaviour
     {
         GameObject player = null;
 
-        // KEEP trying until player exists (this is the fix)
+        // Keep trying until the persistent player has survived or been spawned into the new scene.
         while (player == null)
         {
             player = GameObject.FindGameObjectWithTag("Player");
             yield return null; // wait next frame
         }
 
-        AssignTargetNow(player.transform);
+        AssignTargetNow(player.transform, true);
+        assignPlayerRoutine = null;
     }
 
     public void AssignTargetNow(Transform target)
+    {
+        AssignTargetNow(target, false);
+    }
+
+    public void AssignTargetNow(Transform target, bool snapCamera)
     {
         if (cam == null || target == null)
             return;
@@ -206,6 +221,127 @@ public class CameraFollowFix : MonoBehaviour
         // Project primarily uses TrackingTarget. Keep Follow for compatibility.
         cam.Target.TrackingTarget = target;
         cam.Follow = target;
+
+        if (snapCamera)
+            SnapCameraToTarget(target);
+    }
+
+    public static void RebindAllCamerasTo(Transform target, bool snapCamera = true)
+    {
+        if (target == null)
+            return;
+
+        CinemachineCamera[] cineCams = Object.FindObjectsByType<CinemachineCamera>(FindObjectsSortMode.None);
+        for (int i = 0; i < cineCams.Length; i++)
+        {
+            if (cineCams[i] == null)
+                continue;
+
+            cineCams[i].Target.TrackingTarget = target;
+            cineCams[i].Follow = target;
+        }
+
+        CameraFollowFix followFix = instance != null ? instance : Object.FindFirstObjectByType<CameraFollowFix>();
+        if (followFix != null)
+            followFix.AssignTargetNow(target, snapCamera);
+        else if (snapCamera)
+            SnapMainCameraTo(target);
+    }
+
+    private void SnapCameraToTarget(Transform target)
+    {
+        if (target == null)
+            return;
+
+        if (cam != null)
+        {
+            Vector3 p = target.position;
+            Vector3 c = cam.transform.position;
+            cam.transform.position = new Vector3(p.x, p.y, c.z);
+        }
+
+        SnapMainCameraTo(target);
+
+        if (transitionSnapRoutine != null)
+            StopCoroutine(transitionSnapRoutine);
+
+        transitionSnapRoutine = StartCoroutine(SnapCameraForFrames(target, transitionSnapFrames));
+    }
+
+    private IEnumerator SnapCameraForFrames(Transform target, int frames)
+    {
+        for (int i = 0; i < frames; i++)
+        {
+            if (target == null)
+                break;
+
+            if (cam != null)
+            {
+                cam.Target.TrackingTarget = target;
+                cam.Follow = target;
+
+                Vector3 p = target.position;
+                Vector3 c = cam.transform.position;
+                cam.transform.position = new Vector3(p.x, p.y, c.z);
+            }
+
+            SnapMainCameraTo(target);
+            yield return null;
+        }
+
+        transitionSnapRoutine = null;
+    }
+
+    private static void SnapMainCameraTo(Transform target)
+    {
+        if (target == null)
+            return;
+
+        UnityEngine.Camera mainCamera = EnsureMainCamera(target.position);
+
+        Vector3 p = target.position;
+        Vector3 c = mainCamera.transform.position;
+        mainCamera.transform.position = new Vector3(p.x, p.y, c.z);
+
+        RuntimeFallbackCameraFollow fallbackFollow = mainCamera.GetComponent<RuntimeFallbackCameraFollow>();
+        if (fallbackFollow != null)
+            fallbackFollow.SetTarget(target);
+    }
+
+    private static UnityEngine.Camera EnsureMainCamera(Vector3 targetPosition)
+    {
+        UnityEngine.Camera mainCamera = UnityEngine.Camera.main;
+        if (mainCamera != null)
+            return mainCamera;
+
+        GameObject cameraObject = new GameObject("Runtime Main Camera");
+        cameraObject.tag = "MainCamera";
+        cameraObject.transform.position = new Vector3(targetPosition.x, targetPosition.y, -10f);
+
+        mainCamera = cameraObject.AddComponent<UnityEngine.Camera>();
+        mainCamera.orthographic = true;
+        mainCamera.orthographicSize = GetFallbackOrthographicSizeForActiveScene();
+        mainCamera.clearFlags = CameraClearFlags.SolidColor;
+        mainCamera.backgroundColor = new Color(0.011f, 0.011f, 0.011f, 0f);
+        cameraObject.AddComponent<RuntimeFallbackCameraFollow>();
+
+        if (Object.FindFirstObjectByType<AudioListener>() == null)
+            cameraObject.AddComponent<AudioListener>();
+
+        Object.DontDestroyOnLoad(cameraObject);
+        return mainCamera;
+    }
+
+    private static float GetFallbackOrthographicSizeForActiveScene()
+    {
+        string sceneName = SceneManager.GetActiveScene().name;
+        if (sceneName == "MarketScene")
+            return 10f;
+
+        if (sceneName == "HouseInteriorLITEDEMO")
+            return 5f;
+
+        return 5f;
     }
 
     private void UpdateLensZoom()
@@ -534,5 +670,32 @@ public class CameraFollowFix : MonoBehaviour
             this.renderer = renderer;
             this.chunkCullingBounds = chunkCullingBounds;
         }
+    }
+}
+
+[DisallowMultipleComponent]
+public class RuntimeFallbackCameraFollow : MonoBehaviour
+{
+    private Transform target;
+
+    public void SetTarget(Transform newTarget)
+    {
+        target = newTarget;
+        SnapNow();
+    }
+
+    private void LateUpdate()
+    {
+        SnapNow();
+    }
+
+    private void SnapNow()
+    {
+        if (target == null)
+            return;
+
+        Vector3 p = target.position;
+        Vector3 c = transform.position;
+        transform.position = new Vector3(p.x, p.y, c.z);
     }
 }

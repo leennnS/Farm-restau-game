@@ -150,6 +150,7 @@ public class RestaurantSpawnPoint : MonoBehaviour
         Vector2 safePos = FindSafePosition(spawnPos, player);
 
         player.transform.position = safePos;
+        CameraFollowFix.RebindAllCamerasTo(player.transform);
     }
 
     Vector2 FindSafePosition(Vector2 center, GameObject player)

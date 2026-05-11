@@ -114,7 +114,7 @@ public class SpawnManager : MonoBehaviour
         if (spawnPoint != null)
         {
             player.position = spawnPoint.position;
-            RebindCameraToPlayer(player);
+            CameraFollowFix.RebindAllCamerasTo(player);
             Debug.Log($"[SpawnManager] Player spawned at {(isFromIntro ? "Shed Door" : "Default Position")}: {spawnPoint.position}");
 
             if (isFromIntro)
@@ -195,38 +195,8 @@ public class SpawnManager : MonoBehaviour
         if (player != null)
         {
             player.position = targetPosition;
-            RebindCameraToPlayer(player);
+            CameraFollowFix.RebindAllCamerasTo(player);
             Debug.Log($"[SpawnManager] Re-asserted shed door spawn at end of frame: {targetPosition}");
-        }
-    }
-
-    private void RebindCameraToPlayer(Transform playerTransform)
-    {
-        bool rebound = false;
-
-        CinemachineCamera[] cineCams = Object.FindObjectsByType<CinemachineCamera>(FindObjectsSortMode.None);
-        for (int i = 0; i < cineCams.Length; i++)
-        {
-            if (cineCams[i] == null)
-                continue;
-
-            // Support the current Cinemachine API used in this project.
-            cineCams[i].Target.TrackingTarget = playerTransform;
-            cineCams[i].Follow = playerTransform;
-            rebound = true;
-        }
-
-        // Keep a fallback for camera rigs that still use Follow directly.
-        CameraFollowFix followFix = Object.FindFirstObjectByType<CameraFollowFix>();
-        if (followFix != null)
-            followFix.AssignTargetNow(playerTransform);
-
-        Camera mainCam = Camera.main;
-        if (!rebound && mainCam != null)
-        {
-            Vector3 p = playerTransform.position;
-            Vector3 c = mainCam.transform.position;
-            mainCam.transform.position = new Vector3(p.x, p.y, c.z);
         }
     }
 
@@ -247,7 +217,7 @@ public class SpawnManager : MonoBehaviour
                 yield break;
 
             player.position = targetPosition;
-            RebindCameraToPlayer(player);
+            CameraFollowFix.RebindAllCamerasTo(player);
 
             Camera mainCam = Camera.main;
             if (mainCam != null)

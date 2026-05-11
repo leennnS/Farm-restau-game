@@ -36,6 +36,7 @@ public class HouseLocalSpawner : MonoBehaviour
 
         // Move player to spawn point
         player.transform.position = spawnPoint.position;
+        CameraFollowFix.RebindAllCamerasTo(player.transform);
         Debug.Log($"HouseLocalSpawner: Moved player to {spawnPoint.position}");
     }
 }

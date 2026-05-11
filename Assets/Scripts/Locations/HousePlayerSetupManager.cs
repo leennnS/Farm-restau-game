@@ -52,6 +52,8 @@ public class HousePlayerSetupManager
             limiter.heightMultiplier = 0.275f;
         }
 
+        CameraFollowFix.RebindAllCamerasTo(player.transform);
+
         Debug.Log($"HousePlayerSetupManager: configured player '{player.name}' for scene {scene.name}.");
     }
 }

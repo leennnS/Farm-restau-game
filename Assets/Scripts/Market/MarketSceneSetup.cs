@@ -17,6 +17,8 @@ public class MarketSceneSetup : MonoBehaviour
 
             if (cinemachineCamera != null)
                 cinemachineCamera.Target.TrackingTarget = player.transform;
+
+            CameraFollowFix.RebindAllCamerasTo(player.transform);
         }
         else
         {
