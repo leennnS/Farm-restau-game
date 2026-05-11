@@ -306,15 +306,16 @@ public class CameraFollowFix : MonoBehaviour
         if (target == null)
             return;
 
-        UnityEngine.Camera mainCamera = EnsureMainCamera(target.position);
+        UnityEngine.Camera mainCamera = EnsureSceneCamera();
+        if (mainCamera == null)
+        {
+            Debug.LogError($"[CameraFollowFix] No active MainCamera found in scene '{SceneManager.GetActiveScene().name}'. Add the camera prefab to this scene.");
+            return;
+        }
 
         Vector3 p = target.position;
         Vector3 c = mainCamera.transform.position;
         mainCamera.transform.position = new Vector3(p.x, p.y, c.z);
-
-        RuntimeFallbackCameraFollow fallbackFollow = mainCamera.GetComponent<RuntimeFallbackCameraFollow>();
-        if (fallbackFollow != null)
-            fallbackFollow.SetTarget(target);
     }
 
     private static void ResetCinemachineState(CinemachineCamera cineCam, Vector3 targetPosition)
@@ -331,46 +332,14 @@ public class CameraFollowFix : MonoBehaviour
         cineCam.PreviousStateIsValid = false;
     }
 
-    private static UnityEngine.Camera EnsureMainCamera(Vector3 targetPosition)
+    public static UnityEngine.Camera EnsureSceneCamera()
     {
         Scene activeScene = SceneManager.GetActiveScene();
         UnityEngine.Camera mainCamera = UnityEngine.Camera.main;
-        if (mainCamera != null && mainCamera.gameObject.scene == activeScene)
+        if (mainCamera != null && mainCamera.gameObject.scene == activeScene && mainCamera.enabled && mainCamera.gameObject.activeInHierarchy)
             return mainCamera;
 
-        if (mainCamera != null && mainCamera.GetComponent<RuntimeFallbackCameraFollow>() != null)
-            Destroy(mainCamera.gameObject);
-
-        GameObject cameraObject = new GameObject("Runtime Main Camera");
-        cameraObject.tag = "MainCamera";
-        cameraObject.transform.position = new Vector3(targetPosition.x, targetPosition.y, -10f);
-
-        mainCamera = cameraObject.AddComponent<UnityEngine.Camera>();
-        mainCamera.orthographic = true;
-        mainCamera.orthographicSize = GetFallbackOrthographicSizeForActiveScene();
-        mainCamera.clearFlags = CameraClearFlags.SolidColor;
-        mainCamera.backgroundColor = new Color(0.011f, 0.011f, 0.011f, 0f);
-        cameraObject.AddComponent<RuntimeFallbackCameraFollow>();
-
-        if (Object.FindFirstObjectByType<AudioListener>() == null)
-            cameraObject.AddComponent<AudioListener>();
-
-        return mainCamera;
-    }
-
-    private static float GetFallbackOrthographicSizeForActiveScene()
-    {
-        string sceneName = SceneManager.GetActiveScene().name;
-        if (sceneName == "MarketScene")
-            return 10f;
-
-        if (sceneName == "RestaurantScene")
-            return 9f;
-
-        if (sceneName == "HouseInteriorLITEDEMO")
-            return 5f;
-
-        return 5f;
+        return null;
     }
 
     private void UpdateLensZoom()
@@ -703,58 +672,5 @@ public class CameraFollowFix : MonoBehaviour
             this.renderer = renderer;
             this.chunkCullingBounds = chunkCullingBounds;
         }
-    }
-}
-
-[DisallowMultipleComponent]
-public class RuntimeFallbackCameraFollow : MonoBehaviour
-{
-    [SerializeField, Min(0.01f)] private float smoothTime = 0.18f;
-    [SerializeField, Min(1f)] private float maxSpeed = 80f;
-    [SerializeField, Min(0f)] private float snapDistance = 18f;
-
-    private Transform target;
-    private Vector3 velocity;
-
-    public void SetTarget(Transform newTarget)
-    {
-        target = newTarget;
-
-        if (target != null)
-            SnapNow();
-    }
-
-    private void LateUpdate()
-    {
-        FollowSmoothly();
-    }
-
-    private void SnapNow()
-    {
-        if (target == null)
-            return;
-
-        Vector3 p = target.position;
-        Vector3 c = transform.position;
-        transform.position = new Vector3(p.x, p.y, c.z);
-        velocity = Vector3.zero;
-    }
-
-    private void FollowSmoothly()
-    {
-        if (target == null)
-            return;
-
-        Vector3 p = target.position;
-        Vector3 c = transform.position;
-        Vector3 desired = new Vector3(p.x, p.y, c.z);
-
-        if (Vector2.Distance(c, desired) >= snapDistance)
-        {
-            SnapNow();
-            return;
-        }
-
-        transform.position = Vector3.SmoothDamp(c, desired, ref velocity, smoothTime, maxSpeed, Time.deltaTime);
     }
 }
