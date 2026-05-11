@@ -13,36 +13,56 @@ public class EnterBuildingTrigger2D : MonoBehaviour
     public bool debugLogs = false;
 
     private Coroutine entryCoroutine;
+    private Transform trackedPlayerRoot;
+    private int playerOverlapCount;
+    private bool isLoading;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (debugLogs)
-        {
-            Debug.Log($"[EnterBuildingTrigger2D] Player entered trigger zone for {sceneName}. Starting entry timer.");
-        }
-
         if (!IsPlayer(other))
         {
             return;
         }
 
-        // Start the timer to enter the building
+        Transform playerRoot = other.attachedRigidbody != null ? other.attachedRigidbody.transform : other.transform.root;
+        if (trackedPlayerRoot == null || trackedPlayerRoot == playerRoot)
+        {
+            trackedPlayerRoot = playerRoot;
+            playerOverlapCount++;
+        }
+
+        if (debugLogs)
+        {
+            Debug.Log($"[EnterBuildingTrigger2D] Player entered trigger zone for {sceneName}. Overlaps={playerOverlapCount}");
+        }
+
+        if (entryCoroutine != null || isLoading)
+            return;
+
         entryCoroutine = StartCoroutine(EnterBuildingAfterDelay());
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (debugLogs)
-        {
-            Debug.Log("[EnterBuildingTrigger2D] Player exited trigger zone. Cancelling entry.");
-        }
-
         if (!IsPlayer(other))
         {
             return;
         }
 
-        // If the player leaves, cancel the timer
+        Transform playerRoot = other.attachedRigidbody != null ? other.attachedRigidbody.transform : other.transform.root;
+        if (trackedPlayerRoot == playerRoot)
+            playerOverlapCount = Mathf.Max(0, playerOverlapCount - 1);
+
+        if (debugLogs)
+        {
+            Debug.Log($"[EnterBuildingTrigger2D] Player exited trigger zone for {sceneName}. Overlaps={playerOverlapCount}");
+        }
+
+        if (playerOverlapCount > 0 || isLoading)
+            return;
+
+        trackedPlayerRoot = null;
+
         if (entryCoroutine != null)
         {
             StopCoroutine(entryCoroutine);
@@ -55,22 +75,40 @@ public class EnterBuildingTrigger2D : MonoBehaviour
         // Wait for the specified delay
         yield return new WaitForSeconds(entryDelay);
 
+        if (playerOverlapCount <= 0 || trackedPlayerRoot == null)
+        {
+            entryCoroutine = null;
+            yield break;
+        }
+
+        if (string.IsNullOrWhiteSpace(sceneName))
+        {
+            Debug.LogError($"[EnterBuildingTrigger2D] Cannot load an empty scene name on '{name}'.", this);
+            entryCoroutine = null;
+            yield break;
+        }
+
         // If we successfully waited, load the scene
         if (debugLogs)
         {
             Debug.Log($"[EnterBuildingTrigger2D] Delay complete. Loading scene: {sceneName}");
         }
+
+        isLoading = true;
         SceneManager.LoadScene(sceneName);
     }
 
     private bool IsPlayer(Collider2D other)
     {
-        bool isPlayer = false;
-        if (!string.IsNullOrEmpty(playerTag) && other.CompareTag(playerTag))
-        {
-            isPlayer = true;
-        }
+        if (other == null || string.IsNullOrEmpty(playerTag))
+            return false;
 
-        return isPlayer;
+        if (other.CompareTag(playerTag))
+            return true;
+
+        if (other.attachedRigidbody != null && other.attachedRigidbody.CompareTag(playerTag))
+            return true;
+
+        return other.transform.root != null && other.transform.root.CompareTag(playerTag);
     }
 }
