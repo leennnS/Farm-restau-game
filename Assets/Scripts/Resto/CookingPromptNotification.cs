@@ -11,6 +11,7 @@ using UnityEngine.SceneManagement;
 public class CookingPromptNotification : MonoBehaviour
 {
     private static CookingPromptNotification _instance;
+    private const string RestaurantSceneName = "RestaurantScene";
 
     [Header("Input")]
     [SerializeField] private KeyCode cookingKey = KeyCode.C;
@@ -27,21 +28,18 @@ public class CookingPromptNotification : MonoBehaviour
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     private static void Bootstrap()
     {
-        Debug.Log("[CookingPromptNotification] Static Bootstrap called");
+        SceneManager.sceneLoaded -= OnSceneLoaded_Bootstrap;
         SceneManager.sceneLoaded += OnSceneLoaded_Bootstrap;
     }
 
     private static void OnSceneLoaded_Bootstrap(Scene scene, LoadSceneMode mode)
     {
-        Debug.Log($"[CookingPromptNotification] Scene loaded: {scene.name}");
+        if (!IsRestaurantScene(scene.name))
+            return;
 
         if (FindFirstObjectByType<CookingPromptNotification>() != null)
-        {
-            Debug.Log("[CookingPromptNotification] Instance already exists");
             return;
-        }
 
-        Debug.Log("[CookingPromptNotification] Creating new instance");
         GameObject go = new GameObject("CookingPromptNotification");
         go.AddComponent<CookingPromptNotification>();
     }
@@ -101,6 +99,18 @@ public class CookingPromptNotification : MonoBehaviour
         if (logCookingPromptEvents)
             Debug.Log($"[CookingPromptNotification] Scene loaded: {scene.name}");
 
+        if (!IsRestaurantScene(scene.name))
+        {
+            HidePrompt();
+            pickupToast = null;
+
+            if (restaurantQueueManager != null)
+                restaurantQueueManager.OnQueueOrdersChanged -= HandleQueueOrdersChanged;
+
+            restaurantQueueManager = null;
+            return;
+        }
+
         ResolveRestaurantQueueManager();
         SyncPromptWithCurrentState();
 
@@ -113,6 +123,9 @@ public class CookingPromptNotification : MonoBehaviour
 
     private void Update()
     {
+        if (!IsRestaurantScene(SceneManager.GetActiveScene().name))
+            return;
+
         // Only handle input here - hide on C key press
         if (isPromptVisible && Input.GetKeyDown(cookingKey))
         {
@@ -188,6 +201,9 @@ public class CookingPromptNotification : MonoBehaviour
 
     private void ShowPrompt()
     {
+        if (!IsRestaurantScene(SceneManager.GetActiveScene().name))
+            return;
+
         if (pickupToast == null)
         {
             if (logCookingPromptEvents)
@@ -207,5 +223,10 @@ public class CookingPromptNotification : MonoBehaviour
         if (logCookingPromptEvents)
             Debug.Log("[CookingPromptNotification] HidePrompt: Hiding notification");
         isPromptVisible = false;
+    }
+
+    private static bool IsRestaurantScene(string sceneName)
+    {
+        return string.Equals(sceneName, RestaurantSceneName, System.StringComparison.Ordinal);
     }
 }
