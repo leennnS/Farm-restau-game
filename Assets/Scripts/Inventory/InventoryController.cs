@@ -3187,7 +3187,7 @@ public class InventoryController : MonoBehaviour
     private void LoadAllRecipesIfNeeded()
     {
         List<RecipeDefinition> merged = new List<RecipeDefinition>();
-        HashSet<RecipeDefinition> seen = new HashSet<RecipeDefinition>();
+        HashSet<string> seenRecipeNames = new HashSet<string>();
 
         // If recipes were already serialized, use them
         if (recipes != null)
@@ -3195,7 +3195,10 @@ public class InventoryController : MonoBehaviour
             for (int i = 0; i < recipes.Length; i++)
             {
                 RecipeDefinition existing = recipes[i];
-                if (existing == null || !seen.Add(existing))
+                if (existing == null || string.IsNullOrEmpty(existing.recipeName))
+                    continue;
+
+                if (!seenRecipeNames.Add(existing.recipeName))
                     continue;
 
                 merged.Add(existing);
@@ -3212,7 +3215,10 @@ public class InventoryController : MonoBehaviour
                 for (int i = 0; i < resourceRecipes.Length; i++)
                 {
                     RecipeDefinition found = resourceRecipes[i];
-                    if (found == null || !seen.Add(found))
+                    if (found == null || string.IsNullOrEmpty(found.recipeName))
+                        continue;
+
+                    if (!seenRecipeNames.Add(found.recipeName))
                         continue;
 
                     merged.Add(found);
@@ -3242,7 +3248,10 @@ public class InventoryController : MonoBehaviour
                     {
                         string path = UnityEditor.AssetDatabase.GUIDToAssetPath(recipeGuids[i]);
                         RecipeDefinition found = UnityEditor.AssetDatabase.LoadAssetAtPath<RecipeDefinition>(path);
-                        if (found == null || !seen.Add(found))
+                        if (found == null || string.IsNullOrEmpty(found.recipeName))
+                            continue;
+
+                        if (!seenRecipeNames.Add(found.recipeName))
                             continue;
 
                         merged.Add(found);
