@@ -45,7 +45,14 @@ public class CameraFollowFix : MonoBehaviour
     private CharacterController2D playerController;
     private Coroutine assignPlayerRoutine;
     private Coroutine transitionSnapRoutine;
+    private Coroutine targetValidationRoutine;
     private readonly List<TilemapCullingState> tilemapCullingStates = new List<TilemapCullingState>();
+
+    // Target validation fields
+    private int currentTargetInstanceId = -1;
+    private string lastValidTargetName = "";
+    private float lastTargetValidationTime = 0f;
+    [SerializeField] private float targetValidationInterval = 1f;  // Validate target every 1 second
 
     public static CameraFollowFix Instance => instance;
 
@@ -90,6 +97,33 @@ public class CameraFollowFix : MonoBehaviour
     {
         if (cam == null)
             return;
+
+        // CRITICAL: If currentTarget is null, attempt recovery immediately
+        if (currentTarget == null)
+        {
+            Debug.LogError($"[CameraFollowFix.Update] CRITICAL: currentTarget is null! Camera may be broken. Attempting immediate recovery...");
+
+            // Try to find player immediately
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            if (player != null)
+            {
+                Debug.Log($"[CameraFollowFix.Update] Found player during recovery: {player.name}");
+                AssignTargetNow(player.transform, true);
+            }
+            else
+            {
+                Debug.LogError($"[CameraFollowFix.Update] Player not found during recovery attempt. Triggering AssignPlayer coroutine...");
+
+                if (assignPlayerRoutine != null)
+                    StopCoroutine(assignPlayerRoutine);
+
+                assignPlayerRoutine = StartCoroutine(AssignPlayer());
+            }
+            return;  // Skip rest of update until target is recovered
+        }
+
+        // Periodically validate that the current target is still valid
+        ValidateCurrentTarget();
 
         bool inFarmScene = SceneManager.GetActiveScene().name == farmSceneName;
         if (!inFarmScene)
@@ -156,12 +190,18 @@ public class CameraFollowFix : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        Debug.Log($"[CameraFollowFix] OnSceneLoaded called for scene: {scene.name} at time {Time.time:F2}s");
+
         SetMapViewActive(false);
         ApplySceneLensOverride(scene.name);
 
         if (assignPlayerRoutine != null)
+        {
+            Debug.Log("[CameraFollowFix] Stopping existing AssignPlayer routine");
             StopCoroutine(assignPlayerRoutine);
+        }
 
+        Debug.Log("[CameraFollowFix] Starting new AssignPlayer routine");
         assignPlayerRoutine = StartCoroutine(AssignPlayer());
     }
 
@@ -193,13 +233,40 @@ public class CameraFollowFix : MonoBehaviour
     IEnumerator AssignPlayer()
     {
         GameObject player = null;
+        int searchAttempts = 0;
+        float startTime = Time.time;
 
         // Keep trying until the persistent player has survived or been spawned into the new scene.
         while (player == null)
         {
+            searchAttempts++;
+            // Only log warnings if the search is taking unusually long (after 30+ frames / ~0.5s)
+            if (searchAttempts > 30 && searchAttempts % 30 == 0)
+                Debug.LogWarning($"[CameraFollowFix.AssignPlayer] Still searching for player... (attempt {searchAttempts}, elapsed {Time.time - startTime:F2}s)");
+
             player = GameObject.FindGameObjectWithTag("Player");
+
+            // Safety check: if we've been searching too long, log error
+            if (searchAttempts > 300)  // 5+ seconds at 60fps
+            {
+                Debug.LogError($"[CameraFollowFix.AssignPlayer] Failed to find player after {searchAttempts} attempts ({Time.time - startTime:F2}s elapsed). This indicates a serious timing issue.");
+                assignPlayerRoutine = null;
+                yield break;
+            }
+
             yield return null; // wait next frame
         }
+
+        // Only log success if it took more than one frame (normal is 1-3 frames)
+        if (searchAttempts > 1)
+            Debug.Log($"[CameraFollowFix.AssignPlayer] Player found after {searchAttempts} attempts ({Time.time - startTime:F2}s). Player: {player.name} at position {player.transform.position}");
+
+        // Validate player is active and has required components
+        if (!player.activeInHierarchy)
+            Debug.LogWarning($"[CameraFollowFix.AssignPlayer] WARNING: Found player is NOT active in hierarchy!");
+
+        if (player.GetComponent<CharacterController2D>() == null)
+            Debug.LogWarning($"[CameraFollowFix.AssignPlayer] WARNING: Player has no CharacterController2D component!");
 
         AssignTargetNow(player.transform, true);
         assignPlayerRoutine = null;
@@ -212,15 +279,31 @@ public class CameraFollowFix : MonoBehaviour
 
     public void AssignTargetNow(Transform target, bool snapCamera)
     {
-        if (cam == null || target == null)
+        if (cam == null)
+        {
+            Debug.LogError($"[CameraFollowFix.AssignTargetNow] CinemachineCamera is null! Cannot assign target.");
             return;
+        }
+
+        if (target == null)
+        {
+            Debug.LogError($"[CameraFollowFix.AssignTargetNow] Target is null! Cannot assign to camera.");
+            return;
+        }
+
+        Debug.Log($"[CameraFollowFix.AssignTargetNow] Assigning target: {target.name} at position {target.position}, snapCamera={snapCamera}");
 
         currentTarget = target;
+        currentTargetInstanceId = target.gameObject.GetInstanceID();
+        lastValidTargetName = target.name;
+        lastTargetValidationTime = Time.time;
         playerController = target.GetComponent<CharacterController2D>();
 
         // Project primarily uses TrackingTarget. Keep Follow for compatibility.
         cam.Target.TrackingTarget = target;
         cam.Follow = target;
+
+        Debug.Log($"[CameraFollowFix.AssignTargetNow] Successfully assigned camera target. TrackingTarget: {cam.Target.TrackingTarget?.name ?? "null"}, Follow: {cam.Follow?.name ?? "null"}");
 
         if (snapCamera)
             SnapCameraToTarget(target);
@@ -229,23 +312,38 @@ public class CameraFollowFix : MonoBehaviour
     public static void RebindAllCamerasTo(Transform target, bool snapCamera = true)
     {
         if (target == null)
+        {
+            Debug.LogError("[CameraFollowFix.RebindAllCamerasTo] Target is null! Cannot rebind cameras.");
             return;
+        }
+
+        Debug.Log($"[CameraFollowFix.RebindAllCamerasTo] Rebinding all cameras to target: {target.name} at position {target.position}, snapCamera={snapCamera}");
 
         CinemachineCamera[] cineCams = Object.FindObjectsByType<CinemachineCamera>(FindObjectsSortMode.None);
+        Debug.Log($"[CameraFollowFix.RebindAllCamerasTo] Found {cineCams.Length} CinemachineCamera(s)");
+
         for (int i = 0; i < cineCams.Length; i++)
         {
             if (cineCams[i] == null)
                 continue;
 
+            Debug.Log($"[CameraFollowFix.RebindAllCamerasTo] Rebinding camera {i}: {cineCams[i].name}");
             cineCams[i].Target.TrackingTarget = target;
             cineCams[i].Follow = target;
         }
 
         CameraFollowFix followFix = instance != null ? instance : Object.FindFirstObjectByType<CameraFollowFix>();
         if (followFix != null)
+        {
+            Debug.Log($"[CameraFollowFix.RebindAllCamerasTo] Found CameraFollowFix instance, calling AssignTargetNow");
             followFix.AssignTargetNow(target, snapCamera);
-        else if (snapCamera)
-            SnapMainCameraTo(target);
+        }
+        else
+        {
+            Debug.LogWarning($"[CameraFollowFix.RebindAllCamerasTo] CameraFollowFix instance not found, snapping main camera");
+            if (snapCamera)
+                SnapMainCameraTo(target);
+        }
     }
 
     private void SnapCameraToTarget(Transform target)
@@ -266,6 +364,59 @@ public class CameraFollowFix : MonoBehaviour
             StopCoroutine(transitionSnapRoutine);
 
         transitionSnapRoutine = StartCoroutine(SnapCameraForFrames(target, transitionSnapFrames));
+    }
+
+    private void ValidateCurrentTarget()
+    {
+        // Periodically validate that the current target is still valid
+        if (Time.time - lastTargetValidationTime < targetValidationInterval)
+            return;
+
+        lastTargetValidationTime = Time.time;
+
+        // Check if currentTarget is still valid
+        if (currentTarget == null)
+        {
+            Debug.LogWarning($"[CameraFollowFix.ValidateCurrentTarget] Current target became null! Triggering player search...");
+
+            // Try to find player again
+            if (assignPlayerRoutine != null)
+                StopCoroutine(assignPlayerRoutine);
+
+            assignPlayerRoutine = StartCoroutine(AssignPlayer());
+            return;
+        }
+
+        // Check if the instance ID matches (ensure it's the same object)
+        if (currentTarget.gameObject.GetInstanceID() != currentTargetInstanceId)
+        {
+            Debug.LogWarning($"[CameraFollowFix.ValidateCurrentTarget] Target instance ID mismatch! Expected {currentTargetInstanceId}, but current is {currentTarget.gameObject.GetInstanceID()}. This shouldn't happen.");
+            return;
+        }
+
+        // Check if target is still active
+        if (!currentTarget.gameObject.activeInHierarchy)
+        {
+            Debug.LogWarning($"[CameraFollowFix.ValidateCurrentTarget] Current target '{currentTarget.name}' is NOT active in hierarchy. Camera may not follow properly.");
+            return;
+        }
+
+        // Verify camera is still properly assigned
+        if (cam != null)
+        {
+            if (cam.Target.TrackingTarget != currentTarget || cam.Follow != currentTarget)
+            {
+                Debug.LogWarning($"[CameraFollowFix.ValidateCurrentTarget] Camera target assignments lost! Resetting...");
+                Debug.Log($"  TrackingTarget: {cam.Target.TrackingTarget?.name ?? "null"} (expected {currentTarget.name})");
+                Debug.Log($"  Follow: {cam.Follow?.name ?? "null"} (expected {currentTarget.name})");
+
+                // Re-assign to restore
+                cam.Target.TrackingTarget = currentTarget;
+                cam.Follow = currentTarget;
+
+                Debug.Log($"[CameraFollowFix.ValidateCurrentTarget] Camera targets restored.");
+            }
+        }
     }
 
     private IEnumerator SnapCameraForFrames(Transform target, int frames)
