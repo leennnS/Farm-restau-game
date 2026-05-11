@@ -11337,6 +11337,13 @@ MonoBehaviour:
     description: 
     available: 1
     itemDefinition: {fileID: 11400000, guid: 31dda1c7065110d429a83744ba6cbcda, type: 2}
+  - itemName: Egg
+    icon: {fileID: -5144238022852969543, guid: 1f106768460f4e94c80e52bcbbf081dd, type: 3}
+    price: 5
+    quantity: 5
+    description: 
+    available: 1
+    itemDefinition: {fileID: 11400000, guid: b195f71b30c9b3b4e9b5efd4ee78a405, type: 2}
   treeSeedsEntries:
   - itemName: Apple tree seeds
     icon: {fileID: -1257518098505440576, guid: c4557cba60ffb6d43835613eb998dcc8, type: 3}

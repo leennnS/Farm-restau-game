@@ -9709,6 +9709,7 @@ MonoBehaviour:
   npcExitPoint: {fileID: 1804683395}
   respawnDelaySeconds: 30
   spawnFirstNpcImmediately: 1
+  firstNpcSpawnDelaySeconds: 5
   runOnlyInRestaurantScene: 1
   restaurantSceneName: RestaurantScene
   assignOrdersToAllWaitingCustomers: 1
@@ -11714,7 +11715,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Doors1h
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6488078664478164485, guid: 496ae9df53010974499a895027592929, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:

@@ -3178,48 +3178,94 @@ public class InventoryController : MonoBehaviour
         if (sceneName.IndexOf("restaurant", StringComparison.OrdinalIgnoreCase) < 0)
             return;
 
-        // If Bakery/Desserts already has data, nothing to repair.
-        if (HasRecipeCategory(RecipeCategory.BakeryDesserts))
+        // Always merge the known recipe sources so a partial serialized list can be completed.
+        LoadAllRecipesIfNeeded();
+
+        _restaurantRecipeAutoLoadAttempted = true;
+    }
+
+    private void LoadAllRecipesIfNeeded()
+    {
+        List<RecipeDefinition> merged = new List<RecipeDefinition>();
+        HashSet<RecipeDefinition> seen = new HashSet<RecipeDefinition>();
+
+        // If recipes were already serialized, use them
+        if (recipes != null)
         {
-            _restaurantRecipeAutoLoadAttempted = true;
-            return;
+            for (int i = 0; i < recipes.Length; i++)
+            {
+                RecipeDefinition existing = recipes[i];
+                if (existing == null || !seen.Add(existing))
+                    continue;
+
+                merged.Add(existing);
+            }
+        }
+
+        // Try to load recipes from Resources folder (works in both Editor and Build)
+        try
+        {
+            RecipeDefinition[] resourceRecipes = Resources.LoadAll<RecipeDefinition>("Items/RecipeDefinition");
+            if (resourceRecipes != null && resourceRecipes.Length > 0)
+            {
+                Debug.Log($"[InventoryController] Loaded {resourceRecipes.Length} recipes from Resources/Items/RecipeDefinition");
+                for (int i = 0; i < resourceRecipes.Length; i++)
+                {
+                    RecipeDefinition found = resourceRecipes[i];
+                    if (found == null || !seen.Add(found))
+                        continue;
+
+                    merged.Add(found);
+                }
+            }
+            else
+            {
+                Debug.LogWarning("[InventoryController] No recipes found in Resources/Items/RecipeDefinition folder");
+            }
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogError($"[InventoryController] Error loading recipes from Resources: {ex.Message}");
         }
 
 #if UNITY_EDITOR
-        string[] recipeGuids = UnityEditor.AssetDatabase.FindAssets("t:RecipeDefinition", new[] { "Assets/Items/RecipeDefinition" });
-        if (recipeGuids != null && recipeGuids.Length > 0)
+        // Additional editor-time validation: if no recipes loaded from Resources, search Assets folder
+        if (merged.Count == 0)
         {
-            List<RecipeDefinition> merged = new List<RecipeDefinition>(recipeGuids.Length + (recipes != null ? recipes.Length : 0));
-            HashSet<RecipeDefinition> seen = new HashSet<RecipeDefinition>();
-
-            if (recipes != null)
+            try
             {
-                for (int i = 0; i < recipes.Length; i++)
+                string[] recipeGuids = UnityEditor.AssetDatabase.FindAssets("t:RecipeDefinition", new[] { "Assets/Items/RecipeDefinition" });
+                if (recipeGuids != null && recipeGuids.Length > 0)
                 {
-                    RecipeDefinition existing = recipes[i];
-                    if (existing == null || !seen.Add(existing))
-                        continue;
+                    Debug.Log($"[InventoryController] Found {recipeGuids.Length} recipes in Assets/Items/RecipeDefinition (editor only)");
+                    for (int i = 0; i < recipeGuids.Length; i++)
+                    {
+                        string path = UnityEditor.AssetDatabase.GUIDToAssetPath(recipeGuids[i]);
+                        RecipeDefinition found = UnityEditor.AssetDatabase.LoadAssetAtPath<RecipeDefinition>(path);
+                        if (found == null || !seen.Add(found))
+                            continue;
 
-                    merged.Add(existing);
+                        merged.Add(found);
+                    }
                 }
             }
-
-            for (int i = 0; i < recipeGuids.Length; i++)
+            catch (System.Exception ex)
             {
-                string path = UnityEditor.AssetDatabase.GUIDToAssetPath(recipeGuids[i]);
-                RecipeDefinition found = UnityEditor.AssetDatabase.LoadAssetAtPath<RecipeDefinition>(path);
-                if (found == null || !seen.Add(found))
-                    continue;
-
-                merged.Add(found);
+                Debug.LogWarning($"[InventoryController] Failed to load recipes from Assets folder: {ex.Message}");
             }
-
-            recipes = merged.ToArray();
-            RebuildItemLookupFromKnownItems();
         }
 #endif
 
-        _restaurantRecipeAutoLoadAttempted = true;
+        if (merged.Count > 0)
+        {
+            recipes = merged.ToArray();
+            Debug.Log($"[InventoryController] Total recipes loaded: {recipes.Length}");
+            RebuildItemLookupFromKnownItems();
+        }
+        else
+        {
+            Debug.LogError("[InventoryController] No recipes found! Recipes must be in Resources/Items/RecipeDefinition folder for builds to work. For editor, ensure Assets/Items/RecipeDefinition contains recipes.");
+        }
     }
 
     private bool HasRecipeCategory(RecipeCategory category)
