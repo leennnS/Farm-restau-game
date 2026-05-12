@@ -50,15 +50,7 @@ public class BoatInteraction : MonoBehaviour
         }
 
         if (playerTransform == null)
-        {
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
-            if (player != null)
-            {
-                playerTransform = player.transform;
-                playerController = player.GetComponent<CharacterController2D>();
-                playerRigidbody = player.GetComponent<Rigidbody2D>();
-            }
-        }
+            TryResolvePlayer();
     }
 
     private void Update()
@@ -124,6 +116,8 @@ public class BoatInteraction : MonoBehaviour
                     Debug.Log("[Boat] No keys pressed, boat stopped");
                 }
             }
+
+            UpdateBoardedPlayerPosition();
         }
 
         // Handle E key press
@@ -144,13 +138,16 @@ public class BoatInteraction : MonoBehaviour
 
     private void TryResolvePlayer()
     {
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player != null)
-        {
-            playerTransform = player.transform;
-            playerController = player.GetComponent<CharacterController2D>();
-            playerRigidbody = player.GetComponent<Rigidbody2D>();
-        }
+        GameObject player = PlayerSetupPipeline.FindPlayerInLoadedScenes();
+        if (player == null)
+            player = GameObject.FindGameObjectWithTag("Player");
+
+        if (player == null)
+            return;
+
+        playerTransform = player.transform;
+        playerController = player.GetComponent<CharacterController2D>();
+        playerRigidbody = player.GetComponent<Rigidbody2D>();
     }
 
     private void BoardPlayer()
@@ -163,10 +160,9 @@ public class BoatInteraction : MonoBehaviour
         // Store original scale before parenting
         playerOriginalLocalScale = playerTransform.localScale;
 
-        // Parent player to boat (move to boat's center)
-        playerTransform.SetParent(transform);
-        playerTransform.localPosition = playerBoatOffset; // Use configurable offset
-        playerTransform.localRotation = Quaternion.identity;
+        // Keep player in DontDestroyOnLoad by not parenting to the boat
+        PlayerSetupPipeline.PreparePlayerForSceneChange();
+        playerTransform.position = transform.position + playerBoatOffset;
 
         // Disable player movement controls
         if (playerController != null)
@@ -193,9 +189,9 @@ public class BoatInteraction : MonoBehaviour
 
         playerIsOnBoat = false;
 
-        // Unparent player from boat
-        playerTransform.SetParent(null);
         playerTransform.localScale = playerOriginalLocalScale;
+
+        PlayerSetupPipeline.PreparePlayerForSceneChange();
 
         // Re-enable player movement controls
         if (playerController != null)
@@ -216,6 +212,14 @@ public class BoatInteraction : MonoBehaviour
         PlayInteractionSound(disembarkSound);
         if (toastUI != null)
             toastUI.Show(boardPrompt);
+    }
+
+    private void UpdateBoardedPlayerPosition()
+    {
+        if (playerTransform == null)
+            return;
+
+        playerTransform.position = transform.position + playerBoatOffset;
     }
 
     private void SetupInteractionAudioSource()

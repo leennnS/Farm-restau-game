@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public static class MarketSpawnManager
 {
@@ -14,26 +15,44 @@ public static class MarketSpawnManager
         if (scene.name != "MarketScene")
             return;
 
-        // Find existing player
-        var player = GameObject.FindWithTag("Player");
-        if (player == null)
+        GameObject runner = new GameObject("_MarketSpawnRunner");
+        MarketSpawnRunner spawnRunner = runner.AddComponent<MarketSpawnRunner>();
+        spawnRunner.StartSpawn();
+    }
+
+    private class MarketSpawnRunner : MonoBehaviour
+    {
+        internal void StartSpawn()
         {
-            Debug.LogError("[MarketSpawnManager] Player not found!");
-            return;
+            StartCoroutine(RunSpawn());
         }
 
-        // Find spawn point
-        GameObject spawn = GameObject.Find("MarketSpawnPoint");
-        if (spawn == null)
+        private IEnumerator RunSpawn()
         {
-            Debug.LogError("[MarketSpawnManager] MarketSpawnPoint not found in scene!");
-            return;
+            yield return null;
+            yield return PlayerSetupPipeline.WaitForPlayerSetup(5f);
+
+            GameObject player = PlayerSetupPipeline.GetPlayer();
+            if (player == null)
+                player = PlayerSetupPipeline.FindPlayerInLoadedScenes();
+
+            if (player == null)
+            {
+                Destroy(gameObject);
+                yield break;
+            }
+
+            GameObject spawn = GameObject.Find("MarketSpawnPoint");
+            if (spawn == null)
+            {
+                Destroy(gameObject);
+                yield break;
+            }
+
+            player.transform.position = spawn.transform.position;
+            CameraFollowFix.RebindAllCamerasTo(player.transform);
+
+            Destroy(gameObject);
         }
-
-        // Move player to spawn point
-        player.transform.position = spawn.transform.position;
-        CameraFollowFix.RebindAllCamerasTo(player.transform);
-
-        Debug.Log($"[MarketSpawnManager] Player moved to {spawn.transform.position}");
     }
 }

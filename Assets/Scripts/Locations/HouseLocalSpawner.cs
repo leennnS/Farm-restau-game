@@ -9,26 +9,32 @@ using System.Collections;
 public class HouseLocalSpawner : MonoBehaviour
 {
     [SerializeField] private Transform spawnPoint;
-    [SerializeField, Min(1)] private int enforceFrames = 45;
 
     private void Awake()
     {
-        Debug.Log("HouseLocalSpawner: Awake called in House scene");
-        MovePlayerToSpawn(true);
+        Debug.Log("[HouseLocalSpawner] Awake called in House scene");
+        // Spawn immediately - player should already exist
+        StartCoroutine(DoSpawn());
     }
 
-    private void Start()
+    private IEnumerator DoSpawn()
     {
-        StartCoroutine(EnforceHouseSpawnForFrames());
-    }
+        // Give one frame for scene to fully load
+        yield return null;
 
-    private void MovePlayerToSpawn(bool logMove)
-    {
+        // Try to find player via tag first, then component
         GameObject player = GameObject.FindWithTag("Player");
         if (player == null)
         {
-            Debug.LogWarning("HouseLocalSpawner: Could not find player with 'Player' tag.");
-            return;
+            CharacterController2D playerCtrl = FindFirstObjectByType<CharacterController2D>();
+            if (playerCtrl != null)
+                player = playerCtrl.gameObject;
+        }
+
+        if (player == null)
+        {
+            Debug.LogWarning("[HouseLocalSpawner] Player not found");
+            yield break;
         }
 
         if (spawnPoint == null)
@@ -41,23 +47,13 @@ public class HouseLocalSpawner : MonoBehaviour
 
         if (spawnPoint == null)
         {
-            Debug.LogWarning("HouseLocalSpawner: No spawn point assigned and could not find 'HouseSpawnPoint' by name.");
-            return;
+            Debug.LogWarning("[HouseLocalSpawner] No spawn point assigned and could not find 'HouseSpawnPoint' by name");
+            yield break;
         }
 
         // Move player to spawn point
         player.transform.position = spawnPoint.position;
         CameraFollowFix.RebindAllCamerasTo(player.transform);
-        if (logMove)
-            Debug.Log($"HouseLocalSpawner: Moved player to {spawnPoint.position}");
-    }
-
-    private IEnumerator EnforceHouseSpawnForFrames()
-    {
-        for (int i = 0; i < enforceFrames; i++)
-        {
-            MovePlayerToSpawn(false);
-            yield return null;
-        }
+        Debug.Log($"[HouseLocalSpawner] Moved player to {spawnPoint.position}");
     }
 }

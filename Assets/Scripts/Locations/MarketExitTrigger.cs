@@ -138,6 +138,7 @@ public class MarketExitTrigger : MonoBehaviour
         PlayerPrefs.Save();
 
         MarketReturnContext.PendingReturnToFarm = true;
+        PlayerSetupPipeline.PreparePlayerForSceneChange();
         SceneManager.LoadScene(targetSceneName);
     }
 

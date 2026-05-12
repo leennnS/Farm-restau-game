@@ -17,10 +17,7 @@ public class CameraFollowFix : MonoBehaviour
     [Header("Scene Lens")]
     [SerializeField] private string marketSceneName = "MarketScene";
     [SerializeField] private float marketOrthographicSize = 10f;
-    [SerializeField] private string restaurantSceneName = "RestaurantScene";
-    [SerializeField] private float restaurantOrthographicSize = 9f;
     [SerializeField] private string houseSceneName = "HouseInteriorLITEDEMO";
-    [SerializeField] private float houseOrthographicSize = 5f;
 
     [Header("Farm Map Zoom")]
     [SerializeField] private string farmSceneName = "FarmScene";
@@ -34,7 +31,7 @@ public class CameraFollowFix : MonoBehaviour
     [SerializeField] private float playerMarkerScreenSize = 34f;
     [SerializeField] private bool showMapKeyHint = true;
     [SerializeField] private Vector3 mapTilemapCullingBounds = new Vector3(8f, 8f, 8f);
-    [SerializeField, Min(1)] private int transitionSnapFrames = 45;
+    [SerializeField, Min(1)] private int transitionSnapFrames = 12;
 
     private float originalOrthographicSize;
     private bool originalOrthographicSizeCaptured;
@@ -54,7 +51,7 @@ public class CameraFollowFix : MonoBehaviour
 
     void Awake()
     {
-        if (instance != null && instance != this && instance.gameObject.scene == gameObject.scene)
+        if (instance != null && instance != this)
         {
             GameObject duplicateRoot = transform.root.gameObject;
             ClearEditorSelectionIfNeeded(duplicateRoot);
@@ -72,6 +69,8 @@ public class CameraFollowFix : MonoBehaviour
             sceneOrthographicSize = originalOrthographicSize;
             originalOrthographicSizeCaptured = true;
         }
+
+        DontDestroyOnLoad(transform.root.gameObject); // persist whole camera rig
     }
 
     void OnEnable()
@@ -85,9 +84,6 @@ public class CameraFollowFix : MonoBehaviour
         RestoreTilemapCullingBounds();
         SetHotbarSuppressed(false);
         SetPlayerMovementLocked(false);
-
-        if (instance == this)
-            instance = null;
     }
 
     void Update()
@@ -174,10 +170,8 @@ public class CameraFollowFix : MonoBehaviour
         float targetOrthographicSize = originalOrthographicSize;
         if (sceneName == marketSceneName)
             targetOrthographicSize = marketOrthographicSize;
-        else if (sceneName == restaurantSceneName)
-            targetOrthographicSize = restaurantOrthographicSize;
         else if (sceneName == houseSceneName)
-            targetOrthographicSize = houseOrthographicSize;
+            targetOrthographicSize = 5f;
 
         sceneOrthographicSize = targetOrthographicSize;
 
@@ -198,13 +192,18 @@ public class CameraFollowFix : MonoBehaviour
 
     IEnumerator AssignPlayer()
     {
-        GameObject player = null;
+        // Wait for player setup pipeline to complete
+        yield return StartCoroutine(PlayerSetupPipeline.WaitForPlayerSetup(5f));
 
-        // Keep trying until the persistent player has survived or been spawned into the new scene.
-        while (player == null)
+        GameObject player = PlayerSetupPipeline.GetPlayer();
+        if (player == null)
+            player = PlayerSetupPipeline.FindPlayerInLoadedScenes();
+
+        if (player == null)
         {
-            player = GameObject.FindGameObjectWithTag("Player");
-            yield return null; // wait next frame
+            Debug.LogError("[CameraFollowFix] Player not found after waiting for setup pipeline");
+            assignPlayerRoutine = null;
+            yield break;
         }
 
         AssignTargetNow(player.transform, true);
@@ -245,7 +244,6 @@ public class CameraFollowFix : MonoBehaviour
 
             cineCams[i].Target.TrackingTarget = target;
             cineCams[i].Follow = target;
-            ResetCinemachineState(cineCams[i], target.position);
         }
 
         CameraFollowFix followFix = instance != null ? instance : Object.FindFirstObjectByType<CameraFollowFix>();
@@ -265,7 +263,6 @@ public class CameraFollowFix : MonoBehaviour
             Vector3 p = target.position;
             Vector3 c = cam.transform.position;
             cam.transform.position = new Vector3(p.x, p.y, c.z);
-            ResetCinemachineState(cam, target.position);
         }
 
         SnapMainCameraTo(target);
@@ -291,7 +288,6 @@ public class CameraFollowFix : MonoBehaviour
                 Vector3 p = target.position;
                 Vector3 c = cam.transform.position;
                 cam.transform.position = new Vector3(p.x, p.y, c.z);
-                ResetCinemachineState(cam, target.position);
             }
 
             SnapMainCameraTo(target);
@@ -306,40 +302,51 @@ public class CameraFollowFix : MonoBehaviour
         if (target == null)
             return;
 
-        UnityEngine.Camera mainCamera = EnsureSceneCamera();
-        if (mainCamera == null)
-        {
-            Debug.LogError($"[CameraFollowFix] No active MainCamera found in scene '{SceneManager.GetActiveScene().name}'. Add the camera prefab to this scene.");
-            return;
-        }
+        UnityEngine.Camera mainCamera = EnsureMainCamera(target.position);
 
         Vector3 p = target.position;
         Vector3 c = mainCamera.transform.position;
         mainCamera.transform.position = new Vector3(p.x, p.y, c.z);
+
+        RuntimeFallbackCameraFollow fallbackFollow = mainCamera.GetComponent<RuntimeFallbackCameraFollow>();
+        if (fallbackFollow != null)
+            fallbackFollow.SetTarget(target);
     }
 
-    private static void ResetCinemachineState(CinemachineCamera cineCam, Vector3 targetPosition)
+    private static UnityEngine.Camera EnsureMainCamera(Vector3 targetPosition)
     {
-        if (cineCam == null)
-            return;
-
-        Vector3 cameraPosition = cineCam.transform.position;
-        Vector3 snappedPosition = new Vector3(targetPosition.x, targetPosition.y, cameraPosition.z);
-
-        cineCam.PreviousStateIsValid = false;
-        cineCam.transform.position = snappedPosition;
-        cineCam.ForceCameraPosition(snappedPosition, cineCam.transform.rotation);
-        cineCam.PreviousStateIsValid = false;
-    }
-
-    public static UnityEngine.Camera EnsureSceneCamera()
-    {
-        Scene activeScene = SceneManager.GetActiveScene();
         UnityEngine.Camera mainCamera = UnityEngine.Camera.main;
-        if (mainCamera != null && mainCamera.gameObject.scene == activeScene && mainCamera.enabled && mainCamera.gameObject.activeInHierarchy)
+        if (mainCamera != null)
             return mainCamera;
 
-        return null;
+        GameObject cameraObject = new GameObject("Runtime Main Camera");
+        cameraObject.tag = "MainCamera";
+        cameraObject.transform.position = new Vector3(targetPosition.x, targetPosition.y, -10f);
+
+        mainCamera = cameraObject.AddComponent<UnityEngine.Camera>();
+        mainCamera.orthographic = true;
+        mainCamera.orthographicSize = GetFallbackOrthographicSizeForActiveScene();
+        mainCamera.clearFlags = CameraClearFlags.SolidColor;
+        mainCamera.backgroundColor = new Color(0.011f, 0.011f, 0.011f, 0f);
+        cameraObject.AddComponent<RuntimeFallbackCameraFollow>();
+
+        if (Object.FindFirstObjectByType<AudioListener>() == null)
+            cameraObject.AddComponent<AudioListener>();
+
+        Object.DontDestroyOnLoad(cameraObject);
+        return mainCamera;
+    }
+
+    private static float GetFallbackOrthographicSizeForActiveScene()
+    {
+        string sceneName = SceneManager.GetActiveScene().name;
+        if (sceneName == "MarketScene")
+            return 10f;
+
+        if (sceneName == "HouseInteriorLITEDEMO")
+            return 5f;
+
+        return 5f;
     }
 
     private void UpdateLensZoom()
@@ -373,7 +380,6 @@ public class CameraFollowFix : MonoBehaviour
             RestoreTilemapCullingBounds();
             cam.Target.TrackingTarget = currentTarget;
             cam.Follow = currentTarget;
-            SnapCameraToTarget(currentTarget);
         }
 
         if (!mapViewActive && playerMarker != null)
@@ -433,15 +439,6 @@ public class CameraFollowFix : MonoBehaviour
 
         cam.Target.TrackingTarget = mapViewTarget;
         cam.Follow = mapViewTarget;
-        ResetCinemachineState(cam, mapViewTarget.position);
-
-        UnityEngine.Camera mainCamera = UnityEngine.Camera.main;
-        if (mainCamera != null)
-        {
-            Vector3 p = mapViewTarget.position;
-            Vector3 c = mainCamera.transform.position;
-            mainCamera.transform.position = new Vector3(p.x, p.y, c.z);
-        }
     }
 
     private void EnsureMapViewTarget()
@@ -460,30 +457,31 @@ public class CameraFollowFix : MonoBehaviour
         bool hasBounds = false;
         bounds = default;
 
-        Tilemap[] visibleTilemaps = FindObjectsByType<Tilemap>(FindObjectsSortMode.None);
-        foreach (Tilemap tilemap in visibleTilemaps)
+        FarmingManager farmingManager = FindFirstObjectByType<FarmingManager>();
+        if (farmingManager != null)
         {
-            if (!IsFarmMapTilemap(tilemap))
-                continue;
+            hasBounds |= EncapsulateTilemapBounds(farmingManager.GroundTilemap, ref bounds, hasBounds);
+            hasBounds |= EncapsulateTilemapBounds(farmingManager.CropTilemap, ref bounds, hasBounds);
+        }
 
-            hasBounds |= EncapsulateTilemapBounds(tilemap, ref bounds, hasBounds);
+        if (!hasBounds)
+        {
+            hasBounds |= EncapsulateTilemapBounds(FindTilemapByName("GroundTilemap"), ref bounds, hasBounds);
+            hasBounds |= EncapsulateTilemapBounds(FindTilemapByName("CropTilemap"), ref bounds, hasBounds);
+        }
+
+        if (!hasBounds)
+        {
+            Tilemap[] visibleTilemaps = FindObjectsByType<Tilemap>(FindObjectsSortMode.None);
+            foreach (Tilemap tilemap in visibleTilemaps)
+            {
+                string lowerName = tilemap.name.ToLowerInvariant();
+                if ((lowerName.Contains("ground") || lowerName.Contains("crop") || lowerName.Contains("soil") || lowerName.Contains("path")) && IsVisibleTilemap(tilemap))
+                    hasBounds |= EncapsulateTilemapBounds(tilemap, ref bounds, hasBounds);
+            }
         }
 
         return hasBounds;
-    }
-
-    private bool IsFarmMapTilemap(Tilemap tilemap)
-    {
-        if (!IsVisibleTilemap(tilemap))
-            return false;
-
-        string lowerName = tilemap.name.ToLowerInvariant();
-        return lowerName == "tilemap"
-            || lowerName.Contains("ground")
-            || lowerName.Contains("crop")
-            || lowerName.Contains("soil")
-            || lowerName.Contains("path")
-            || lowerName.Contains("road");
     }
 
     private bool IsVisibleTilemap(Tilemap tilemap)
@@ -495,19 +493,24 @@ public class CameraFollowFix : MonoBehaviour
         return renderer != null && renderer.enabled;
     }
 
+    private Tilemap FindTilemapByName(string tilemapName)
+    {
+        GameObject tilemapObject = GameObject.Find(tilemapName);
+        if (tilemapObject != null && tilemapObject.TryGetComponent(out Tilemap tilemap))
+            return tilemap;
+
+        return null;
+    }
+
     private bool EncapsulateTilemapBounds(Tilemap tilemap, ref Bounds combinedBounds, bool hasBounds)
     {
-        if (tilemap == null)
+        if (tilemap == null || tilemap.localBounds.size == Vector3.zero)
             return false;
 
-        tilemap.CompressBounds();
-        if (tilemap.cellBounds.size == Vector3Int.zero)
-            return false;
-
-        BoundsInt cellBounds = tilemap.cellBounds;
-        Vector3 min = tilemap.GetCellCenterWorld(cellBounds.min);
-        Vector3 max = tilemap.GetCellCenterWorld(cellBounds.max - Vector3Int.one);
-        Bounds worldBounds = new Bounds((min + max) * 0.5f, new Vector3(Mathf.Abs(max.x - min.x) + 1f, Mathf.Abs(max.y - min.y) + 1f, 1f));
+        Bounds localBounds = tilemap.localBounds;
+        Vector3 min = tilemap.transform.TransformPoint(localBounds.min);
+        Vector3 max = tilemap.transform.TransformPoint(localBounds.max);
+        Bounds worldBounds = new Bounds((min + max) * 0.5f, new Vector3(Mathf.Abs(max.x - min.x), Mathf.Abs(max.y - min.y), Mathf.Abs(max.z - min.z)));
 
         if (hasBounds)
             combinedBounds.Encapsulate(worldBounds);
@@ -672,5 +675,32 @@ public class CameraFollowFix : MonoBehaviour
             this.renderer = renderer;
             this.chunkCullingBounds = chunkCullingBounds;
         }
+    }
+}
+
+[DisallowMultipleComponent]
+public class RuntimeFallbackCameraFollow : MonoBehaviour
+{
+    private Transform target;
+
+    public void SetTarget(Transform newTarget)
+    {
+        target = newTarget;
+        SnapNow();
+    }
+
+    private void LateUpdate()
+    {
+        SnapNow();
+    }
+
+    private void SnapNow()
+    {
+        if (target == null)
+            return;
+
+        Vector3 p = target.position;
+        Vector3 c = transform.position;
+        transform.position = new Vector3(p.x, p.y, c.z);
     }
 }

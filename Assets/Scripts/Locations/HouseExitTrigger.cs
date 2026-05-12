@@ -96,6 +96,7 @@ public class HouseExitTrigger : MonoBehaviour
 
         PendingReturnToFarm = true;
         // Load target scene
+        PlayerSetupPipeline.PreparePlayerForSceneChange();
         SceneManager.LoadScene(targetSceneName);
     }
 
