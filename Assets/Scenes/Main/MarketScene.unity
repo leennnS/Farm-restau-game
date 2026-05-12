@@ -11100,7 +11100,7 @@ MonoBehaviour:
     quantity: 1
     description: 
     available: 1
-    itemDefinition: {fileID: 11400000, guid: 590c1cdd907e9e342bb2118c2c3f4dd1, type: 2}
+    itemDefinition: {fileID: 11400000, guid: db6fcca0edde7634a9d7b1815ec2ffbc, type: 2}
   fruitsVegetablesEntries:
   - itemName: Banana
     icon: {fileID: 21300000, guid: 50e0347d981414d189ff77217bc6e69c, type: 3}

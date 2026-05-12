@@ -22,6 +22,8 @@ public class DontDestroyOnLoad : MonoBehaviour
         instance = this;
         DontDestroyOnLoad(gameObject);
 
+        Debug.Log($"[DontDestroyOnLoad] Awake - Attached to '{gameObject.name}' in scene '{gameObject.scene.name}'");
+
         // Store the player's original scale
         originalScale = transform.localScale;
     }

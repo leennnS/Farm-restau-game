@@ -60,6 +60,7 @@ public class EnterBuildingTrigger2D : MonoBehaviour
         {
             Debug.Log($"[EnterBuildingTrigger2D] Delay complete. Loading scene: {sceneName}");
         }
+        PlayerSetupPipeline.PreparePlayerForSceneChange();
         SceneManager.LoadScene(sceneName);
     }
 

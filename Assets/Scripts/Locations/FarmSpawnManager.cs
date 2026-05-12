@@ -1,12 +1,15 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Unity.Cinemachine;
+using System.Collections;
 
 /// <summary>
-/// Ensures player is correctly restored after leaving MarketScene.
-/// This runs only when MarketReturnContext.PendingReturnToFarm is set by MarketExitTrigger.
+/// Ensures player is correctly restored after leaving MarketScene/RestaurantScene/HouseInteriorLITEDEMO.
+/// This runs only when return contexts are set by exit triggers.
+/// 
+/// Now uses PlayerSetupPipeline to ensure player exists before attempting to configure it.
 /// </summary>
-public static class FarmSpawnManager
+public class FarmSpawnManager : MonoBehaviour
 {
     private const string ReturnToFarmFromKey = "ReturnToFarmFrom";
     private const string SkipSpawnManagerOnceKey = "SkipSpawnManagerOnce";
@@ -66,74 +69,100 @@ public static class FarmSpawnManager
         PlayerPrefs.DeleteKey(ReturnToFarmFromKey);
         PlayerPrefs.Save();
 
-        GameObject player = GameObject.FindWithTag("Player");
-        if (player == null)
-        {
-            Debug.LogWarning($"[FarmSpawnManager] Player not found in scene '{scene.name}'.");
-            return;
-        }
-
-        GameObject spawn = null;
-        if (fromRestaurant)
-        {
-            spawn = GameObject.Find("SpawnPointResto");
-        }
-        else if (fromHouse)
-        {
-            spawn = GameObject.Find("HouseReturnSpawnPoint");
-            if (spawn == null)
-            {
-                SpawnPoint sp = Object.FindFirstObjectByType<SpawnPoint>();
-                if (sp != null) spawn = sp.gameObject;
-            }
-        }
-        else
-        {
-            // Prefer explicit return spawn markers, then fallback to generic SpawnPoint behavior.
-            spawn = GameObject.Find("FarmReturnSpawnPoint");
-            if (spawn == null) spawn = GameObject.Find("FarmSpawnPoint");
-            if (spawn == null)
-            {
-                SpawnPoint sp = Object.FindFirstObjectByType<SpawnPoint>();
-                if (sp != null) spawn = sp.gameObject;
-            }
-        }
-
-        if (spawn != null)
-        {
-            player.transform.position = spawn.transform.position;
-        }
-
-        // Interior-only limiter can trap player in open farm maps if carried over.
-        PlayerMovementConstraint limiter = player.GetComponent<PlayerMovementConstraint>();
-        if (limiter != null)
-            Object.Destroy(limiter);
-
-        Rigidbody2D rb = player.GetComponent<Rigidbody2D>();
-        if (rb != null)
-        {
-            rb.linearVelocity = Vector2.zero;
-            rb.angularVelocity = 0f;
-
-            // Keep only rotation lock, clear other frozen axes that can cause "can't move".
-            rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-            rb.simulated = true;
-        }
-
-        // Ensure renderers are enabled if some scene scripts disabled them.
-        SpriteRenderer[] renderers = player.GetComponentsInChildren<SpriteRenderer>(true);
-        for (int i = 0; i < renderers.Length; i++)
-            renderers[i].enabled = true;
-
-        // Ensure movement controller is enabled.
-        CharacterController2D controller = player.GetComponent<CharacterController2D>();
-        if (controller != null)
-            controller.enabled = true;
-
-        CameraFollowFix.RebindAllCamerasTo(player.transform);
-
-        string sourceName = fromRestaurant ? "Restaurant" : fromHouse ? "House" : "Market";
-        Debug.Log($"[FarmSpawnManager] Restored return from {sourceName} in scene '{scene.name}' at {player.transform.position} scale={player.transform.localScale}");
+        // Create a temporary runner to execute the spawn coroutine
+        GameObject runner = new GameObject("_FarmSpawnRunner");
+        FarmSpawnRunner spawnRunner = runner.AddComponent<FarmSpawnRunner>();
+        spawnRunner.StartSpawn(fromMarket, fromRestaurant, fromHouse, scene.name);
     }
 
+    private class FarmSpawnRunner : MonoBehaviour
+    {
+        internal void StartSpawn(bool fromMarket, bool fromRestaurant, bool fromHouse, string sceneName)
+        {
+            StartCoroutine(RunSpawn(fromMarket, fromRestaurant, fromHouse, sceneName));
+        }
+
+        private IEnumerator RunSpawn(bool fromMarket, bool fromRestaurant, bool fromHouse, string sceneName)
+        {
+            // Give one frame for scene to fully load
+            yield return null;
+
+            yield return PlayerSetupPipeline.WaitForPlayerSetup(5f);
+
+            GameObject player = PlayerSetupPipeline.GetPlayer();
+            if (player == null)
+                player = PlayerSetupPipeline.FindPlayerInLoadedScenes();
+
+            if (player == null)
+            {
+                Debug.LogWarning($"[FarmSpawnManager] Player not found in scene '{sceneName}'");
+                Destroy(gameObject);
+                yield break;
+            }
+
+            GameObject spawn = null;
+            if (fromRestaurant)
+            {
+                spawn = GameObject.Find("SpawnPointResto");
+            }
+            else if (fromHouse)
+            {
+                spawn = GameObject.Find("HouseReturnSpawnPoint");
+                if (spawn == null)
+                {
+                    SpawnPoint sp = Object.FindFirstObjectByType<SpawnPoint>();
+                    if (sp != null) spawn = sp.gameObject;
+                }
+            }
+            else
+            {
+                // Prefer explicit return spawn markers, then fallback to generic SpawnPoint behavior.
+                spawn = GameObject.Find("FarmReturnSpawnPoint");
+                if (spawn == null) spawn = GameObject.Find("FarmSpawnPoint");
+                if (spawn == null)
+                {
+                    SpawnPoint sp = Object.FindFirstObjectByType<SpawnPoint>();
+                    if (sp != null) spawn = sp.gameObject;
+                }
+            }
+
+            if (spawn != null)
+            {
+                player.transform.position = spawn.transform.position;
+            }
+
+            // Interior-only limiter can trap player in open farm maps if carried over.
+            PlayerMovementConstraint limiter = player.GetComponent<PlayerMovementConstraint>();
+            if (limiter != null)
+                Object.Destroy(limiter);
+
+            Rigidbody2D rb = player.GetComponent<Rigidbody2D>();
+            if (rb != null)
+            {
+                rb.linearVelocity = Vector2.zero;
+                rb.angularVelocity = 0f;
+
+                // Keep only rotation lock, clear other frozen axes that can cause "can't move".
+                rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+                rb.simulated = true;
+            }
+
+            // Ensure renderers are enabled if some scene scripts disabled them.
+            SpriteRenderer[] renderers = player.GetComponentsInChildren<SpriteRenderer>(true);
+            for (int i = 0; i < renderers.Length; i++)
+                renderers[i].enabled = true;
+
+            // Ensure movement controller is enabled.
+            CharacterController2D controller = player.GetComponent<CharacterController2D>();
+            if (controller != null)
+                controller.enabled = true;
+
+            CameraFollowFix.RebindAllCamerasTo(player.transform);
+
+            string sourceName = fromRestaurant ? "Restaurant" : fromHouse ? "House" : "Market";
+            Debug.Log($"[FarmSpawnManager] Restored return from {sourceName} in scene '{sceneName}' at {player.transform.position} scale={player.transform.localScale}");
+
+            Destroy(gameObject);
+        }
+    }
 }

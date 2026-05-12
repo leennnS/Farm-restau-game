@@ -28,6 +28,8 @@ public class LakeFishingTrigger : MonoBehaviour
 
     private bool playerInZone = false;
     private bool fishingActive = false;
+    private GameObject cachedPlayer;
+    private CharacterController2D cachedController;
 
     private void Start()
     {
@@ -185,6 +187,18 @@ public class LakeFishingTrigger : MonoBehaviour
         DebugLog("Starting fishing session!");
         fishingActive = true;
 
+        cachedPlayer = PlayerSetupPipeline.FindPlayerInLoadedScenes();
+        if (cachedPlayer == null)
+            cachedPlayer = GameObject.FindWithTag(playerTag);
+
+        if (cachedPlayer != null)
+        {
+            PlayerSetupPipeline.PreparePlayerForSceneChange();
+            cachedController = cachedPlayer.GetComponent<CharacterController2D>();
+            if (cachedController != null)
+                cachedController.SetMovementLocked(true);
+        }
+
         // Hide the prompt
         HidePrompt();
 
@@ -210,6 +224,18 @@ public class LakeFishingTrigger : MonoBehaviour
 
         fishingActive = false;
         DebugLog("Fishing session ended. Ready for next session.");
+
+        if (cachedController != null)
+            cachedController.SetMovementLocked(false);
+
+        if (cachedPlayer != null)
+        {
+            PlayerSetupPipeline.PreparePlayerForSceneChange();
+            CameraFollowFix.RebindAllCamerasTo(cachedPlayer.transform);
+        }
+
+        cachedController = null;
+        cachedPlayer = null;
 
         // Show prompt again if player still in zone
         if (playerInZone)

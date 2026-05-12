@@ -20,6 +20,13 @@ public class CharacterController2D : MonoBehaviour
     public bool moving;
     private bool movementLocked;
 
+    void Awake()
+    {
+        // Ensure player persists across scene transitions
+        DontDestroyOnLoad(gameObject);
+        Debug.Log($"[CharacterController2D] Awake - Player '{gameObject.name}' in scene '{gameObject.scene.name}'. DontDestroyOnLoad set.");
+    }
+
     void Start()
     {
         if (speed < MinimumRuntimeSpeed)

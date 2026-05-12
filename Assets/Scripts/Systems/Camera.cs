@@ -192,13 +192,18 @@ public class CameraFollowFix : MonoBehaviour
 
     IEnumerator AssignPlayer()
     {
-        GameObject player = null;
+        // Wait for player setup pipeline to complete
+        yield return StartCoroutine(PlayerSetupPipeline.WaitForPlayerSetup(5f));
 
-        // Keep trying until the persistent player has survived or been spawned into the new scene.
-        while (player == null)
+        GameObject player = PlayerSetupPipeline.GetPlayer();
+        if (player == null)
+            player = PlayerSetupPipeline.FindPlayerInLoadedScenes();
+
+        if (player == null)
         {
-            player = GameObject.FindGameObjectWithTag("Player");
-            yield return null; // wait next frame
+            Debug.LogError("[CameraFollowFix] Player not found after waiting for setup pipeline");
+            assignPlayerRoutine = null;
+            yield break;
         }
 
         AssignTargetNow(player.transform, true);

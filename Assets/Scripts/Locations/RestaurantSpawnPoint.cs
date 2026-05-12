@@ -133,6 +133,7 @@ public class RestaurantSpawnPoint : MonoBehaviour
         PlayerPrefs.Save();
 
         RestaurantReturnContext.PendingReturnToFarm = true;
+        PlayerSetupPipeline.PreparePlayerForSceneChange();
         SceneManager.LoadScene(targetSceneName);
     }
 
