@@ -102,8 +102,8 @@ public class DayNightCycleNice2D : MonoBehaviour
     [SerializeField] private string[] stableIndoorSceneNames = { "RestaurantScene", "MarketScene", "HouseInteriorLITEDEMO" };
 
     [Range(0f, 1f)]
-    [Tooltip("0 = midnight, 0.25 = 6AM, 0.5 = noon, 0.75 = 6PM")]
-    [SerializeField] private float startTimeNormalized = 0.25f;
+    [Tooltip("0 = midnight, 0.16666667 = 4AM, 0.25 = 6AM, 0.5 = noon, 0.75 = 6PM")]
+    [SerializeField] private float startTimeNormalized = 0.16666667f;
 
     [Header("Global Light Look")]
     [SerializeField] private Gradient lightColor;

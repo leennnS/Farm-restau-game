@@ -49,7 +49,7 @@ MonoBehaviour:
   mainCamera: {fileID: 0}
   nightOverlay: {fileID: 0}
   dayLengthSeconds: 50
-  startTimeNormalized: 0.223
+  startTimeNormalized: 0.16666667
   lightColor:
     serializedVersion: 2
     key0: {r: 0.15, g: 0.1, b: 0.25, a: 1}
